@@ -10,7 +10,7 @@ import 'package:go_router/go_router.dart';
 final router = GoRouter(
   debugLogDiagnostics: true,
   initialLocation: '/',
-  extraCodec: const MyExtraCodec(),
+  extraCodec: const MyExtraCodec(), //codecすることでデータのタイプセーフに繋がる
   routes: [
     GoRoute(
       name: 'home',

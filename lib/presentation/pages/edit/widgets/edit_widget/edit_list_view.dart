@@ -117,7 +117,7 @@ class EditSlidableAction extends ConsumerWidget with PresentationMixin {
               ),
               child: GestureDetector(
                 onTap: () async {
-                  context.push('/check_task', extra: task);
+                  context.push('/check_task', extra: task.id);
                 },
                 child: MainTaskWidget(task: task),
               ),

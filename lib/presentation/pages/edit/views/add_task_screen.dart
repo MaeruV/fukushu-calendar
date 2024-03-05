@@ -7,7 +7,7 @@ import 'package:ebbinghaus_forgetting_curve/presentation/theme/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-class AddTaskScreen extends ConsumerWidget {
+class AddTaskScreen extends HookConsumerWidget {
   const AddTaskScreen({super.key});
 
   @override

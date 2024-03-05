@@ -10,7 +10,7 @@ import 'package:go_router/go_router.dart';
 final router = GoRouter(
   debugLogDiagnostics: true,
   initialLocation: '/',
-  extraCodec: const MyExtraCodec(), //codecすることでデータのタイプセーフに繋がる
+  // extraCodec: const MyExtraCodec(),
   routes: [
     GoRoute(
       name: 'home',
@@ -34,8 +34,7 @@ final router = GoRouter(
       name: 'check_task',
       path: '/check_task',
       builder: (context, state) {
-        Task task = state.extra as Task;
-        return CheckTaskScreen(task: task);
+        return CheckTaskScreen(taskId: state.extra as int);
       },
     ),
   ],

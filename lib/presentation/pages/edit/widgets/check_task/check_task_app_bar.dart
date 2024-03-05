@@ -7,7 +7,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 class CheckTaskAppBar extends ConsumerWidget
     with PresentationMixin
     implements PreferredSizeWidget {
-  const CheckTaskAppBar({Key? key}) : super(key: key);
+  const CheckTaskAppBar({Key? key, required this.onTap}) : super(key: key);
+
+  final VoidCallback onTap;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -18,7 +20,7 @@ class CheckTaskAppBar extends ConsumerWidget
         Padding(
           padding: const EdgeInsets.only(right: 15.0),
           child: GestureDetector(
-            onTap: () {},
+            onTap: onTap,
             child: Text(
               "編集",
               style: BrandText.titleS.copyWith(color: BrandColor.blue),

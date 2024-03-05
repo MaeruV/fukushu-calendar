@@ -1,5 +1,6 @@
 import 'package:ebbinghaus_forgetting_curve/application/usecases/task/task_usecase.dart';
 import 'package:ebbinghaus_forgetting_curve/domain/entities/task.dart';
+import 'package:isar/isar.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'tasks_provider.g.dart';
@@ -8,4 +9,9 @@ part 'tasks_provider.g.dart';
 @riverpod
 Future<Map<DateTime, List<Task>>> tasks(TasksRef ref) async {
   return ref.watch(taskUsecaseProvider).fetchAll();
+}
+
+@riverpod
+Future<Task?> task(TaskRef ref, {required Id taskId}) {
+  return ref.watch(taskUsecaseProvider).fetch(taskId);
 }

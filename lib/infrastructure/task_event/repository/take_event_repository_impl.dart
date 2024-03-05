@@ -30,8 +30,10 @@ class TaskEventRepositoryImpl implements TaskRepository {
   }
 
   @override
-  Future<void> update({required Task task}) {
-    throw UnimplementedError();
+  Future<void> update({required Task task}) async {
+    await isar.writeTxn(() async {
+      await isar.tasks.put(task);
+    });
   }
 
   @override

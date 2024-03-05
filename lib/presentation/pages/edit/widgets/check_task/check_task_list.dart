@@ -50,22 +50,7 @@ class CheckTaskList extends ConsumerWidget {
                   ),
                 ),
               )
-              .toList()
-          // ListView.builder(
-          //     itemCount: dates.length,
-          //     itemBuilder: (context, index) {
-          //       return Row(
-          //         children: <Widget>[
-          //           Text('${dates[index]}日後', style: BrandText.bodyM),
-          //           Text(
-          //             time.add(Duration(days: dates[index])).toJapaneseFormat(),
-          //             style: BrandText.bodyM,
-          //           ),
-          //         ],
-          //       );
-          //     }),
-
-          ),
+              .toList()),
     );
   }
 }

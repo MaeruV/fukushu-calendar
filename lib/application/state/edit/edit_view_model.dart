@@ -25,6 +25,25 @@ class EditViewModel extends _$EditViewModel {
     );
   }
 
+  init({
+    required DateTime datetime,
+    required bool notification,
+    required String text,
+    required List<int> intervalDays,
+  }) {
+    // state = EditState(
+    //   dateTime: datetime,
+    //   notification: notification,
+    //   titleText: text,
+    //   intervalDays: intervalDays,
+    // );
+    state = state.copyWith(
+      titleText: text,
+      dateTime: datetime,
+      intervalDays: intervalDays,
+    );
+  }
+
   setDateTime(DateTime time) {
     state = state.copyWith(dateTime: time);
   }

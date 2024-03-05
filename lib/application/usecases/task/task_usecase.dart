@@ -70,4 +70,11 @@ class TaskUsecase with RunUsecaseMixin {
     await _taskRepository.delete(taskId: taskId);
     _invalidateTasksProvider();
   }
+
+  Future<Task?> fetchTask(Id taskId) async {
+    final task = await execute(action: () async {
+      return await _taskRepository.fetch(taskId: taskId);
+    });
+    return task;
+  }
 }

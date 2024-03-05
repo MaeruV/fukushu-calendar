@@ -8,5 +8,5 @@ class BrandColor {
   static const deleteRed = Color(0xFFFF3B30);
   static const blue = Color(0xFF45539D);
   static final blackTranslucent = Colors.black.withOpacity(0.5);
-  static const background = Color(0xFFDFDFDF);
+  static const background = Color(0xFFF0F0F0);
 }

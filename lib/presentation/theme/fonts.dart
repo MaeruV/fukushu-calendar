@@ -51,7 +51,7 @@ class BrandText {
   static const bodyM = TextStyle(
     color: BrandColor.black,
     fontFamily: "Inter",
-    fontWeight: FontWeight.normal,
+    fontWeight: FontWeight.w300,
     fontSize: 16,
   );
 
@@ -59,6 +59,6 @@ class BrandText {
     color: BrandColor.black,
     fontFamily: "Inter",
     fontWeight: FontWeight.normal,
-    fontSize: 10,
+    fontSize: 14,
   );
 }

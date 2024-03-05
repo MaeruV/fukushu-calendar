@@ -1,4 +1,3 @@
-import 'package:ebbinghaus_forgetting_curve/application/state/edit/edit_view_model.dart';
 import 'package:ebbinghaus_forgetting_curve/application/usecases/task/task_usecase.dart';
 import 'package:ebbinghaus_forgetting_curve/domain/entities/task.dart';
 import 'package:ebbinghaus_forgetting_curve/presentation/common/date_time_extension.dart';
@@ -138,8 +137,9 @@ class MainTaskWidget extends ConsumerWidget {
     final formattedIntervals =
         task.dates.map((interval) => '$interval').join(', ');
 
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 15.0, horizontal: 15.0),
+    return Container(
+      color: Colors.transparent,
+      margin: const EdgeInsets.symmetric(vertical: 15.0, horizontal: 15.0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -179,7 +179,7 @@ class MainTaskWidget extends ConsumerWidget {
               const Text(
                 "日後",
                 style: BrandText.bodyM,
-              )
+              ),
             ],
           ),
         ],

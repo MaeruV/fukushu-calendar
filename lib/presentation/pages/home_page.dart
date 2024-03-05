@@ -1,13 +1,10 @@
 import 'package:ebbinghaus_forgetting_curve/application/state/home/home_view_model.dart';
 import 'package:ebbinghaus_forgetting_curve/application/state/home/screen_view_model.dart';
-import 'package:ebbinghaus_forgetting_curve/presentation/component/loading.dart';
 import 'package:ebbinghaus_forgetting_curve/presentation/theme/colors.dart';
 import 'package:ebbinghaus_forgetting_curve/presentation/widgets/bottom_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/date_symbol_data_local.dart';
-
-import '../../application/state/loading/overlay_loading_provider.dart';
 
 class HomePage extends ConsumerStatefulWidget {
   const HomePage({super.key});

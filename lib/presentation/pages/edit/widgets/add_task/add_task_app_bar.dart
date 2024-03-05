@@ -16,6 +16,7 @@ class AddTaskAppBar extends ConsumerWidget
     final state = ref.watch(editViewModelProvider);
 
     return AppBar(
+      backgroundColor: BrandColor.background,
       title: const Text("新規予定", style: BrandText.titleSM),
       leadingWidth: 100,
       leading: GestureDetector(
@@ -43,7 +44,7 @@ class AddTaskAppBar extends ConsumerWidget
                             .watch(editViewModelProvider.notifier)
                             .textController
                             .text,
-                        memo: "1日300単語勉強する",
+                        memo: "1日300単語勉強する。これについてテストを行います。改行を出来るかどうかを確かめます。",
                         dateTime: state.dateTime,
                         dates: state.intervalDays,
                       );

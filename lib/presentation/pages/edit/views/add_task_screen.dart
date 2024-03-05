@@ -3,6 +3,7 @@ import 'package:ebbinghaus_forgetting_curve/presentation/pages/edit/widgets/add_
 import 'package:ebbinghaus_forgetting_curve/presentation/pages/edit/widgets/add_task/add_task_interval.dart';
 import 'package:ebbinghaus_forgetting_curve/presentation/pages/edit/widgets/add_task/add_task_notification.dart';
 import 'package:ebbinghaus_forgetting_curve/presentation/pages/edit/widgets/add_task/add_task_title.dart';
+import 'package:ebbinghaus_forgetting_curve/presentation/theme/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
@@ -12,6 +13,7 @@ class AddTaskScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return const Scaffold(
+      backgroundColor: BrandColor.background,
       appBar: AddTaskAppBar(),
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: 15.0),

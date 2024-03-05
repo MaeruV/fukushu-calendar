@@ -1,3 +1,4 @@
+import 'package:ebbinghaus_forgetting_curve/application/usecases/task/state/tasks_provider.dart';
 import 'package:ebbinghaus_forgetting_curve/presentation/presentation_mixin.dart';
 import 'package:ebbinghaus_forgetting_curve/presentation/theme/colors.dart';
 import 'package:flutter/material.dart';
@@ -10,7 +11,10 @@ class EditFloatingButton extends ConsumerWidget with PresentationMixin {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return FloatingActionButton(
-      onPressed: () => context.push('/add_task'),
+      onPressed: () {
+        ref.read(temporaryTaskProvider.notifier).state = null;
+        context.push('/add_task');
+      },
       backgroundColor: BrandColor.blue,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(50), //角の丸み

@@ -1,4 +1,5 @@
 import 'package:ebbinghaus_forgetting_curve/application/types/edit/edit_state.dart';
+import 'package:ebbinghaus_forgetting_curve/application/usecases/task/state/tasks_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -12,35 +13,24 @@ class EditViewModel extends _$EditViewModel {
   EditState build() {
     textController = TextEditingController();
 
+    final task = ref.watch(temporaryTaskProvider);
+    final datetime = task != null
+        ? task.dateTime
+        : DateTime(
+            DateTime.now().year, DateTime.now().month, DateTime.now().day);
+    final titleText = task != null ? task.title : '';
+    final intervalDays = task != null ? task.dates : [1, 3, 7, 14, 30];
+    final hasTask = task != null ? true : false;
     ref.onDispose(() {
-      textController.dispose();
+      print('onDisposeされました');
     });
 
     return EditState(
-      dateTime: DateTime(
-          DateTime.now().year, DateTime.now().month, DateTime.now().day),
-      notification: true,
-      titleText: textController.text,
-      intervalDays: [1, 3, 7, 14, 30],
-    );
-  }
-
-  init({
-    required DateTime datetime,
-    required bool notification,
-    required String text,
-    required List<int> intervalDays,
-  }) {
-    // state = EditState(
-    //   dateTime: datetime,
-    //   notification: notification,
-    //   titleText: text,
-    //   intervalDays: intervalDays,
-    // );
-    state = state.copyWith(
-      titleText: text,
       dateTime: datetime,
+      notification: true,
+      titleText: textController.text = titleText,
       intervalDays: intervalDays,
+      hasTask: hasTask,
     );
   }
 

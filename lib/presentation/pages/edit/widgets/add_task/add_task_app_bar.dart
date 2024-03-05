@@ -1,4 +1,5 @@
 import 'package:ebbinghaus_forgetting_curve/application/state/edit/edit_view_model.dart';
+import 'package:ebbinghaus_forgetting_curve/application/usecases/task/state/tasks_provider.dart';
 import 'package:ebbinghaus_forgetting_curve/application/usecases/task/task_usecase.dart';
 import 'package:ebbinghaus_forgetting_curve/presentation/presentation_mixin.dart';
 import 'package:ebbinghaus_forgetting_curve/presentation/theme/colors.dart';
@@ -14,10 +15,11 @@ class AddTaskAppBar extends ConsumerWidget
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final state = ref.watch(editViewModelProvider);
+    String subject = state.hasTask ? '編集' : '新規';
 
     return AppBar(
       backgroundColor: BrandColor.background,
-      title: const Text("新規予定", style: BrandText.titleSM),
+      title: Text(subject, style: BrandText.titleSM),
       leadingWidth: 100,
       leading: GestureDetector(
         onTap: () => context.pop(),
@@ -35,22 +37,16 @@ class AddTaskAppBar extends ConsumerWidget
           padding: const EdgeInsets.only(right: 15.0),
           child: GestureDetector(
             onTap: () {
-              context.pop();
               execute(
                 context,
                 action: () async {
-                  await ref.read(taskUsecaseProvider).addTaskEvent(
-                        title: ref
-                            .watch(editViewModelProvider.notifier)
-                            .textController
-                            .text,
-                        memo: "1日300単語勉強する。これについてテストを行います。改行を出来るかどうかを確かめます。",
-                        dateTime: state.dateTime,
-                        dates: state.intervalDays,
-                      );
+                  state.hasTask
+                      ? await ref.read(taskUsecaseProvider).updateTaskEvent()
+                      : await ref.read(taskUsecaseProvider).addTaskEvent();
                 },
-                successMessage: 'タスクを追加しました',
+                successMessage: state.hasTask ? '更新しました' : '追加しました',
               );
+              context.pop();
             },
             child: Text(
               "完了",

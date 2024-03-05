@@ -1,4 +1,6 @@
+import 'package:ebbinghaus_forgetting_curve/application/state/edit/edit_view_model.dart';
 import 'package:ebbinghaus_forgetting_curve/application/state/loading/overlay_loading_provider.dart';
+import 'package:ebbinghaus_forgetting_curve/application/types/edit/edit_state.dart';
 import 'package:ebbinghaus_forgetting_curve/application/usecases/run_usecase_mixin.dart';
 import 'package:ebbinghaus_forgetting_curve/application/usecases/task/state/tasks_provider.dart';
 import 'package:ebbinghaus_forgetting_curve/domain/entities/task.dart';
@@ -20,25 +22,45 @@ class TaskUsecase with RunUsecaseMixin {
   StateController<bool> get _loadingController =>
       _ref.read(overlayLoadingProvider.notifier);
   void _invalidateTasksProvider() => _ref.refresh(tasksProvider.future);
+  StateController<Task?> get _temporaryTaskController =>
+      _ref.read(temporaryTaskProvider.notifier);
+  void _refreshTempTaskProvider(int taskId) =>
+      _ref.refresh(tempTaskProvider(taskId: taskId).future);
+  EditState get _editState => _ref.read(editViewModelProvider);
 
-  Future<void> addTaskEvent({
-    required String title,
-    required String memo,
-    required DateTime dateTime,
-    required List<int> dates,
-  }) async {
+  Future<void> addTaskEvent() async {
+    final task = Task()
+      ..title = _ref.read(editViewModelProvider.notifier).textController.text
+      ..memo = "1日300単語勉強する。これについてテストを行います。改行を出来るかどうかを確かめます。"
+      ..dateTime = _editState.dateTime
+      ..dates = _editState.intervalDays;
+
     await execute(
       loadingController: _loadingController,
       action: () async {
-        await _taskRepository.add(
-          task: Task()
-            ..title = title
-            ..memo = memo
-            ..dateTime = dateTime
-            ..dates = dates,
-        );
+        await _taskRepository.add(task: task);
       },
     );
+
+    _invalidateTasksProvider();
+  }
+
+  Future<void> updateTaskEvent() async {
+    final task = _temporaryTaskController.state!
+      ..title = _ref.read(editViewModelProvider.notifier).textController.text
+      ..dateTime = _editState.dateTime
+      ..dates = _editState.intervalDays;
+
+    print('update');
+
+    await execute(
+      loadingController: _loadingController,
+      action: () async {
+        await _taskRepository.update(task: task);
+      },
+    );
+
+    _refreshTempTaskProvider(task.id);
     _invalidateTasksProvider();
   }
 
@@ -71,10 +93,11 @@ class TaskUsecase with RunUsecaseMixin {
     _invalidateTasksProvider();
   }
 
-  Future<Task?> fetchTask(Id taskId) async {
+  void temporaryTask(Id taskId) async {
     final task = await execute(action: () async {
       return await _taskRepository.fetch(taskId: taskId);
     });
-    return task;
+
+    _temporaryTaskController.state = task;
   }
 }

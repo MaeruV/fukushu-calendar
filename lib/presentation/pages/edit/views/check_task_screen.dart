@@ -1,4 +1,3 @@
-import 'package:ebbinghaus_forgetting_curve/application/state/edit/edit_view_model.dart';
 import 'package:ebbinghaus_forgetting_curve/application/usecases/task/state/tasks_provider.dart';
 import 'package:ebbinghaus_forgetting_curve/presentation/pages/edit/widgets/check_task/check_task_app_bar.dart';
 import 'package:ebbinghaus_forgetting_curve/presentation/pages/edit/widgets/check_task/check_task_list.dart';
@@ -21,16 +20,21 @@ class CheckTaskScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final getTask = ref.watch(taskProvider(taskId: taskId));
-
-    return switch (getTask) {
+    final config = ref.watch(tempTaskProvider(taskId: taskId));
+    return switch (config) {
       AsyncError(:final error) => Text('Error: $error'),
       AsyncData(:final value) => value == null
-          ? const SizedBox.shrink()
+          ? const Scaffold(
+              body: CircularProgressIndicator(),
+            )
           : Scaffold(
               backgroundColor: BrandColor.background,
               appBar: CheckTaskAppBar(
-                onTap: () => context.push('/add_task'),
+                onTap: () {
+                  ref.read(temporaryTaskProvider.notifier).state = value;
+                  context.push('/add_task');
+                },
+                backTap: () => context.pop(),
               ),
               body: Padding(
                 padding: const EdgeInsets.symmetric(

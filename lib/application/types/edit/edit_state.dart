@@ -12,5 +12,6 @@ class EditState with _$EditState {
     required bool notification,
     required String titleText,
     required List<int> intervalDays,
+    required bool hasTask,
   }) = _EditState;
 }

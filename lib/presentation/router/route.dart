@@ -1,9 +1,7 @@
-import 'package:ebbinghaus_forgetting_curve/domain/entities/task.dart';
 import 'package:ebbinghaus_forgetting_curve/presentation/pages/edit/views/add_task_screen.dart';
 import 'package:ebbinghaus_forgetting_curve/presentation/pages/edit/views/check_task_screen.dart';
 import 'package:ebbinghaus_forgetting_curve/presentation/pages/edit/views/interval_screen.dart';
 import 'package:ebbinghaus_forgetting_curve/presentation/pages/home_page.dart';
-import 'package:ebbinghaus_forgetting_curve/presentation/router/my_extra_codec.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 

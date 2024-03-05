@@ -21,7 +21,7 @@ final tasksProvider =
 );
 
 typedef TasksRef = AutoDisposeFutureProviderRef<Map<DateTime, List<Task>>>;
-String _$taskHash() => r'23f01e00769aec6d354ef39af57e4b8cd0682a4a';
+String _$tempTaskHash() => r'35d4be616b9fec43030d9aac2cf8de64ac8c61f0';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -44,27 +44,27 @@ class _SystemHash {
   }
 }
 
-/// See also [task].
-@ProviderFor(task)
-const taskProvider = TaskFamily();
+/// See also [tempTask].
+@ProviderFor(tempTask)
+const tempTaskProvider = TempTaskFamily();
 
-/// See also [task].
-class TaskFamily extends Family<AsyncValue<Task?>> {
-  /// See also [task].
-  const TaskFamily();
+/// See also [tempTask].
+class TempTaskFamily extends Family<AsyncValue<Task?>> {
+  /// See also [tempTask].
+  const TempTaskFamily();
 
-  /// See also [task].
-  TaskProvider call({
+  /// See also [tempTask].
+  TempTaskProvider call({
     required int taskId,
   }) {
-    return TaskProvider(
+    return TempTaskProvider(
       taskId: taskId,
     );
   }
 
   @override
-  TaskProvider getProviderOverride(
-    covariant TaskProvider provider,
+  TempTaskProvider getProviderOverride(
+    covariant TempTaskProvider provider,
   ) {
     return call(
       taskId: provider.taskId,
@@ -83,29 +83,31 @@ class TaskFamily extends Family<AsyncValue<Task?>> {
       _allTransitiveDependencies;
 
   @override
-  String? get name => r'taskProvider';
+  String? get name => r'tempTaskProvider';
 }
 
-/// See also [task].
-class TaskProvider extends AutoDisposeFutureProvider<Task?> {
-  /// See also [task].
-  TaskProvider({
+/// See also [tempTask].
+class TempTaskProvider extends AutoDisposeFutureProvider<Task?> {
+  /// See also [tempTask].
+  TempTaskProvider({
     required int taskId,
   }) : this._internal(
-          (ref) => task(
-            ref as TaskRef,
+          (ref) => tempTask(
+            ref as TempTaskRef,
             taskId: taskId,
           ),
-          from: taskProvider,
-          name: r'taskProvider',
+          from: tempTaskProvider,
+          name: r'tempTaskProvider',
           debugGetCreateSourceHash:
-              const bool.fromEnvironment('dart.vm.product') ? null : _$taskHash,
-          dependencies: TaskFamily._dependencies,
-          allTransitiveDependencies: TaskFamily._allTransitiveDependencies,
+              const bool.fromEnvironment('dart.vm.product')
+                  ? null
+                  : _$tempTaskHash,
+          dependencies: TempTaskFamily._dependencies,
+          allTransitiveDependencies: TempTaskFamily._allTransitiveDependencies,
           taskId: taskId,
         );
 
-  TaskProvider._internal(
+  TempTaskProvider._internal(
     super._createNotifier, {
     required super.name,
     required super.dependencies,
@@ -119,12 +121,12 @@ class TaskProvider extends AutoDisposeFutureProvider<Task?> {
 
   @override
   Override overrideWith(
-    FutureOr<Task?> Function(TaskRef provider) create,
+    FutureOr<Task?> Function(TempTaskRef provider) create,
   ) {
     return ProviderOverride(
       origin: this,
-      override: TaskProvider._internal(
-        (ref) => create(ref as TaskRef),
+      override: TempTaskProvider._internal(
+        (ref) => create(ref as TempTaskRef),
         from: from,
         name: null,
         dependencies: null,
@@ -137,12 +139,12 @@ class TaskProvider extends AutoDisposeFutureProvider<Task?> {
 
   @override
   AutoDisposeFutureProviderElement<Task?> createElement() {
-    return _TaskProviderElement(this);
+    return _TempTaskProviderElement(this);
   }
 
   @override
   bool operator ==(Object other) {
-    return other is TaskProvider && other.taskId == taskId;
+    return other is TempTaskProvider && other.taskId == taskId;
   }
 
   @override
@@ -154,17 +156,17 @@ class TaskProvider extends AutoDisposeFutureProvider<Task?> {
   }
 }
 
-mixin TaskRef on AutoDisposeFutureProviderRef<Task?> {
+mixin TempTaskRef on AutoDisposeFutureProviderRef<Task?> {
   /// The parameter `taskId` of this provider.
   int get taskId;
 }
 
-class _TaskProviderElement extends AutoDisposeFutureProviderElement<Task?>
-    with TaskRef {
-  _TaskProviderElement(super.provider);
+class _TempTaskProviderElement extends AutoDisposeFutureProviderElement<Task?>
+    with TempTaskRef {
+  _TempTaskProviderElement(super.provider);
 
   @override
-  int get taskId => (origin as TaskProvider).taskId;
+  int get taskId => (origin as TempTaskProvider).taskId;
 }
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

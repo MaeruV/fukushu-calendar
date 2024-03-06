@@ -20,7 +20,7 @@ class IntervalView extends ConsumerWidget {
             : Center(
                 child: Text(
                   '最大10個まで登録できます',
-                  style: BrandText.bodyM.copyWith(color: BrandColor.grey),
+                  style: BrandText.bodyS.copyWith(color: BrandColor.grey),
                 ),
               );
       },

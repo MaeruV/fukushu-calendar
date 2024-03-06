@@ -36,47 +36,49 @@ class CheckTaskScreen extends ConsumerWidget {
                 },
                 backTap: () => context.pop(),
               ),
-              body: Padding(
-                padding: const EdgeInsets.symmetric(
-                    horizontal: 10.0, vertical: 10.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Container(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 16.0, vertical: 15.0),
-                      decoration: BoxDecoration(
-                        color: BrandColor.white,
-                        borderRadius: BorderRadius.circular(8.0),
+              body: SingleChildScrollView(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: 10.0, vertical: 10.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Container(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 16.0, vertical: 15.0),
+                        decoration: BoxDecoration(
+                          color: BrandColor.white,
+                          borderRadius: BorderRadius.circular(8.0),
+                        ),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            CheckTaskTitle(title: value.title),
+                            const Divider(
+                                color: BrandColor.black,
+                                height: 26.0,
+                                thickness: 0.1),
+                            CheckTaskMemo(memo: value.memo),
+                            const Divider(
+                                color: BrandColor.black,
+                                height: 26.0,
+                                thickness: 0.1),
+                            CheckTaskStartDay(date: value.dateTime),
+                          ],
+                        ),
                       ),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          CheckTaskTitle(title: value.title),
-                          const Divider(
-                              color: BrandColor.black,
-                              height: 26.0,
-                              thickness: 0.1),
-                          CheckTaskMemo(memo: value.memo),
-                          const Divider(
-                              color: BrandColor.black,
-                              height: 26.0,
-                              thickness: 0.1),
-                          CheckTaskStartDay(date: value.dateTime),
-                        ],
+                      const SizedBox(height: 25),
+                      const Padding(
+                        padding: EdgeInsets.only(left: 8.0),
+                        child: Text(
+                          '復習日程',
+                          style: BrandText.bodyM,
+                        ),
                       ),
-                    ),
-                    const SizedBox(height: 25),
-                    const Padding(
-                      padding: EdgeInsets.only(left: 8.0),
-                      child: Text(
-                        '復習日程',
-                        style: BrandText.bodyM,
-                      ),
-                    ),
-                    const SizedBox(height: 10),
-                    CheckTaskList(dates: value.dates),
-                  ],
+                      const SizedBox(height: 10),
+                      CheckTaskList(dates: value.dates),
+                    ],
+                  ),
                 ),
               ),
             ),

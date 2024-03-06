@@ -19,14 +19,14 @@ class CheckTaskMemo extends ConsumerWidget {
         ),
         const SizedBox(width: 20),
         Expanded(
-          child: memo == null
+          child: memo != null
               ? Text(
                   memo!,
-                  style: BrandText.bodyS.copyWith(color: BrandColor.black),
+                  style: BrandText.bodyM.copyWith(color: BrandColor.black),
                 )
               : Text(
                   '',
-                  style: BrandText.bodyS.copyWith(color: BrandColor.grey),
+                  style: BrandText.bodyM.copyWith(color: BrandColor.grey),
                 ),
         ),
       ],

@@ -15,18 +15,21 @@ class IntervalTileList extends ConsumerWidget {
     final state = ref.watch(intervalViewModelProvider);
     final time = DateTime.now();
 
-    return Card(
-      margin: const EdgeInsets.all(5),
-      child: ListTile(
-        leading: SizedBox(
-            width: 65,
-            child: Text('${state[index]}日後', style: BrandText.bodyM)),
-        title: Text(
-          time.add(Duration(days: state[index])).toJapaneseFormat(),
+    return ListTile(
+      leading: SizedBox(
+        width: 60,
+        child: Text(
+          '${state[index]}日後',
           style: BrandText.bodyM,
+          textAlign: TextAlign.center,
         ),
-        trailing: IntervalCancelBtn(index: index),
       ),
+      title: Text(
+        time.add(Duration(days: state[index])).toJapaneseFormat(),
+        style: BrandText.bodyM,
+        textAlign: TextAlign.start,
+      ),
+      trailing: IntervalCancelBtn(index: index),
     );
   }
 }

@@ -15,7 +15,8 @@ class IntervalCancelBtn extends ConsumerWidget {
       onTap: () => notifier.deleteNumber(index),
       child: const Icon(
         Icons.cancel_outlined,
-        color: BrandColor.grey,
+        color: BrandColor.deleteRed,
+        size: 20,
       ),
     );
   }

@@ -1,6 +1,4 @@
-import 'package:ebbinghaus_forgetting_curve/application/state/edit/edit_view_model.dart';
 import 'package:ebbinghaus_forgetting_curve/application/state/loading/overlay_loading_provider.dart';
-import 'package:ebbinghaus_forgetting_curve/application/types/edit/edit_state.dart';
 import 'package:ebbinghaus_forgetting_curve/application/usecases/run_usecase_mixin.dart';
 import 'package:ebbinghaus_forgetting_curve/application/usecases/task/state/tasks_provider.dart';
 import 'package:ebbinghaus_forgetting_curve/domain/entities/task.dart';
@@ -26,41 +24,45 @@ class TaskUsecase with RunUsecaseMixin {
       _ref.read(temporaryTaskProvider.notifier);
   void _refreshTempTaskProvider(int taskId) =>
       _ref.refresh(tempTaskProvider(taskId: taskId).future);
-  EditState get _editState => _ref.read(editViewModelProvider);
 
-  Future<void> addTaskEvent() async {
-    final task = Task()
-      ..title = _ref.read(editViewModelProvider.notifier).textController.text
-      ..memo = "1日300単語勉強する。これについてテストを行います。改行を出来るかどうかを確かめます。"
-      ..dateTime = _editState.dateTime
-      ..dates = _editState.intervalDays;
+  Future<void> saveTaskEvent({
+    required String title,
+    required String memo,
+    required DateTime dateTime,
+    required List<int> intervalDays,
+  }) async {
+    Task task;
 
-    await execute(
-      loadingController: _loadingController,
-      action: () async {
-        await _taskRepository.add(task: task);
-      },
-    );
-
-    _invalidateTasksProvider();
-  }
-
-  Future<void> updateTaskEvent() async {
-    final task = _temporaryTaskController.state!
-      ..title = _ref.read(editViewModelProvider.notifier).textController.text
-      ..dateTime = _editState.dateTime
-      ..dates = _editState.intervalDays;
-
-    print('update');
+    if (_temporaryTaskController.state == null) {
+      // 新規タスクの作成
+      task = Task()
+        ..title = title
+        ..memo = memo
+        ..dateTime = dateTime
+        ..dates = intervalDays;
+    } else {
+      // 既存のタスクの更新
+      task = _temporaryTaskController.state!
+        ..title = title
+        ..memo = memo
+        ..dateTime = dateTime
+        ..dates = intervalDays;
+    }
 
     await execute(
       loadingController: _loadingController,
       action: () async {
-        await _taskRepository.update(task: task);
+        if (_temporaryTaskController.state == null) {
+          await _taskRepository.add(task: task);
+        } else {
+          await _taskRepository.update(task: task);
+        }
       },
     );
 
-    _refreshTempTaskProvider(task.id);
+    if (_temporaryTaskController.state != null) {
+      _refreshTempTaskProvider(task.id);
+    }
     _invalidateTasksProvider();
   }
 

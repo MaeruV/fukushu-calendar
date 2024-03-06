@@ -13,13 +13,7 @@ class IntervalAppBar extends ConsumerWidget implements PreferredSizeWidget {
     final notifier = ref.read(editViewModelProvider.notifier);
 
     return AppBar(
-      bottom: PreferredSize(
-        preferredSize: const Size.fromHeight(0.1),
-        child: Container(
-          color: BrandColor.black,
-          height: 1.0,
-        ),
-      ),
+      backgroundColor: BrandColor.background,
       title: const Text("復習期間", style: BrandText.titleSM),
       actions: [
         Padding(

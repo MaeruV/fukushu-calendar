@@ -1,3 +1,4 @@
+import 'package:ebbinghaus_forgetting_curve/application/state/edit/edit_view_model.dart';
 import 'package:ebbinghaus_forgetting_curve/presentation/component/dialog_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -10,7 +11,8 @@ part 'interval_view_model.g.dart';
 class IntervalViewModel extends _$IntervalViewModel {
   @override
   List<int> build() {
-    return [1, 3, 7, 14, 30];
+    final editState = ref.watch(editViewModelProvider);
+    return editState.intervalDays;
   }
 
   void setNumber(int num, BuildContext context) {

@@ -21,9 +21,9 @@ class AddTaskInterval extends ConsumerWidget {
         width: double.infinity,
         child: Row(
           children: <Widget>[
-            Text(
+            const Text(
               '復習間隔',
-              style: BrandText.bodyM.copyWith(color: BrandColor.grey),
+              style: BrandText.bodyM,
             ),
             const SizedBox(width: 10),
             Expanded(
@@ -33,7 +33,7 @@ class AddTaskInterval extends ConsumerWidget {
                   Flexible(
                     child: Text(
                       formattedIntervals,
-                      style: BrandText.bodyM.copyWith(color: BrandColor.black),
+                      style: BrandText.bodyM.copyWith(color: BrandColor.blue),
                       overflow: TextOverflow.ellipsis,
                     ),
                   ),

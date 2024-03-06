@@ -154,9 +154,12 @@ class MainTaskWidget extends ConsumerWidget {
                 ),
               ),
               const SizedBox(width: 20),
-              Text(
-                task.title,
-                style: BrandText.bodyL,
+              Flexible(
+                fit: FlexFit.loose,
+                child: Text(
+                  task.title,
+                  style: BrandText.bodyL,
+                ),
               )
             ],
           ),

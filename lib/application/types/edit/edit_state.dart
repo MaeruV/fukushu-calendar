@@ -8,10 +8,11 @@ part 'edit_state.freezed.dart';
 @freezed
 class EditState with _$EditState {
   const factory EditState({
+    required String title,
+    required String memo,
     required DateTime dateTime,
-    required bool notification,
-    required String titleText,
     required List<int> intervalDays,
     required bool hasTask,
+    @Default(false) bool hasChanges,
   }) = _EditState;
 }

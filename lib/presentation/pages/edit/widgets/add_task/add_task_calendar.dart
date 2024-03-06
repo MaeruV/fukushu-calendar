@@ -8,11 +8,11 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 class AddTaskCalendar extends ConsumerWidget {
   const AddTaskCalendar({super.key});
 
-  Future<DateTime?> showDate(BuildContext context) async {
+  Future<DateTime?> showDate(BuildContext context, DateTime dateTime) async {
     final DateTime? datePicked = await showDatePicker(
       locale: const Locale("ja"),
       context: context,
-      initialDate: DateTime.now(),
+      initialDate: dateTime,
       firstDate: DateTime(
           DateTime.now().year, DateTime.now().month, DateTime.now().day),
       lastDate: DateTime.now().add(
@@ -29,7 +29,7 @@ class AddTaskCalendar extends ConsumerWidget {
 
     return GestureDetector(
       onTap: () async {
-        final datePicked = await showDate(context);
+        final datePicked = await showDate(context, state.dateTime);
         if (datePicked != null && datePicked != state.dateTime) {
           notifier.setDateTime(datePicked);
         }
@@ -37,15 +37,15 @@ class AddTaskCalendar extends ConsumerWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
-          Text(
+          const Text(
             '開始日',
-            style: BrandText.bodyM.copyWith(color: BrandColor.grey),
+            style: BrandText.bodyM,
           ),
           Row(
             children: <Widget>[
               Text(
                 state.dateTime.toJapaneseFormat(),
-                style: BrandText.bodyM.copyWith(color: BrandColor.black),
+                style: BrandText.bodyM.copyWith(color: BrandColor.deleteRed),
               ),
               const SizedBox(width: 20),
               const Icon(

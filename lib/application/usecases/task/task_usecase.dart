@@ -30,6 +30,7 @@ class TaskUsecase with RunUsecaseMixin {
     required String memo,
     required DateTime dateTime,
     required List<int> intervalDays,
+    required String pallete,
   }) async {
     Task task;
 
@@ -39,14 +40,16 @@ class TaskUsecase with RunUsecaseMixin {
         ..title = title
         ..memo = memo
         ..dateTime = dateTime
-        ..dates = intervalDays;
+        ..dates = intervalDays
+        ..pallete = pallete;
     } else {
       // 既存のタスクの更新
       task = _temporaryTaskController.state!
         ..title = title
         ..memo = memo
         ..dateTime = dateTime
-        ..dates = intervalDays;
+        ..dates = intervalDays
+        ..pallete = pallete;
     }
 
     await execute(

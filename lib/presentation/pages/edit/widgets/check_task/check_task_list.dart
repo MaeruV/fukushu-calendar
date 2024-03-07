@@ -44,6 +44,7 @@ class CheckTaskList extends ConsumerWidget {
                           time.add(Duration(days: index)).toJapaneseFormat(),
                           style: BrandText.bodyM,
                           overflow: TextOverflow.ellipsis,
+                          textAlign: TextAlign.start,
                         ),
                       ),
                     ],

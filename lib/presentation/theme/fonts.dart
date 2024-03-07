@@ -31,7 +31,7 @@ class BrandText {
     color: BrandColor.black,
     fontFamily: "Inter",
     fontWeight: FontWeight.bold,
-    fontSize: 18,
+    fontSize: 19,
   );
 
   static const titleS = TextStyle(

@@ -1,6 +1,6 @@
 import 'package:ebbinghaus_forgetting_curve/application/state/loading/overlay_loading_provider.dart';
 import 'package:ebbinghaus_forgetting_curve/presentation/component/loading.dart';
-import 'package:ebbinghaus_forgetting_curve/presentation/pages/edit/widgets/edit_widget/edit_floating_button.dart';
+import 'package:ebbinghaus_forgetting_curve/presentation/pages/edit/widgets/edit_widget/edit_add_task_button.dart';
 import 'package:ebbinghaus_forgetting_curve/presentation/pages/edit/widgets/edit_widget/edit_top_container.dart';
 import 'package:ebbinghaus_forgetting_curve/presentation/pages/edit/widgets/edit_widget/edit_view.dart';
 import 'package:ebbinghaus_forgetting_curve/presentation/theme/colors.dart';
@@ -28,10 +28,15 @@ class EditScreen extends HookConsumerWidget {
               ],
             ),
           ),
+          const Positioned(
+            bottom: 20,
+            right: 20,
+            child: EditAddTaskButton(),
+          ),
           if (isLoading) const OverlayLoading(),
         ],
       ),
-      floatingActionButton: const EditFloatingButton(),
+      // floatingActionButton: const EditFloatingButton(),
     );
   }
 }

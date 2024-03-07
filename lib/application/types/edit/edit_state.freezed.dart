@@ -21,6 +21,7 @@ mixin _$EditState {
   DateTime get dateTime => throw _privateConstructorUsedError;
   List<int> get intervalDays => throw _privateConstructorUsedError;
   bool get hasTask => throw _privateConstructorUsedError;
+  String get pallete => throw _privateConstructorUsedError;
   bool get hasChanges => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
@@ -39,6 +40,7 @@ abstract class $EditStateCopyWith<$Res> {
       DateTime dateTime,
       List<int> intervalDays,
       bool hasTask,
+      String pallete,
       bool hasChanges});
 }
 
@@ -60,6 +62,7 @@ class _$EditStateCopyWithImpl<$Res, $Val extends EditState>
     Object? dateTime = null,
     Object? intervalDays = null,
     Object? hasTask = null,
+    Object? pallete = null,
     Object? hasChanges = null,
   }) {
     return _then(_value.copyWith(
@@ -83,6 +86,10 @@ class _$EditStateCopyWithImpl<$Res, $Val extends EditState>
           ? _value.hasTask
           : hasTask // ignore: cast_nullable_to_non_nullable
               as bool,
+      pallete: null == pallete
+          ? _value.pallete
+          : pallete // ignore: cast_nullable_to_non_nullable
+              as String,
       hasChanges: null == hasChanges
           ? _value.hasChanges
           : hasChanges // ignore: cast_nullable_to_non_nullable
@@ -105,6 +112,7 @@ abstract class _$$EditStateImplCopyWith<$Res>
       DateTime dateTime,
       List<int> intervalDays,
       bool hasTask,
+      String pallete,
       bool hasChanges});
 }
 
@@ -124,6 +132,7 @@ class __$$EditStateImplCopyWithImpl<$Res>
     Object? dateTime = null,
     Object? intervalDays = null,
     Object? hasTask = null,
+    Object? pallete = null,
     Object? hasChanges = null,
   }) {
     return _then(_$EditStateImpl(
@@ -147,6 +156,10 @@ class __$$EditStateImplCopyWithImpl<$Res>
           ? _value.hasTask
           : hasTask // ignore: cast_nullable_to_non_nullable
               as bool,
+      pallete: null == pallete
+          ? _value.pallete
+          : pallete // ignore: cast_nullable_to_non_nullable
+              as String,
       hasChanges: null == hasChanges
           ? _value.hasChanges
           : hasChanges // ignore: cast_nullable_to_non_nullable
@@ -164,6 +177,7 @@ class _$EditStateImpl with DiagnosticableTreeMixin implements _EditState {
       required this.dateTime,
       required final List<int> intervalDays,
       required this.hasTask,
+      this.pallete = 'yellow',
       this.hasChanges = false})
       : _intervalDays = intervalDays;
 
@@ -185,11 +199,14 @@ class _$EditStateImpl with DiagnosticableTreeMixin implements _EditState {
   final bool hasTask;
   @override
   @JsonKey()
+  final String pallete;
+  @override
+  @JsonKey()
   final bool hasChanges;
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'EditState(title: $title, memo: $memo, dateTime: $dateTime, intervalDays: $intervalDays, hasTask: $hasTask, hasChanges: $hasChanges)';
+    return 'EditState(title: $title, memo: $memo, dateTime: $dateTime, intervalDays: $intervalDays, hasTask: $hasTask, pallete: $pallete, hasChanges: $hasChanges)';
   }
 
   @override
@@ -202,6 +219,7 @@ class _$EditStateImpl with DiagnosticableTreeMixin implements _EditState {
       ..add(DiagnosticsProperty('dateTime', dateTime))
       ..add(DiagnosticsProperty('intervalDays', intervalDays))
       ..add(DiagnosticsProperty('hasTask', hasTask))
+      ..add(DiagnosticsProperty('pallete', pallete))
       ..add(DiagnosticsProperty('hasChanges', hasChanges));
   }
 
@@ -217,13 +235,21 @@ class _$EditStateImpl with DiagnosticableTreeMixin implements _EditState {
             const DeepCollectionEquality()
                 .equals(other._intervalDays, _intervalDays) &&
             (identical(other.hasTask, hasTask) || other.hasTask == hasTask) &&
+            (identical(other.pallete, pallete) || other.pallete == pallete) &&
             (identical(other.hasChanges, hasChanges) ||
                 other.hasChanges == hasChanges));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, title, memo, dateTime,
-      const DeepCollectionEquality().hash(_intervalDays), hasTask, hasChanges);
+  int get hashCode => Object.hash(
+      runtimeType,
+      title,
+      memo,
+      dateTime,
+      const DeepCollectionEquality().hash(_intervalDays),
+      hasTask,
+      pallete,
+      hasChanges);
 
   @JsonKey(ignore: true)
   @override
@@ -239,6 +265,7 @@ abstract class _EditState implements EditState {
       required final DateTime dateTime,
       required final List<int> intervalDays,
       required final bool hasTask,
+      final String pallete,
       final bool hasChanges}) = _$EditStateImpl;
 
   @override
@@ -251,6 +278,8 @@ abstract class _EditState implements EditState {
   List<int> get intervalDays;
   @override
   bool get hasTask;
+  @override
+  String get pallete;
   @override
   bool get hasChanges;
   @override

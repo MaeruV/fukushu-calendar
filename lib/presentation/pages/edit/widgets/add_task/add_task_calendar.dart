@@ -34,25 +34,34 @@ class AddTaskCalendar extends ConsumerWidget {
           notifier.setDateTime(datePicked);
         }
       },
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           const Text(
             '開始日',
             style: BrandText.bodyM,
           ),
-          Row(
-            children: <Widget>[
-              Text(
-                state.dateTime.toJapaneseFormat(),
-                style: BrandText.bodyM.copyWith(color: BrandColor.deleteRed),
-              ),
-              const SizedBox(width: 20),
-              const Icon(
-                Icons.chevron_right_outlined,
-                color: BrandColor.grey,
-              )
-            ],
+          const SizedBox(height: 5),
+          Container(
+            height: 55,
+            padding: const EdgeInsets.symmetric(horizontal: 10),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(10),
+              border: Border.all(color: BrandColor.grey),
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                Text(
+                  state.dateTime.toJapaneseFormat(),
+                  style: BrandText.bodyS,
+                ),
+                const Icon(
+                  Icons.calendar_month_rounded,
+                  color: BrandColor.grey,
+                )
+              ],
+            ),
           )
         ],
       ),

@@ -21,6 +21,7 @@ class EditViewModel extends _$EditViewModel {
     final titleText = task != null ? task!.title : '';
     final memoText = task != null ? task!.memo ?? '' : '';
     final intervalDays = task != null ? task!.dates : [1, 3, 7, 14, 30];
+    final pallete = task != null ? task!.pallete : 'yellow';
     final hasTask = task != null ? true : false;
 
     return EditState(
@@ -30,6 +31,7 @@ class EditViewModel extends _$EditViewModel {
       intervalDays: intervalDays,
       hasTask: hasTask,
       hasChanges: false,
+      pallete: pallete,
     );
   }
 
@@ -54,15 +56,21 @@ class EditViewModel extends _$EditViewModel {
     _checkForChanges();
   }
 
+  setPalette(String pallete) {
+    state = state.copyWith(pallete: pallete);
+  }
+
   void _checkForChanges() {
     bool hasChanges = false;
     if (task != null) {
       bool isIntervalDaysEqual = listEquals(task!.dates, state.intervalDays);
       bool isDateTimeEqual = task!.dateTime == state.dateTime;
-      hasChanges = task!.title != state.title ||
-          task!.memo != state.memo ||
-          !isDateTimeEqual ||
-          !isIntervalDaysEqual;
+      if (state.title != '') {
+        hasChanges = task!.title != state.title ||
+            task!.memo != state.memo ||
+            !isDateTimeEqual ||
+            !isIntervalDaysEqual;
+      }
     } else {
       hasChanges = state.title != '';
     }

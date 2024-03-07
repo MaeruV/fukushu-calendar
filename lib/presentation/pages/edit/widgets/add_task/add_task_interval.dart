@@ -17,36 +17,39 @@ class AddTaskInterval extends ConsumerWidget {
 
     return GestureDetector(
       onTap: () => context.push('/interval'),
-      child: SizedBox(
-        width: double.infinity,
-        child: Row(
-          children: <Widget>[
-            const Text(
-              '復習間隔',
-              style: BrandText.bodyM,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          const Text(
+            '復習間隔',
+            style: BrandText.bodyM,
+          ),
+          const SizedBox(height: 5),
+          Container(
+            height: 55,
+            padding: const EdgeInsets.symmetric(horizontal: 10),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(10),
+              border: Border.all(color: BrandColor.grey),
             ),
-            const SizedBox(width: 10),
-            Expanded(
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  Flexible(
-                    child: Text(
-                      formattedIntervals,
-                      style: BrandText.bodyM.copyWith(color: BrandColor.blue),
-                      overflow: TextOverflow.ellipsis,
-                    ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Expanded(
+                  child: Text(
+                    formattedIntervals,
+                    style: BrandText.bodyS,
+                    overflow: TextOverflow.ellipsis,
                   ),
-                  const SizedBox(width: 20),
-                  const Icon(
-                    Icons.chevron_right_outlined,
-                    color: BrandColor.grey,
-                  ),
-                ],
-              ),
+                ),
+                const Icon(
+                  Icons.calendar_view_week_rounded,
+                  color: BrandColor.grey,
+                ),
+              ],
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

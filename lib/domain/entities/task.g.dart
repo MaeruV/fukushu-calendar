@@ -32,8 +32,13 @@ const TaskSchema = CollectionSchema(
       name: r'memo',
       type: IsarType.string,
     ),
-    r'title': PropertySchema(
+    r'pallete': PropertySchema(
       id: 3,
+      name: r'pallete',
+      type: IsarType.string,
+    ),
+    r'title': PropertySchema(
+      id: 4,
       name: r'title',
       type: IsarType.string,
     )
@@ -65,6 +70,7 @@ int _taskEstimateSize(
       bytesCount += 3 + value.length * 3;
     }
   }
+  bytesCount += 3 + object.pallete.length * 3;
   bytesCount += 3 + object.title.length * 3;
   return bytesCount;
 }
@@ -78,7 +84,8 @@ void _taskSerialize(
   writer.writeDateTime(offsets[0], object.dateTime);
   writer.writeLongList(offsets[1], object.dates);
   writer.writeString(offsets[2], object.memo);
-  writer.writeString(offsets[3], object.title);
+  writer.writeString(offsets[3], object.pallete);
+  writer.writeString(offsets[4], object.title);
 }
 
 Task _taskDeserialize(
@@ -92,7 +99,8 @@ Task _taskDeserialize(
   object.dates = reader.readLongList(offsets[1]) ?? [];
   object.id = id;
   object.memo = reader.readStringOrNull(offsets[2]);
-  object.title = reader.readString(offsets[3]);
+  object.pallete = reader.readString(offsets[3]);
+  object.title = reader.readString(offsets[4]);
   return object;
 }
 
@@ -110,6 +118,8 @@ P _taskDeserializeProp<P>(
     case 2:
       return (reader.readStringOrNull(offset)) as P;
     case 3:
+      return (reader.readString(offset)) as P;
+    case 4:
       return (reader.readString(offset)) as P;
     default:
       throw IsarError('Unknown property with id $propertyId');
@@ -590,6 +600,134 @@ extension TaskQueryFilter on QueryBuilder<Task, Task, QFilterCondition> {
     });
   }
 
+  QueryBuilder<Task, Task, QAfterFilterCondition> palleteEqualTo(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'pallete',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<Task, Task, QAfterFilterCondition> palleteGreaterThan(
+    String value, {
+    bool include = false,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'pallete',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<Task, Task, QAfterFilterCondition> palleteLessThan(
+    String value, {
+    bool include = false,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'pallete',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<Task, Task, QAfterFilterCondition> palleteBetween(
+    String lower,
+    String upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'pallete',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<Task, Task, QAfterFilterCondition> palleteStartsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.startsWith(
+        property: r'pallete',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<Task, Task, QAfterFilterCondition> palleteEndsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.endsWith(
+        property: r'pallete',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<Task, Task, QAfterFilterCondition> palleteContains(String value,
+      {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.contains(
+        property: r'pallete',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<Task, Task, QAfterFilterCondition> palleteMatches(String pattern,
+      {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.matches(
+        property: r'pallete',
+        wildcard: pattern,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<Task, Task, QAfterFilterCondition> palleteIsEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'pallete',
+        value: '',
+      ));
+    });
+  }
+
+  QueryBuilder<Task, Task, QAfterFilterCondition> palleteIsNotEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        property: r'pallete',
+        value: '',
+      ));
+    });
+  }
+
   QueryBuilder<Task, Task, QAfterFilterCondition> titleEqualTo(
     String value, {
     bool caseSensitive = true,
@@ -748,6 +886,18 @@ extension TaskQuerySortBy on QueryBuilder<Task, Task, QSortBy> {
     });
   }
 
+  QueryBuilder<Task, Task, QAfterSortBy> sortByPallete() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'pallete', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Task, Task, QAfterSortBy> sortByPalleteDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'pallete', Sort.desc);
+    });
+  }
+
   QueryBuilder<Task, Task, QAfterSortBy> sortByTitle() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'title', Sort.asc);
@@ -798,6 +948,18 @@ extension TaskQuerySortThenBy on QueryBuilder<Task, Task, QSortThenBy> {
     });
   }
 
+  QueryBuilder<Task, Task, QAfterSortBy> thenByPallete() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'pallete', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Task, Task, QAfterSortBy> thenByPalleteDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'pallete', Sort.desc);
+    });
+  }
+
   QueryBuilder<Task, Task, QAfterSortBy> thenByTitle() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'title', Sort.asc);
@@ -831,6 +993,13 @@ extension TaskQueryWhereDistinct on QueryBuilder<Task, Task, QDistinct> {
     });
   }
 
+  QueryBuilder<Task, Task, QDistinct> distinctByPallete(
+      {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'pallete', caseSensitive: caseSensitive);
+    });
+  }
+
   QueryBuilder<Task, Task, QDistinct> distinctByTitle(
       {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
@@ -861,6 +1030,12 @@ extension TaskQueryProperty on QueryBuilder<Task, Task, QQueryProperty> {
   QueryBuilder<Task, String?, QQueryOperations> memoProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'memo');
+    });
+  }
+
+  QueryBuilder<Task, String, QQueryOperations> palleteProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'pallete');
     });
   }
 

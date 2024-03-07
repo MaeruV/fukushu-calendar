@@ -46,6 +46,7 @@ class EditListView extends ConsumerWidget {
           ),
         ),
         EditSlidableAction(tasks: tasks),
+        const SizedBox(height: 5),
         Container(
           height: 2,
           color: BrandColor.grey.withOpacity(0.5),
@@ -137,55 +138,55 @@ class MainTaskWidget extends ConsumerWidget {
     final formattedIntervals =
         task.dates.map((interval) => '$interval').join(', ');
 
-    return Container(
-      color: Colors.transparent,
-      margin: const EdgeInsets.symmetric(vertical: 15.0, horizontal: 15.0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            children: [
-              Container(
-                width: 20,
-                height: 20,
-                decoration: BoxDecoration(
-                  color: BrandColor.blue,
-                  borderRadius: BorderRadius.circular(20.0),
+    return IntrinsicHeight(
+      child: Container(
+        color: Colors.transparent,
+        margin: const EdgeInsets.symmetric(vertical: 1.0),
+        child: Row(
+          children: [
+            Container(
+              width: 15,
+              color: TaskColorPalette.deepPalette[task.pallete],
+            ),
+            Expanded(
+              child: Container(
+                padding: const EdgeInsets.fromLTRB(10.0, 15.0, 5.0, 15.0),
+                color: TaskColorPalette.rightPalette[task.pallete],
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      task.title,
+                      style: BrandText.bodyL,
+                    ),
+                    const SizedBox(height: 10),
+                    Row(
+                      children: [
+                        const Text(
+                          '復習間隔',
+                          style: BrandText.bodyM,
+                        ),
+                        const SizedBox(width: 20),
+                        Flexible(
+                          fit: FlexFit.loose,
+                          child: Text(
+                            formattedIntervals,
+                            style: BrandText.bodyM,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ),
+                        const Text(
+                          "日後",
+                          style: BrandText.bodyM,
+                        ),
+                      ],
+                    ),
+                  ],
                 ),
               ),
-              const SizedBox(width: 20),
-              Flexible(
-                fit: FlexFit.loose,
-                child: Text(
-                  task.title,
-                  style: BrandText.bodyL,
-                ),
-              )
-            ],
-          ),
-          const SizedBox(height: 10),
-          Row(
-            children: [
-              const Text(
-                '復習間隔',
-                style: BrandText.bodyM,
-              ),
-              const SizedBox(width: 20),
-              Flexible(
-                fit: FlexFit.loose,
-                child: Text(
-                  formattedIntervals,
-                  style: BrandText.bodyM,
-                  overflow: TextOverflow.ellipsis,
-                ),
-              ),
-              const Text(
-                "日後",
-                style: BrandText.bodyM,
-              ),
-            ],
-          ),
-        ],
+            ),
+          ],
+        ),
       ),
     );
   }

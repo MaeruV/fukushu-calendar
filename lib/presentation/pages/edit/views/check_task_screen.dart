@@ -1,4 +1,5 @@
 import 'package:ebbinghaus_forgetting_curve/application/usecases/task/state/tasks_provider.dart';
+import 'package:ebbinghaus_forgetting_curve/presentation/component/modal_manager.dart';
 import 'package:ebbinghaus_forgetting_curve/presentation/pages/edit/widgets/check_task/check_task_app_bar.dart';
 import 'package:ebbinghaus_forgetting_curve/presentation/pages/edit/widgets/check_task/check_task_list.dart';
 import 'package:ebbinghaus_forgetting_curve/presentation/pages/edit/widgets/check_task/check_task_memo.dart';
@@ -20,6 +21,7 @@ class CheckTaskScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    ModalManager modal = ModalManager();
     final config = ref.watch(tempTaskProvider(taskId: taskId));
     return switch (config) {
       AsyncError(:final error) => Text('Error: $error'),
@@ -32,7 +34,8 @@ class CheckTaskScreen extends ConsumerWidget {
               appBar: CheckTaskAppBar(
                 onTap: () {
                   ref.read(temporaryTaskProvider.notifier).state = value;
-                  context.push('/add_task');
+                  modal.customShowModalSheet(context);
+                  // context.push('/add_task');
                 },
                 backTap: () => context.pop(),
               ),

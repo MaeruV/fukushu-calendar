@@ -1,3 +1,5 @@
+import 'package:ebbinghaus_forgetting_curve/presentation/common/date_time_extension.dart';
+import 'package:ebbinghaus_forgetting_curve/presentation/pages/edit/views/add_task_modal_screen.dart';
 import 'package:ebbinghaus_forgetting_curve/presentation/theme/colors.dart';
 import 'package:ebbinghaus_forgetting_curve/presentation/theme/fonts.dart';
 import 'package:flutter/cupertino.dart';
@@ -46,9 +48,9 @@ class ModalManager {
                 child: CupertinoPicker(
                   itemExtent: 30,
                   onSelectedItemChanged: onSelectedItemChanged,
-                  children: List.generate(
-                          100, (index) => _pickerItem((index + 1).toString()))
-                      .toList(),
+                  children:
+                      List.generate(100, (index) => _pickerItem((index + 1)))
+                          .toList(),
                 ),
               ),
             ),
@@ -58,33 +60,32 @@ class ModalManager {
     );
   }
 
-  Widget _pickerItem(String str) {
-    return Text(
-      str,
-      style: BrandText.titleM,
+  Widget _pickerItem(int str) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Text(
+          '$str日後',
+          style: BrandText.bodyL,
+        ),
+        const SizedBox(width: 25),
+        Text(
+          DateTime.now().add(Duration(days: str)).toJapaneseFormat(),
+          style: BrandText.bodyL,
+        ),
+      ],
     );
   }
 
-  void addShowMoodal(
-    BuildContext context, {
-    required double mediaHeight,
-    required double safeAreaTop,
-    required Widget child,
-  }) {
+  void customShowModalSheet(BuildContext context) {
     showModalBottomSheet(
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(top: Radius.circular(15)),
-        // topのRadius.circularを0に設定することで、上部の角を無くす
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(10),
       ),
       isScrollControlled: true,
       context: context,
-      builder: (context) => SizedBox(
-        height: mediaHeight - safeAreaTop,
-        width: double.infinity,
-        child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 15.0, horizontal: 15.0),
-          child: child,
-        ),
+      builder: (ct) => AddTaskModalScreen(
+        parentContext: ct,
       ),
     );
   }

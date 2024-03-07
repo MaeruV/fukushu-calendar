@@ -13,4 +13,6 @@ class Task {
   late DateTime dateTime;
 
   late List<int> dates;
+
+  late String pallete;
 }

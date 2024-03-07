@@ -2,7 +2,11 @@ import 'package:intl/intl.dart';
 
 extension DateTimeJapaneseFormat on DateTime {
   String toJapaneseFormat() {
-    return '${DateFormat.yMMMd('ja').format(this)}(${DateFormat.E('ja').format(this)})';
+    final year = DateFormat('y').format(this);
+    final month = DateFormat('M').format(this);
+    final day = DateFormat('d').format(this);
+    final weekday = DateFormat('E', 'ja').format(this);
+    return '$year/$month/$day ($weekday)';
   }
 
   String toRelativeJapaneseFormat() {

@@ -13,6 +13,7 @@ class EditState with _$EditState {
     required DateTime dateTime,
     required List<int> intervalDays,
     required bool hasTask,
+    @Default('yellow') String pallete,
     @Default(false) bool hasChanges,
   }) = _EditState;
 }

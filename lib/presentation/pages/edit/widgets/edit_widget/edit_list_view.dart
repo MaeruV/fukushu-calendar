@@ -146,12 +146,14 @@ class MainTaskWidget extends ConsumerWidget {
           children: [
             Container(
               width: 15,
-              color: TaskColorPalette.deepPalette[task.pallete],
+              decoration: BoxDecoration(
+                color: TaskColorPalette.noamlPalette[task.pallete],
+                borderRadius: BorderRadius.circular(2),
+              ),
             ),
             Expanded(
               child: Container(
                 padding: const EdgeInsets.fromLTRB(10.0, 15.0, 5.0, 15.0),
-                color: TaskColorPalette.rightPalette[task.pallete],
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [

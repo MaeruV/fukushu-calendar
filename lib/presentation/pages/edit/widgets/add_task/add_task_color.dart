@@ -23,22 +23,22 @@ class AddTaskColor extends ConsumerWidget {
           height: 55,
           child: ListView.builder(
               scrollDirection: Axis.horizontal,
-              itemCount: TaskColorPalette.rightPalette.length,
+              itemCount: TaskColorPalette.noamlPalette.length,
               itemBuilder: (context, index) {
                 final isSelected =
-                    TaskColorPalette.rightPalette.keys.elementAt(index) ==
+                    TaskColorPalette.lightPalette.keys.elementAt(index) ==
                         state.pallete;
                 return Padding(
                   padding: const EdgeInsets.only(right: 8),
                   child: GestureDetector(
                     onTap: () {
                       ref.read(editViewModelProvider.notifier).setPalette(
-                          TaskColorPalette.rightPalette.keys.elementAt(index));
+                          TaskColorPalette.noamlPalette.keys.elementAt(index));
                     },
                     child: CircleAvatar(
                       radius: 15,
                       backgroundColor:
-                          TaskColorPalette.deepPalette.values.elementAt(index),
+                          TaskColorPalette.noamlPalette.values.elementAt(index),
                       child: isSelected
                           ? const Icon(
                               Icons.check,

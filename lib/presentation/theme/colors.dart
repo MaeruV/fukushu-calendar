@@ -12,7 +12,7 @@ class BrandColor {
 }
 
 class TaskColorPalette {
-  static const Map<String, Color> rightPalette = {
+  static const Map<String, Color> lightPalette = {
     'yellow': Color(0xFFFFF9C4),
     'green': Color(0xFFC8E6C9),
     'beige': Color(0xFFD7CCC8),
@@ -24,15 +24,15 @@ class TaskColorPalette {
     'lemon': Color(0xFFFFF9C4),
   };
 
-  static const Map<String, Color> deepPalette = {
-    'yellow': Color(0xFFF9A825),
-    'green': Color(0xFF2E7D32),
-    'beige': Color(0xFF8B6B61),
-    'red': Color(0xFFC62828),
-    'grey': Color(0xFF757575),
-    'cream': Color(0xFFFFCC80),
-    'skyBlue': Color(0xFF0288D1),
-    'mintGreen': Color(0xFF00BFA5),
-    'lemon': Color(0xFFFDD835),
+  static const Map<String, Color> noamlPalette = {
+    'yellow': Color(0xFFFFF59D),
+    'green': Color(0xFFA5D6A7),
+    'beige': Color(0xFFFFCCBC),
+    'red': Color(0xFFEF9A9A),
+    'grey': Color(0xFFEEEEEE),
+    'cream': Color(0xFFFFE082),
+    'skyBlue': Color(0xFF81D4FA),
+    'mintGreen': Color(0xFF80DEEA),
+    'lemon': Color(0xFFFFF176),
   };
 }

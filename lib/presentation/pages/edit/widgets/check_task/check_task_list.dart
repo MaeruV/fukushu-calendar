@@ -17,8 +17,15 @@ class CheckTaskList extends ConsumerWidget {
       padding: const EdgeInsets.symmetric(vertical: 8.0),
       decoration: BoxDecoration(
           color: BrandColor.white,
-          borderRadius: BorderRadius.circular(8.0) // 角丸の設定を追加
-          ),
+          borderRadius: BorderRadius.circular(8.0),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.grey.withOpacity(0.2),
+              spreadRadius: 1.5,
+              blurRadius: 5,
+              offset: const Offset(0, 2),
+            ),
+          ]),
       child: Column(
           children: dates
               .map(

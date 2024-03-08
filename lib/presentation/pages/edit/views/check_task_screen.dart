@@ -32,10 +32,10 @@ class CheckTaskScreen extends ConsumerWidget {
           : Scaffold(
               backgroundColor: BrandColor.background,
               appBar: CheckTaskAppBar(
+                pallete: value.pallete,
                 onTap: () {
                   ref.read(temporaryTaskProvider.notifier).state = value;
                   modal.customShowModalSheet(context);
-                  // context.push('/add_task');
                 },
                 backTap: () => context.pop(),
               ),
@@ -52,6 +52,14 @@ class CheckTaskScreen extends ConsumerWidget {
                         decoration: BoxDecoration(
                           color: BrandColor.white,
                           borderRadius: BorderRadius.circular(8.0),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.grey.withOpacity(0.2),
+                              spreadRadius: 1.5,
+                              blurRadius: 5,
+                              offset: const Offset(0, 2),
+                            ),
+                          ],
                         ),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,

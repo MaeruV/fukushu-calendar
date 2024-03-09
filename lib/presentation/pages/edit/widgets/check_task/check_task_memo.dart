@@ -13,9 +13,9 @@ class CheckTaskMemo extends ConsumerWidget {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Text(
+        Text(
           'メモ',
-          style: BrandText.bodyM,
+          style: BrandText.bodyM.copyWith(color: BrandColor.grey),
         ),
         const SizedBox(width: 20),
         Expanded(

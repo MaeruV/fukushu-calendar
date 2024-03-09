@@ -1,91 +1,22 @@
 import 'package:ebbinghaus_forgetting_curve/application/state/calender/calender_view_model.dart';
+import 'package:ebbinghaus_forgetting_curve/application/usecases/task/state/tasks_provider.dart';
 import 'package:ebbinghaus_forgetting_curve/domain/entities/calendar_event.dart';
-import 'package:ebbinghaus_forgetting_curve/domain/entities/task.dart';
 import 'package:ebbinghaus_forgetting_curve/presentation/common/date_extension.dart';
+import 'package:ebbinghaus_forgetting_curve/presentation/component/draggable_sheet.dart';
 import 'package:ebbinghaus_forgetting_curve/presentation/pages/calender/widgets/days_of_the_week.dart';
 import 'package:ebbinghaus_forgetting_curve/presentation/pages/calender/widgets/days_row/days_row.dart';
-import 'package:ebbinghaus_forgetting_curve/presentation/pages/calender/widgets/days_row/task_labels.dart';
 import 'package:ebbinghaus_forgetting_curve/presentation/theme/colors.dart';
 import 'package:ebbinghaus_forgetting_curve/presentation/theme/fonts.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:intl/intl.dart';
 
 class CalenderScreen extends ConsumerWidget {
   const CalenderScreen({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final calendarTask = ref.watch(tasksCalendarProvider);
     final double parentHeight = MediaQuery.of(context).size.height;
-
-    void showModal(DateTime date, BuildContext context) {
-      final formatDate =
-          '${DateFormat.MMMd('ja').format(date)}(${DateFormat.E('ja').format(date)})';
-
-      showModalBottomSheet(
-          isScrollControlled: true,
-          context: context,
-          builder: (BuildContext context) {
-            return Container(
-                height: parentHeight * 0.85,
-                width: double.infinity,
-                decoration: const BoxDecoration(
-                  color: BrandColor.white,
-                  borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(20.0),
-                    topRight: Radius.circular(20.0),
-                  ),
-                ),
-                child: Padding(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 15, vertical: 15),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: <Widget>[
-                      Container(
-                        height: 4,
-                        width: 100,
-                        decoration: const BoxDecoration(
-                          color: Color.fromARGB(255, 109, 107, 107),
-                          borderRadius: BorderRadius.only(
-                            topLeft: Radius.circular(2.0),
-                            topRight: Radius.circular(2.0),
-                          ),
-                        ),
-                      ),
-                      const SizedBox(height: 20),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            formatDate,
-                            style: BrandText.titleLM,
-                          ),
-                          ElevatedButton(
-                            onPressed: () {
-                              Navigator.of(context).pop();
-                            },
-                            style: ButtonStyle(
-                              backgroundColor: MaterialStateProperty.all<Color>(
-                                  Colors.white),
-                            ),
-                            child: Text(
-                              '戻る',
-                              style: BrandText.bodyM
-                                  .copyWith(color: BrandColor.deleteRed),
-                            ),
-                          ),
-                        ],
-                      ),
-                      const SizedBox(height: 20),
-                      TaskLabels(
-                        task: Task(),
-                      ),
-                    ],
-                  ),
-                ));
-          });
-    }
 
     return Scaffold(
       backgroundColor: BrandColor.background,
@@ -93,42 +24,42 @@ class CalenderScreen extends ConsumerWidget {
         child: Column(
           children: <Widget>[
             SizedBox(
-              height: parentHeight * 0.10,
+              height: parentHeight * 0.06,
               child: const SubjectWidget(),
             ),
             Expanded(
-              child: Container(
-                decoration: const BoxDecoration(
-                  color: BrandColor.white,
-                  borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(20.0),
-                    topRight: Radius.circular(20.0),
-                  ),
-                ),
-                child: CalenderPageView(
-                    events: [
-                      // CalendarEvent(
-                      //     eventName: "Event 2",
-                      //     eventDate: DateTime.now(),
-                      //     eventTextStyle: BrandText.bodyS,
-                      //     eventBackgroundColor: BrandColor.blue,
-                      //     eventID: ''),
-                      // CalendarEvent(
-                      //     eventName: "Event 3",
-                      //     eventDate: DateTime.now(),
-                      //     eventTextStyle: BrandText.bodyS,
-                      //     eventBackgroundColor: BrandColor.deleteRed,
-                      //     eventID: ''),
-                    ],
-                    onCellTapped: (date) {
-                      showModal(date, context);
-                    }),
-              ),
+              child: LayoutBuilder(builder: (context, constraints) {
+                final double bottomPadding = constraints.maxHeight * 0.1;
+                return Stack(
+                  children: [
+                    Padding(
+                      padding: EdgeInsets.only(bottom: bottomPadding),
+                      child: Container(
+                        decoration: const BoxDecoration(
+                          color: BrandColor.white,
+                          borderRadius: BorderRadius.only(
+                            topLeft: Radius.circular(10.0),
+                            topRight: Radius.circular(10.0),
+                          ),
+                        ),
+                        child: switch (calendarTask) {
+                          AsyncError(:final error) => Text('Error: $error'),
+                          AsyncData(:final value) => CalenderPageView(
+                              events: value, onCellTapped: (date) {}),
+                          _ => const CircularProgressIndicator(),
+                        },
+                      ),
+                    ),
+                    DraggableSheet(
+                      child: Container(
+                        color: BrandColor.blue,
+                        height: 100,
+                      ),
+                    ),
+                  ],
+                );
+              }),
             ),
-            Container(
-              color: BrandColor.grey,
-              height: 1,
-            )
           ],
         ),
       ),
@@ -146,7 +77,7 @@ class SubjectWidget extends ConsumerWidget {
     final state = ref.watch(calenderViewModelProvider);
     final visibleMonth = state.currentIndex.visibleDateTime.month.toString();
     final visibleYear = state.currentIndex.visibleDateTime.year.toString();
-    const duration = Duration(milliseconds: 500); //アニメーションする時間
+    const duration = Duration(milliseconds: 300); //アニメーションする時間
     const curve = Curves.easeIn; //アニメーションの動き
 
     return Padding(
@@ -159,18 +90,31 @@ class SubjectWidget extends ConsumerWidget {
               children: <Widget>[
                 Text(
                   visibleYear,
-                  style: BrandText.titleL,
+                  style: BrandText.titleLM,
                 ),
                 const SizedBox(width: 15),
                 Text(
                   "$visibleMonth月",
-                  style: BrandText.titleL,
+                  style: BrandText.titleLM,
                 ),
               ],
             ),
           ),
           Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
+              GestureDetector(
+                onTap: () => state.pageController
+                    .animateToPage(1200, duration: duration, curve: curve),
+                child: SizedBox(
+                    width: 40,
+                    child: Text(
+                      '今日',
+                      style: BrandText.titleS.copyWith(color: BrandColor.blue),
+                      textAlign: TextAlign.center,
+                    )),
+              ),
+              const SizedBox(width: 10),
               GestureDetector(
                 onTap: () => state.pageController
                     .previousPage(duration: duration, curve: curve),
@@ -178,12 +122,12 @@ class SubjectWidget extends ConsumerWidget {
                   width: 40,
                   child: Text(
                     "<",
-                    style: BrandText.titleL,
+                    style: BrandText.titleLM,
                     textAlign: TextAlign.center,
                   ),
                 ),
               ),
-              const SizedBox(width: 30),
+              const SizedBox(width: 20),
               GestureDetector(
                 onTap: () => state.pageController
                     .nextPage(duration: duration, curve: curve),
@@ -191,7 +135,7 @@ class SubjectWidget extends ConsumerWidget {
                   width: 40,
                   child: Text(
                     ">",
-                    style: BrandText.titleL,
+                    style: BrandText.titleLM,
                     textAlign: TextAlign.center,
                   ),
                 ),
@@ -219,16 +163,23 @@ class CalenderPageView extends ConsumerWidget {
     final state = ref.watch(calenderViewModelProvider);
     final notifier = ref.read(calenderViewModelProvider.notifier);
 
-    return PageView.builder(
-      controller: state.pageController,
-      itemBuilder: (context, index) {
-        return CalenderPage(
-          visiblePageDate: index.visibleDateTime,
-          events: events,
-          onCellTapped: onCellTapped,
-        );
-      },
-      onPageChanged: (index) => notifier.changeCurrentIndex(index),
+    return Column(
+      children: [
+        const DaysOfTheWeek(),
+        Expanded(
+          child: PageView.builder(
+            controller: state.pageController,
+            itemBuilder: (context, index) {
+              return CalenderPage(
+                visiblePageDate: index.visibleDateTime,
+                events: events,
+                onCellTapped: onCellTapped,
+              );
+            },
+            onPageChanged: (index) => notifier.changeCurrentIndex(index),
+          ),
+        ),
+      ],
     );
   }
 }
@@ -263,31 +214,21 @@ class CalenderPage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final days = _getCurrentDates(visiblePageDate);
-    return Padding(
-      padding: const EdgeInsets.only(top: 15.0),
-      child: Column(
-        children: <Widget>[
-          const DaysOfTheWeek(),
-          Expanded(
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: List.generate(
-                6,
-                (index) {
-                  return DaysRow(
-                    visiblePageDate: visiblePageDate,
-                    dates: days.getRange(index * 7, (index + 1) * 7).toList(),
-                    dateTextStyle: BrandText.bodyM,
-                    onCellTapped: onCellTapped,
-                    todayMarkColor: BrandColor.blue,
-                    todayTextColor: BrandColor.white,
-                    events: events,
-                  );
-                },
-              ),
-            ),
-          ),
-        ],
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: List.generate(
+        6,
+        (index) {
+          return DaysRow(
+            visiblePageDate: visiblePageDate,
+            dates: days.getRange(index * 7, (index + 1) * 7).toList(),
+            dateTextStyle: BrandText.bodyS,
+            onCellTapped: onCellTapped,
+            todayMarkColor: BrandColor.blue,
+            todayTextColor: BrandColor.white,
+            events: events,
+          );
+        },
       ),
     );
   }

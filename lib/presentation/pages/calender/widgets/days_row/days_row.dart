@@ -1,6 +1,7 @@
 import 'package:ebbinghaus_forgetting_curve/domain/entities/calendar_event.dart';
 import 'package:ebbinghaus_forgetting_curve/presentation/pages/calender/widgets/days_row/event_labels.dart';
 import 'package:ebbinghaus_forgetting_curve/presentation/pages/calender/widgets/days_row/measure_size.dart';
+import 'package:ebbinghaus_forgetting_curve/presentation/theme/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
@@ -48,7 +49,7 @@ class DaysRow extends StatelessWidget {
 
 /// Its height is circulated by [MeasureSize] and notified by [CellHeightController]
 class _DayCell extends HookConsumerWidget {
-  _DayCell({
+  const _DayCell({
     required this.date,
     required this.visiblePageDate,
     required this.dateTextStyle,
@@ -99,6 +100,7 @@ class _DayCell extends HookConsumerWidget {
                 isToday
                     ? _TodayLabel(
                         date: date,
+                        visiblePageDate: visiblePageDate,
                         dateTextStyle: dateTextStyle,
                         todayMarkColor: todayMarkColor,
                         todayTextColor: todayTextColor,
@@ -125,18 +127,21 @@ class _TodayLabel extends StatelessWidget {
   const _TodayLabel({
     Key? key,
     required this.date,
+    required this.visiblePageDate,
     required this.dateTextStyle,
     required this.todayMarkColor,
     required this.todayTextColor,
   }) : super(key: key);
 
   final DateTime date;
+  final DateTime visiblePageDate;
   final TextStyle? dateTextStyle;
   final Color todayMarkColor;
   final Color todayTextColor;
 
   @override
   Widget build(BuildContext context) {
+    final isCurrentMonth = visiblePageDate.month == date.month;
     final caption = Theme.of(context)
         .textTheme
         .bodySmall!
@@ -147,8 +152,9 @@ class _TodayLabel extends StatelessWidget {
       height: 25,
       width: 25,
       decoration: BoxDecoration(
-        shape: BoxShape.circle,
-        color: todayMarkColor,
+        color:
+            isCurrentMonth ? todayMarkColor : todayMarkColor.withOpacity(0.4),
+        borderRadius: BorderRadius.circular(8.0),
       ),
       child: Center(
         child: Text(
@@ -178,9 +184,16 @@ class _DayLabel extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final isCurrentMonth = visiblePageDate.month == date.month;
+    final isSunday = date.weekday == DateTime.sunday;
+    final isSaturday = date.weekday == DateTime.saturday;
     final caption = Theme.of(context).textTheme.bodySmall!.copyWith(
-        fontWeight: FontWeight.w500,
-        color: Theme.of(context).colorScheme.onSurface);
+          fontWeight: FontWeight.w500,
+          color: isSunday
+              ? BrandColor.deleteRed
+              : isSaturday
+                  ? BrandColor.blue
+                  : Theme.of(context).colorScheme.onSurface,
+        );
     final textStyle = caption.merge(dateTextStyle);
     return Container(
       margin: EdgeInsets.symmetric(vertical: dayLabelVerticalMargin.toDouble()),

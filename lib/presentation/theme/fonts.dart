@@ -48,6 +48,13 @@ class BrandText {
     fontSize: 20,
   );
 
+  static const bodyLM = TextStyle(
+    color: BrandColor.black,
+    fontFamily: "Inter",
+    fontWeight: FontWeight.normal,
+    fontSize: 18,
+  );
+
   static const bodyM = TextStyle(
     color: BrandColor.black,
     fontFamily: "Inter",
@@ -56,9 +63,15 @@ class BrandText {
   );
 
   static const bodyS = TextStyle(
-    color: BrandColor.black,
     fontFamily: "Inter",
     fontWeight: FontWeight.normal,
     fontSize: 14,
+  );
+
+  static const bodySS = TextStyle(
+    color: BrandColor.black,
+    fontFamily: "Inter",
+    fontWeight: FontWeight.normal,
+    fontSize: 11,
   );
 }

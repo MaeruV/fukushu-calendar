@@ -5,14 +5,14 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class CheckTaskList extends ConsumerWidget {
-  const CheckTaskList({super.key, required this.dates});
+  const CheckTaskList(
+      {super.key, required this.dates, required this.startdate});
 
   final List<int> dates;
+  final DateTime startdate;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final time = DateTime.now();
-
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 8.0),
       decoration: BoxDecoration(
@@ -48,7 +48,9 @@ class CheckTaskList extends ConsumerWidget {
                       Padding(
                         padding: const EdgeInsets.only(right: 16),
                         child: Text(
-                          time.add(Duration(days: index)).toJapaneseFormat(),
+                          startdate
+                              .add(Duration(days: index))
+                              .toJapaneseFormat(),
                           style: BrandText.bodyM,
                           overflow: TextOverflow.ellipsis,
                           textAlign: TextAlign.start,

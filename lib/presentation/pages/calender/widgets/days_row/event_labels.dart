@@ -1,10 +1,11 @@
 import 'package:ebbinghaus_forgetting_curve/domain/entities/calendar_event.dart';
 import 'package:ebbinghaus_forgetting_curve/presentation/pages/calender/widgets/days_row/days_row.dart';
+import 'package:ebbinghaus_forgetting_curve/presentation/theme/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 /// Numbers to return accurate events in the cell.
-const dayLabelContentHeight = 16;
+const dayLabelContentHeight = 20;
 const dayLabelVerticalMargin = 4;
 const _dayLabelHeight = dayLabelContentHeight + (dayLabelVerticalMargin * 2);
 
@@ -90,22 +91,31 @@ class EventLabels extends HookConsumerWidget {
 
 /// label to show [CalendarEvent]
 class _EventLabel extends StatelessWidget {
-  _EventLabel(this.event);
+  const _EventLabel(this.event);
 
   final CalendarEvent event;
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.only(right: 3, bottom: 3),
-      height: 13,
-      width: double.infinity,
-      color: event.eventBackgroundColor,
-      child: Text(
-        event.eventName,
-        style: event.eventTextStyle,
-        textAlign: TextAlign.center,
-        overflow: TextOverflow.ellipsis,
+    return SizedBox(
+      height: 16,
+      child: Row(
+        children: [
+          const SizedBox(width: 1),
+          Container(
+            width: 4,
+            color: event.eventBackgroundColor,
+          ),
+          const SizedBox(width: 1),
+          Expanded(
+            child: Text(
+              event.eventName,
+              style: event.eventTextStyle,
+              textAlign: TextAlign.left,
+              overflow: TextOverflow.ellipsis,
+            ),
+          ),
+        ],
       ),
     );
   }

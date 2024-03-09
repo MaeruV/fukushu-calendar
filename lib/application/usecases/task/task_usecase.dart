@@ -1,8 +1,11 @@
 import 'package:ebbinghaus_forgetting_curve/application/state/loading/overlay_loading_provider.dart';
 import 'package:ebbinghaus_forgetting_curve/application/usecases/run_usecase_mixin.dart';
 import 'package:ebbinghaus_forgetting_curve/application/usecases/task/state/tasks_provider.dart';
+import 'package:ebbinghaus_forgetting_curve/domain/entities/calendar_event.dart';
 import 'package:ebbinghaus_forgetting_curve/domain/entities/task.dart';
 import 'package:ebbinghaus_forgetting_curve/domain/repository/task_event_repository_interface.dart';
+import 'package:ebbinghaus_forgetting_curve/presentation/theme/colors.dart';
+import 'package:ebbinghaus_forgetting_curve/presentation/theme/fonts.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:isar/isar.dart';
 
@@ -24,6 +27,7 @@ class TaskUsecase with RunUsecaseMixin {
       _ref.read(temporaryTaskProvider.notifier);
   void _refreshTempTaskProvider(int taskId) =>
       _ref.refresh(tempTaskProvider(taskId: taskId).future);
+  void _refreshCalendarProvider() => _ref.refresh(tasksCalendarProvider.future);
 
   Future<void> saveTaskEvent({
     required String title,
@@ -67,6 +71,7 @@ class TaskUsecase with RunUsecaseMixin {
       _refreshTempTaskProvider(task.id);
     }
     _invalidateTasksProvider();
+    _refreshCalendarProvider();
   }
 
   Future<Task?> fetch(Id taskId) async {
@@ -93,9 +98,45 @@ class TaskUsecase with RunUsecaseMixin {
     return groupedTasks;
   }
 
+  Future<List<CalendarEvent>> groupTasksByReviewDates() async {
+    final tasks = await _taskRepository.fetchAll();
+    final List<CalendarEvent> calendarEvents = [];
+
+    for (final task in tasks) {
+      // タスクの開始日に基づいてCalendarEventを追加
+      final startDateEvent = CalendarEvent(
+        eventName: task.title,
+        eventDate: DateTime(
+            task.dateTime.year, task.dateTime.month, task.dateTime.day),
+        eventTextStyle: BrandText.bodySS,
+        eventBackgroundColor: TaskColorPalette.noamlPalette[task.pallete]!,
+        eventID: task.id.toString(),
+      );
+      calendarEvents.add(startDateEvent);
+
+      for (final int daysToAdd in task.dates) {
+        final reviewDate =
+            DateTime(task.dateTime.year, task.dateTime.month, task.dateTime.day)
+                .add(Duration(days: daysToAdd));
+
+        final CalendarEvent event = CalendarEvent(
+          eventName: task.title,
+          eventDate: reviewDate,
+          eventTextStyle: BrandText.bodySS,
+          eventBackgroundColor: TaskColorPalette.noamlPalette[task.pallete]!,
+          eventID: task.id.toString(),
+        );
+        calendarEvents.add(event);
+      }
+    }
+
+    return calendarEvents;
+  }
+
   Future<void> deleteTaskEvent(Id taskId) async {
     await _taskRepository.delete(taskId: taskId);
     _invalidateTasksProvider();
+    _refreshCalendarProvider();
   }
 
   void temporaryTask(Id taskId) async {

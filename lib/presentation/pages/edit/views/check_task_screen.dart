@@ -87,7 +87,10 @@ class CheckTaskScreen extends ConsumerWidget {
                         ),
                       ),
                       const SizedBox(height: 10),
-                      CheckTaskList(dates: value.dates),
+                      CheckTaskList(
+                        dates: value.dates,
+                        startdate: value.dateTime,
+                      ),
                     ],
                   ),
                 ),

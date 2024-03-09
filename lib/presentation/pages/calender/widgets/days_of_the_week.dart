@@ -20,13 +20,10 @@ class DaysOfTheWeek extends StatelessWidget {
         }
 
         return Expanded(
-          child: Padding(
-            padding: const EdgeInsets.only(bottom: 8),
-            child: Text(
-              day,
-              textAlign: TextAlign.center,
-              style: BrandText.titleM.copyWith(color: textColor),
-            ),
+          child: Text(
+            day,
+            textAlign: TextAlign.center,
+            style: BrandText.bodyM.copyWith(color: textColor),
           ),
         );
       }).toList(),

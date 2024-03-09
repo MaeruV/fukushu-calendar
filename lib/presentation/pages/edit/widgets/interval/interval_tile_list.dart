@@ -1,3 +1,4 @@
+import 'package:ebbinghaus_forgetting_curve/application/state/edit/edit_view_model.dart';
 import 'package:ebbinghaus_forgetting_curve/application/state/edit/interval_view_model.dart';
 import 'package:ebbinghaus_forgetting_curve/presentation/common/date_time_extension.dart';
 import 'package:ebbinghaus_forgetting_curve/presentation/pages/edit/widgets/interval/interval_cancel_btn.dart';
@@ -13,7 +14,7 @@ class IntervalTileList extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final state = ref.watch(intervalViewModelProvider);
-    final time = DateTime.now();
+    final editState = ref.watch(editViewModelProvider);
 
     return Padding(
       padding: const EdgeInsets.only(left: 10.0),
@@ -27,7 +28,9 @@ class IntervalTileList extends ConsumerWidget {
           ),
         ),
         title: Text(
-          time.add(Duration(days: state[index])).toJapaneseFormat(),
+          editState.dateTime
+              .add(Duration(days: state[index]))
+              .toJapaneseFormat(),
           style: BrandText.bodyM,
           textAlign: TextAlign.end,
         ),

@@ -168,5 +168,22 @@ class _TempTaskProviderElement extends AutoDisposeFutureProviderElement<Task?>
   @override
   int get taskId => (origin as TempTaskProvider).taskId;
 }
+
+String _$tasksCalendarHash() => r'0d6c4b183221f277d5d414bc4da77105a8b6e2ea';
+
+/// See also [tasksCalendar].
+@ProviderFor(tasksCalendar)
+final tasksCalendarProvider =
+    AutoDisposeFutureProvider<List<CalendarEvent>>.internal(
+  tasksCalendar,
+  name: r'tasksCalendarProvider',
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$tasksCalendarHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
+
+typedef TasksCalendarRef = AutoDisposeFutureProviderRef<List<CalendarEvent>>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

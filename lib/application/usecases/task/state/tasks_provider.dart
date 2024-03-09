@@ -1,4 +1,5 @@
 import 'package:ebbinghaus_forgetting_curve/application/usecases/task/task_usecase.dart';
+import 'package:ebbinghaus_forgetting_curve/domain/entities/calendar_event.dart';
 import 'package:ebbinghaus_forgetting_curve/domain/entities/task.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -18,4 +19,9 @@ final temporaryTaskProvider = StateProvider<Task?>((_) => null);
 @riverpod
 Future<Task?> tempTask(TempTaskRef ref, {required int taskId}) async {
   return ref.watch(taskUsecaseProvider).fetch(taskId);
+}
+
+@riverpod
+Future<List<CalendarEvent>> tasksCalendar(TasksCalendarRef ref) async {
+  return ref.watch(taskUsecaseProvider).groupTasksByReviewDates();
 }

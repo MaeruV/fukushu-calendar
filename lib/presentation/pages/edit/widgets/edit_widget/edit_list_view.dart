@@ -159,27 +159,27 @@ class MainTaskWidget extends ConsumerWidget {
                   children: [
                     Text(
                       task.title,
-                      style: BrandText.bodyL,
+                      style: BrandText.bodyLM,
                     ),
                     const SizedBox(height: 10),
                     Row(
                       children: [
                         const Text(
                           '復習間隔',
-                          style: BrandText.bodyM,
+                          style: BrandText.bodyS,
                         ),
                         const SizedBox(width: 20),
                         Flexible(
                           fit: FlexFit.loose,
                           child: Text(
                             formattedIntervals,
-                            style: BrandText.bodyM,
+                            style: BrandText.bodyS,
                             overflow: TextOverflow.ellipsis,
                           ),
                         ),
                         const Text(
                           "日後",
-                          style: BrandText.bodyM,
+                          style: BrandText.bodyS,
                         ),
                       ],
                     ),

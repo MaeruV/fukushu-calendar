@@ -28,12 +28,18 @@ class _HookTextFieldControllerState
   }
 
   @override
+  void didUpdateHook(_HookTextFieldController oldHook) {
+    super.didUpdateHook(oldHook);
+  }
+
+  @override
   AppTextEditingController build(BuildContext context) {
     return _controller;
   }
 
   @override
   void dispose() {
+    _controller.dispose();
     super.dispose();
   }
 }

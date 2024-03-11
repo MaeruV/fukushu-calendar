@@ -1,6 +1,5 @@
 import 'package:ebbinghaus_forgetting_curve/domain/entities/calendar_event.dart';
 import 'package:ebbinghaus_forgetting_curve/presentation/pages/calender/widgets/days_row/days_row.dart';
-import 'package:ebbinghaus_forgetting_curve/presentation/theme/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
@@ -97,14 +96,14 @@ class _EventLabel extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: 16,
+    return IntrinsicHeight(
       child: Row(
         children: [
           const SizedBox(width: 1),
           Container(
             width: 4,
             color: event.eventBackgroundColor,
+            alignment: Alignment.center,
           ),
           const SizedBox(width: 1),
           Expanded(

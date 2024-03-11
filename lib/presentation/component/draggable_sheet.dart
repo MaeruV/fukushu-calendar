@@ -3,7 +3,13 @@ import 'package:flutter/material.dart';
 
 class DraggableSheet extends StatefulWidget {
   final Widget child;
-  const DraggableSheet({super.key, required this.child});
+  final DraggableScrollableController controller;
+
+  const DraggableSheet({
+    super.key,
+    required this.child,
+    required this.controller,
+  });
 
   @override
   State<DraggableSheet> createState() => _DraggableSheetState();
@@ -11,16 +17,15 @@ class DraggableSheet extends StatefulWidget {
 
 class _DraggableSheetState extends State<DraggableSheet> {
   final sheet = GlobalKey();
-  final controller = DraggableScrollableController();
 
   @override
   void initState() {
     super.initState();
-    controller.addListener(onChanged);
+    widget.controller.addListener(onChanged);
   }
 
   void onChanged() {
-    final currentSize = controller.size;
+    final currentSize = widget.controller.size;
     if (currentSize <= 0.05) collapse();
   }
 
@@ -30,7 +35,7 @@ class _DraggableSheetState extends State<DraggableSheet> {
   void hide() => animateSheet(getSheet.minChildSize);
 
   void animateSheet(double size) {
-    controller.animateTo(size,
+    widget.controller.animateTo(size,
         duration: const Duration(microseconds: 50), curve: Curves.easeInOut);
   }
 
@@ -42,6 +47,7 @@ class _DraggableSheetState extends State<DraggableSheet> {
     return LayoutBuilder(
       builder: (builder, constraints) {
         return DraggableScrollableSheet(
+          controller: widget.controller,
           key: sheet,
           initialChildSize: 0.1,
           maxChildSize: 1.0,
@@ -80,32 +86,28 @@ class _DraggableSheetState extends State<DraggableSheet> {
 
   SliverToBoxAdapter topButtonIndicator() {
     return SliverToBoxAdapter(
-      child: Container(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: <Widget>[
-            Container(
-              child: Center(
-                  child: Wrap(
-                children: [
-                  Container(
-                    width: 50,
-                    margin: const EdgeInsets.symmetric(vertical: 10),
-                    height: 5,
-                    decoration: const BoxDecoration(
-                      color: BrandColor.grey,
-                      shape: BoxShape.rectangle,
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(8.0),
-                      ),
-                    ),
-                  )
-                ],
-              )),
-            )
-          ],
-        ),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: <Widget>[
+          Center(
+              child: Wrap(
+            children: [
+              Container(
+                width: 50,
+                margin: const EdgeInsets.symmetric(vertical: 10),
+                height: 5,
+                decoration: const BoxDecoration(
+                  color: BrandColor.grey,
+                  shape: BoxShape.rectangle,
+                  borderRadius: BorderRadius.all(
+                    Radius.circular(8.0),
+                  ),
+                ),
+              )
+            ],
+          ))
+        ],
       ),
     );
   }

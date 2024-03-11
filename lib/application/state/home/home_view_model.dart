@@ -16,7 +16,7 @@ class HomeViewModel extends _$HomeViewModel {
   List<Widget>? get screens => _screens;
 
   final _screens = [
-    const CalenderScreen(),
+    const CalendarScreen(),
     const EditScreen(),
     const CompletedScreen(),
   ];

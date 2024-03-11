@@ -4,7 +4,7 @@ import 'package:ebbinghaus_forgetting_curve/presentation/theme/fonts.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-import '../../../../common/hook_text_field_extension.dart';
+import '../../../../common/custom_hook_text_field.dart';
 
 class AddTaskMemo extends HookConsumerWidget {
   const AddTaskMemo({super.key});

@@ -31,18 +31,19 @@ class DaysRow extends StatelessWidget {
   Widget build(BuildContext context) {
     return Expanded(
       child: Row(
-        children: dates.map((date) {
-          return _DayCell(
-            date: date,
-            visiblePageDate: visiblePageDate,
-            dateTextStyle: dateTextStyle,
-            onCellTapped: onCellTapped,
-            todayMarkColor: todayMarkColor,
-            todayTextColor: todayTextColor,
-            events: events,
-          );
-        }).toList(),
-      ),
+          children: List.generate(dates.length, (index) {
+        return _DayCell(
+          date: dates[index],
+          visiblePageDate: visiblePageDate,
+          dateTextStyle: dateTextStyle,
+          onCellTapped: () {
+            onCellTapped?.call(dates[index]);
+          },
+          todayMarkColor: todayMarkColor,
+          todayTextColor: todayTextColor,
+          events: events,
+        );
+      })),
     );
   }
 }
@@ -62,7 +63,7 @@ class _DayCell extends HookConsumerWidget {
   final DateTime date;
   final DateTime visiblePageDate;
   final TextStyle? dateTextStyle;
-  final void Function(DateTime)? onCellTapped;
+  final void Function()? onCellTapped;
   final Color todayMarkColor;
   final Color todayTextColor;
   final List<CalendarEvent> events;
@@ -75,9 +76,7 @@ class _DayCell extends HookConsumerWidget {
         date.day == today.day;
     return Expanded(
       child: GestureDetector(
-        onTap: () {
-          onCellTapped?.call(date);
-        },
+        onTap: onCellTapped,
         child: DecoratedBox(
           decoration: BoxDecoration(
             border: Border(

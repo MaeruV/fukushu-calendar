@@ -11,5 +11,7 @@ class CalenderState with _$CalenderState {
   const factory CalenderState({
     required PageController pageController,
     required int currentIndex,
+    required DateTime? cellDateTime,
+    required int? cellIndex,
   }) = _CalenderState;
 }

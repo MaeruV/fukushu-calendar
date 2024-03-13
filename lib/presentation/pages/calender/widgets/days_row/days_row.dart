@@ -1,7 +1,9 @@
+import 'package:ebbinghaus_forgetting_curve/application/state/calender/calender_view_model.dart';
 import 'package:ebbinghaus_forgetting_curve/domain/entities/calendar_event.dart';
 import 'package:ebbinghaus_forgetting_curve/presentation/pages/calender/widgets/days_row/event_labels.dart';
 import 'package:ebbinghaus_forgetting_curve/presentation/pages/calender/widgets/days_row/measure_size.dart';
 import 'package:ebbinghaus_forgetting_curve/presentation/theme/colors.dart';
+import 'package:ebbinghaus_forgetting_curve/presentation/theme/fonts.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
@@ -12,19 +14,13 @@ class DaysRow extends StatelessWidget {
     Key? key,
     required this.visiblePageDate,
     required this.dates,
-    required this.dateTextStyle,
     required this.onCellTapped,
-    required this.todayMarkColor,
-    required this.todayTextColor,
     required this.events,
   }) : super(key: key);
 
   final List<DateTime> dates;
   final DateTime visiblePageDate;
-  final TextStyle? dateTextStyle;
   final void Function(DateTime)? onCellTapped;
-  final Color todayMarkColor;
-  final Color todayTextColor;
   final List<CalendarEvent> events;
 
   @override
@@ -33,14 +29,12 @@ class DaysRow extends StatelessWidget {
       child: Row(
           children: List.generate(dates.length, (index) {
         return _DayCell(
+          cellIndex: index,
           date: dates[index],
           visiblePageDate: visiblePageDate,
-          dateTextStyle: dateTextStyle,
           onCellTapped: () {
             onCellTapped?.call(dates[index]);
           },
-          todayMarkColor: todayMarkColor,
-          todayTextColor: todayTextColor,
           events: events,
         );
       })),
@@ -51,32 +45,33 @@ class DaysRow extends StatelessWidget {
 /// Its height is circulated by [MeasureSize] and notified by [CellHeightController]
 class _DayCell extends HookConsumerWidget {
   const _DayCell({
+    required this.cellIndex,
     required this.date,
     required this.visiblePageDate,
-    required this.dateTextStyle,
     required this.onCellTapped,
-    required this.todayMarkColor,
-    required this.todayTextColor,
     required this.events,
   });
 
+  final int cellIndex;
   final DateTime date;
   final DateTime visiblePageDate;
-  final TextStyle? dateTextStyle;
   final void Function()? onCellTapped;
-  final Color todayMarkColor;
-  final Color todayTextColor;
   final List<CalendarEvent> events;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final isCurrentMonth = visiblePageDate.month == date.month;
+    final notifier = ref.read(calenderViewModelProvider.notifier);
+
+    final double opacityValue = isCurrentMonth ? 1.0 : 0.4;
+
     final today = DateTime.now();
     final isToday = date.year == today.year &&
         date.month == today.month &&
         date.day == today.day;
     return Expanded(
       child: GestureDetector(
-        onTap: onCellTapped,
+        onTap: () => notifier.tappedCell(date, cellIndex),
         child: DecoratedBox(
           decoration: BoxDecoration(
             border: Border(
@@ -87,33 +82,25 @@ class _DayCell extends HookConsumerWidget {
           ),
           child: MeasureSize(
             onChange: (size) {
-              final sizeState = ref.read(cellHeightProvider);
-              if (sizeState != null || size == null) {
-                return;
-              }
               final notifier = ref.read(cellHeightProvider.notifier);
-              notifier.state = size.height;
+              notifier.state = size!.height;
             },
-            child: Column(
-              children: [
-                isToday
-                    ? _TodayLabel(
-                        date: date,
-                        visiblePageDate: visiblePageDate,
-                        dateTextStyle: dateTextStyle,
-                        todayMarkColor: todayMarkColor,
-                        todayTextColor: todayTextColor,
-                      )
-                    : _DayLabel(
-                        date: date,
-                        visiblePageDate: visiblePageDate,
-                        dateTextStyle: dateTextStyle,
-                      ),
-                EventLabels(
-                  date: date,
-                  events: events,
-                ),
-              ],
+            child: Opacity(
+              opacity: opacityValue,
+              child: Column(
+                children: [
+                  DayLabel(
+                    date: date,
+                    isToday: isToday,
+                  ),
+                  Expanded(
+                    child: EventLabels(
+                      date: date,
+                      events: events,
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
         ),
@@ -122,88 +109,55 @@ class _DayCell extends HookConsumerWidget {
   }
 }
 
-class _TodayLabel extends StatelessWidget {
-  const _TodayLabel({
+class DayLabel extends ConsumerWidget {
+  const DayLabel({
     Key? key,
     required this.date,
-    required this.visiblePageDate,
-    required this.dateTextStyle,
-    required this.todayMarkColor,
-    required this.todayTextColor,
+    required this.isToday,
   }) : super(key: key);
 
   final DateTime date;
-  final DateTime visiblePageDate;
-  final TextStyle? dateTextStyle;
-  final Color todayMarkColor;
-  final Color todayTextColor;
+  final bool isToday;
 
   @override
-  Widget build(BuildContext context) {
-    final isCurrentMonth = visiblePageDate.month == date.month;
+  Widget build(BuildContext context, WidgetRef ref) {
+    final bool isSelected =
+        ref.watch(calenderViewModelProvider).cellDateTime == date;
+    final isSunday = date.weekday == DateTime.sunday;
+    final isSaturday = date.weekday == DateTime.saturday;
+
+    // 選択された日、今日、土曜日、日曜日に基づいて色を決定
+    final containerColor = isSelected
+        ? (isToday ? BrandColor.deleteRed : BrandColor.black)
+        : Colors.transparent;
+
+    final textColor = isSelected
+        ? Colors.white
+        : (isToday
+            ? BrandColor.deleteRed
+            : (isSunday || isSaturday)
+                ? BrandColor.darkGrey
+                : BrandColor.black);
+
     final caption = Theme.of(context)
         .textTheme
         .bodySmall!
         .copyWith(fontWeight: FontWeight.w500);
-    final textStyle = caption.merge(dateTextStyle);
+    final textStyle = caption.merge(BrandText.bodyS).copyWith(color: textColor);
+
     return Container(
-      margin: const EdgeInsets.symmetric(vertical: 2),
-      height: 25,
-      width: 25,
+      margin: EdgeInsets.symmetric(vertical: dayLabelVerticalMargin.toDouble()),
+      height: 20,
+      width: 20,
       decoration: BoxDecoration(
-        color:
-            isCurrentMonth ? todayMarkColor : todayMarkColor.withOpacity(0.4),
+        color: containerColor,
         borderRadius: BorderRadius.circular(8.0),
       ),
       child: Center(
         child: Text(
           date.day.toString(),
           textAlign: TextAlign.center,
-          style: textStyle.copyWith(
-            color: todayTextColor,
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-class _DayLabel extends StatelessWidget {
-  const _DayLabel({
-    Key? key,
-    required this.date,
-    required this.visiblePageDate,
-    required this.dateTextStyle,
-  }) : super(key: key);
-
-  final DateTime date;
-  final DateTime visiblePageDate;
-  final TextStyle? dateTextStyle;
-
-  @override
-  Widget build(BuildContext context) {
-    final isCurrentMonth = visiblePageDate.month == date.month;
-    final isSunday = date.weekday == DateTime.sunday;
-    final isSaturday = date.weekday == DateTime.saturday;
-    final caption = Theme.of(context).textTheme.bodySmall!.copyWith(
-          fontWeight: FontWeight.w500,
-          color: isSunday
-              ? BrandColor.deleteRed
-              : isSaturday
-                  ? BrandColor.blue
-                  : Theme.of(context).colorScheme.onSurface,
-        );
-    final textStyle = caption.merge(dateTextStyle);
-    return Container(
-      margin: EdgeInsets.symmetric(vertical: dayLabelVerticalMargin.toDouble()),
-      height: dayLabelContentHeight.toDouble(),
-      child: Text(
-        date.day.toString(),
-        textAlign: TextAlign.center,
-        style: textStyle.copyWith(
-          color: isCurrentMonth
-              ? textStyle.color
-              : textStyle.color!.withOpacity(0.4),
+          style: textStyle,
         ),
       ),
     );

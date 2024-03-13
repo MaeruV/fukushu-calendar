@@ -10,10 +10,16 @@ class CalenderViewModel extends _$CalenderViewModel {
     return CalenderState(
       pageController: PageController(initialPage: 1200),
       currentIndex: 1200,
+      cellDateTime: null,
+      cellIndex: null,
     );
   }
 
   void changeCurrentIndex(int index) {
     state = state.copyWith(currentIndex: index);
+  }
+
+  void tappedCell(DateTime time, int index) {
+    state = state.copyWith(cellDateTime: time, cellIndex: index);
   }
 }

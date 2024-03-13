@@ -64,7 +64,7 @@ class BrandText {
 
   static const bodyS = TextStyle(
     fontFamily: "Inter",
-    fontWeight: FontWeight.normal,
+    fontWeight: FontWeight.w500,
     fontSize: 14,
   );
 

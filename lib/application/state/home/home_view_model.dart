@@ -1,4 +1,4 @@
-import 'package:ebbinghaus_forgetting_curve/presentation/pages/calender/views/calender_screen.dart';
+import 'package:ebbinghaus_forgetting_curve/presentation/pages/calender/views/calendar_sliver_screen.dart';
 import 'package:ebbinghaus_forgetting_curve/presentation/pages/completed/views/completed_screen.dart';
 import 'package:ebbinghaus_forgetting_curve/presentation/pages/edit/views/edit_screen.dart';
 import 'package:flutter/material.dart';
@@ -16,7 +16,7 @@ class HomeViewModel extends _$HomeViewModel {
   List<Widget>? get screens => _screens;
 
   final _screens = [
-    const CalendarScreen(),
+    const CalendarSliverScreen(),
     const EditScreen(),
     const CompletedScreen(),
   ];
@@ -27,3 +27,4 @@ class HomeViewModel extends _$HomeViewModel {
     state = index;
   }
 }
+// ７５１８０円

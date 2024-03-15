@@ -11,7 +11,7 @@ abstract interface class TaskRepository {
   Future<void> update({required Task task, required List<int> intervalDays});
 
   /// タスク削除
-  Future<void> delete({required Id taskId});
+  Future<void> delete({required Task task});
 
   /// タスク情報取得
   Future<Task?> fetch({required Id taskId});

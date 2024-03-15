@@ -11,7 +11,6 @@ part 'calendar_event.freezed.dart';
 class CalendarEvent with _$CalendarEvent {
   const factory CalendarEvent({
     required String eventName,
-    required TextStyle eventTextStyle,
     required DateTime eventDate,
     required int eventID,
     required Color eventBackgroundColor,

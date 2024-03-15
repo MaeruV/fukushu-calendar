@@ -126,7 +126,7 @@ class _EventLabel extends StatelessWidget {
           Expanded(
             child: Text(
               event.eventName,
-              style: event.eventTextStyle,
+              style: BrandText.bodySS,
               textAlign: TextAlign.left,
               overflow: TextOverflow.ellipsis,
             ),

@@ -75,7 +75,7 @@ class EditSlidableAction extends ConsumerWidget with PresentationMixin {
         final controller = Slidable.of(context);
         controller!.dismiss(
           ResizeRequest(const Duration(milliseconds: 300), () async {
-            await ref.read(taskUsecaseProvider).deleteTaskEvent(task.id);
+            await ref.read(taskUsecaseProvider).deleteTaskEvent(task);
           }),
           duration: const Duration(milliseconds: 300),
         );

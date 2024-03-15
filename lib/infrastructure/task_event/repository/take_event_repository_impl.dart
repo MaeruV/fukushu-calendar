@@ -23,8 +23,13 @@ class TaskEventRepositoryImpl implements TaskRepository {
   }
 
   @override
-  Future<void> delete({required Id taskId}) async {
-    await isar.writeTxn(() => isar.tasks.delete(taskId));
+  Future<void> delete({required Task task}) async {
+    await isar.writeTxn(() async {
+      for (final taskDate in task.dates) {
+        await isar.taskDates.delete(taskDate.id);
+      }
+      isar.tasks.delete(task.id);
+    });
   }
 
   @override
@@ -53,19 +58,32 @@ class TaskEventRepositoryImpl implements TaskRepository {
   Future<void> update(
       {required Task task, required List<int> intervalDays}) async {
     await isar.writeTxn(() async {
-      final existingDates = task.dates;
-      for (final taskDate in existingDates) {
+      final existingDays = task.dates.map((d) => d.daysInterval).toList();
+
+      final List<TaskDate> datesToRemove = [];
+      for (final taskDate in task.dates) {
+        if (!intervalDays.contains(taskDate.daysInterval)) {
+          datesToRemove.add(taskDate);
+        }
+      }
+
+      for (final taskDate in datesToRemove) {
         await isar.taskDates.delete(taskDate.id);
+        task.dates.remove(taskDate);
       }
-      task.dates.clear();
+
       for (int days in intervalDays) {
-        final taskDate = TaskDate()
-          ..daysInterval = days
-          ..checkFlag = false;
-        await isar.taskDates.put(taskDate);
-        task.dates.add(taskDate);
-        await task.dates.save();
+        if (!existingDays.contains(days)) {
+          final taskDate = TaskDate()
+            ..daysInterval = days
+            ..checkFlag = false;
+          await isar.taskDates.put(taskDate);
+          task.dates.add(taskDate);
+        }
       }
+
+      await isar.tasks.put(task);
+      await task.dates.save();
     });
   }
 

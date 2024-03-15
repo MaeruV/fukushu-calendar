@@ -1,11 +1,12 @@
 import 'package:ebbinghaus_forgetting_curve/application/usecases/task/state/tasks_provider.dart';
 import 'package:ebbinghaus_forgetting_curve/application/usecases/task/task_usecase.dart';
 import 'package:ebbinghaus_forgetting_curve/domain/entities/calendar_event.dart';
+import 'package:ebbinghaus_forgetting_curve/presentation/presentation_mixin.dart';
 import 'package:ebbinghaus_forgetting_curve/presentation/theme/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-class CalendarListTile extends HookConsumerWidget {
+class CalendarListTile extends HookConsumerWidget with PresentationMixin {
   const CalendarListTile({super.key, required this.events});
 
   final List<CalendarEvent> events;
@@ -32,11 +33,13 @@ class CalendarListTile extends HookConsumerWidget {
                         trailing: Checkbox(
                           value: value.checkFlag,
                           onChanged: (flag) {
-                            if (flag != null) {
-                              ref
-                                  .read(taskUsecaseProvider)
-                                  .saveTaskDate(taskDate: value, flag: flag);
-                            }
+                            execute(context, action: () async {
+                              if (flag != null) {
+                                ref
+                                    .read(taskUsecaseProvider)
+                                    .saveTaskDate(taskDate: value, flag: flag);
+                              }
+                            });
                           },
                         ),
                         subtitle: Text("${value.daysInterval}日目"),

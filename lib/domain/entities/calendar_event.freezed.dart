@@ -17,7 +17,6 @@ final _privateConstructorUsedError = UnsupportedError(
 /// @nodoc
 mixin _$CalendarEvent {
   String get eventName => throw _privateConstructorUsedError;
-  TextStyle get eventTextStyle => throw _privateConstructorUsedError;
   DateTime get eventDate => throw _privateConstructorUsedError;
   int get eventID => throw _privateConstructorUsedError;
   Color get eventBackgroundColor => throw _privateConstructorUsedError;
@@ -36,7 +35,6 @@ abstract class $CalendarEventCopyWith<$Res> {
   @useResult
   $Res call(
       {String eventName,
-      TextStyle eventTextStyle,
       DateTime eventDate,
       int eventID,
       Color eventBackgroundColor,
@@ -57,7 +55,6 @@ class _$CalendarEventCopyWithImpl<$Res, $Val extends CalendarEvent>
   @override
   $Res call({
     Object? eventName = null,
-    Object? eventTextStyle = null,
     Object? eventDate = null,
     Object? eventID = null,
     Object? eventBackgroundColor = null,
@@ -68,10 +65,6 @@ class _$CalendarEventCopyWithImpl<$Res, $Val extends CalendarEvent>
           ? _value.eventName
           : eventName // ignore: cast_nullable_to_non_nullable
               as String,
-      eventTextStyle: null == eventTextStyle
-          ? _value.eventTextStyle
-          : eventTextStyle // ignore: cast_nullable_to_non_nullable
-              as TextStyle,
       eventDate: null == eventDate
           ? _value.eventDate
           : eventDate // ignore: cast_nullable_to_non_nullable
@@ -102,7 +95,6 @@ abstract class _$$CalendarEventImplCopyWith<$Res>
   @useResult
   $Res call(
       {String eventName,
-      TextStyle eventTextStyle,
       DateTime eventDate,
       int eventID,
       Color eventBackgroundColor,
@@ -121,7 +113,6 @@ class __$$CalendarEventImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? eventName = null,
-    Object? eventTextStyle = null,
     Object? eventDate = null,
     Object? eventID = null,
     Object? eventBackgroundColor = null,
@@ -132,10 +123,6 @@ class __$$CalendarEventImplCopyWithImpl<$Res>
           ? _value.eventName
           : eventName // ignore: cast_nullable_to_non_nullable
               as String,
-      eventTextStyle: null == eventTextStyle
-          ? _value.eventTextStyle
-          : eventTextStyle // ignore: cast_nullable_to_non_nullable
-              as TextStyle,
       eventDate: null == eventDate
           ? _value.eventDate
           : eventDate // ignore: cast_nullable_to_non_nullable
@@ -161,7 +148,6 @@ class __$$CalendarEventImplCopyWithImpl<$Res>
 class _$CalendarEventImpl implements _CalendarEvent {
   const _$CalendarEventImpl(
       {required this.eventName,
-      required this.eventTextStyle,
       required this.eventDate,
       required this.eventID,
       required this.eventBackgroundColor,
@@ -169,8 +155,6 @@ class _$CalendarEventImpl implements _CalendarEvent {
 
   @override
   final String eventName;
-  @override
-  final TextStyle eventTextStyle;
   @override
   final DateTime eventDate;
   @override
@@ -182,7 +166,7 @@ class _$CalendarEventImpl implements _CalendarEvent {
 
   @override
   String toString() {
-    return 'CalendarEvent(eventName: $eventName, eventTextStyle: $eventTextStyle, eventDate: $eventDate, eventID: $eventID, eventBackgroundColor: $eventBackgroundColor, taskDate: $taskDate)';
+    return 'CalendarEvent(eventName: $eventName, eventDate: $eventDate, eventID: $eventID, eventBackgroundColor: $eventBackgroundColor, taskDate: $taskDate)';
   }
 
   @override
@@ -192,8 +176,6 @@ class _$CalendarEventImpl implements _CalendarEvent {
             other is _$CalendarEventImpl &&
             (identical(other.eventName, eventName) ||
                 other.eventName == eventName) &&
-            (identical(other.eventTextStyle, eventTextStyle) ||
-                other.eventTextStyle == eventTextStyle) &&
             (identical(other.eventDate, eventDate) ||
                 other.eventDate == eventDate) &&
             (identical(other.eventID, eventID) || other.eventID == eventID) &&
@@ -204,8 +186,8 @@ class _$CalendarEventImpl implements _CalendarEvent {
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, eventName, eventTextStyle,
-      eventDate, eventID, eventBackgroundColor, taskDate);
+  int get hashCode => Object.hash(runtimeType, eventName, eventDate, eventID,
+      eventBackgroundColor, taskDate);
 
   @JsonKey(ignore: true)
   @override
@@ -217,7 +199,6 @@ class _$CalendarEventImpl implements _CalendarEvent {
 abstract class _CalendarEvent implements CalendarEvent {
   const factory _CalendarEvent(
       {required final String eventName,
-      required final TextStyle eventTextStyle,
       required final DateTime eventDate,
       required final int eventID,
       required final Color eventBackgroundColor,
@@ -225,8 +206,6 @@ abstract class _CalendarEvent implements CalendarEvent {
 
   @override
   String get eventName;
-  @override
-  TextStyle get eventTextStyle;
   @override
   DateTime get eventDate;
   @override

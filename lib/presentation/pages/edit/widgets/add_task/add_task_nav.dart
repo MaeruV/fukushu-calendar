@@ -16,7 +16,6 @@ class AddTaskNav extends ConsumerWidget with PresentationMixin {
   Widget build(BuildContext context, WidgetRef ref) {
     final state = ref.watch(editViewModelProvider);
     String subject = state.hasTask ? '編集' : '新規';
-    String succesMessage = state.hasTask ? '更新しました' : '追加しました';
     Color color = state.hasChanges ? BrandColor.deleteRed : BrandColor.grey;
 
     return Padding(
@@ -53,7 +52,6 @@ class AddTaskNav extends ConsumerWidget with PresentationMixin {
                             pallete: state.pallete,
                           );
                     },
-                    successMessage: succesMessage,
                   );
                   context.pop();
                 }

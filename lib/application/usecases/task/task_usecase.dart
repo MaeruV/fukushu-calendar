@@ -5,7 +5,6 @@ import 'package:ebbinghaus_forgetting_curve/domain/entities/calendar_event.dart'
 import 'package:ebbinghaus_forgetting_curve/domain/entities/task.dart';
 import 'package:ebbinghaus_forgetting_curve/domain/repository/task_event_repository_interface.dart';
 import 'package:ebbinghaus_forgetting_curve/presentation/theme/colors.dart';
-import 'package:ebbinghaus_forgetting_curve/presentation/theme/fonts.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:isar/isar.dart';
 
@@ -25,11 +24,11 @@ class TaskUsecase with RunUsecaseMixin {
   void _invalidateTasksProvider() => _ref.refresh(tasksProvider.future);
   StateController<Task?> get _temporaryTaskController =>
       _ref.read(temporaryTaskProvider.notifier);
+  void _refreshCalendarProvider() => _ref.refresh(tasksCalendarProvider.future);
   void _refreshTempTaskProvider(int taskId) =>
       _ref.refresh(tempTaskProvider(taskId: taskId).future);
   void _refreshTempTaskDateProvider(int dateId) =>
       _ref.refresh(tempTaskDateProvider(dateId: dateId).future);
-  void _refreshCalendarProvider() => _ref.refresh(tasksCalendarProvider.future);
 
   Future<void> saveTaskEvent({
     required String title,
@@ -85,6 +84,7 @@ class TaskUsecase with RunUsecaseMixin {
       return await _taskRepository.addTaskDate(taskDate: taskDate, flag: flag);
     });
     _refreshTempTaskDateProvider(taskDate.id);
+    _refreshCalendarProvider();
   }
 
   Future<Task?> fetch(Id taskId) async {
@@ -121,24 +121,27 @@ class TaskUsecase with RunUsecaseMixin {
           task.startTime.year, task.startTime.month, task.startTime.day);
 
       for (final daysToAdd in task.dates) {
-        final reviewDate =
-            startDate.add(Duration(days: daysToAdd.daysInterval));
-        final reviewEvent = CalendarEvent(
-          eventName: task.title,
-          eventDate: reviewDate,
-          eventTextStyle: BrandText.bodySS,
-          eventBackgroundColor: TaskColorPalette.noamlPalette[task.pallete]!,
-          eventID: task.id,
-          taskDate: daysToAdd,
-        );
-        calendarEventsByDate.putIfAbsent(reviewDate, () => []).add(reviewEvent);
+        if (daysToAdd.checkFlag != true) {
+          final reviewDate =
+              startDate.add(Duration(days: daysToAdd.daysInterval));
+          final reviewEvent = CalendarEvent(
+            eventName: task.title,
+            eventDate: reviewDate,
+            eventBackgroundColor: TaskColorPalette.noamlPalette[task.pallete]!,
+            eventID: task.id,
+            taskDate: daysToAdd,
+          );
+          calendarEventsByDate
+              .putIfAbsent(reviewDate, () => [])
+              .add(reviewEvent);
+        }
       }
     }
     return calendarEventsByDate;
   }
 
-  Future<void> deleteTaskEvent(Id taskId) async {
-    await _taskRepository.delete(taskId: taskId);
+  Future<void> deleteTaskEvent(Task task) async {
+    await _taskRepository.delete(task: task);
     _invalidateTasksProvider();
     _refreshCalendarProvider();
   }
@@ -154,7 +157,6 @@ class TaskUsecase with RunUsecaseMixin {
     final taskDate = await execute(action: () async {
       return await _taskRepository.fetchDate(dateId: dateId);
     });
-
     return taskDate;
   }
 }

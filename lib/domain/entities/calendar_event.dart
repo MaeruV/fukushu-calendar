@@ -1,3 +1,4 @@
+import 'package:ebbinghaus_forgetting_curve/domain/entities/task.dart';
 import 'package:flutter/material.dart';
 // 保存時の自動整形でfoundationが消えないように警告を消している
 // ignore: unused_import, directives_ordering
@@ -12,7 +13,8 @@ class CalendarEvent with _$CalendarEvent {
     required String eventName,
     required TextStyle eventTextStyle,
     required DateTime eventDate,
-    required String? eventID,
+    required int eventID,
     required Color eventBackgroundColor,
+    required TaskDate taskDate,
   }) = _CalendarEvent;
 }

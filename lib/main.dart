@@ -10,8 +10,8 @@ import 'package:path_provider/path_provider.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   final dir = await getApplicationDocumentsDirectory();
-  Isar isar =
-      await Isar.open([TaskSchema], directory: dir.path, inspector: true);
+  Isar isar = await Isar.open([TaskSchema, TaskDateSchema],
+      directory: dir.path, inspector: true);
 
   return runApp(
     ProviderScope(

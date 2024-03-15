@@ -19,8 +19,9 @@ mixin _$CalendarEvent {
   String get eventName => throw _privateConstructorUsedError;
   TextStyle get eventTextStyle => throw _privateConstructorUsedError;
   DateTime get eventDate => throw _privateConstructorUsedError;
-  String? get eventID => throw _privateConstructorUsedError;
+  int get eventID => throw _privateConstructorUsedError;
   Color get eventBackgroundColor => throw _privateConstructorUsedError;
+  TaskDate get taskDate => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $CalendarEventCopyWith<CalendarEvent> get copyWith =>
@@ -37,8 +38,9 @@ abstract class $CalendarEventCopyWith<$Res> {
       {String eventName,
       TextStyle eventTextStyle,
       DateTime eventDate,
-      String? eventID,
-      Color eventBackgroundColor});
+      int eventID,
+      Color eventBackgroundColor,
+      TaskDate taskDate});
 }
 
 /// @nodoc
@@ -57,8 +59,9 @@ class _$CalendarEventCopyWithImpl<$Res, $Val extends CalendarEvent>
     Object? eventName = null,
     Object? eventTextStyle = null,
     Object? eventDate = null,
-    Object? eventID = freezed,
+    Object? eventID = null,
     Object? eventBackgroundColor = null,
+    Object? taskDate = null,
   }) {
     return _then(_value.copyWith(
       eventName: null == eventName
@@ -73,14 +76,18 @@ class _$CalendarEventCopyWithImpl<$Res, $Val extends CalendarEvent>
           ? _value.eventDate
           : eventDate // ignore: cast_nullable_to_non_nullable
               as DateTime,
-      eventID: freezed == eventID
+      eventID: null == eventID
           ? _value.eventID
           : eventID // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as int,
       eventBackgroundColor: null == eventBackgroundColor
           ? _value.eventBackgroundColor
           : eventBackgroundColor // ignore: cast_nullable_to_non_nullable
               as Color,
+      taskDate: null == taskDate
+          ? _value.taskDate
+          : taskDate // ignore: cast_nullable_to_non_nullable
+              as TaskDate,
     ) as $Val);
   }
 }
@@ -97,8 +104,9 @@ abstract class _$$CalendarEventImplCopyWith<$Res>
       {String eventName,
       TextStyle eventTextStyle,
       DateTime eventDate,
-      String? eventID,
-      Color eventBackgroundColor});
+      int eventID,
+      Color eventBackgroundColor,
+      TaskDate taskDate});
 }
 
 /// @nodoc
@@ -115,8 +123,9 @@ class __$$CalendarEventImplCopyWithImpl<$Res>
     Object? eventName = null,
     Object? eventTextStyle = null,
     Object? eventDate = null,
-    Object? eventID = freezed,
+    Object? eventID = null,
     Object? eventBackgroundColor = null,
+    Object? taskDate = null,
   }) {
     return _then(_$CalendarEventImpl(
       eventName: null == eventName
@@ -131,14 +140,18 @@ class __$$CalendarEventImplCopyWithImpl<$Res>
           ? _value.eventDate
           : eventDate // ignore: cast_nullable_to_non_nullable
               as DateTime,
-      eventID: freezed == eventID
+      eventID: null == eventID
           ? _value.eventID
           : eventID // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as int,
       eventBackgroundColor: null == eventBackgroundColor
           ? _value.eventBackgroundColor
           : eventBackgroundColor // ignore: cast_nullable_to_non_nullable
               as Color,
+      taskDate: null == taskDate
+          ? _value.taskDate
+          : taskDate // ignore: cast_nullable_to_non_nullable
+              as TaskDate,
     ));
   }
 }
@@ -151,7 +164,8 @@ class _$CalendarEventImpl implements _CalendarEvent {
       required this.eventTextStyle,
       required this.eventDate,
       required this.eventID,
-      required this.eventBackgroundColor});
+      required this.eventBackgroundColor,
+      required this.taskDate});
 
   @override
   final String eventName;
@@ -160,13 +174,15 @@ class _$CalendarEventImpl implements _CalendarEvent {
   @override
   final DateTime eventDate;
   @override
-  final String? eventID;
+  final int eventID;
   @override
   final Color eventBackgroundColor;
+  @override
+  final TaskDate taskDate;
 
   @override
   String toString() {
-    return 'CalendarEvent(eventName: $eventName, eventTextStyle: $eventTextStyle, eventDate: $eventDate, eventID: $eventID, eventBackgroundColor: $eventBackgroundColor)';
+    return 'CalendarEvent(eventName: $eventName, eventTextStyle: $eventTextStyle, eventDate: $eventDate, eventID: $eventID, eventBackgroundColor: $eventBackgroundColor, taskDate: $taskDate)';
   }
 
   @override
@@ -182,12 +198,14 @@ class _$CalendarEventImpl implements _CalendarEvent {
                 other.eventDate == eventDate) &&
             (identical(other.eventID, eventID) || other.eventID == eventID) &&
             (identical(other.eventBackgroundColor, eventBackgroundColor) ||
-                other.eventBackgroundColor == eventBackgroundColor));
+                other.eventBackgroundColor == eventBackgroundColor) &&
+            (identical(other.taskDate, taskDate) ||
+                other.taskDate == taskDate));
   }
 
   @override
   int get hashCode => Object.hash(runtimeType, eventName, eventTextStyle,
-      eventDate, eventID, eventBackgroundColor);
+      eventDate, eventID, eventBackgroundColor, taskDate);
 
   @JsonKey(ignore: true)
   @override
@@ -201,8 +219,9 @@ abstract class _CalendarEvent implements CalendarEvent {
       {required final String eventName,
       required final TextStyle eventTextStyle,
       required final DateTime eventDate,
-      required final String? eventID,
-      required final Color eventBackgroundColor}) = _$CalendarEventImpl;
+      required final int eventID,
+      required final Color eventBackgroundColor,
+      required final TaskDate taskDate}) = _$CalendarEventImpl;
 
   @override
   String get eventName;
@@ -211,9 +230,11 @@ abstract class _CalendarEvent implements CalendarEvent {
   @override
   DateTime get eventDate;
   @override
-  String? get eventID;
+  int get eventID;
   @override
   Color get eventBackgroundColor;
+  @override
+  TaskDate get taskDate;
   @override
   @JsonKey(ignore: true)
   _$$CalendarEventImplCopyWith<_$CalendarEventImpl> get copyWith =>

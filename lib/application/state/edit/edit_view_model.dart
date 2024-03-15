@@ -15,12 +15,14 @@ class EditViewModel extends _$EditViewModel {
     task = ref.watch(temporaryTaskProvider);
 
     final datetime = task != null
-        ? task!.dateTime
+        ? task!.startTime
         : DateTime(
             DateTime.now().year, DateTime.now().month, DateTime.now().day);
     final titleText = task != null ? task!.title : '';
     final memoText = task != null ? task!.memo ?? '' : '';
-    final intervalDays = task != null ? task!.dates : [1, 3, 7, 14, 30];
+    final List<int> intervalDays = task != null
+        ? task!.dates.map((date) => date.daysInterval).toList()
+        : [1, 3, 7, 14];
     final pallete = task != null ? task!.pallete : 'yellow';
     final hasTask = task != null ? true : false;
 
@@ -63,8 +65,9 @@ class EditViewModel extends _$EditViewModel {
   void _checkForChanges() {
     bool hasChanges = false;
     if (task != null) {
-      bool isIntervalDaysEqual = listEquals(task!.dates, state.intervalDays);
-      bool isDateTimeEqual = task!.dateTime == state.dateTime;
+      bool isIntervalDaysEqual =
+          listEquals(task!.dates.toList(), state.intervalDays);
+      bool isDateTimeEqual = task!.startTime == state.dateTime;
       if (state.title != '') {
         hasChanges = task!.title != state.title ||
             task!.memo != state.memo ||

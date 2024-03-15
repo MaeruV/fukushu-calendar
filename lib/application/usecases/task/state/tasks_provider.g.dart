@@ -21,6 +21,21 @@ final tasksProvider =
 );
 
 typedef TasksRef = AutoDisposeFutureProviderRef<Map<DateTime, List<Task>>>;
+String _$taskDatesHash() => r'd5d024cb4115938491695621bada5d1f8391a5d4';
+
+/// See also [taskDates].
+@ProviderFor(taskDates)
+final taskDatesProvider =
+    AutoDisposeFutureProvider<Map<DateTime, List<Task>>>.internal(
+  taskDates,
+  name: r'taskDatesProvider',
+  debugGetCreateSourceHash:
+      const bool.fromEnvironment('dart.vm.product') ? null : _$taskDatesHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
+
+typedef TaskDatesRef = AutoDisposeFutureProviderRef<Map<DateTime, List<Task>>>;
 String _$tempTaskHash() => r'35d4be616b9fec43030d9aac2cf8de64ac8c61f0';
 
 /// Copied from Dart SDK
@@ -169,12 +184,12 @@ class _TempTaskProviderElement extends AutoDisposeFutureProviderElement<Task?>
   int get taskId => (origin as TempTaskProvider).taskId;
 }
 
-String _$tasksCalendarHash() => r'0d6c4b183221f277d5d414bc4da77105a8b6e2ea';
+String _$tasksCalendarHash() => r'591f01a313d69a0f38a66b775e7b20d56ce88a25';
 
 /// See also [tasksCalendar].
 @ProviderFor(tasksCalendar)
 final tasksCalendarProvider =
-    AutoDisposeFutureProvider<List<CalendarEvent>>.internal(
+    AutoDisposeFutureProvider<Map<DateTime, List<CalendarEvent>>>.internal(
   tasksCalendar,
   name: r'tasksCalendarProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
@@ -184,6 +199,134 @@ final tasksCalendarProvider =
   allTransitiveDependencies: null,
 );
 
-typedef TasksCalendarRef = AutoDisposeFutureProviderRef<List<CalendarEvent>>;
+typedef TasksCalendarRef
+    = AutoDisposeFutureProviderRef<Map<DateTime, List<CalendarEvent>>>;
+String _$tempTaskDateHash() => r'1a3baef569ee62c909151cb00bdbb530097de3e3';
+
+/// See also [tempTaskDate].
+@ProviderFor(tempTaskDate)
+const tempTaskDateProvider = TempTaskDateFamily();
+
+/// See also [tempTaskDate].
+class TempTaskDateFamily extends Family<AsyncValue<TaskDate?>> {
+  /// See also [tempTaskDate].
+  const TempTaskDateFamily();
+
+  /// See also [tempTaskDate].
+  TempTaskDateProvider call({
+    required int dateId,
+  }) {
+    return TempTaskDateProvider(
+      dateId: dateId,
+    );
+  }
+
+  @override
+  TempTaskDateProvider getProviderOverride(
+    covariant TempTaskDateProvider provider,
+  ) {
+    return call(
+      dateId: provider.dateId,
+    );
+  }
+
+  static const Iterable<ProviderOrFamily>? _dependencies = null;
+
+  @override
+  Iterable<ProviderOrFamily>? get dependencies => _dependencies;
+
+  static const Iterable<ProviderOrFamily>? _allTransitiveDependencies = null;
+
+  @override
+  Iterable<ProviderOrFamily>? get allTransitiveDependencies =>
+      _allTransitiveDependencies;
+
+  @override
+  String? get name => r'tempTaskDateProvider';
+}
+
+/// See also [tempTaskDate].
+class TempTaskDateProvider extends AutoDisposeFutureProvider<TaskDate?> {
+  /// See also [tempTaskDate].
+  TempTaskDateProvider({
+    required int dateId,
+  }) : this._internal(
+          (ref) => tempTaskDate(
+            ref as TempTaskDateRef,
+            dateId: dateId,
+          ),
+          from: tempTaskDateProvider,
+          name: r'tempTaskDateProvider',
+          debugGetCreateSourceHash:
+              const bool.fromEnvironment('dart.vm.product')
+                  ? null
+                  : _$tempTaskDateHash,
+          dependencies: TempTaskDateFamily._dependencies,
+          allTransitiveDependencies:
+              TempTaskDateFamily._allTransitiveDependencies,
+          dateId: dateId,
+        );
+
+  TempTaskDateProvider._internal(
+    super._createNotifier, {
+    required super.name,
+    required super.dependencies,
+    required super.allTransitiveDependencies,
+    required super.debugGetCreateSourceHash,
+    required super.from,
+    required this.dateId,
+  }) : super.internal();
+
+  final int dateId;
+
+  @override
+  Override overrideWith(
+    FutureOr<TaskDate?> Function(TempTaskDateRef provider) create,
+  ) {
+    return ProviderOverride(
+      origin: this,
+      override: TempTaskDateProvider._internal(
+        (ref) => create(ref as TempTaskDateRef),
+        from: from,
+        name: null,
+        dependencies: null,
+        allTransitiveDependencies: null,
+        debugGetCreateSourceHash: null,
+        dateId: dateId,
+      ),
+    );
+  }
+
+  @override
+  AutoDisposeFutureProviderElement<TaskDate?> createElement() {
+    return _TempTaskDateProviderElement(this);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return other is TempTaskDateProvider && other.dateId == dateId;
+  }
+
+  @override
+  int get hashCode {
+    var hash = _SystemHash.combine(0, runtimeType.hashCode);
+    hash = _SystemHash.combine(hash, dateId.hashCode);
+
+    return _SystemHash.finish(hash);
+  }
+}
+
+mixin TempTaskDateRef on AutoDisposeFutureProviderRef<TaskDate?> {
+  /// The parameter `dateId` of this provider.
+  int get dateId;
+}
+
+class _TempTaskDateProviderElement
+    extends AutoDisposeFutureProviderElement<TaskDate?> with TempTaskDateRef {
+  _TempTaskDateProviderElement(super.provider);
+
+  @override
+  int get dateId => (origin as TempTaskDateProvider).dateId;
+}
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

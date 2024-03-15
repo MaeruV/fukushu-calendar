@@ -19,7 +19,7 @@ mixin _$CalenderState {
   PageController get pageController => throw _privateConstructorUsedError;
   int get currentIndex => throw _privateConstructorUsedError;
   DateTime? get cellDateTime => throw _privateConstructorUsedError;
-  int? get cellIndex => throw _privateConstructorUsedError;
+  List<CalendarEvent> get dayEvents => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $CalenderStateCopyWith<CalenderState> get copyWith =>
@@ -36,7 +36,7 @@ abstract class $CalenderStateCopyWith<$Res> {
       {PageController pageController,
       int currentIndex,
       DateTime? cellDateTime,
-      int? cellIndex});
+      List<CalendarEvent> dayEvents});
 }
 
 /// @nodoc
@@ -55,7 +55,7 @@ class _$CalenderStateCopyWithImpl<$Res, $Val extends CalenderState>
     Object? pageController = null,
     Object? currentIndex = null,
     Object? cellDateTime = freezed,
-    Object? cellIndex = freezed,
+    Object? dayEvents = null,
   }) {
     return _then(_value.copyWith(
       pageController: null == pageController
@@ -70,10 +70,10 @@ class _$CalenderStateCopyWithImpl<$Res, $Val extends CalenderState>
           ? _value.cellDateTime
           : cellDateTime // ignore: cast_nullable_to_non_nullable
               as DateTime?,
-      cellIndex: freezed == cellIndex
-          ? _value.cellIndex
-          : cellIndex // ignore: cast_nullable_to_non_nullable
-              as int?,
+      dayEvents: null == dayEvents
+          ? _value.dayEvents
+          : dayEvents // ignore: cast_nullable_to_non_nullable
+              as List<CalendarEvent>,
     ) as $Val);
   }
 }
@@ -90,7 +90,7 @@ abstract class _$$CalenderStateImplCopyWith<$Res>
       {PageController pageController,
       int currentIndex,
       DateTime? cellDateTime,
-      int? cellIndex});
+      List<CalendarEvent> dayEvents});
 }
 
 /// @nodoc
@@ -107,7 +107,7 @@ class __$$CalenderStateImplCopyWithImpl<$Res>
     Object? pageController = null,
     Object? currentIndex = null,
     Object? cellDateTime = freezed,
-    Object? cellIndex = freezed,
+    Object? dayEvents = null,
   }) {
     return _then(_$CalenderStateImpl(
       pageController: null == pageController
@@ -122,10 +122,10 @@ class __$$CalenderStateImplCopyWithImpl<$Res>
           ? _value.cellDateTime
           : cellDateTime // ignore: cast_nullable_to_non_nullable
               as DateTime?,
-      cellIndex: freezed == cellIndex
-          ? _value.cellIndex
-          : cellIndex // ignore: cast_nullable_to_non_nullable
-              as int?,
+      dayEvents: null == dayEvents
+          ? _value._dayEvents
+          : dayEvents // ignore: cast_nullable_to_non_nullable
+              as List<CalendarEvent>,
     ));
   }
 }
@@ -139,7 +139,8 @@ class _$CalenderStateImpl
       {required this.pageController,
       required this.currentIndex,
       required this.cellDateTime,
-      required this.cellIndex});
+      required final List<CalendarEvent> dayEvents})
+      : _dayEvents = dayEvents;
 
   @override
   final PageController pageController;
@@ -147,12 +148,17 @@ class _$CalenderStateImpl
   final int currentIndex;
   @override
   final DateTime? cellDateTime;
+  final List<CalendarEvent> _dayEvents;
   @override
-  final int? cellIndex;
+  List<CalendarEvent> get dayEvents {
+    if (_dayEvents is EqualUnmodifiableListView) return _dayEvents;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_dayEvents);
+  }
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'CalenderState(pageController: $pageController, currentIndex: $currentIndex, cellDateTime: $cellDateTime, cellIndex: $cellIndex)';
+    return 'CalenderState(pageController: $pageController, currentIndex: $currentIndex, cellDateTime: $cellDateTime, dayEvents: $dayEvents)';
   }
 
   @override
@@ -163,7 +169,7 @@ class _$CalenderStateImpl
       ..add(DiagnosticsProperty('pageController', pageController))
       ..add(DiagnosticsProperty('currentIndex', currentIndex))
       ..add(DiagnosticsProperty('cellDateTime', cellDateTime))
-      ..add(DiagnosticsProperty('cellIndex', cellIndex));
+      ..add(DiagnosticsProperty('dayEvents', dayEvents));
   }
 
   @override
@@ -177,13 +183,13 @@ class _$CalenderStateImpl
                 other.currentIndex == currentIndex) &&
             (identical(other.cellDateTime, cellDateTime) ||
                 other.cellDateTime == cellDateTime) &&
-            (identical(other.cellIndex, cellIndex) ||
-                other.cellIndex == cellIndex));
+            const DeepCollectionEquality()
+                .equals(other._dayEvents, _dayEvents));
   }
 
   @override
-  int get hashCode => Object.hash(
-      runtimeType, pageController, currentIndex, cellDateTime, cellIndex);
+  int get hashCode => Object.hash(runtimeType, pageController, currentIndex,
+      cellDateTime, const DeepCollectionEquality().hash(_dayEvents));
 
   @JsonKey(ignore: true)
   @override
@@ -197,7 +203,7 @@ abstract class _CalenderState implements CalenderState {
       {required final PageController pageController,
       required final int currentIndex,
       required final DateTime? cellDateTime,
-      required final int? cellIndex}) = _$CalenderStateImpl;
+      required final List<CalendarEvent> dayEvents}) = _$CalenderStateImpl;
 
   @override
   PageController get pageController;
@@ -206,7 +212,7 @@ abstract class _CalenderState implements CalenderState {
   @override
   DateTime? get cellDateTime;
   @override
-  int? get cellIndex;
+  List<CalendarEvent> get dayEvents;
   @override
   @JsonKey(ignore: true)
   _$$CalenderStateImplCopyWith<_$CalenderStateImpl> get copyWith =>

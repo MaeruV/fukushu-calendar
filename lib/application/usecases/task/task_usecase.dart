@@ -27,6 +27,8 @@ class TaskUsecase with RunUsecaseMixin {
       _ref.read(temporaryTaskProvider.notifier);
   void _refreshTempTaskProvider(int taskId) =>
       _ref.refresh(tempTaskProvider(taskId: taskId).future);
+  void _refreshTempTaskDateProvider(int dateId) =>
+      _ref.refresh(tempTaskDateProvider(dateId: dateId).future);
   void _refreshCalendarProvider() => _ref.refresh(tasksCalendarProvider.future);
 
   Future<void> saveTaskEvent({
@@ -43,16 +45,14 @@ class TaskUsecase with RunUsecaseMixin {
       task = Task()
         ..title = title
         ..memo = memo
-        ..dateTime = dateTime
-        ..dates = intervalDays
+        ..startTime = dateTime
         ..pallete = pallete;
     } else {
       // 既存のタスクの更新
       task = _temporaryTaskController.state!
         ..title = title
         ..memo = memo
-        ..dateTime = dateTime
-        ..dates = intervalDays
+        ..startTime = dateTime
         ..pallete = pallete;
     }
 
@@ -60,9 +60,9 @@ class TaskUsecase with RunUsecaseMixin {
       loadingController: _loadingController,
       action: () async {
         if (_temporaryTaskController.state == null) {
-          await _taskRepository.add(task: task);
+          await _taskRepository.add(task: task, intervalDays: intervalDays);
         } else {
-          await _taskRepository.update(task: task);
+          await _taskRepository.update(task: task, intervalDays: intervalDays);
         }
       },
     );
@@ -70,8 +70,21 @@ class TaskUsecase with RunUsecaseMixin {
     if (_temporaryTaskController.state != null) {
       _refreshTempTaskProvider(task.id);
     }
+
+    for (final daysToAdd in task.dates) {
+      _refreshTempTaskDateProvider(daysToAdd.id);
+    }
+
     _invalidateTasksProvider();
     _refreshCalendarProvider();
+  }
+
+  Future<void> saveTaskDate(
+      {required TaskDate taskDate, required bool flag}) async {
+    await execute(action: () async {
+      return await _taskRepository.addTaskDate(taskDate: taskDate, flag: flag);
+    });
+    _refreshTempTaskDateProvider(taskDate.id);
   }
 
   Future<Task?> fetch(Id taskId) async {
@@ -90,47 +103,38 @@ class TaskUsecase with RunUsecaseMixin {
     final Map<DateTime, List<Task>> groupedTasks = {};
 
     for (final task in tasks) {
-      final dateOnly =
-          DateTime(task.dateTime.year, task.dateTime.month, task.dateTime.day);
+      final dateOnly = DateTime(
+          task.startTime.year, task.startTime.month, task.startTime.day);
       groupedTasks.putIfAbsent(dateOnly, () => []).add(task);
     }
 
     return groupedTasks;
   }
 
-  Future<List<CalendarEvent>> groupTasksByReviewDates() async {
+  Future<Map<DateTime, List<CalendarEvent>>> groupTasksByReviewDates() async {
     final tasks = await _taskRepository.fetchAll();
-    final List<CalendarEvent> calendarEvents = [];
+    final Map<DateTime, List<CalendarEvent>> calendarEventsByDate = {};
 
     for (final task in tasks) {
       // タスクの開始日に基づいてCalendarEventを追加
-      final startDateEvent = CalendarEvent(
-        eventName: task.title,
-        eventDate: DateTime(
-            task.dateTime.year, task.dateTime.month, task.dateTime.day),
-        eventTextStyle: BrandText.bodySS,
-        eventBackgroundColor: TaskColorPalette.noamlPalette[task.pallete]!,
-        eventID: task.id.toString(),
-      );
-      calendarEvents.add(startDateEvent);
+      final startDate = DateTime(
+          task.startTime.year, task.startTime.month, task.startTime.day);
 
-      for (final int daysToAdd in task.dates) {
+      for (final daysToAdd in task.dates) {
         final reviewDate =
-            DateTime(task.dateTime.year, task.dateTime.month, task.dateTime.day)
-                .add(Duration(days: daysToAdd));
-
-        final CalendarEvent event = CalendarEvent(
+            startDate.add(Duration(days: daysToAdd.daysInterval));
+        final reviewEvent = CalendarEvent(
           eventName: task.title,
           eventDate: reviewDate,
           eventTextStyle: BrandText.bodySS,
           eventBackgroundColor: TaskColorPalette.noamlPalette[task.pallete]!,
-          eventID: task.id.toString(),
+          eventID: task.id,
+          taskDate: daysToAdd,
         );
-        calendarEvents.add(event);
+        calendarEventsByDate.putIfAbsent(reviewDate, () => []).add(reviewEvent);
       }
     }
-
-    return calendarEvents;
+    return calendarEventsByDate;
   }
 
   Future<void> deleteTaskEvent(Id taskId) async {
@@ -143,7 +147,14 @@ class TaskUsecase with RunUsecaseMixin {
     final task = await execute(action: () async {
       return await _taskRepository.fetch(taskId: taskId);
     });
-
     _temporaryTaskController.state = task;
+  }
+
+  Future<TaskDate?> fetchDate(Id dateId) async {
+    final taskDate = await execute(action: () async {
+      return await _taskRepository.fetchDate(dateId: dateId);
+    });
+
+    return taskDate;
   }
 }

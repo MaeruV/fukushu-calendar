@@ -136,7 +136,7 @@ class MainTaskWidget extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final formattedIntervals =
-        task.dates.map((interval) => '$interval').join(', ');
+        task.dates.map((interval) => '${interval.daysInterval}').join(', ');
 
     return IntrinsicHeight(
       child: Container(

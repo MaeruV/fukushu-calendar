@@ -74,7 +74,7 @@ class CheckTaskScreen extends ConsumerWidget {
                                 color: BrandColor.black,
                                 height: 26.0,
                                 thickness: 0.1),
-                            CheckTaskStartDay(date: value.dateTime),
+                            CheckTaskStartDay(date: value.startTime),
                           ],
                         ),
                       ),
@@ -88,8 +88,10 @@ class CheckTaskScreen extends ConsumerWidget {
                       ),
                       const SizedBox(height: 10),
                       CheckTaskList(
-                        dates: value.dates,
-                        startdate: value.dateTime,
+                        dates: value.dates
+                            .map((taskDate) => taskDate.daysInterval)
+                            .toList(),
+                        startdate: value.startTime,
                       ),
                     ],
                   ),

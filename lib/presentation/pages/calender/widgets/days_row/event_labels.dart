@@ -77,6 +77,7 @@ class EventLabels extends HookConsumerWidget {
 
     return ListView.builder(
       physics: const NeverScrollableScrollPhysics(),
+      padding: EdgeInsets.zero,
       shrinkWrap: true,
       itemCount: eventsOnTheDay.length,
       itemBuilder: (context, index) {

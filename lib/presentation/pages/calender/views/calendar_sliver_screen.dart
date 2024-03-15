@@ -1,8 +1,10 @@
 import 'package:ebbinghaus_forgetting_curve/application/state/calender/calender_view_model.dart';
+import 'package:ebbinghaus_forgetting_curve/application/state/home/screen_view_model.dart';
 import 'package:ebbinghaus_forgetting_curve/application/usecases/task/state/tasks_provider.dart';
 import 'package:ebbinghaus_forgetting_curve/domain/entities/calendar_event.dart';
 import 'package:ebbinghaus_forgetting_curve/presentation/common/date_extension.dart';
-import 'package:ebbinghaus_forgetting_curve/presentation/pages/calender/widgets/calendar_app_bar.dart';
+import 'package:ebbinghaus_forgetting_curve/presentation/common/date_time_extension.dart';
+import 'package:ebbinghaus_forgetting_curve/presentation/pages/calender/widgets/calendar_list_tile.dart';
 import 'package:ebbinghaus_forgetting_curve/presentation/pages/calender/widgets/days_of_the_week.dart';
 import 'package:ebbinghaus_forgetting_curve/presentation/pages/calender/widgets/days_row/days_row.dart';
 import 'package:ebbinghaus_forgetting_curve/presentation/pages/calender/widgets/days_row/event_labels.dart';
@@ -14,79 +16,150 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 class CalendarSliverScreen extends ConsumerWidget {
   const CalendarSliverScreen({super.key});
 
+  bool isSameDay(DateTime date1, DateTime date2) {
+    return date1.year == date2.year &&
+        date1.month == date2.month &&
+        date1.day == date2.day;
+  }
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final ScrollController scrollController = ScrollController();
     final notifier = ref.read(collapsedProvider.notifier);
-    final calendarTask = ref.watch(tasksCalendarProvider);
-    final mediaHeight = MediaQuery.of(context).size.height;
+    final size = ref.watch(screenViewModelProvider);
 
-    return Scaffold(
-      backgroundColor: BrandColor.background,
-      appBar: const CalendarAppBar(),
-      body: NotificationListener(
-        onNotification: (ScrollNotification notification) {
-          if (notification is ScrollUpdateNotification) {
-            notifier.state = scrollController.offset >= mediaHeight * 0.2;
-          }
-          return false;
-        },
-        child: CustomScrollView(
-          controller: scrollController,
-          slivers: [
-            SliverAppBar(
-              backgroundColor: Colors.white,
-              expandedHeight: mediaHeight * 0.7,
-              pinned: true,
-              floating: false,
-              snap: false,
-              toolbarHeight: mediaHeight * 0.4,
-              flexibleSpace: FlexibleSpaceBar(
-                expandedTitleScale: 1.0,
-                centerTitle: true,
-                titlePadding: EdgeInsets.zero,
-                title: LayoutBuilder(
-                  builder: (BuildContext context, BoxConstraints constraints) {
-                    return switch (calendarTask) {
-                      AsyncError(:final error) => Text('Error: $error'),
-                      AsyncData(:final value) => Container(
-                          decoration: const BoxDecoration(
-                            color: BrandColor.white,
-                          ),
-                          child: CalenderPageView(
-                            events: value,
-                            onCellTapped: (date, index) {},
-                          ),
-                        ),
-                      _ => const CircularProgressIndicator(),
-                    };
-                  },
-                ),
-              ),
-            ),
-            SliverList(
-              delegate:
-                  SliverChildBuilderDelegate((BuildContext context, int index) {
-                return Container(
-                  color: index.isOdd ? Colors.white : Colors.black12,
-                  height: 100.0,
-                  child: const Center(
-                    child: Text("Testです"),
+    final calendarTask = ref.watch(tasksCalendarProvider);
+
+    switch (calendarTask) {
+      case AsyncError(:final error):
+        return Text('Error: $error');
+
+      case AsyncLoading():
+        return const CircularProgressIndicator();
+
+      case AsyncData(:final value):
+        return Scaffold(
+          backgroundColor: BrandColor.background,
+          body: NotificationListener(
+            onNotification: (ScrollNotification notification) {
+              if (notification is ScrollUpdateNotification) {
+                notifier.state =
+                    scrollController.offset >= size.mediaHeight * 0.2;
+              }
+              return false;
+            },
+            child: CustomScrollView(
+              controller: scrollController,
+              slivers: [
+                SliverAppBar(
+                  backgroundColor: Colors.white,
+                  expandedHeight: size.mediaHeight * 0.7,
+                  pinned: true,
+                  floating: false,
+                  snap: false,
+                  toolbarHeight: size.mediaHeight * 0.4,
+                  flexibleSpace: FlexibleSpaceBar(
+                    expandedTitleScale: 1.0,
+                    centerTitle: true,
+                    titlePadding: EdgeInsets.zero,
+                    title: LayoutBuilder(builder: (context, constraints) {
+                      return LayoutBuilder(
+                        builder:
+                            (BuildContext context, BoxConstraints constraints) {
+                          return Container(
+                            decoration: const BoxDecoration(
+                              color: BrandColor.white,
+                            ),
+                            child: Column(
+                              children: [
+                                SizedBox(height: size.safeAreaTop),
+                                SubjectWidget(mapEvents: value),
+                                const DaysOfTheWeek(),
+                                CalenderPageView(
+                                  events: value.values
+                                      .expand((events) => events)
+                                      .toList(),
+                                  onCellTapped: (date, index) {
+                                    final notifier = ref.read(
+                                        calenderViewModelProvider.notifier);
+                                    notifier.tappedCell(date);
+                                    final events = value[date];
+                                    if (events != null) {
+                                      notifier.getCalendarEvent(events);
+                                    } else {
+                                      notifier.getCalendarEvent([]);
+                                    }
+                                  },
+                                ),
+                                Container(
+                                    decoration: BoxDecoration(
+                                        border: Border(
+                                  bottom: BorderSide(
+                                      color: Theme.of(context).dividerColor,
+                                      width: 1),
+                                ))),
+                              ],
+                            ),
+                          );
+                        },
+                      );
+                    }),
                   ),
-                );
-              }),
+                ),
+                SliverList(
+                  delegate: SliverChildListDelegate(
+                    [CalendarSliverList(mapEvents: value)],
+                  ),
+                ),
+              ],
             ),
-          ],
-        ),
+          ),
+        );
+      default:
+        return const CircularProgressIndicator();
+    }
+  }
+}
+
+class CalendarSliverList extends ConsumerWidget {
+  const CalendarSliverList({super.key, required this.mapEvents});
+
+  final Map<DateTime, List<CalendarEvent>> mapEvents;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final state = ref.watch(calenderViewModelProvider);
+    final events = mapEvents[state.cellDateTime] ?? [];
+
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 10),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                  state.cellDateTime != null
+                      ? state.cellDateTime!.toJapaneseFormat()
+                      : "",
+                  style: BrandText.titleSM),
+              Text('${events.length}イベント',
+                  style: BrandText.titleS.copyWith(color: BrandColor.grey))
+            ],
+          ),
+          const SizedBox(height: 5),
+          CalendarListTile(events: events),
+        ],
       ),
     );
   }
 }
 
 class SubjectWidget extends ConsumerWidget {
-  const SubjectWidget({super.key});
+  const SubjectWidget({super.key, required this.mapEvents});
 
-  get curve => null;
+  final Map<DateTime, List<CalendarEvent>> mapEvents;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -97,7 +170,7 @@ class SubjectWidget extends ConsumerWidget {
     const curve = Curves.easeIn;
 
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 15.0),
+      padding: const EdgeInsets.fromLTRB(15, 5, 15, 10),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
@@ -106,22 +179,34 @@ class SubjectWidget extends ConsumerWidget {
               children: <Widget>[
                 Text(
                   visibleYear,
-                  style: BrandText.titleLM,
+                  style: BrandText.titleLM.copyWith(color: BrandColor.black),
                 ),
                 const SizedBox(width: 15),
                 Text(
                   "$visibleMonth月",
-                  style: BrandText.titleLM,
+                  style: BrandText.titleLM.copyWith(color: BrandColor.black),
                 ),
               ],
             ),
           ),
           Row(
             crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               GestureDetector(
-                onTap: () => state.pageController
-                    .animateToPage(1200, duration: duration, curve: curve),
+                onTap: () {
+                  final now = DateTime.now().toZeroHour();
+                  final notifier = ref.read(calenderViewModelProvider.notifier);
+                  notifier.tappedCell(now);
+                  final events = mapEvents[now];
+                  if (events != null) {
+                    notifier.getCalendarEvent(events);
+                  } else {
+                    notifier.getCalendarEvent([]);
+                  }
+                  state.pageController
+                      .animateToPage(1200, duration: duration, curve: curve);
+                },
                 child: SizedBox(
                     width: 40,
                     child: Text(
@@ -134,11 +219,11 @@ class SubjectWidget extends ConsumerWidget {
               GestureDetector(
                 onTap: () => state.pageController
                     .previousPage(duration: duration, curve: curve),
-                child: const SizedBox(
-                  width: 40,
+                child: SizedBox(
+                  width: 30,
                   child: Text(
                     "<",
-                    style: BrandText.titleLM,
+                    style: BrandText.titleLM.copyWith(color: BrandColor.black),
                     textAlign: TextAlign.center,
                   ),
                 ),
@@ -147,11 +232,11 @@ class SubjectWidget extends ConsumerWidget {
               GestureDetector(
                 onTap: () => state.pageController
                     .nextPage(duration: duration, curve: curve),
-                child: const SizedBox(
-                  width: 40,
+                child: SizedBox(
+                  width: 30,
                   child: Text(
                     ">",
-                    style: BrandText.titleLM,
+                    style: BrandText.titleLM.copyWith(color: BrandColor.black),
                     textAlign: TextAlign.center,
                   ),
                 ),
@@ -179,31 +264,18 @@ class CalenderPageView extends ConsumerWidget {
     final state = ref.watch(calenderViewModelProvider);
     final notifier = ref.read(calenderViewModelProvider.notifier);
 
-    return Column(
-      children: [
-        const DaysOfTheWeek(),
-        Expanded(
-          child: PageView.builder(
-            controller: state.pageController,
-            itemBuilder: (context, index) {
-              return CalenderPage(
-                visiblePageDate: index.visibleDateTime,
-                events: events,
-                onCellTapped: onCellTapped,
-              );
-            },
-            onPageChanged: (index) => notifier.changeCurrentIndex(index),
-          ),
-        ),
-        Container(
-          decoration: BoxDecoration(
-            border: Border(
-              bottom:
-                  BorderSide(color: Theme.of(context).dividerColor, width: 1),
-            ),
-          ),
-        )
-      ],
+    return Expanded(
+      child: PageView.builder(
+        controller: state.pageController,
+        itemBuilder: (context, index) {
+          return CalenderPage(
+            visiblePageDate: index.visibleDateTime,
+            events: events,
+            onCellTapped: onCellTapped,
+          );
+        },
+        onPageChanged: (index) => notifier.changeCurrentIndex(index),
+      ),
     );
   }
 }
@@ -247,9 +319,7 @@ class CalenderPage extends ConsumerWidget {
           return DaysRow(
             visiblePageDate: visiblePageDate,
             dates: days.getRange(index * 7, (index + 1) * 7).toList(),
-            onCellTapped: (DateTime date) {
-              onCellTapped!.call(date, index);
-            },
+            onCellTapped: onCellTapped,
             events: events,
           );
         },

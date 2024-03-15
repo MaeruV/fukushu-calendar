@@ -20,7 +20,7 @@ class DaysRow extends StatelessWidget {
 
   final List<DateTime> dates;
   final DateTime visiblePageDate;
-  final void Function(DateTime)? onCellTapped;
+  final void Function(DateTime, int)? onCellTapped;
   final List<CalendarEvent> events;
 
   @override
@@ -33,7 +33,7 @@ class DaysRow extends StatelessWidget {
           date: dates[index],
           visiblePageDate: visiblePageDate,
           onCellTapped: () {
-            onCellTapped?.call(dates[index]);
+            onCellTapped?.call(dates[index], index);
           },
           events: events,
         );
@@ -61,8 +61,6 @@ class _DayCell extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final isCurrentMonth = visiblePageDate.month == date.month;
-    final notifier = ref.read(calenderViewModelProvider.notifier);
-
     final double opacityValue = isCurrentMonth ? 1.0 : 0.4;
 
     final today = DateTime.now();
@@ -71,7 +69,7 @@ class _DayCell extends HookConsumerWidget {
         date.day == today.day;
     return Expanded(
       child: GestureDetector(
-        onTap: () => notifier.tappedCell(date, cellIndex),
+        onTap: onCellTapped,
         child: DecoratedBox(
           decoration: BoxDecoration(
             border: Border(

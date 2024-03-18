@@ -41,16 +41,11 @@ class EditListView extends ConsumerWidget {
         Padding(
           padding: const EdgeInsets.all(8.0),
           child: Text(
-            dateTime.toRelativeJapaneseFormat(),
+            '${dateTime.toRelativeJapaneseFormat()}から',
             style: BrandText.titleM.copyWith(color: todayColor()),
           ),
         ),
         EditSlidableAction(tasks: tasks),
-        const SizedBox(height: 5),
-        Container(
-          height: 2,
-          color: BrandColor.grey.withOpacity(0.5),
-        ),
       ],
     );
   }
@@ -138,56 +133,69 @@ class MainTaskWidget extends ConsumerWidget {
     final formattedIntervals =
         task.dates.map((interval) => '${interval.daysInterval}').join(', ');
 
-    return IntrinsicHeight(
-      child: Container(
-        color: Colors.transparent,
-        margin: const EdgeInsets.symmetric(vertical: 1.0),
-        child: Row(
-          children: [
-            Container(
-              width: 15,
-              decoration: BoxDecoration(
-                color: TaskColorPalette.noamlPalette[task.pallete],
-                borderRadius: BorderRadius.circular(2),
+    return Card(
+      child: IntrinsicHeight(
+        child: Container(
+          decoration: const BoxDecoration(
+            color: Colors.transparent,
+          ),
+          child: Row(
+            children: [
+              Container(
+                width: 10,
+                decoration: BoxDecoration(
+                    color: TaskColorPalette.noamlPalette[task.pallete],
+                    borderRadius: const BorderRadius.only(
+                        topLeft: Radius.circular(10),
+                        bottomLeft: Radius.circular(10))),
               ),
-            ),
-            Expanded(
-              child: Container(
-                padding: const EdgeInsets.fromLTRB(10.0, 15.0, 5.0, 15.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      task.title,
-                      style: BrandText.bodyLM,
-                    ),
-                    const SizedBox(height: 10),
-                    Row(
-                      children: [
-                        const Text(
-                          '復習間隔',
-                          style: BrandText.bodyS,
+              Expanded(
+                child: Container(
+                  padding: const EdgeInsets.fromLTRB(10.0, 15.0, 5.0, 15.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        task.title,
+                        style: BrandText.bodyLM,
+                      ),
+                      const SizedBox(height: 5),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 8.0),
+                        child: Text(
+                          task.memo!,
+                          style:
+                              BrandText.bodyS.copyWith(color: BrandColor.grey),
                         ),
-                        const SizedBox(width: 20),
-                        Flexible(
-                          fit: FlexFit.loose,
-                          child: Text(
-                            formattedIntervals,
+                      ),
+                      const SizedBox(height: 5),
+                      Row(
+                        children: [
+                          const Text(
+                            '復習間隔',
                             style: BrandText.bodyS,
-                            overflow: TextOverflow.ellipsis,
                           ),
-                        ),
-                        const Text(
-                          "日後",
-                          style: BrandText.bodyS,
-                        ),
-                      ],
-                    ),
-                  ],
+                          const SizedBox(width: 20),
+                          Flexible(
+                            fit: FlexFit.loose,
+                            child: Text(
+                              formattedIntervals,
+                              style: BrandText.bodyS,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          ),
+                          const Text(
+                            "日後",
+                            style: BrandText.bodyS,
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

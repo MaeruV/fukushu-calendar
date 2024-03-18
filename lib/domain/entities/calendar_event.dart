@@ -14,6 +14,6 @@ class CalendarEvent with _$CalendarEvent {
     required DateTime eventDate,
     required int eventID,
     required Color eventBackgroundColor,
-    required TaskDate taskDate,
+    required TaskDate? taskDate,
   }) = _CalendarEvent;
 }

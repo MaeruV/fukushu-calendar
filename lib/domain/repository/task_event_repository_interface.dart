@@ -19,6 +19,9 @@ abstract interface class TaskRepository {
   // タスクDate情報取得
   Future<TaskDate?> fetchDate({required Id dateId});
 
+  // タスクDate完了情報取得
+  Future<List<TaskDate>> fetchCompDate();
+
   /// タスク全取得
   Future<List<Task>> fetchAll();
 

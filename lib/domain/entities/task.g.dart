@@ -46,10 +46,11 @@ const TaskSchema = CollectionSchema(
   indexes: {},
   links: {
     r'dates': LinkSchema(
-      id: 1402607761307094844,
+      id: -4329921932390389696,
       name: r'dates',
       target: r'TaskDate',
       single: false,
+      linkName: r'task',
     )
   },
   embeddedSchemas: {},
@@ -967,8 +968,13 @@ const TaskDateSchema = CollectionSchema(
       name: r'checkFlag',
       type: IsarType.bool,
     ),
-    r'daysInterval': PropertySchema(
+    r'completeDay': PropertySchema(
       id: 1,
+      name: r'completeDay',
+      type: IsarType.dateTime,
+    ),
+    r'daysInterval': PropertySchema(
+      id: 2,
       name: r'daysInterval',
       type: IsarType.long,
     )
@@ -979,7 +985,14 @@ const TaskDateSchema = CollectionSchema(
   deserializeProp: _taskDateDeserializeProp,
   idName: r'id',
   indexes: {},
-  links: {},
+  links: {
+    r'task': LinkSchema(
+      id: 6575913313705708122,
+      name: r'task',
+      target: r'Task',
+      single: true,
+    )
+  },
   embeddedSchemas: {},
   getId: _taskDateGetId,
   getLinks: _taskDateGetLinks,
@@ -1003,7 +1016,8 @@ void _taskDateSerialize(
   Map<Type, List<int>> allOffsets,
 ) {
   writer.writeBool(offsets[0], object.checkFlag);
-  writer.writeLong(offsets[1], object.daysInterval);
+  writer.writeDateTime(offsets[1], object.completeDay);
+  writer.writeLong(offsets[2], object.daysInterval);
 }
 
 TaskDate _taskDateDeserialize(
@@ -1014,7 +1028,8 @@ TaskDate _taskDateDeserialize(
 ) {
   final object = TaskDate();
   object.checkFlag = reader.readBool(offsets[0]);
-  object.daysInterval = reader.readLong(offsets[1]);
+  object.completeDay = reader.readDateTimeOrNull(offsets[1]);
+  object.daysInterval = reader.readLong(offsets[2]);
   object.id = id;
   return object;
 }
@@ -1029,6 +1044,8 @@ P _taskDateDeserializeProp<P>(
     case 0:
       return (reader.readBool(offset)) as P;
     case 1:
+      return (reader.readDateTimeOrNull(offset)) as P;
+    case 2:
       return (reader.readLong(offset)) as P;
     default:
       throw IsarError('Unknown property with id $propertyId');
@@ -1040,11 +1057,12 @@ Id _taskDateGetId(TaskDate object) {
 }
 
 List<IsarLinkBase<dynamic>> _taskDateGetLinks(TaskDate object) {
-  return [];
+  return [object.task];
 }
 
 void _taskDateAttach(IsarCollection<dynamic> col, Id id, TaskDate object) {
   object.id = id;
+  object.task.attach(col, col.isar.collection<Task>(), r'task', id);
 }
 
 extension TaskDateQueryWhereSort on QueryBuilder<TaskDate, TaskDate, QWhere> {
@@ -1130,6 +1148,77 @@ extension TaskDateQueryFilter
       return query.addFilterCondition(FilterCondition.equalTo(
         property: r'checkFlag',
         value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<TaskDate, TaskDate, QAfterFilterCondition> completeDayIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNull(
+        property: r'completeDay',
+      ));
+    });
+  }
+
+  QueryBuilder<TaskDate, TaskDate, QAfterFilterCondition>
+      completeDayIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNotNull(
+        property: r'completeDay',
+      ));
+    });
+  }
+
+  QueryBuilder<TaskDate, TaskDate, QAfterFilterCondition> completeDayEqualTo(
+      DateTime? value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'completeDay',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<TaskDate, TaskDate, QAfterFilterCondition>
+      completeDayGreaterThan(
+    DateTime? value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'completeDay',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<TaskDate, TaskDate, QAfterFilterCondition> completeDayLessThan(
+    DateTime? value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'completeDay',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<TaskDate, TaskDate, QAfterFilterCondition> completeDayBetween(
+    DateTime? lower,
+    DateTime? upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'completeDay',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
       ));
     });
   }
@@ -1245,7 +1334,20 @@ extension TaskDateQueryObject
     on QueryBuilder<TaskDate, TaskDate, QFilterCondition> {}
 
 extension TaskDateQueryLinks
-    on QueryBuilder<TaskDate, TaskDate, QFilterCondition> {}
+    on QueryBuilder<TaskDate, TaskDate, QFilterCondition> {
+  QueryBuilder<TaskDate, TaskDate, QAfterFilterCondition> task(
+      FilterQuery<Task> q) {
+    return QueryBuilder.apply(this, (query) {
+      return query.link(q, r'task');
+    });
+  }
+
+  QueryBuilder<TaskDate, TaskDate, QAfterFilterCondition> taskIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.linkLength(r'task', 0, true, 0, true);
+    });
+  }
+}
 
 extension TaskDateQuerySortBy on QueryBuilder<TaskDate, TaskDate, QSortBy> {
   QueryBuilder<TaskDate, TaskDate, QAfterSortBy> sortByCheckFlag() {
@@ -1257,6 +1359,18 @@ extension TaskDateQuerySortBy on QueryBuilder<TaskDate, TaskDate, QSortBy> {
   QueryBuilder<TaskDate, TaskDate, QAfterSortBy> sortByCheckFlagDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'checkFlag', Sort.desc);
+    });
+  }
+
+  QueryBuilder<TaskDate, TaskDate, QAfterSortBy> sortByCompleteDay() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'completeDay', Sort.asc);
+    });
+  }
+
+  QueryBuilder<TaskDate, TaskDate, QAfterSortBy> sortByCompleteDayDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'completeDay', Sort.desc);
     });
   }
 
@@ -1284,6 +1398,18 @@ extension TaskDateQuerySortThenBy
   QueryBuilder<TaskDate, TaskDate, QAfterSortBy> thenByCheckFlagDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'checkFlag', Sort.desc);
+    });
+  }
+
+  QueryBuilder<TaskDate, TaskDate, QAfterSortBy> thenByCompleteDay() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'completeDay', Sort.asc);
+    });
+  }
+
+  QueryBuilder<TaskDate, TaskDate, QAfterSortBy> thenByCompleteDayDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'completeDay', Sort.desc);
     });
   }
 
@@ -1320,6 +1446,12 @@ extension TaskDateQueryWhereDistinct
     });
   }
 
+  QueryBuilder<TaskDate, TaskDate, QDistinct> distinctByCompleteDay() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'completeDay');
+    });
+  }
+
   QueryBuilder<TaskDate, TaskDate, QDistinct> distinctByDaysInterval() {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'daysInterval');
@@ -1338,6 +1470,12 @@ extension TaskDateQueryProperty
   QueryBuilder<TaskDate, bool, QQueryOperations> checkFlagProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'checkFlag');
+    });
+  }
+
+  QueryBuilder<TaskDate, DateTime?, QQueryOperations> completeDayProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'completeDay');
     });
   }
 

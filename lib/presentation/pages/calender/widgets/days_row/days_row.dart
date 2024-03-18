@@ -67,9 +67,14 @@ class _DayCell extends HookConsumerWidget {
     final isToday = date.year == today.year &&
         date.month == today.month &&
         date.day == today.day;
+
     return Expanded(
       child: GestureDetector(
-        onTap: onCellTapped,
+        onTap: () {
+          if (isCurrentMonth) {
+            onCellTapped?.call();
+          }
+        },
         child: DecoratedBox(
           decoration: BoxDecoration(
             border: Border(

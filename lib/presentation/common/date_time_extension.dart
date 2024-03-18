@@ -26,13 +26,13 @@ extension DateTimeJapaneseFormat on DateTime {
     final targetDate = DateTime(year, month, day);
 
     if (targetDate == today) {
-      return '今日から';
+      return '今日';
     } else if (targetDate == tomorrow) {
-      return '明日から';
+      return '明日';
     } else if (targetDate == yesterday) {
-      return '昨日から';
+      return '昨日';
     } else {
-      return '${targetDate.year}年${targetDate.month}月${targetDate.day}日から';
+      return '${targetDate.year}年${targetDate.month}月${targetDate.day}日';
     }
   }
 

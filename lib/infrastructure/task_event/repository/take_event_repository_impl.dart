@@ -1,5 +1,6 @@
 import 'package:ebbinghaus_forgetting_curve/domain/entities/task.dart';
 import 'package:ebbinghaus_forgetting_curve/domain/repository/task_event_repository_interface.dart';
+import 'package:ebbinghaus_forgetting_curve/presentation/common/date_time_extension.dart';
 import 'package:isar/isar.dart';
 
 class TaskEventRepositoryImpl implements TaskRepository {
@@ -14,7 +15,8 @@ class TaskEventRepositoryImpl implements TaskRepository {
       for (int days in intervalDays) {
         final taskDate = TaskDate()
           ..daysInterval = days
-          ..checkFlag = false;
+          ..checkFlag = false
+          ..completeDay = null;
         await isar.taskDates.put(taskDate);
         task.dates.add(taskDate);
         await task.dates.save();
@@ -45,7 +47,7 @@ class TaskEventRepositoryImpl implements TaskRepository {
 
   @override
   Future<List<Task>> fetchAll() async {
-    final taskAll = await isar.tasks.where().findAll();
+    final taskAll = await isar.tasks.where().sortByStartTime().findAll();
     final List<Task> tasks = [];
     for (Task task in taskAll) {
       await task.dates.load();
@@ -101,9 +103,23 @@ class TaskEventRepositoryImpl implements TaskRepository {
   @override
   Future<void> addTaskDate(
       {required TaskDate taskDate, required bool flag}) async {
+    final now = DateTime.now().toZeroHour();
+    final checkFlag = flag ? now : null;
     await isar.writeTxn(() async {
-      final taslDates = taskDate..checkFlag = flag;
+      final taslDates = taskDate
+        ..checkFlag = flag
+        ..completeDay = checkFlag;
       await isar.taskDates.put(taslDates);
     });
+  }
+
+  @override
+  Future<List<TaskDate>> fetchCompDate() async {
+    final datesAll =
+        await isar.taskDates.filter().checkFlagEqualTo(true).findAll();
+    for (var taskDate in datesAll) {
+      await taskDate.task.load();
+    }
+    return datesAll;
   }
 }

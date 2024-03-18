@@ -20,7 +20,7 @@ mixin _$CalendarEvent {
   DateTime get eventDate => throw _privateConstructorUsedError;
   int get eventID => throw _privateConstructorUsedError;
   Color get eventBackgroundColor => throw _privateConstructorUsedError;
-  TaskDate get taskDate => throw _privateConstructorUsedError;
+  TaskDate? get taskDate => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $CalendarEventCopyWith<CalendarEvent> get copyWith =>
@@ -38,7 +38,7 @@ abstract class $CalendarEventCopyWith<$Res> {
       DateTime eventDate,
       int eventID,
       Color eventBackgroundColor,
-      TaskDate taskDate});
+      TaskDate? taskDate});
 }
 
 /// @nodoc
@@ -58,7 +58,7 @@ class _$CalendarEventCopyWithImpl<$Res, $Val extends CalendarEvent>
     Object? eventDate = null,
     Object? eventID = null,
     Object? eventBackgroundColor = null,
-    Object? taskDate = null,
+    Object? taskDate = freezed,
   }) {
     return _then(_value.copyWith(
       eventName: null == eventName
@@ -77,10 +77,10 @@ class _$CalendarEventCopyWithImpl<$Res, $Val extends CalendarEvent>
           ? _value.eventBackgroundColor
           : eventBackgroundColor // ignore: cast_nullable_to_non_nullable
               as Color,
-      taskDate: null == taskDate
+      taskDate: freezed == taskDate
           ? _value.taskDate
           : taskDate // ignore: cast_nullable_to_non_nullable
-              as TaskDate,
+              as TaskDate?,
     ) as $Val);
   }
 }
@@ -98,7 +98,7 @@ abstract class _$$CalendarEventImplCopyWith<$Res>
       DateTime eventDate,
       int eventID,
       Color eventBackgroundColor,
-      TaskDate taskDate});
+      TaskDate? taskDate});
 }
 
 /// @nodoc
@@ -116,7 +116,7 @@ class __$$CalendarEventImplCopyWithImpl<$Res>
     Object? eventDate = null,
     Object? eventID = null,
     Object? eventBackgroundColor = null,
-    Object? taskDate = null,
+    Object? taskDate = freezed,
   }) {
     return _then(_$CalendarEventImpl(
       eventName: null == eventName
@@ -135,10 +135,10 @@ class __$$CalendarEventImplCopyWithImpl<$Res>
           ? _value.eventBackgroundColor
           : eventBackgroundColor // ignore: cast_nullable_to_non_nullable
               as Color,
-      taskDate: null == taskDate
+      taskDate: freezed == taskDate
           ? _value.taskDate
           : taskDate // ignore: cast_nullable_to_non_nullable
-              as TaskDate,
+              as TaskDate?,
     ));
   }
 }
@@ -162,7 +162,7 @@ class _$CalendarEventImpl implements _CalendarEvent {
   @override
   final Color eventBackgroundColor;
   @override
-  final TaskDate taskDate;
+  final TaskDate? taskDate;
 
   @override
   String toString() {
@@ -202,7 +202,7 @@ abstract class _CalendarEvent implements CalendarEvent {
       required final DateTime eventDate,
       required final int eventID,
       required final Color eventBackgroundColor,
-      required final TaskDate taskDate}) = _$CalendarEventImpl;
+      required final TaskDate? taskDate}) = _$CalendarEventImpl;
 
   @override
   String get eventName;
@@ -213,7 +213,7 @@ abstract class _CalendarEvent implements CalendarEvent {
   @override
   Color get eventBackgroundColor;
   @override
-  TaskDate get taskDate;
+  TaskDate? get taskDate;
   @override
   @JsonKey(ignore: true)
   _$$CalendarEventImplCopyWith<_$CalendarEventImpl> get copyWith =>

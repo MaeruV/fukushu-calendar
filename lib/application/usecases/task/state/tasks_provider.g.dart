@@ -36,6 +36,23 @@ final taskDatesProvider =
 );
 
 typedef TaskDatesRef = AutoDisposeFutureProviderRef<Map<DateTime, List<Task>>>;
+String _$compTaskDatesHash() => r'aac577f3075985af58b49da9b699ded0cbc23cfc';
+
+/// See also [compTaskDates].
+@ProviderFor(compTaskDates)
+final compTaskDatesProvider =
+    AutoDisposeFutureProvider<Map<DateTime, List<TaskDate>>>.internal(
+  compTaskDates,
+  name: r'compTaskDatesProvider',
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$compTaskDatesHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
+
+typedef CompTaskDatesRef
+    = AutoDisposeFutureProviderRef<Map<DateTime, List<TaskDate>>>;
 String _$tempTaskHash() => r'35d4be616b9fec43030d9aac2cf8de64ac8c61f0';
 
 /// Copied from Dart SDK
@@ -201,7 +218,7 @@ final tasksCalendarProvider =
 
 typedef TasksCalendarRef
     = AutoDisposeFutureProviderRef<Map<DateTime, List<CalendarEvent>>>;
-String _$tempTaskDateHash() => r'1a3baef569ee62c909151cb00bdbb530097de3e3';
+String _$tempTaskDateHash() => r'a8d76b34115a63a433dc379a09d5a22a6f52e44f';
 
 /// See also [tempTaskDate].
 @ProviderFor(tempTaskDate)
@@ -214,10 +231,10 @@ class TempTaskDateFamily extends Family<AsyncValue<TaskDate?>> {
 
   /// See also [tempTaskDate].
   TempTaskDateProvider call({
-    required int dateId,
+    required TaskDate? taskDate,
   }) {
     return TempTaskDateProvider(
-      dateId: dateId,
+      taskDate: taskDate,
     );
   }
 
@@ -226,7 +243,7 @@ class TempTaskDateFamily extends Family<AsyncValue<TaskDate?>> {
     covariant TempTaskDateProvider provider,
   ) {
     return call(
-      dateId: provider.dateId,
+      taskDate: provider.taskDate,
     );
   }
 
@@ -249,11 +266,11 @@ class TempTaskDateFamily extends Family<AsyncValue<TaskDate?>> {
 class TempTaskDateProvider extends AutoDisposeFutureProvider<TaskDate?> {
   /// See also [tempTaskDate].
   TempTaskDateProvider({
-    required int dateId,
+    required TaskDate? taskDate,
   }) : this._internal(
           (ref) => tempTaskDate(
             ref as TempTaskDateRef,
-            dateId: dateId,
+            taskDate: taskDate,
           ),
           from: tempTaskDateProvider,
           name: r'tempTaskDateProvider',
@@ -264,7 +281,7 @@ class TempTaskDateProvider extends AutoDisposeFutureProvider<TaskDate?> {
           dependencies: TempTaskDateFamily._dependencies,
           allTransitiveDependencies:
               TempTaskDateFamily._allTransitiveDependencies,
-          dateId: dateId,
+          taskDate: taskDate,
         );
 
   TempTaskDateProvider._internal(
@@ -274,10 +291,10 @@ class TempTaskDateProvider extends AutoDisposeFutureProvider<TaskDate?> {
     required super.allTransitiveDependencies,
     required super.debugGetCreateSourceHash,
     required super.from,
-    required this.dateId,
+    required this.taskDate,
   }) : super.internal();
 
-  final int dateId;
+  final TaskDate? taskDate;
 
   @override
   Override overrideWith(
@@ -292,7 +309,7 @@ class TempTaskDateProvider extends AutoDisposeFutureProvider<TaskDate?> {
         dependencies: null,
         allTransitiveDependencies: null,
         debugGetCreateSourceHash: null,
-        dateId: dateId,
+        taskDate: taskDate,
       ),
     );
   }
@@ -304,21 +321,21 @@ class TempTaskDateProvider extends AutoDisposeFutureProvider<TaskDate?> {
 
   @override
   bool operator ==(Object other) {
-    return other is TempTaskDateProvider && other.dateId == dateId;
+    return other is TempTaskDateProvider && other.taskDate == taskDate;
   }
 
   @override
   int get hashCode {
     var hash = _SystemHash.combine(0, runtimeType.hashCode);
-    hash = _SystemHash.combine(hash, dateId.hashCode);
+    hash = _SystemHash.combine(hash, taskDate.hashCode);
 
     return _SystemHash.finish(hash);
   }
 }
 
 mixin TempTaskDateRef on AutoDisposeFutureProviderRef<TaskDate?> {
-  /// The parameter `dateId` of this provider.
-  int get dateId;
+  /// The parameter `taskDate` of this provider.
+  TaskDate? get taskDate;
 }
 
 class _TempTaskDateProviderElement
@@ -326,7 +343,7 @@ class _TempTaskDateProviderElement
   _TempTaskDateProviderElement(super.provider);
 
   @override
-  int get dateId => (origin as TempTaskDateProvider).dateId;
+  TaskDate? get taskDate => (origin as TempTaskDateProvider).taskDate;
 }
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

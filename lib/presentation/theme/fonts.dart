@@ -74,4 +74,11 @@ class BrandText {
     fontWeight: FontWeight.normal,
     fontSize: 11,
   );
+
+  static const normalM = TextStyle(
+    color: BrandColor.black,
+    fontFamily: "Inter",
+    fontWeight: FontWeight.w500,
+    fontSize: 18,
+  );
 }

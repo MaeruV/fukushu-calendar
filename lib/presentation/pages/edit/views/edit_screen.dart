@@ -16,12 +16,12 @@ class EditScreen extends HookConsumerWidget {
 
     return Scaffold(
       backgroundColor: BrandColor.background,
+      appBar: const EditTopContainer(),
       body: Stack(
         children: [
           const SafeArea(
             child: Column(
               children: <Widget>[
-                EditTopContainer(),
                 Expanded(
                   child: EditView(),
                 ),
@@ -36,7 +36,6 @@ class EditScreen extends HookConsumerWidget {
           if (isLoading) const OverlayLoading(),
         ],
       ),
-      // floatingActionButton: const EditFloatingButton(),
     );
   }
 }

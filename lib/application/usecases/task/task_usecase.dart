@@ -25,10 +25,11 @@ class TaskUsecase with RunUsecaseMixin {
   StateController<Task?> get _temporaryTaskController =>
       _ref.read(temporaryTaskProvider.notifier);
   void _refreshCalendarProvider() => _ref.refresh(tasksCalendarProvider.future);
+  void _refreshCompleteProvider() => _ref.refresh(compTaskDatesProvider.future);
   void _refreshTempTaskProvider(int taskId) =>
       _ref.refresh(tempTaskProvider(taskId: taskId).future);
-  void _refreshTempTaskDateProvider(int dateId) =>
-      _ref.refresh(tempTaskDateProvider(dateId: dateId).future);
+  void _refreshTempTaskDateProvider(TaskDate taskDate) =>
+      _ref.refresh(tempTaskDateProvider(taskDate: taskDate).future);
 
   Future<void> saveTaskEvent({
     required String title,
@@ -71,9 +72,8 @@ class TaskUsecase with RunUsecaseMixin {
     }
 
     for (final daysToAdd in task.dates) {
-      _refreshTempTaskDateProvider(daysToAdd.id);
+      _refreshTempTaskDateProvider(daysToAdd);
     }
-
     _invalidateTasksProvider();
     _refreshCalendarProvider();
   }
@@ -83,8 +83,9 @@ class TaskUsecase with RunUsecaseMixin {
     await execute(action: () async {
       return await _taskRepository.addTaskDate(taskDate: taskDate, flag: flag);
     });
-    _refreshTempTaskDateProvider(taskDate.id);
+    _refreshTempTaskDateProvider(taskDate);
     _refreshCalendarProvider();
+    _refreshCompleteProvider();
   }
 
   Future<Task?> fetch(Id taskId) async {
@@ -111,6 +112,24 @@ class TaskUsecase with RunUsecaseMixin {
     return groupedTasks;
   }
 
+  Future<Map<DateTime, List<TaskDate>>> fetchCompTaskAll() async {
+    final taskDates = await execute(action: () async {
+      return await _taskRepository.fetchCompDate();
+    });
+    final Map<DateTime, List<TaskDate>> groupedTaskDates = {};
+
+    for (final taskDate in taskDates) {
+      final dateOnly = DateTime(taskDate.completeDay!.year,
+          taskDate.completeDay!.month, taskDate.completeDay!.day);
+      if (!groupedTaskDates.containsKey(dateOnly)) {
+        groupedTaskDates[dateOnly] = [];
+      }
+      groupedTaskDates[dateOnly]!.add(taskDate);
+    }
+
+    return groupedTaskDates;
+  }
+
   Future<Map<DateTime, List<CalendarEvent>>> groupTasksByReviewDates() async {
     final tasks = await _taskRepository.fetchAll();
     final Map<DateTime, List<CalendarEvent>> calendarEventsByDate = {};
@@ -119,6 +138,14 @@ class TaskUsecase with RunUsecaseMixin {
       // タスクの開始日に基づいてCalendarEventを追加
       final startDate = DateTime(
           task.startTime.year, task.startTime.month, task.startTime.day);
+      final startEvent = CalendarEvent(
+        eventName: task.title,
+        eventDate: startDate,
+        eventBackgroundColor: TaskColorPalette.noamlPalette[task.pallete]!,
+        eventID: task.id,
+        taskDate: null,
+      );
+      calendarEventsByDate.putIfAbsent(startDate, () => []).add(startEvent);
 
       for (final daysToAdd in task.dates) {
         if (daysToAdd.checkFlag != true) {
@@ -144,6 +171,7 @@ class TaskUsecase with RunUsecaseMixin {
     await _taskRepository.delete(task: task);
     _invalidateTasksProvider();
     _refreshCalendarProvider();
+    _refreshCompleteProvider();
   }
 
   void temporaryTask(Id taskId) async {

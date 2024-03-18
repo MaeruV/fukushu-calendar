@@ -114,24 +114,28 @@ class _EventLabel extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return IntrinsicHeight(
-      child: Row(
-        children: [
-          Container(
-            width: 4,
-            color: event.eventBackgroundColor,
-            alignment: Alignment.center,
-          ),
-          const SizedBox(width: 1),
-          Expanded(
-            child: Text(
-              event.eventName,
-              style: BrandText.bodySS,
-              textAlign: TextAlign.left,
-              overflow: TextOverflow.ellipsis,
+    return Container(
+      color: event.taskDate == null ? event.eventBackgroundColor : null,
+      margin: const EdgeInsets.only(right: 3),
+      child: IntrinsicHeight(
+        child: Row(
+          children: [
+            Container(
+              width: 4,
+              color: event.eventBackgroundColor,
+              alignment: Alignment.center,
             ),
-          ),
-        ],
+            const SizedBox(width: 1),
+            Expanded(
+              child: Text(
+                event.eventName,
+                style: BrandText.bodySS,
+                textAlign: TextAlign.left,
+                overflow: TextOverflow.ellipsis,
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

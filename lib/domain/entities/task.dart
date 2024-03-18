@@ -14,6 +14,7 @@ class Task {
 
   late String pallete;
 
+  @Backlink(to: 'task')
   final dates = IsarLinks<TaskDate>();
 }
 
@@ -24,4 +25,8 @@ class TaskDate {
   late int daysInterval;
 
   late bool checkFlag;
+
+  late DateTime? completeDay;
+
+  final task = IsarLink<Task>();
 }

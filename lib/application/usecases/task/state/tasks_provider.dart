@@ -17,6 +17,12 @@ Future<Map<DateTime, List<Task>>> taskDates(TasksRef ref) async {
   return ref.watch(taskUsecaseProvider).fetchAll();
 }
 
+@riverpod
+Future<Map<DateTime, List<TaskDate>>> compTaskDates(
+    CompTaskDatesRef ref) async {
+  return ref.watch(taskUsecaseProvider).fetchCompTaskAll();
+}
+
 //一時起きタスク
 final temporaryTaskProvider = StateProvider<Task?>((_) => null);
 
@@ -33,6 +39,9 @@ Future<Map<DateTime, List<CalendarEvent>>> tasksCalendar(TasksCalendarRef ref) {
 
 @riverpod
 Future<TaskDate?> tempTaskDate(TempTaskDateRef ref,
-    {required int dateId}) async {
-  return ref.watch(taskUsecaseProvider).fetchDate(dateId);
+    {required TaskDate? taskDate}) async {
+  if (taskDate != null) {
+    return ref.watch(taskUsecaseProvider).fetchDate(taskDate.id);
+  }
+  return null;
 }

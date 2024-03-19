@@ -30,7 +30,6 @@ class AddTaskTitle extends HookConsumerWidget {
             maxLength: 20,
             controller: controller,
             onChanged: (value) => notifier.setTitleText(value),
-            // autofocus: true,
             decoration: InputDecoration(
               hintText: 'タイトルを入力してください',
               hintStyle: BrandText.bodyS.copyWith(color: BrandColor.grey),

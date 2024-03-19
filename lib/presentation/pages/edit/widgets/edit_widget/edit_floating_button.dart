@@ -1,10 +1,8 @@
-import 'package:ebbinghaus_forgetting_curve/application/usecases/task/state/tasks_provider.dart';
 import 'package:ebbinghaus_forgetting_curve/presentation/pages/edit/views/add_task_modal_screen.dart';
 import 'package:ebbinghaus_forgetting_curve/presentation/presentation_mixin.dart';
 import 'package:ebbinghaus_forgetting_curve/presentation/theme/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
 
 class EditFloatingButton extends ConsumerWidget with PresentationMixin {
   const EditFloatingButton({super.key});
@@ -30,7 +28,7 @@ class EditFloatingButton extends ConsumerWidget with PresentationMixin {
       },
       backgroundColor: BrandColor.blue,
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(50), //角の丸み
+        borderRadius: BorderRadius.circular(50),
       ),
       child: const Icon(
         Icons.add,

@@ -69,7 +69,7 @@ class CompListWidget extends ConsumerWidget with PresentationMixin {
                           width: 10,
                           decoration: BoxDecoration(
                               color:
-                                  TaskColorPalette.noamlPalette[task.pallete],
+                                  TaskColorPalette.normalPalette[task.pallete],
                               borderRadius: const BorderRadius.only(
                                   topLeft: Radius.circular(10),
                                   bottomLeft: Radius.circular(10))),

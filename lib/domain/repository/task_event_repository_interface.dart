@@ -25,9 +25,6 @@ abstract interface class TaskRepository {
   /// タスク全取得
   Future<List<Task>> fetchAll();
 
-  /// タスク件数取得
-  Future<int> getCount();
-
   /// タスクDate追加
   Future<void> addTaskDate({required TaskDate taskDate, required bool flag});
 }

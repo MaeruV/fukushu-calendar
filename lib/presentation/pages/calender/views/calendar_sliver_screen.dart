@@ -16,19 +16,30 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 class CalendarSliverScreen extends ConsumerWidget {
   const CalendarSliverScreen({super.key});
 
-  bool isSameDay(DateTime date1, DateTime date2) {
-    return date1.year == date2.year &&
-        date1.month == date2.month &&
-        date1.day == date2.day;
-  }
-
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final ScrollController scrollController = ScrollController();
     final notifier = ref.read(collapsedProvider.notifier);
     final size = ref.watch(screenViewModelProvider);
-
     final calendarTask = ref.watch(tasksCalendarProvider);
+
+    void onCellTapped(
+        DateTime date, int index, Map<DateTime, List<CalendarEvent>> value) {
+      scrollController.animateTo(
+        0,
+        duration: const Duration(milliseconds: 300),
+        curve: Curves.easeOut,
+      );
+
+      final notifier = ref.read(calenderViewModelProvider.notifier);
+      notifier.tappedCell(date);
+      final events = value[date];
+      if (events != null) {
+        notifier.getCalendarEvent(events);
+      } else {
+        notifier.getCalendarEvent([]);
+      }
+    }
 
     switch (calendarTask) {
       case AsyncError(:final error):
@@ -79,17 +90,8 @@ class CalendarSliverScreen extends ConsumerWidget {
                                   events: value.values
                                       .expand((events) => events)
                                       .toList(),
-                                  onCellTapped: (date, index) {
-                                    final notifier = ref.read(
-                                        calenderViewModelProvider.notifier);
-                                    notifier.tappedCell(date);
-                                    final events = value[date];
-                                    if (events != null) {
-                                      notifier.getCalendarEvent(events);
-                                    } else {
-                                      notifier.getCalendarEvent([]);
-                                    }
-                                  },
+                                  onCellTapped: (date, index) =>
+                                      onCellTapped.call(date, index, value),
                                 ),
                                 Container(
                                     decoration: BoxDecoration(

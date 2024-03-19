@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:go_router/go_router.dart';
+import 'package:percent_indicator/circular_percent_indicator.dart';
 
 enum SlidableActionPropaties {
   edit,
@@ -133,25 +134,40 @@ class MainTaskWidget extends ConsumerWidget {
     final formattedIntervals =
         task.dates.map((interval) => '${interval.daysInterval}').join(', ');
 
+    final int totalTasks = task.dates.length;
+    final int completedTasks =
+        task.dates.where((date) => date.checkFlag).length;
+    final double completionPercentage =
+        totalTasks > 0 ? (completedTasks / totalTasks) : 0.0;
+    final String completionMessage =
+        "${(completionPercentage * 100).toStringAsFixed(0)}%";
+
     return Card(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(8),
+      ),
+      margin: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 5.0),
       child: IntrinsicHeight(
         child: Container(
-          decoration: const BoxDecoration(
-            color: Colors.transparent,
-          ),
+          decoration: BoxDecoration(
+              color:
+                  TaskColorPalette.lightPalette[task.pallete]!.withOpacity(0.1),
+              borderRadius: const BorderRadius.all(Radius.circular(8))),
           child: Row(
             children: [
               Container(
-                width: 10,
+                width: 8,
                 decoration: BoxDecoration(
-                    color: TaskColorPalette.noamlPalette[task.pallete],
+                    color: TaskColorPalette.normalPalette[task.pallete],
                     borderRadius: const BorderRadius.only(
-                        topLeft: Radius.circular(10),
-                        bottomLeft: Radius.circular(10))),
+                        topLeft: Radius.circular(8),
+                        bottomLeft: Radius.circular(8))),
               ),
               Expanded(
                 child: Container(
                   padding: const EdgeInsets.fromLTRB(10.0, 15.0, 5.0, 15.0),
+                  decoration: const BoxDecoration(
+                      borderRadius: BorderRadius.all(Radius.circular(8))),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -159,16 +175,17 @@ class MainTaskWidget extends ConsumerWidget {
                         task.title,
                         style: BrandText.bodyLM,
                       ),
-                      const SizedBox(height: 5),
-                      Padding(
-                        padding: const EdgeInsets.only(left: 8.0),
-                        child: Text(
-                          task.memo!,
-                          style:
-                              BrandText.bodyS.copyWith(color: BrandColor.grey),
-                        ),
-                      ),
-                      const SizedBox(height: 5),
+                      task.memo.isNotEmpty
+                          ? Padding(
+                              padding: const EdgeInsets.only(
+                                  left: 8.0, bottom: 5.0, top: 5.0),
+                              child: Text(
+                                task.memo,
+                                style: BrandText.bodyS
+                                    .copyWith(color: BrandColor.grey),
+                              ),
+                            )
+                          : const SizedBox.shrink(),
                       Row(
                         children: [
                           const Text(
@@ -192,6 +209,17 @@ class MainTaskWidget extends ConsumerWidget {
                       ),
                     ],
                   ),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: CircularPercentIndicator(
+                  radius: 35.0,
+                  lineWidth: 5.0,
+                  percent: completionPercentage,
+                  center: Text(completionMessage),
+                  backgroundColor: BrandColor.white,
+                  progressColor: TaskColorPalette.normalPalette[task.pallete],
                 ),
               ),
             ],

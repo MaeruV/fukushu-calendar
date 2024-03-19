@@ -19,7 +19,7 @@ class EditViewModel extends _$EditViewModel {
         : DateTime(
             DateTime.now().year, DateTime.now().month, DateTime.now().day);
     final titleText = task != null ? task!.title : '';
-    final memoText = task != null ? task!.memo ?? '' : '';
+    final memoText = task != null ? task!.memo : '';
     final List<int> intervalDays = task != null
         ? task!.dates.map((date) => date.daysInterval).toList()
         : [1, 3, 7, 14];

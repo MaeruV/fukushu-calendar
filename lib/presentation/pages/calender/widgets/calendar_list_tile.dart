@@ -22,18 +22,26 @@ class CalendarListTile extends HookConsumerWidget with PresentationMixin {
               AsyncError(:final error) => Text('Error: $error'),
               AsyncData(:final value) => value == null
                   ? Card(
-                      color: event.eventBackgroundColor,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(8),
+                      ),
                       margin: const EdgeInsets.symmetric(
                           horizontal: 0, vertical: 5),
-                      child: ListTile(
-                        title: Text(
-                          event.eventName,
-                          style: BrandText.bodyM,
+                      child: Container(
+                        decoration: BoxDecoration(
+                          color: event.eventBackgroundColor.withOpacity(0.3),
+                          borderRadius: BorderRadius.circular(8),
                         ),
-                        subtitle: Text(
-                          "開始日",
-                          style:
-                              BrandText.bodyS.copyWith(color: BrandColor.grey),
+                        child: ListTile(
+                          title: Text(
+                            event.eventName,
+                            style: BrandText.bodyM,
+                          ),
+                          subtitle: Text(
+                            "開始日",
+                            style: BrandText.bodyS
+                                .copyWith(color: BrandColor.grey),
+                          ),
                         ),
                       ),
                     )

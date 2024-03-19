@@ -115,13 +115,15 @@ class _EventLabel extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: event.taskDate == null ? event.eventBackgroundColor : null,
+      color: event.taskDate == null
+          ? event.eventBackgroundColor.withOpacity(0.3)
+          : null,
       margin: const EdgeInsets.only(right: 3),
       child: IntrinsicHeight(
         child: Row(
           children: [
             Container(
-              width: 4,
+              width: 3,
               color: event.eventBackgroundColor,
               alignment: Alignment.center,
             ),

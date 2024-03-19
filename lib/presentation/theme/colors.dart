@@ -25,15 +25,15 @@ class TaskColorPalette {
     'lemon': Color(0xFFFFF9C4),
   };
 
-  static const Map<String, Color> noamlPalette = {
-    'yellow': Color(0xFFFFF59D),
-    'green': Color(0xFFA5D6A7),
-    'beige': Color(0xFFFFCCBC),
-    'red': Color(0xFFEF9A9A),
-    'grey': Color(0xFFEEEEEE),
-    'cream': Color(0xFFFFE082),
-    'skyBlue': Color(0xFF81D4FA),
-    'mintGreen': Color(0xFF80DEEA),
-    'lemon': Color(0xFFFFF176),
+  static const Map<String, Color> normalPalette = {
+    'yellow': Color(0xFFFFEB3B),
+    'green': Color(0xFF4CAF50),
+    'beige': Color(0xFFBCAAA4),
+    'red': Color(0xFFF44336),
+    'grey': Color(0xFFBDBDBD),
+    'cream': Color(0xFFFFC107),
+    'skyBlue': Color(0xFF03A9F4),
+    'mintGreen': Color(0xFF26A69A),
+    'lemon': Color(0xFFFFEB3B),
   };
 }

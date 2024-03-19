@@ -10,7 +10,7 @@ class Task {
 
   late DateTime startTime;
 
-  String? memo;
+  late String memo;
 
   late String pallete;
 

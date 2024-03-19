@@ -25,6 +25,19 @@ class TaskEventRepositoryImpl implements TaskRepository {
   }
 
   @override
+  Future<void> addTaskDate(
+      {required TaskDate taskDate, required bool flag}) async {
+    final now = DateTime.now().toZeroHour();
+    final checkFlag = flag ? now : null;
+    await isar.writeTxn(() async {
+      final taslDates = taskDate
+        ..checkFlag = flag
+        ..completeDay = checkFlag;
+      await isar.taskDates.put(taslDates);
+    });
+  }
+
+  @override
   Future<void> delete({required Task task}) async {
     await isar.writeTxn(() async {
       for (final taskDate in task.dates) {
@@ -43,6 +56,22 @@ class TaskEventRepositoryImpl implements TaskRepository {
     } else {
       return task;
     }
+  }
+
+  @override
+  Future<TaskDate?> fetchDate({required Id dateId}) async {
+    final taskDate = await isar.taskDates.get(dateId);
+    return taskDate;
+  }
+
+  @override
+  Future<List<TaskDate>> fetchCompDate() async {
+    final datesAll =
+        await isar.taskDates.filter().checkFlagEqualTo(true).findAll();
+    for (var taskDate in datesAll) {
+      await taskDate.task.load();
+    }
+    return datesAll;
   }
 
   @override
@@ -78,7 +107,8 @@ class TaskEventRepositoryImpl implements TaskRepository {
         if (!existingDays.contains(days)) {
           final taskDate = TaskDate()
             ..daysInterval = days
-            ..checkFlag = false;
+            ..checkFlag = false
+            ..completeDay = null;
           await isar.taskDates.put(taskDate);
           task.dates.add(taskDate);
         }
@@ -87,39 +117,5 @@ class TaskEventRepositoryImpl implements TaskRepository {
       await isar.tasks.put(task);
       await task.dates.save();
     });
-  }
-
-  @override
-  Future<int> getCount() {
-    throw UnimplementedError();
-  }
-
-  @override
-  Future<TaskDate?> fetchDate({required Id dateId}) async {
-    final taskDate = await isar.taskDates.get(dateId);
-    return taskDate;
-  }
-
-  @override
-  Future<void> addTaskDate(
-      {required TaskDate taskDate, required bool flag}) async {
-    final now = DateTime.now().toZeroHour();
-    final checkFlag = flag ? now : null;
-    await isar.writeTxn(() async {
-      final taslDates = taskDate
-        ..checkFlag = flag
-        ..completeDay = checkFlag;
-      await isar.taskDates.put(taslDates);
-    });
-  }
-
-  @override
-  Future<List<TaskDate>> fetchCompDate() async {
-    final datesAll =
-        await isar.taskDates.filter().checkFlagEqualTo(true).findAll();
-    for (var taskDate in datesAll) {
-      await taskDate.task.load();
-    }
-    return datesAll;
   }
 }

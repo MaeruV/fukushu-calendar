@@ -84,6 +84,7 @@ class TaskUsecase with RunUsecaseMixin {
       return await _taskRepository.addTaskDate(taskDate: taskDate, flag: flag);
     });
     _refreshTempTaskDateProvider(taskDate);
+    _invalidateTasksProvider();
     _refreshCalendarProvider();
     _refreshCompleteProvider();
   }
@@ -141,7 +142,7 @@ class TaskUsecase with RunUsecaseMixin {
       final startEvent = CalendarEvent(
         eventName: task.title,
         eventDate: startDate,
-        eventBackgroundColor: TaskColorPalette.noamlPalette[task.pallete]!,
+        eventBackgroundColor: TaskColorPalette.normalPalette[task.pallete]!,
         eventID: task.id,
         taskDate: null,
       );
@@ -154,7 +155,7 @@ class TaskUsecase with RunUsecaseMixin {
           final reviewEvent = CalendarEvent(
             eventName: task.title,
             eventDate: reviewDate,
-            eventBackgroundColor: TaskColorPalette.noamlPalette[task.pallete]!,
+            eventBackgroundColor: TaskColorPalette.normalPalette[task.pallete]!,
             eventID: task.id,
             taskDate: daysToAdd,
           );

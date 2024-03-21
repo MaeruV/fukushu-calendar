@@ -1,5 +1,4 @@
 import 'package:ebbinghaus_forgetting_curve/presentation/common/date_time_extension.dart';
-import 'package:ebbinghaus_forgetting_curve/presentation/theme/colors.dart';
 import 'package:ebbinghaus_forgetting_curve/presentation/theme/fonts.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';

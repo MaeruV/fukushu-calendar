@@ -1,4 +1,5 @@
 import 'package:ebbinghaus_forgetting_curve/domain/entities/task.dart';
+import 'package:ebbinghaus_forgetting_curve/presentation/pages/completed/views/completed_screen.dart';
 import 'package:ebbinghaus_forgetting_curve/presentation/theme/colors.dart';
 import 'package:ebbinghaus_forgetting_curve/presentation/theme/fonts.dart';
 import 'package:flutter/material.dart';
@@ -15,6 +16,22 @@ class CompAppBar extends ConsumerWidget implements PreferredSizeWidget {
     return totalTaskCount.toString();
   }
 
+  void todayTaskIndex(WidgetRef ref) async {
+    final now = DateTime.now();
+    final todayTaskExists = mapEvents.entries.any((entry) =>
+        entry.key.year == now.year &&
+        entry.key.month == now.month &&
+        entry.key.day == now.day);
+
+    if (todayTaskExists) {
+      final context = ref.watch(compTodayKeyProvider).currentContext;
+      if (context != null) {
+        await Scrollable.ensureVisible(context,
+            duration: const Duration(milliseconds: 300), curve: Curves.easeOut);
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return AppBar(
@@ -25,6 +42,18 @@ class CompAppBar extends ConsumerWidget implements PreferredSizeWidget {
           bottomRight: Radius.circular(15),
         ),
       ),
+      actions: [
+        Padding(
+          padding: const EdgeInsets.only(right: 10.0),
+          child: GestureDetector(
+            onTap: () => todayTaskIndex(ref),
+            child: Text(
+              '今日',
+              style: BrandText.titleS.copyWith(color: BrandColor.blue),
+            ),
+          ),
+        ),
+      ],
       bottom: PreferredSize(
           preferredSize: Size.zero,
           child: Padding(

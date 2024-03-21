@@ -39,4 +39,8 @@ extension DateTimeJapaneseFormat on DateTime {
   DateTime toZeroHour() {
     return DateTime(year, month, day, 0, 0, 0);
   }
+
+  bool isSameDay(DateTime other) {
+    return year == other.year && month == other.month && day == other.day;
+  }
 }

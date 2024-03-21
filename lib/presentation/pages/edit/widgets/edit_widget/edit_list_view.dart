@@ -1,7 +1,6 @@
 import 'package:ebbinghaus_forgetting_curve/application/usecases/task/task_usecase.dart';
 import 'package:ebbinghaus_forgetting_curve/domain/entities/task.dart';
 import 'package:ebbinghaus_forgetting_curve/presentation/common/date_time_extension.dart';
-import 'package:ebbinghaus_forgetting_curve/presentation/presentation_mixin.dart';
 import 'package:ebbinghaus_forgetting_curve/presentation/theme/colors.dart';
 import 'package:ebbinghaus_forgetting_curve/presentation/theme/fonts.dart';
 import 'package:flutter/material.dart';
@@ -52,7 +51,7 @@ class EditListView extends ConsumerWidget {
   }
 }
 
-class EditSlidableAction extends ConsumerWidget with PresentationMixin {
+class EditSlidableAction extends ConsumerWidget {
   const EditSlidableAction({super.key, required this.tasks});
   final List<Task> tasks;
 
@@ -150,15 +149,15 @@ class MainTaskWidget extends ConsumerWidget {
       child: IntrinsicHeight(
         child: Container(
           decoration: BoxDecoration(
-              color:
-                  TaskColorPalette.lightPalette[task.pallete]!.withOpacity(0.1),
+              color: Color(task.pallete).withOpacity(0.1),
               borderRadius: const BorderRadius.all(Radius.circular(8))),
           child: Row(
             children: [
               Container(
                 width: 8,
                 decoration: BoxDecoration(
-                    color: TaskColorPalette.normalPalette[task.pallete],
+                    color: Color(task.pallete),
+                    // color: TaskColorPalette.normalPalette[task.pallete],
                     borderRadius: const BorderRadius.only(
                         topLeft: Radius.circular(8),
                         bottomLeft: Radius.circular(8))),
@@ -219,7 +218,8 @@ class MainTaskWidget extends ConsumerWidget {
                   percent: completionPercentage,
                   center: Text(completionMessage),
                   backgroundColor: BrandColor.white,
-                  progressColor: TaskColorPalette.normalPalette[task.pallete],
+                  progressColor: Color(task.pallete),
+                  // progressColor: TaskColorPalette.normalPalette[task.pallete],
                 ),
               ),
             ],

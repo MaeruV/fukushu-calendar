@@ -96,30 +96,6 @@ class CalendarListTile extends HookConsumerWidget with PresentationMixin {
                           ],
                         ),
                       ),
-                      // child: ListTile(
-                      //   leading: Container(
-                      //     width: 10,
-                      //     color: event.eventBackgroundColor,
-                      //   ),
-                      //   title: Text(event.eventName),
-                      //   trailing: Checkbox(
-                      //     value: value.checkFlag,
-                      //     onChanged: (flag) {
-                      //       execute(context, action: () async {
-                      //         if (flag != null) {
-                      //           ref
-                      //               .read(taskUsecaseProvider)
-                      //               .saveTaskDate(taskDate: value, flag: flag);
-                      //         }
-                      //       });
-                      //     },
-                      //   ),
-                      //   subtitle: Text(
-                      //     "${value.daysInterval}日目",
-                      //     style: BrandText.bodyS,
-                      //   ),
-                      //   onTap: () {},
-                      // ),
                     ),
               _ => const CircularProgressIndicator()
             },

@@ -25,7 +25,7 @@ const TaskSchema = CollectionSchema(
     r'pallete': PropertySchema(
       id: 1,
       name: r'pallete',
-      type: IsarType.string,
+      type: IsarType.long,
     ),
     r'startTime': PropertySchema(
       id: 2,
@@ -67,7 +67,6 @@ int _taskEstimateSize(
 ) {
   var bytesCount = offsets.last;
   bytesCount += 3 + object.memo.length * 3;
-  bytesCount += 3 + object.pallete.length * 3;
   bytesCount += 3 + object.title.length * 3;
   return bytesCount;
 }
@@ -79,7 +78,7 @@ void _taskSerialize(
   Map<Type, List<int>> allOffsets,
 ) {
   writer.writeString(offsets[0], object.memo);
-  writer.writeString(offsets[1], object.pallete);
+  writer.writeLong(offsets[1], object.pallete);
   writer.writeDateTime(offsets[2], object.startTime);
   writer.writeString(offsets[3], object.title);
 }
@@ -93,7 +92,7 @@ Task _taskDeserialize(
   final object = Task();
   object.id = id;
   object.memo = reader.readString(offsets[0]);
-  object.pallete = reader.readString(offsets[1]);
+  object.pallete = reader.readLong(offsets[1]);
   object.startTime = reader.readDateTime(offsets[2]);
   object.title = reader.readString(offsets[3]);
   return object;
@@ -109,7 +108,7 @@ P _taskDeserializeProp<P>(
     case 0:
       return (reader.readString(offset)) as P;
     case 1:
-      return (reader.readString(offset)) as P;
+      return (reader.readLong(offset)) as P;
     case 2:
       return (reader.readDateTime(offset)) as P;
     case 3:
@@ -388,55 +387,46 @@ extension TaskQueryFilter on QueryBuilder<Task, Task, QFilterCondition> {
     });
   }
 
-  QueryBuilder<Task, Task, QAfterFilterCondition> palleteEqualTo(
-    String value, {
-    bool caseSensitive = true,
-  }) {
+  QueryBuilder<Task, Task, QAfterFilterCondition> palleteEqualTo(int value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
         property: r'pallete',
         value: value,
-        caseSensitive: caseSensitive,
       ));
     });
   }
 
   QueryBuilder<Task, Task, QAfterFilterCondition> palleteGreaterThan(
-    String value, {
+    int value, {
     bool include = false,
-    bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.greaterThan(
         include: include,
         property: r'pallete',
         value: value,
-        caseSensitive: caseSensitive,
       ));
     });
   }
 
   QueryBuilder<Task, Task, QAfterFilterCondition> palleteLessThan(
-    String value, {
+    int value, {
     bool include = false,
-    bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.lessThan(
         include: include,
         property: r'pallete',
         value: value,
-        caseSensitive: caseSensitive,
       ));
     });
   }
 
   QueryBuilder<Task, Task, QAfterFilterCondition> palleteBetween(
-    String lower,
-    String upper, {
+    int lower,
+    int upper, {
     bool includeLower = true,
     bool includeUpper = true,
-    bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.between(
@@ -445,73 +435,6 @@ extension TaskQueryFilter on QueryBuilder<Task, Task, QFilterCondition> {
         includeLower: includeLower,
         upper: upper,
         includeUpper: includeUpper,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<Task, Task, QAfterFilterCondition> palleteStartsWith(
-    String value, {
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.startsWith(
-        property: r'pallete',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<Task, Task, QAfterFilterCondition> palleteEndsWith(
-    String value, {
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.endsWith(
-        property: r'pallete',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<Task, Task, QAfterFilterCondition> palleteContains(String value,
-      {bool caseSensitive = true}) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.contains(
-        property: r'pallete',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<Task, Task, QAfterFilterCondition> palleteMatches(String pattern,
-      {bool caseSensitive = true}) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.matches(
-        property: r'pallete',
-        wildcard: pattern,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<Task, Task, QAfterFilterCondition> palleteIsEmpty() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'pallete',
-        value: '',
-      ));
-    });
-  }
-
-  QueryBuilder<Task, Task, QAfterFilterCondition> palleteIsNotEmpty() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.greaterThan(
-        property: r'pallete',
-        value: '',
       ));
     });
   }
@@ -878,10 +801,9 @@ extension TaskQueryWhereDistinct on QueryBuilder<Task, Task, QDistinct> {
     });
   }
 
-  QueryBuilder<Task, Task, QDistinct> distinctByPallete(
-      {bool caseSensitive = true}) {
+  QueryBuilder<Task, Task, QDistinct> distinctByPallete() {
     return QueryBuilder.apply(this, (query) {
-      return query.addDistinctBy(r'pallete', caseSensitive: caseSensitive);
+      return query.addDistinctBy(r'pallete');
     });
   }
 
@@ -912,7 +834,7 @@ extension TaskQueryProperty on QueryBuilder<Task, Task, QQueryProperty> {
     });
   }
 
-  QueryBuilder<Task, String, QQueryOperations> palleteProperty() {
+  QueryBuilder<Task, int, QQueryOperations> palleteProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'pallete');
     });

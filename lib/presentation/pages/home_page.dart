@@ -1,6 +1,5 @@
 import 'package:ebbinghaus_forgetting_curve/application/state/home/home_view_model.dart';
 import 'package:ebbinghaus_forgetting_curve/application/state/home/screen_view_model.dart';
-import 'package:ebbinghaus_forgetting_curve/presentation/theme/colors.dart';
 import 'package:ebbinghaus_forgetting_curve/presentation/widgets/bottom_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -36,8 +35,8 @@ class HomePageState extends ConsumerState<HomePage> {
         children: notifier.screens!,
       ),
       bottomNavigationBar: CustomBottomNavigationBar(
-        backgroundColor: BrandColor.white,
-        selectedItemColor: BrandColor.blue,
+        backgroundColor: Theme.of(context).canvasColor,
+        selectedItemColor: Theme.of(context).primaryColor,
         currentIndex: state,
         onTap: notifier.onItemTapped,
       ),

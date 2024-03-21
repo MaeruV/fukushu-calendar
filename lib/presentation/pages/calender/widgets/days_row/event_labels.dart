@@ -1,5 +1,7 @@
+import 'package:ebbinghaus_forgetting_curve/application/state/calender/calender_view_model.dart';
 import 'package:ebbinghaus_forgetting_curve/domain/entities/calendar_event.dart';
-import 'package:ebbinghaus_forgetting_curve/presentation/pages/calender/widgets/days_row/days_row.dart';
+import 'package:ebbinghaus_forgetting_curve/presentation/common/date_time_extension.dart';
+import 'package:ebbinghaus_forgetting_curve/presentation/pages/calender/widgets/table_calendar_page_.dart';
 import 'package:ebbinghaus_forgetting_curve/presentation/theme/colors.dart';
 import 'package:ebbinghaus_forgetting_curve/presentation/theme/fonts.dart';
 import 'package:flutter/material.dart';
@@ -8,11 +10,11 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 final collapsedProvider = StateProvider<bool>((ref) => false);
 
 /// Numbers to return accurate events in the cell.
-const dayLabelContentHeight = 20;
-const dayLabelVerticalMargin = 2;
+const dayLabelContentHeight = 17;
+const dayLabelVerticalMargin = 1;
 const _dayLabelHeight = dayLabelContentHeight + (dayLabelVerticalMargin * 2);
 
-const _eventLabelContentHeight = 13;
+const _eventLabelContentHeight = 8;
 const _eventLabelBottomMargin = 3;
 const _eventLabelHeight = _eventLabelContentHeight + _eventLabelBottomMargin;
 
@@ -82,17 +84,17 @@ class EventLabels extends HookConsumerWidget {
       itemCount: eventsOnTheDay.length,
       itemBuilder: (context, index) {
         if (eventsOnTheDay.length == 1) {
-          return _EventLabel(eventsOnTheDay[index]);
+          return _EventLabel(event: eventsOnTheDay[index], date: date);
         }
         if (hasEnoughSpace) {
-          return _EventLabel(eventsOnTheDay[index]);
+          return _EventLabel(event: eventsOnTheDay[index], date: date);
         } else if (index < maxIndex) {
-          return _EventLabel(eventsOnTheDay[index]);
+          return _EventLabel(event: eventsOnTheDay[index], date: date);
         } else if (index == maxIndex) {
           return Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              _EventLabel(eventsOnTheDay[index]),
+              _EventLabel(event: eventsOnTheDay[index], date: date),
               const Icon(
                 Icons.more_horiz,
                 size: 13,
@@ -107,17 +109,27 @@ class EventLabels extends HookConsumerWidget {
   }
 }
 
-class _EventLabel extends StatelessWidget {
-  const _EventLabel(this.event);
+class _EventLabel extends ConsumerWidget {
+  const _EventLabel({required this.event, required this.date});
 
   final CalendarEvent event;
+  final DateTime date;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final theme = Theme.of(context);
+
+    final isSelected =
+        date.isSameDay(ref.watch(calenderViewModelProvider).cellDateTime!);
+
+    final textColor = isSelected
+        ? theme.brightness == Brightness.dark
+            ? Colors.black
+            : Colors.white
+        : theme.brightness == Brightness.dark
+            ? Colors.white
+            : Colors.black;
     return Container(
-      color: event.taskDate == null
-          ? event.eventBackgroundColor.withOpacity(0.3)
-          : null,
       margin: const EdgeInsets.only(right: 3),
       child: IntrinsicHeight(
         child: Row(
@@ -131,7 +143,7 @@ class _EventLabel extends StatelessWidget {
             Expanded(
               child: Text(
                 event.eventName,
-                style: BrandText.bodySS,
+                style: BrandText.bodySS.copyWith(color: textColor),
                 textAlign: TextAlign.left,
                 overflow: TextOverflow.ellipsis,
               ),

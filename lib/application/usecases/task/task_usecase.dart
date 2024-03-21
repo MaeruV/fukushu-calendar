@@ -1,10 +1,11 @@
+import 'dart:ui';
+
 import 'package:ebbinghaus_forgetting_curve/application/state/loading/overlay_loading_provider.dart';
 import 'package:ebbinghaus_forgetting_curve/application/usecases/run_usecase_mixin.dart';
 import 'package:ebbinghaus_forgetting_curve/application/usecases/task/state/tasks_provider.dart';
 import 'package:ebbinghaus_forgetting_curve/domain/entities/calendar_event.dart';
 import 'package:ebbinghaus_forgetting_curve/domain/entities/task.dart';
 import 'package:ebbinghaus_forgetting_curve/domain/repository/task_event_repository_interface.dart';
-import 'package:ebbinghaus_forgetting_curve/presentation/theme/colors.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:isar/isar.dart';
 
@@ -36,7 +37,7 @@ class TaskUsecase with RunUsecaseMixin {
     required String memo,
     required DateTime dateTime,
     required List<int> intervalDays,
-    required String pallete,
+    required int pallete,
   }) async {
     Task task;
 
@@ -142,7 +143,7 @@ class TaskUsecase with RunUsecaseMixin {
       final startEvent = CalendarEvent(
         eventName: task.title,
         eventDate: startDate,
-        eventBackgroundColor: TaskColorPalette.normalPalette[task.pallete]!,
+        eventBackgroundColor: Color(task.pallete),
         eventID: task.id,
         taskDate: null,
       );
@@ -155,7 +156,8 @@ class TaskUsecase with RunUsecaseMixin {
           final reviewEvent = CalendarEvent(
             eventName: task.title,
             eventDate: reviewDate,
-            eventBackgroundColor: TaskColorPalette.normalPalette[task.pallete]!,
+            eventBackgroundColor: Color(task.pallete),
+            // eventBackgroundColor: TaskColorPalette.normalPalette[task.pallete]!,
             eventID: task.id,
             taskDate: daysToAdd,
           );

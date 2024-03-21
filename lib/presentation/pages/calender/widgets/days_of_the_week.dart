@@ -9,16 +9,18 @@ class DaysOfTheWeek extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
     return Row(
       children: _DaysOfTheWeek.map((day) => Expanded(
             child: Text(
               day,
               textAlign: TextAlign.center,
               style: BrandText.bodyM.copyWith(
-                color: day == _DaysOfTheWeek.first || day == _DaysOfTheWeek.last
-                    ? BrandColor.grey
-                    : Colors.black,
-              ),
+                  color:
+                      day == _DaysOfTheWeek.first || day == _DaysOfTheWeek.last
+                          ? BrandColor.grey
+                          : theme.primaryColorLight),
             ),
           )).toList(),
     );

@@ -49,7 +49,7 @@ class CheckTaskScreen extends ConsumerWidget {
             body: Column(
               children: [
                 CheckTaskNav(
-                  pallete: value.pallete,
+                  pallete: Color(value.pallete),
                   onTap: () {
                     ref.read(temporaryTaskProvider.notifier).state = value;
                     modal.customShowModalSheet(context);
@@ -62,8 +62,7 @@ class CheckTaskScreen extends ConsumerWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
                         Container(
-                          color: TaskColorPalette.normalPalette[value.pallete]!
-                              .withOpacity(0.3),
+                          color: Color(value.pallete).withOpacity(0.2),
                           child: Row(
                             children: [
                               Expanded(
@@ -93,15 +92,13 @@ class CheckTaskScreen extends ConsumerWidget {
                                       text: TextSpan(
                                         text: '$completedTasks ',
                                         style: BrandText.titleM.copyWith(
-                                          color: TaskColorPalette
-                                              .normalPalette[value.pallete],
+                                          color: Color(value.pallete),
                                         ),
                                         children: <TextSpan>[
                                           TextSpan(
                                             text: ' タスク',
                                             style: BrandText.bodyS.copyWith(
-                                              color: TaskColorPalette
-                                                  .normalPalette[value.pallete],
+                                              color: Color(value.pallete),
                                             ),
                                           ),
                                         ],
@@ -120,8 +117,7 @@ class CheckTaskScreen extends ConsumerWidget {
                                     percent: completionPercentage,
                                     center: Text(completionMessage),
                                     backgroundColor: BrandColor.white,
-                                    progressColor: TaskColorPalette
-                                        .normalPalette[value.pallete],
+                                    progressColor: Color(value.pallete),
                                   ),
                                 ),
                               ),

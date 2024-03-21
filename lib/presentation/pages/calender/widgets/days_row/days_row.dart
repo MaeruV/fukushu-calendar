@@ -2,12 +2,11 @@ import 'package:ebbinghaus_forgetting_curve/application/state/calender/calender_
 import 'package:ebbinghaus_forgetting_curve/domain/entities/calendar_event.dart';
 import 'package:ebbinghaus_forgetting_curve/presentation/pages/calender/widgets/days_row/event_labels.dart';
 import 'package:ebbinghaus_forgetting_curve/presentation/pages/calender/widgets/days_row/measure_size.dart';
+import 'package:ebbinghaus_forgetting_curve/presentation/pages/calender/widgets/table_calendar_page_.dart';
 import 'package:ebbinghaus_forgetting_curve/presentation/theme/colors.dart';
 import 'package:ebbinghaus_forgetting_curve/presentation/theme/fonts.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-
-final cellHeightProvider = StateProvider<double?>((ref) => null);
 
 class DaysRow extends StatelessWidget {
   const DaysRow({
@@ -36,6 +35,7 @@ class DaysRow extends StatelessWidget {
             onCellTapped?.call(dates[index], index);
           },
           events: events,
+          datesLength: dates.length,
         );
       })),
     );
@@ -50,6 +50,7 @@ class _DayCell extends HookConsumerWidget {
     required this.visiblePageDate,
     required this.onCellTapped,
     required this.events,
+    required this.datesLength,
   });
 
   final int cellIndex;
@@ -57,6 +58,7 @@ class _DayCell extends HookConsumerWidget {
   final DateTime visiblePageDate;
   final void Function()? onCellTapped;
   final List<CalendarEvent> events;
+  final int datesLength;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -79,8 +81,11 @@ class _DayCell extends HookConsumerWidget {
           decoration: BoxDecoration(
             border: Border(
               top: BorderSide(color: Theme.of(context).dividerColor, width: 1),
-              right:
-                  BorderSide(color: Theme.of(context).dividerColor, width: 1),
+              right: BorderSide(
+                  color: Theme.of(context).dividerColor,
+                  width:
+                      cellIndex == datesLength - 1 ? 0 : 1), // 一番右のセルのみ右側の線を消す
+              left: BorderSide.none,
             ),
           ),
           child: MeasureSize(

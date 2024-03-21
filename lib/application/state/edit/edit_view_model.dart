@@ -23,7 +23,7 @@ class EditViewModel extends _$EditViewModel {
     final List<int> intervalDays = task != null
         ? task!.dates.map((date) => date.daysInterval).toList()
         : [1, 3, 7, 14];
-    final pallete = task != null ? task!.pallete : 'yellow';
+    final pallete = task != null ? task!.pallete : 0xFF388E3C;
     final hasTask = task != null ? true : false;
 
     return EditState(
@@ -58,8 +58,9 @@ class EditViewModel extends _$EditViewModel {
     _checkForChanges();
   }
 
-  setPalette(String pallete) {
+  setPalette(int pallete) {
     state = state.copyWith(pallete: pallete);
+    _checkForChanges();
   }
 
   void _checkForChanges() {
@@ -71,6 +72,7 @@ class EditViewModel extends _$EditViewModel {
       if (state.title != '') {
         hasChanges = task!.title != state.title ||
             task!.memo != state.memo ||
+            task!.pallete != state.pallete ||
             !isDateTimeEqual ||
             !isIntervalDaysEqual;
       }

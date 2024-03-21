@@ -5,6 +5,8 @@ import 'package:ebbinghaus_forgetting_curve/presentation/theme/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+final compTodayKeyProvider = StateProvider((ref) => GlobalKey());
+
 class CompletedScreen extends ConsumerWidget {
   const CompletedScreen({super.key});
 
@@ -38,8 +40,17 @@ class CompletedScreen extends ConsumerWidget {
                           var entry = value.entries.elementAt(index);
                           var date = entry.key;
                           var taskDates = entry.value;
+
+                          final key = date.year == DateTime.now().year &&
+                                  date.month == DateTime.now().month &&
+                                  date.day == DateTime.now().day
+                              ? ref.watch(compTodayKeyProvider)
+                              : null;
                           return CompListView(
-                              dateTime: date, taskDates: taskDates);
+                            dateTime: date,
+                            taskDates: taskDates,
+                            key: key,
+                          );
                         },
                       ),
                     ),

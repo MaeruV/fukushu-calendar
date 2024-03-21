@@ -14,14 +14,14 @@ class CheckTaskNav extends ConsumerWidget {
 
   final VoidCallback onTap;
   final VoidCallback backTap;
-  final String pallete;
+  final Color pallete;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final size = ref.watch(screenViewModelProvider);
 
     return Container(
-      color: TaskColorPalette.normalPalette[pallete]!.withOpacity(0.3),
+      color: pallete.withOpacity(0.2),
       padding: EdgeInsets.only(
           top: size.safeAreaTop + 20, bottom: 20, left: 15, right: 15),
       child: Stack(

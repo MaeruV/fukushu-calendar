@@ -21,7 +21,7 @@ mixin _$EditState {
   DateTime get dateTime => throw _privateConstructorUsedError;
   List<int> get intervalDays => throw _privateConstructorUsedError;
   bool get hasTask => throw _privateConstructorUsedError;
-  String get pallete => throw _privateConstructorUsedError;
+  int get pallete => throw _privateConstructorUsedError;
   bool get hasChanges => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
@@ -40,7 +40,7 @@ abstract class $EditStateCopyWith<$Res> {
       DateTime dateTime,
       List<int> intervalDays,
       bool hasTask,
-      String pallete,
+      int pallete,
       bool hasChanges});
 }
 
@@ -89,7 +89,7 @@ class _$EditStateCopyWithImpl<$Res, $Val extends EditState>
       pallete: null == pallete
           ? _value.pallete
           : pallete // ignore: cast_nullable_to_non_nullable
-              as String,
+              as int,
       hasChanges: null == hasChanges
           ? _value.hasChanges
           : hasChanges // ignore: cast_nullable_to_non_nullable
@@ -112,7 +112,7 @@ abstract class _$$EditStateImplCopyWith<$Res>
       DateTime dateTime,
       List<int> intervalDays,
       bool hasTask,
-      String pallete,
+      int pallete,
       bool hasChanges});
 }
 
@@ -159,7 +159,7 @@ class __$$EditStateImplCopyWithImpl<$Res>
       pallete: null == pallete
           ? _value.pallete
           : pallete // ignore: cast_nullable_to_non_nullable
-              as String,
+              as int,
       hasChanges: null == hasChanges
           ? _value.hasChanges
           : hasChanges // ignore: cast_nullable_to_non_nullable
@@ -177,7 +177,7 @@ class _$EditStateImpl with DiagnosticableTreeMixin implements _EditState {
       required this.dateTime,
       required final List<int> intervalDays,
       required this.hasTask,
-      this.pallete = 'yellow',
+      required this.pallete,
       this.hasChanges = false})
       : _intervalDays = intervalDays;
 
@@ -198,8 +198,7 @@ class _$EditStateImpl with DiagnosticableTreeMixin implements _EditState {
   @override
   final bool hasTask;
   @override
-  @JsonKey()
-  final String pallete;
+  final int pallete;
   @override
   @JsonKey()
   final bool hasChanges;
@@ -265,7 +264,7 @@ abstract class _EditState implements EditState {
       required final DateTime dateTime,
       required final List<int> intervalDays,
       required final bool hasTask,
-      final String pallete,
+      required final int pallete,
       final bool hasChanges}) = _$EditStateImpl;
 
   @override
@@ -279,7 +278,7 @@ abstract class _EditState implements EditState {
   @override
   bool get hasTask;
   @override
-  String get pallete;
+  int get pallete;
   @override
   bool get hasChanges;
   @override

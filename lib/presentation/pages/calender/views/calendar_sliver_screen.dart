@@ -6,8 +6,8 @@ import 'package:ebbinghaus_forgetting_curve/presentation/common/date_extension.d
 import 'package:ebbinghaus_forgetting_curve/presentation/common/date_time_extension.dart';
 import 'package:ebbinghaus_forgetting_curve/presentation/pages/calender/widgets/calendar_list_tile.dart';
 import 'package:ebbinghaus_forgetting_curve/presentation/pages/calender/widgets/days_of_the_week.dart';
-import 'package:ebbinghaus_forgetting_curve/presentation/pages/calender/widgets/days_row/days_row.dart';
 import 'package:ebbinghaus_forgetting_curve/presentation/pages/calender/widgets/days_row/event_labels.dart';
+import 'package:ebbinghaus_forgetting_curve/presentation/pages/calender/widgets/table_calendar_page_.dart';
 import 'package:ebbinghaus_forgetting_curve/presentation/theme/colors.dart';
 import 'package:ebbinghaus_forgetting_curve/presentation/theme/fonts.dart';
 import 'package:flutter/material.dart';
@@ -22,6 +22,7 @@ class CalendarSliverScreen extends ConsumerWidget {
     final notifier = ref.read(collapsedProvider.notifier);
     final size = ref.watch(screenViewModelProvider);
     final calendarTask = ref.watch(tasksCalendarProvider);
+    final theme = Theme.of(context);
 
     void onCellTapped(
         DateTime date, int index, Map<DateTime, List<CalendarEvent>> value) {
@@ -50,7 +51,7 @@ class CalendarSliverScreen extends ConsumerWidget {
 
       case AsyncData(:final value):
         return Scaffold(
-          backgroundColor: BrandColor.background,
+          backgroundColor: theme.scaffoldBackgroundColor,
           body: NotificationListener(
             onNotification: (ScrollNotification notification) {
               if (notification is ScrollUpdateNotification) {
@@ -63,8 +64,8 @@ class CalendarSliverScreen extends ConsumerWidget {
               controller: scrollController,
               slivers: [
                 SliverAppBar(
-                  backgroundColor: Colors.white,
                   expandedHeight: size.mediaHeight * 0.7,
+                  backgroundColor: theme.scaffoldBackgroundColor,
                   pinned: true,
                   floating: false,
                   snap: false,
@@ -77,31 +78,19 @@ class CalendarSliverScreen extends ConsumerWidget {
                       return LayoutBuilder(
                         builder:
                             (BuildContext context, BoxConstraints constraints) {
-                          return Container(
-                            decoration: const BoxDecoration(
-                              color: BrandColor.white,
-                            ),
-                            child: Column(
-                              children: [
-                                SizedBox(height: size.safeAreaTop),
-                                SubjectWidget(mapEvents: value),
-                                const DaysOfTheWeek(),
-                                CalenderPageView(
-                                  events: value.values
-                                      .expand((events) => events)
-                                      .toList(),
-                                  onCellTapped: (date, index) =>
-                                      onCellTapped.call(date, index, value),
-                                ),
-                                Container(
-                                    decoration: BoxDecoration(
-                                        border: Border(
-                                  bottom: BorderSide(
-                                      color: Theme.of(context).dividerColor,
-                                      width: 1),
-                                ))),
-                              ],
-                            ),
+                          return Column(
+                            children: [
+                              SizedBox(height: size.safeAreaTop),
+                              SubjectWidget(mapEvents: value),
+                              const DaysOfTheWeek(),
+                              CalenderPageView(
+                                events: value.values
+                                    .expand((events) => events)
+                                    .toList(),
+                                onCellTapped: (date, index) =>
+                                    onCellTapped.call(date, index, value),
+                              ),
+                            ],
                           );
                         },
                       );
@@ -132,6 +121,10 @@ class CalendarSliverList extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final state = ref.watch(calenderViewModelProvider);
     final events = mapEvents[state.cellDateTime] ?? [];
+    final brightness = Theme.of(context).brightness;
+    final textColor =
+        brightness == Brightness.dark ? Colors.white : Colors.black;
+    final theme = Theme.of(context);
 
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 10),
@@ -145,9 +138,10 @@ class CalendarSliverList extends ConsumerWidget {
                   state.cellDateTime != null
                       ? state.cellDateTime!.toJapaneseFormat()
                       : "",
-                  style: BrandText.titleSM),
+                  style:
+                      theme.textTheme.titleMedium!.copyWith(color: textColor)),
               Text('${events.length}イベント',
-                  style: BrandText.titleS.copyWith(color: BrandColor.grey))
+                  style: theme.textTheme.titleSmall!.copyWith(color: textColor))
             ],
           ),
           const SizedBox(height: 5),
@@ -170,6 +164,7 @@ class SubjectWidget extends ConsumerWidget {
     final visibleYear = state.currentIndex.visibleDateTime.year.toString();
     const duration = Duration(milliseconds: 300);
     const curve = Curves.easeIn;
+    final theme = Theme.of(context);
 
     return Padding(
       padding: const EdgeInsets.fromLTRB(15, 5, 15, 10),
@@ -181,12 +176,18 @@ class SubjectWidget extends ConsumerWidget {
               children: <Widget>[
                 Text(
                   visibleYear,
-                  style: BrandText.titleLM.copyWith(color: BrandColor.black),
+                  style: theme.textTheme.titleLarge!.copyWith(
+                      color: theme.brightness == Brightness.dark
+                          ? Colors.white
+                          : Colors.black),
                 ),
                 const SizedBox(width: 15),
                 Text(
                   "$visibleMonth月",
-                  style: BrandText.titleLM.copyWith(color: BrandColor.black),
+                  style: theme.textTheme.titleLarge!.copyWith(
+                      color: theme.brightness == Brightness.dark
+                          ? Colors.white
+                          : Colors.black),
                 ),
               ],
             ),
@@ -217,7 +218,7 @@ class SubjectWidget extends ConsumerWidget {
                       textAlign: TextAlign.center,
                     )),
               ),
-              const SizedBox(width: 10),
+              const SizedBox(width: 20),
               GestureDetector(
                 onTap: () => state.pageController
                     .previousPage(duration: duration, curve: curve),
@@ -225,12 +226,15 @@ class SubjectWidget extends ConsumerWidget {
                   width: 30,
                   child: Text(
                     "<",
-                    style: BrandText.titleLM.copyWith(color: BrandColor.black),
+                    style: theme.textTheme.titleLarge!.copyWith(
+                        color: theme.brightness == Brightness.dark
+                            ? Colors.white
+                            : Colors.black),
                     textAlign: TextAlign.center,
                   ),
                 ),
               ),
-              const SizedBox(width: 20),
+              const SizedBox(width: 10),
               GestureDetector(
                 onTap: () => state.pageController
                     .nextPage(duration: duration, curve: curve),
@@ -238,7 +242,10 @@ class SubjectWidget extends ConsumerWidget {
                   width: 30,
                   child: Text(
                     ">",
-                    style: BrandText.titleLM.copyWith(color: BrandColor.black),
+                    style: theme.textTheme.titleLarge!.copyWith(
+                        color: theme.brightness == Brightness.dark
+                            ? Colors.white
+                            : Colors.black),
                     textAlign: TextAlign.center,
                   ),
                 ),
@@ -267,65 +274,68 @@ class CalenderPageView extends ConsumerWidget {
     final notifier = ref.read(calenderViewModelProvider.notifier);
 
     return Expanded(
-      child: PageView.builder(
-        controller: state.pageController,
-        itemBuilder: (context, index) {
-          return CalenderPage(
-            visiblePageDate: index.visibleDateTime,
-            events: events,
-            onCellTapped: onCellTapped,
-          );
-        },
-        onPageChanged: (index) => notifier.changeCurrentIndex(index),
-      ),
+      child: LayoutBuilder(builder: (context, constraints) {
+        return PageView.builder(
+          controller: state.pageController,
+          itemBuilder: (context, index) {
+            return TableCalendarPage(
+              tableHeight: constraints.maxHeight,
+              visiblePageDate: index.visibleDateTime,
+              events: events,
+              onCellTapped: onCellTapped,
+            );
+          },
+          onPageChanged: (index) => notifier.changeCurrentIndex(index),
+        );
+      }),
     );
   }
 }
 
-class CalenderPage extends ConsumerWidget {
-  const CalenderPage({
-    super.key,
-    required this.visiblePageDate,
-    required this.events,
-    required this.onCellTapped,
-  });
+// class CalenderPage extends ConsumerWidget {
+//   const CalenderPage({
+//     super.key,
+//     required this.visiblePageDate,
+//     required this.events,
+//     required this.onCellTapped,
+//   });
 
-  final DateTime visiblePageDate;
-  final List<CalendarEvent> events;
-  final void Function(DateTime, int)? onCellTapped;
+//   final DateTime visiblePageDate;
+//   final List<CalendarEvent> events;
+//   final void Function(DateTime, int)? onCellTapped;
 
-  List<DateTime> _getCurrentDates(DateTime dateTime) {
-    final List<DateTime> result = [];
-    final firstDay = _getFirstDate(dateTime);
-    result.add(firstDay);
-    for (int i = 0; i + 1 < 42; i++) {
-      result.add(firstDay.add(Duration(days: i + 1)));
-    }
-    return result;
-  }
+//   List<DateTime> _getCurrentDates(DateTime dateTime) {
+//     final List<DateTime> result = [];
+//     final firstDay = _getFirstDate(dateTime);
+//     result.add(firstDay);
+//     for (int i = 0; i + 1 < 42; i++) {
+//       result.add(firstDay.add(Duration(days: i + 1)));
+//     }
+//     return result;
+//   }
 
-  DateTime _getFirstDate(DateTime dateTime) {
-    final firstDayOfTheMonth = DateTime(dateTime.year, dateTime.month, 1);
-    return firstDayOfTheMonth.add(firstDayOfTheMonth.weekday.daysDuration);
-  }
+//   DateTime _getFirstDate(DateTime dateTime) {
+//     final firstDayOfTheMonth = DateTime(dateTime.year, dateTime.month, 1);
+//     return firstDayOfTheMonth.add(firstDayOfTheMonth.weekday.daysDuration);
+//   }
 
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final days = _getCurrentDates(visiblePageDate);
+//   @override
+//   Widget build(BuildContext context, WidgetRef ref) {
+//     final days = _getCurrentDates(visiblePageDate);
 
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      children: List.generate(
-        6,
-        (index) {
-          return DaysRow(
-            visiblePageDate: visiblePageDate,
-            dates: days.getRange(index * 7, (index + 1) * 7).toList(),
-            onCellTapped: onCellTapped,
-            events: events,
-          );
-        },
-      ),
-    );
-  }
-}
+//     return Column(
+//       mainAxisSize: MainAxisSize.min,
+//       children: List.generate(
+//         6,
+//         (index) {
+//           return DaysRow(
+//             visiblePageDate: visiblePageDate,
+//             dates: days.getRange(index * 7, (index + 1) * 7).toList(),
+//             onCellTapped: onCellTapped,
+//             events: events,
+//           );
+//         },
+//       ),
+//     );
+//   }
+// }

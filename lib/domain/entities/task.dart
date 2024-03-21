@@ -12,7 +12,7 @@ class Task {
 
   late String memo;
 
-  late String pallete;
+  late int pallete;
 
   @Backlink(to: 'task')
   final dates = IsarLinks<TaskDate>();

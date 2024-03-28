@@ -17,6 +17,7 @@ class AddTaskNav extends ConsumerWidget with PresentationMixin {
     final state = ref.watch(editViewModelProvider);
     String subject = state.hasTask ? '編集' : '新規';
     Color color = state.hasChanges ? BrandColor.deleteRed : BrandColor.grey;
+    final theme = Theme.of(context);
 
     return Padding(
       padding: const EdgeInsets.only(top: 20.0, bottom: 10.0),
@@ -34,7 +35,9 @@ class AddTaskNav extends ConsumerWidget with PresentationMixin {
           ),
           Align(
             alignment: Alignment.center,
-            child: Text(subject, style: BrandText.titleSM),
+            child: Text(subject,
+                style: theme.textTheme.titleSmall!
+                    .copyWith(color: theme.primaryColorLight)),
           ),
           Align(
             alignment: Alignment.centerRight,
@@ -50,6 +53,7 @@ class AddTaskNav extends ConsumerWidget with PresentationMixin {
                             dateTime: state.dateTime,
                             intervalDays: state.intervalDays,
                             pallete: state.pallete,
+                            time: state.time,
                           );
                     },
                   );

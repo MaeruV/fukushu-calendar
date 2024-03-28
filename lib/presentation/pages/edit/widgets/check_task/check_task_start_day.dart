@@ -11,14 +11,18 @@ class CheckTaskStartDay extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final theme = Theme.of(context);
+
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: <Widget>[
-        const SizedBox(
+        SizedBox(
           width: 80,
           child: Text(
             '開始日',
-            style: BrandText.bodyM,
+            style: BrandText.bodyM.copyWith(
+              color: theme.primaryColorLight,
+            ),
           ),
         ),
         Text(

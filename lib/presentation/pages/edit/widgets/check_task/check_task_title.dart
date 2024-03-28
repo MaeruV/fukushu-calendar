@@ -1,4 +1,3 @@
-import 'package:ebbinghaus_forgetting_curve/presentation/theme/fonts.dart';
 import 'package:flutter/material.dart';
 
 class CheckTaskTitle extends StatelessWidget {
@@ -7,14 +6,18 @@ class CheckTaskTitle extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: <Widget>[
-        Expanded(
-            child: Text(
-          title,
-          style: BrandText.bodyL,
-        )),
-      ],
+    final theme = Theme.of(context);
+
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 10.0),
+      child: Row(
+        children: <Widget>[
+          Expanded(
+              child: Text(title,
+                  style: theme.textTheme.bodyMedium!
+                      .copyWith(color: theme.primaryColorLight))),
+        ],
+      ),
     );
   }
 }

@@ -4,7 +4,6 @@ import 'package:ebbinghaus_forgetting_curve/presentation/component/loading.dart'
 import 'package:ebbinghaus_forgetting_curve/presentation/pages/edit/widgets/edit_widget/edit_add_task_button.dart';
 import 'package:ebbinghaus_forgetting_curve/presentation/pages/edit/widgets/edit_widget/edit_top_container.dart';
 import 'package:ebbinghaus_forgetting_curve/presentation/pages/edit/widgets/edit_widget/edit_view.dart';
-import 'package:ebbinghaus_forgetting_curve/presentation/theme/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
@@ -17,6 +16,7 @@ class EditScreen extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final config = ref.watch(tasksProvider);
     final isLoading = ref.watch(overlayLoadingProvider);
+    final theme = Theme.of(context);
 
     switch (config) {
       case AsyncError(:final error):
@@ -27,11 +27,11 @@ class EditScreen extends HookConsumerWidget {
 
       case AsyncData(:final value):
         return Scaffold(
-          backgroundColor: BrandColor.background,
           appBar: EditTopContainer(value: value),
           body: Stack(
             children: [
               RefreshIndicator(
+                  color: theme.focusColor,
                   onRefresh: () async => ref.invalidate(tasksProvider),
                   child: EditView(value: value)),
               const Positioned(

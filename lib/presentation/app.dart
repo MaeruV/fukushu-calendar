@@ -1,18 +1,22 @@
+import 'package:ebbinghaus_forgetting_curve/application/state/others/others_view_model.dart';
 import 'package:ebbinghaus_forgetting_curve/presentation/router/route.dart';
 import 'package:ebbinghaus_forgetting_curve/presentation/theme/app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-class App extends StatelessWidget {
-  const App({super.key});
+class App extends ConsumerWidget {
+  const App({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final state = ref.watch(othersViewModelProvider);
+
     return MaterialApp.router(
       title: 'Flutter Demo',
       theme: AppTheme.lightTheme,
       darkTheme: AppTheme.darkTheme,
-      themeMode: ThemeMode.dark,
+      themeMode: state.darkMode ? ThemeMode.dark : ThemeMode.light,
       routerDelegate: router.routerDelegate,
       routeInformationParser: router.routeInformationParser,
       routeInformationProvider: router.routeInformationProvider,

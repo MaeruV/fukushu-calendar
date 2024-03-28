@@ -10,10 +10,13 @@ class OverlayLoading extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ColoredBox(
-      color: backgroundColor,
-      child: const Center(
-        child: CircularProgressIndicator(),
+    return Scaffold(
+      backgroundColor: Colors.transparent,
+      body: ColoredBox(
+        color: backgroundColor,
+        child: const Center(
+          child: CircularProgressIndicator(),
+        ),
       ),
     );
   }

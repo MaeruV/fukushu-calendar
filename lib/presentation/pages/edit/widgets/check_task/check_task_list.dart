@@ -12,33 +12,34 @@ class CheckTaskList extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final theme = Theme.of(context);
+
     return Column(
         children: dates
             .map(
               (index) => Padding(
-                padding: const EdgeInsets.symmetric(vertical: 8.0),
+                padding:
+                    const EdgeInsets.symmetric(vertical: 8.0, horizontal: 10.0),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
-                    Padding(
-                      padding: const EdgeInsets.only(left: 10),
-                      child: SizedBox(
-                        width: 60,
-                        child: Text(
-                          '$index日後',
-                          style: BrandText.bodyM,
-                          textAlign: TextAlign.center,
+                    SizedBox(
+                      width: 60,
+                      child: Text(
+                        '$index日後',
+                        style: BrandText.bodyM.copyWith(
+                          color: theme.primaryColorLight,
                         ),
+                        textAlign: TextAlign.center,
                       ),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.only(right: 16),
-                      child: Text(
-                        startdate.add(Duration(days: index)).toJapaneseFormat(),
-                        style: BrandText.bodyM,
-                        overflow: TextOverflow.ellipsis,
-                        textAlign: TextAlign.start,
+                    Text(
+                      startdate.add(Duration(days: index)).toJapaneseFormat(),
+                      style: BrandText.bodyM.copyWith(
+                        color: theme.primaryColorLight,
                       ),
+                      overflow: TextOverflow.ellipsis,
+                      textAlign: TextAlign.start,
                     ),
                   ],
                 ),

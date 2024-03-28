@@ -14,7 +14,7 @@ class CompListView extends ConsumerWidget {
   final DateTime dateTime;
   final List<TaskDate> taskDates;
 
-  Color todayColor() {
+  Color todayColor(ThemeData theme) {
     final now = DateTime.now();
     final taskDate = dateTime;
 
@@ -23,23 +23,24 @@ class CompListView extends ConsumerWidget {
         taskDate.day == now.day) {
       return BrandColor.deleteRed;
     } else {
-      return BrandColor.grey;
+      return theme.primaryColorLight;
     }
   }
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final theme = Theme.of(context);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
         Padding(
-          padding: const EdgeInsets.all(8.0),
+          padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
           child: Text(
             dateTime.toRelativeJapaneseFormat(),
-            style: BrandText.titleM.copyWith(color: todayColor()),
+            style:
+                theme.textTheme.titleMedium!.copyWith(color: todayColor(theme)),
           ),
         ),
-        const SizedBox(height: 5),
         CompListWidget(taskDates: taskDates),
       ],
     );
@@ -53,20 +54,27 @@ class CompListWidget extends ConsumerWidget with PresentationMixin {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final theme = Theme.of(context);
+
     return Column(
       children: taskDates.map((taskDate) {
         final task = taskDate.task.value;
         return task == null
             ? const SizedBox.shrink()
             : Card(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                margin:
+                    const EdgeInsets.symmetric(horizontal: 10.0, vertical: 5.0),
                 child: IntrinsicHeight(
                   child: Container(
-                    color: Colors.transparent,
-                    margin: const EdgeInsets.symmetric(vertical: 1.0),
+                    decoration: const BoxDecoration(
+                        borderRadius: BorderRadius.all(Radius.circular(8))),
                     child: Row(
                       children: [
                         Container(
-                          width: 10,
+                          width: 8,
                           decoration: BoxDecoration(
                               color: Color(task.pallete),
                               borderRadius: const BorderRadius.only(
@@ -82,7 +90,8 @@ class CompListWidget extends ConsumerWidget with PresentationMixin {
                               children: [
                                 Text(
                                   task.title,
-                                  style: BrandText.bodyLM,
+                                  style: theme.textTheme.bodyMedium!
+                                      .copyWith(color: theme.primaryColorLight),
                                 ),
                                 const SizedBox(height: 5),
                                 Text(
@@ -95,6 +104,14 @@ class CompListWidget extends ConsumerWidget with PresentationMixin {
                           ),
                         ),
                         Checkbox(
+                          fillColor: MaterialStateProperty.resolveWith<Color>(
+                              (Set<MaterialState> states) {
+                            if (states.contains(MaterialState.selected)) {
+                              return theme.focusColor;
+                            }
+                            return theme.colorScheme.secondary;
+                          }),
+                          checkColor: Colors.white,
                           value: taskDate.checkFlag,
                           onChanged: (flag) {
                             execute(context, action: () async {

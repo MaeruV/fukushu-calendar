@@ -1,7 +1,5 @@
 import 'package:ebbinghaus_forgetting_curve/domain/entities/task.dart';
 import 'package:ebbinghaus_forgetting_curve/presentation/pages/completed/views/completed_screen.dart';
-import 'package:ebbinghaus_forgetting_curve/presentation/theme/colors.dart';
-import 'package:ebbinghaus_forgetting_curve/presentation/theme/fonts.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -34,7 +32,11 @@ class CompAppBar extends ConsumerWidget implements PreferredSizeWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final theme = Theme.of(context);
+
     return AppBar(
+      elevation: 1.5,
+      backgroundColor: theme.scaffoldBackgroundColor,
       centerTitle: false,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.only(
@@ -47,9 +49,11 @@ class CompAppBar extends ConsumerWidget implements PreferredSizeWidget {
           padding: const EdgeInsets.only(right: 10.0),
           child: GestureDetector(
             onTap: () => todayTaskIndex(ref),
-            child: Text(
-              '今日',
-              style: BrandText.titleS.copyWith(color: BrandColor.blue),
+            child: Center(
+              child: Text(
+                '今日',
+                style: theme.textTheme.titleSmall!.copyWith(color: Colors.blue),
+              ),
             ),
           ),
         ),
@@ -57,19 +61,21 @@ class CompAppBar extends ConsumerWidget implements PreferredSizeWidget {
       bottom: PreferredSize(
           preferredSize: Size.zero,
           child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+            padding: const EdgeInsets.symmetric(horizontal: 17, vertical: 10),
             child: Row(
               children: [
                 Text(
                   '完了済みタスク数: ${getTotalTaskCount(mapEvents)}',
-                  style: BrandText.bodyM.copyWith(color: BrandColor.grey),
+                  style:
+                      theme.textTheme.bodyMedium!.copyWith(color: Colors.grey),
                 ),
               ],
             ),
           )),
       title: Text(
         '完了済み',
-        style: BrandText.titleLM.copyWith(color: BrandColor.grey),
+        style: theme.textTheme.titleLarge!
+            .copyWith(color: theme.primaryColorLight),
       ),
     );
   }

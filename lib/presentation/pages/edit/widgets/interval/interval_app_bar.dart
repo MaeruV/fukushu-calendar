@@ -15,10 +15,21 @@ class IntervalAppBar extends ConsumerWidget
   Widget build(BuildContext context, WidgetRef ref) {
     final notifier = ref.read(editViewModelProvider.notifier);
     final intervalState = ref.watch(intervalViewModelProvider);
+    final theme = Theme.of(context);
 
     return AppBar(
-      backgroundColor: BrandColor.background,
-      title: const Text("復習期間", style: BrandText.titleSM),
+      backgroundColor: theme.canvasColor,
+      title: Text("復習期間",
+          style: theme.textTheme.titleMedium!
+              .copyWith(color: theme.primaryColorLight)),
+      leading: GestureDetector(
+        onTap: () => context.pop(),
+        child: Icon(
+          Icons.chevron_left,
+          size: 35,
+          color: theme.primaryColorLight,
+        ),
+      ),
       actions: [
         Padding(
           padding: const EdgeInsets.only(right: 15.0),
@@ -33,9 +44,11 @@ class IntervalAppBar extends ConsumerWidget
                 }
               });
             },
-            child: Text(
-              "完了",
-              style: BrandText.titleS.copyWith(color: BrandColor.deleteRed),
+            child: Center(
+              child: Text(
+                "完了",
+                style: BrandText.titleS.copyWith(color: BrandColor.deleteRed),
+              ),
             ),
           ),
         ),

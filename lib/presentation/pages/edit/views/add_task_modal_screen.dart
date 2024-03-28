@@ -4,8 +4,8 @@ import 'package:ebbinghaus_forgetting_curve/presentation/pages/edit/widgets/add_
 import 'package:ebbinghaus_forgetting_curve/presentation/pages/edit/widgets/add_task/add_task_interval.dart';
 import 'package:ebbinghaus_forgetting_curve/presentation/pages/edit/widgets/add_task/add_task_memo.dart';
 import 'package:ebbinghaus_forgetting_curve/presentation/pages/edit/widgets/add_task/add_task_nav.dart';
+import 'package:ebbinghaus_forgetting_curve/presentation/pages/edit/widgets/add_task/add_task_notification.dart';
 import 'package:ebbinghaus_forgetting_curve/presentation/pages/edit/widgets/add_task/add_task_title.dart';
-import 'package:ebbinghaus_forgetting_curve/presentation/theme/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
@@ -21,7 +21,6 @@ class AddTaskModalScreen extends HookConsumerWidget {
 
     return Container(
       decoration: const BoxDecoration(
-          color: BrandColor.background,
           borderRadius: BorderRadius.vertical(top: Radius.circular(10))),
       height: safeArea.mediaHeight - safeArea.safeAreaTop,
       child: Padding(
@@ -44,6 +43,8 @@ class AddTaskModalScreen extends HookConsumerWidget {
                     AddTaskInterval(),
                     SizedBox(height: 20),
                     AddTaskColor(),
+                    SizedBox(height: 20),
+                    AddTaskNotification(),
                   ],
                 ),
               ),

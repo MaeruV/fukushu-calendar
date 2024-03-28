@@ -18,12 +18,14 @@ class CustomBottomNavigationBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
     return SizedBox(
       height: 100,
       child: BottomNavigationBar(
         backgroundColor: backgroundColor,
-        selectedItemColor: selectedItemColor,
-        unselectedItemColor: Colors.white,
+        selectedItemColor: theme.focusColor,
+        unselectedItemColor: theme.primaryColorLight,
         currentIndex: currentIndex,
         onTap: onTap,
         showSelectedLabels: false,
@@ -47,7 +49,7 @@ class CustomBottomNavigationBar extends StatelessWidget {
                 : BrandIcon.editIcon(
                     const ColorFilter.mode(BrandColor.grey, BlendMode.srcIn),
                     1.0),
-            label: 'Mapbox', // 非表示にしても、ラベルは必須です
+            label: 'スケジュール', // 非表示にしても、ラベルは必須です
           ),
           BottomNavigationBarItem(
             icon: currentIndex == 2
@@ -57,7 +59,17 @@ class CustomBottomNavigationBar extends StatelessWidget {
                 : BrandIcon.flagIcon(
                     const ColorFilter.mode(BrandColor.grey, BlendMode.srcIn),
                     1.0),
-            label: '検索', // 非表示にしても、ラベルは必須です
+            label: '完了済み', // 非表示にしても、ラベルは必須です
+          ),
+          BottomNavigationBarItem(
+            icon: currentIndex == 3
+                ? BrandIcon.settingIcon(
+                    const ColorFilter.mode(BrandColor.blue, BlendMode.srcIn),
+                    1.1)
+                : BrandIcon.settingIcon(
+                    const ColorFilter.mode(BrandColor.grey, BlendMode.srcIn),
+                    1.0),
+            label: '設定',
           ),
         ],
         type: BottomNavigationBarType.fixed,

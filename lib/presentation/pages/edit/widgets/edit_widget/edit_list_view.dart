@@ -20,7 +20,7 @@ class EditListView extends ConsumerWidget {
   final DateTime dateTime;
   final List<Task> tasks;
 
-  Color todayColor() {
+  Color todayColor(ThemeData theme) {
     final now = DateTime.now();
     final taskDate = dateTime;
 
@@ -29,21 +29,22 @@ class EditListView extends ConsumerWidget {
         taskDate.day == now.day) {
       return BrandColor.deleteRed;
     } else {
-      return BrandColor.grey;
+      return theme.primaryColorLight;
     }
   }
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final theme = Theme.of(context);
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
         Padding(
           padding: const EdgeInsets.all(8.0),
-          child: Text(
-            '${dateTime.toRelativeJapaneseFormat()}から',
-            style: BrandText.titleM.copyWith(color: todayColor()),
-          ),
+          child: Text('${dateTime.toRelativeJapaneseFormat()}から',
+              style: theme.textTheme.titleMedium!
+                  .copyWith(color: todayColor(theme))),
         ),
         EditSlidableAction(tasks: tasks),
       ],
@@ -141,6 +142,8 @@ class MainTaskWidget extends ConsumerWidget {
     final String completionMessage =
         "${(completionPercentage * 100).toStringAsFixed(0)}%";
 
+    final theme = Theme.of(context);
+
     return Card(
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(8),
@@ -148,16 +151,14 @@ class MainTaskWidget extends ConsumerWidget {
       margin: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 5.0),
       child: IntrinsicHeight(
         child: Container(
-          decoration: BoxDecoration(
-              color: Color(task.pallete).withOpacity(0.1),
-              borderRadius: const BorderRadius.all(Radius.circular(8))),
+          decoration: const BoxDecoration(
+              borderRadius: BorderRadius.all(Radius.circular(8))),
           child: Row(
             children: [
               Container(
                 width: 8,
                 decoration: BoxDecoration(
                     color: Color(task.pallete),
-                    // color: TaskColorPalette.normalPalette[task.pallete],
                     borderRadius: const BorderRadius.only(
                         topLeft: Radius.circular(8),
                         bottomLeft: Radius.circular(8))),
@@ -165,15 +166,12 @@ class MainTaskWidget extends ConsumerWidget {
               Expanded(
                 child: Container(
                   padding: const EdgeInsets.fromLTRB(10.0, 15.0, 5.0, 15.0),
-                  decoration: const BoxDecoration(
-                      borderRadius: BorderRadius.all(Radius.circular(8))),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
-                        task.title,
-                        style: BrandText.bodyLM,
-                      ),
+                      Text(task.title,
+                          style: theme.textTheme.bodyMedium!
+                              .copyWith(color: theme.primaryColorLight)),
                       task.memo.isNotEmpty
                           ? Padding(
                               padding: const EdgeInsets.only(
@@ -181,10 +179,11 @@ class MainTaskWidget extends ConsumerWidget {
                               child: Text(
                                 task.memo,
                                 style: BrandText.bodyS
-                                    .copyWith(color: BrandColor.grey),
+                                    .copyWith(color: Colors.grey),
                               ),
                             )
                           : const SizedBox.shrink(),
+                      const SizedBox(height: 8),
                       Row(
                         children: [
                           const Text(
@@ -217,9 +216,7 @@ class MainTaskWidget extends ConsumerWidget {
                   lineWidth: 5.0,
                   percent: completionPercentage,
                   center: Text(completionMessage),
-                  backgroundColor: BrandColor.white,
                   progressColor: Color(task.pallete),
-                  // progressColor: TaskColorPalette.normalPalette[task.pallete],
                 ),
               ),
             ],

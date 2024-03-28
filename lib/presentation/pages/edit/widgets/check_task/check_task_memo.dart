@@ -10,6 +10,8 @@ class CheckTaskMemo extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final theme = Theme.of(context);
+
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -22,12 +24,10 @@ class CheckTaskMemo extends ConsumerWidget {
           child: memo != null
               ? Text(
                   memo!,
-                  style: BrandText.bodyM.copyWith(color: BrandColor.black),
+                  style: theme.textTheme.bodySmall!
+                      .copyWith(color: theme.primaryColorLight),
                 )
-              : Text(
-                  '',
-                  style: BrandText.bodyM.copyWith(color: BrandColor.grey),
-                ),
+              : const Text(''),
         ),
       ],
     );

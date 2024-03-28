@@ -1,6 +1,5 @@
 import 'package:ebbinghaus_forgetting_curve/application/state/edit/edit_view_model.dart';
 import 'package:ebbinghaus_forgetting_curve/presentation/theme/colors.dart';
-import 'package:ebbinghaus_forgetting_curve/presentation/theme/fonts.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -11,6 +10,7 @@ class AddTaskInterval extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final state = ref.watch(editViewModelProvider);
+    final theme = Theme.of(context);
 
     final formattedIntervals =
         '${state.intervalDays.map((interval) => '$interval').join(', ')}日後';
@@ -20,9 +20,10 @@ class AddTaskInterval extends ConsumerWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          const Text(
+          Text(
             '復習間隔',
-            style: BrandText.bodyM,
+            style: theme.textTheme.bodySmall!
+                .copyWith(color: theme.primaryColorLight),
           ),
           const SizedBox(height: 5),
           Container(
@@ -38,7 +39,8 @@ class AddTaskInterval extends ConsumerWidget {
                 Expanded(
                   child: Text(
                     formattedIntervals,
-                    style: BrandText.bodyS,
+                    style: theme.textTheme.bodySmall!
+                        .copyWith(color: theme.primaryColorLight),
                     overflow: TextOverflow.ellipsis,
                   ),
                 ),

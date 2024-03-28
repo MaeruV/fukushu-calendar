@@ -14,6 +14,8 @@ class Task {
 
   late int pallete;
 
+  late DateTime time;
+
   @Backlink(to: 'task')
   final dates = IsarLinks<TaskDate>();
 }

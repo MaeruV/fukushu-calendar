@@ -2,7 +2,6 @@ import 'package:ebbinghaus_forgetting_curve/application/state/edit/color_picker_
 import 'package:ebbinghaus_forgetting_curve/application/state/edit/edit_view_model.dart';
 import 'package:ebbinghaus_forgetting_curve/presentation/presentation_mixin.dart';
 import 'package:ebbinghaus_forgetting_curve/presentation/theme/colors.dart';
-import 'package:ebbinghaus_forgetting_curve/presentation/theme/fonts.dart';
 import 'package:ebbinghaus_forgetting_curve/presentation/widgets/circle_painter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
@@ -12,12 +11,15 @@ class AddTaskColor extends ConsumerWidget with PresentationMixin {
   const AddTaskColor({super.key});
 
   showColorPicker(BuildContext context, WidgetRef ref) {
+    final theme = Theme.of(context);
     showDialog(
         context: context,
         builder: (BuildContext context) {
           Color? pickedColor;
           return AlertDialog(
-            title: const Text('カラー'),
+            title: Text('カラー',
+                style: theme.textTheme.titleMedium!
+                    .copyWith(color: theme.primaryColorLight)),
             content: SingleChildScrollView(
               child: ColorPicker(
                 pickerColor: const Color(0xFFFFFFFF),
@@ -28,15 +30,16 @@ class AddTaskColor extends ConsumerWidget with PresentationMixin {
               ),
             ),
             actions: <Widget>[
-              ElevatedButton(
-                child: const Text('キャンセル'),
+              TextButton(
+                child: Text('キャンセル',
+                    style: theme.textTheme.bodySmall!
+                        .copyWith(color: Colors.blue)),
                 onPressed: () => Navigator.of(context).pop(),
               ),
-              ElevatedButton(
-                child: Text(
-                  '完了',
-                  style: BrandText.bodyM.copyWith(color: BrandColor.deleteRed),
-                ),
+              TextButton(
+                child: Text('完了',
+                    style:
+                        theme.textTheme.bodySmall!.copyWith(color: Colors.red)),
                 onPressed: () {
                   execute(context, action: () async {
                     if (pickedColor != null) {
@@ -57,6 +60,7 @@ class AddTaskColor extends ConsumerWidget with PresentationMixin {
   Widget build(BuildContext context, WidgetRef ref) {
     final state = ref.watch(editViewModelProvider);
     final colorState = ref.watch(colorPickerViewModelProvider);
+    final theme = Theme.of(context);
 
     List<int> combinedColors = [
       ...colorState,
@@ -66,9 +70,10 @@ class AddTaskColor extends ConsumerWidget with PresentationMixin {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        const Text(
+        Text(
           'カラー',
-          style: BrandText.bodyM,
+          style: theme.textTheme.bodySmall!
+              .copyWith(color: theme.primaryColorLight),
         ),
         const SizedBox(height: 5),
         SizedBox(

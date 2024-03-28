@@ -13,21 +13,24 @@ class AddTaskMemo extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final memoText = ref.watch(editViewModelProvider).memo;
     final notifier = ref.read(editViewModelProvider.notifier);
+    final theme = Theme.of(context);
 
     final controller = useCustomTextEditingController(text: memoText);
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Text(
+        Text(
           'メモ',
-          style: BrandText.bodyS,
+          style: theme.textTheme.bodySmall!
+              .copyWith(color: theme.primaryColorLight),
         ),
         const SizedBox(height: 5),
         SizedBox(
           height: 80,
           child: TextField(
-            style: BrandText.bodyS,
+            style: theme.textTheme.bodySmall!
+                .copyWith(color: theme.primaryColorLight),
             controller: controller,
             onChanged: (value) => notifier.setMemoText(value),
             maxLength: 100,

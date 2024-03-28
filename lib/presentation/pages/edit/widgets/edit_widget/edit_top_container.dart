@@ -1,8 +1,5 @@
-import 'package:ebbinghaus_forgetting_curve/application/usecases/task/state/tasks_provider.dart';
 import 'package:ebbinghaus_forgetting_curve/domain/entities/task.dart';
 import 'package:ebbinghaus_forgetting_curve/presentation/pages/edit/views/edit_screen.dart';
-import 'package:ebbinghaus_forgetting_curve/presentation/theme/colors.dart';
-import 'package:ebbinghaus_forgetting_curve/presentation/theme/fonts.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -35,10 +32,12 @@ class EditTopContainer extends ConsumerWidget implements PreferredSizeWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final totalTask = ref.watch(tasksProvider);
+    final theme = Theme.of(context);
 
     return AppBar(
+      elevation: 1.5,
       centerTitle: false,
+      backgroundColor: theme.scaffoldBackgroundColor,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.only(
           bottomLeft: Radius.circular(15),
@@ -46,13 +45,15 @@ class EditTopContainer extends ConsumerWidget implements PreferredSizeWidget {
         ),
       ),
       actions: [
-        Padding(
-          padding: const EdgeInsets.only(right: 10.0),
-          child: GestureDetector(
-            onTap: () => todayTaskIndex(ref),
-            child: Text(
-              '今日',
-              style: BrandText.titleS.copyWith(color: BrandColor.blue),
+        Center(
+          child: Padding(
+            padding: const EdgeInsets.only(right: 10.0),
+            child: GestureDetector(
+              onTap: () => todayTaskIndex(ref),
+              child: Text(
+                '今日',
+                style: theme.textTheme.titleSmall!.copyWith(color: Colors.blue),
+              ),
             ),
           ),
         ),
@@ -63,20 +64,18 @@ class EditTopContainer extends ConsumerWidget implements PreferredSizeWidget {
             padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
             child: Row(
               children: [
-                switch (totalTask) {
-                  AsyncError(:final error) => Text('Error: $error'),
-                  AsyncData(:final value) => Text(
-                      'タスク数:  ${getTotalTaskCount(value)}',
-                      style: BrandText.bodyM.copyWith(color: BrandColor.grey),
-                    ),
-                  _ => const CircularProgressIndicator(),
-                },
+                Text(
+                  'タスク数:  ${getTotalTaskCount(value)}',
+                  style:
+                      theme.textTheme.bodyMedium!.copyWith(color: Colors.grey),
+                ),
               ],
             ),
           )),
       title: Text(
         'スケジュール',
-        style: BrandText.titleLM.copyWith(color: BrandColor.grey),
+        style: theme.textTheme.titleLarge!
+            .copyWith(color: theme.primaryColorLight),
       ),
     );
   }

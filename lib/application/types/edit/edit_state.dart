@@ -1,4 +1,5 @@
 import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'edit_state.freezed.dart';
@@ -12,6 +13,7 @@ class EditState with _$EditState {
     required List<int> intervalDays,
     required bool hasTask,
     required int pallete,
+    required DateTime time,
     @Default(false) bool hasChanges,
   }) = _EditState;
 }

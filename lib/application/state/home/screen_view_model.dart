@@ -13,7 +13,7 @@ class ScreenViewModel extends _$ScreenViewModel {
     );
   }
 
-  void setScreenSize(double height, double top) {
+  Future<void> setScreenSize(double height, double top) async {
     state = state.copyWith(mediaHeight: height, safeAreaTop: top);
   }
 }

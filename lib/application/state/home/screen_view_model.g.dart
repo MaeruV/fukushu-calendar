@@ -6,7 +6,7 @@ part of 'screen_view_model.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$screenViewModelHash() => r'979ce96b604ecc0149faefc9d9670488f58d8c08';
+String _$screenViewModelHash() => r'7bb7eca731a4d646f8abf94df793c5dc99bd1783';
 
 /// See also [ScreenViewModel].
 @ProviderFor(ScreenViewModel)

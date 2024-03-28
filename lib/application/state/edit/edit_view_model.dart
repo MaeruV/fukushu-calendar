@@ -14,16 +14,14 @@ class EditViewModel extends _$EditViewModel {
   EditState build() {
     task = ref.watch(temporaryTaskProvider);
 
-    final datetime = task != null
-        ? task!.startTime
-        : DateTime(
-            DateTime.now().year, DateTime.now().month, DateTime.now().day);
-    final titleText = task != null ? task!.title : '';
-    final memoText = task != null ? task!.memo : '';
-    final List<int> intervalDays = task != null
-        ? task!.dates.map((date) => date.daysInterval).toList()
-        : [1, 3, 7, 14];
-    final pallete = task != null ? task!.pallete : 0xFF388E3C;
+    final datetime = task?.startTime ??
+        DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day);
+    final titleText = task?.title ?? '';
+    final memoText = task?.memo ?? '';
+    final List<int> intervalDays =
+        task?.dates.map((date) => date.daysInterval).toList() ?? [1, 3, 7, 14];
+    final pallete = task?.pallete ?? 0xFF388E3C;
+    final time = task?.time ?? DateTime(2023, 1, 1, 0, 0);
     final hasTask = task != null ? true : false;
 
     return EditState(
@@ -32,8 +30,9 @@ class EditViewModel extends _$EditViewModel {
       dateTime: datetime,
       intervalDays: intervalDays,
       hasTask: hasTask,
-      hasChanges: false,
       pallete: pallete,
+      time: time,
+      hasChanges: hasTask,
     );
   }
 
@@ -50,6 +49,11 @@ class EditViewModel extends _$EditViewModel {
 
   setDateTime(DateTime time) {
     state = state.copyWith(dateTime: time);
+    _checkForChanges();
+  }
+
+  setTime(DateTime time) {
+    state = state.copyWith(time: time);
     _checkForChanges();
   }
 
@@ -74,7 +78,8 @@ class EditViewModel extends _$EditViewModel {
             task!.memo != state.memo ||
             task!.pallete != state.pallete ||
             !isDateTimeEqual ||
-            !isIntervalDaysEqual;
+            !isIntervalDaysEqual ||
+            task!.time != state.time;
       }
     } else {
       hasChanges = state.title != '';

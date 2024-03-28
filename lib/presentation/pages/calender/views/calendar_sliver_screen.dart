@@ -121,9 +121,6 @@ class CalendarSliverList extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final state = ref.watch(calenderViewModelProvider);
     final events = mapEvents[state.cellDateTime] ?? [];
-    final brightness = Theme.of(context).brightness;
-    final textColor =
-        brightness == Brightness.dark ? Colors.white : Colors.black;
     final theme = Theme.of(context);
 
     return Padding(
@@ -138,10 +135,11 @@ class CalendarSliverList extends ConsumerWidget {
                   state.cellDateTime != null
                       ? state.cellDateTime!.toJapaneseFormat()
                       : "",
-                  style:
-                      theme.textTheme.titleMedium!.copyWith(color: textColor)),
+                  style: theme.textTheme.titleMedium!
+                      .copyWith(color: theme.primaryColorLight)),
               Text('${events.length}イベント',
-                  style: theme.textTheme.titleSmall!.copyWith(color: textColor))
+                  style: theme.textTheme.titleSmall!
+                      .copyWith(color: theme.primaryColorLight))
             ],
           ),
           const SizedBox(height: 5),

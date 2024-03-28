@@ -1,7 +1,6 @@
 import 'package:ebbinghaus_forgetting_curve/application/state/edit/edit_view_model.dart';
 import 'package:ebbinghaus_forgetting_curve/presentation/common/date_time_extension.dart';
 import 'package:ebbinghaus_forgetting_curve/presentation/theme/colors.dart';
-import 'package:ebbinghaus_forgetting_curve/presentation/theme/fonts.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
@@ -9,15 +8,16 @@ class AddTaskCalendar extends ConsumerWidget {
   const AddTaskCalendar({super.key});
 
   Future<DateTime?> showDate(BuildContext context, DateTime dateTime) async {
+    final DateTime now = DateTime.now();
+    final DateTime firstDate = dateTime.subtract(const Duration(days: 30));
+    final DateTime lastDate = now.add(const Duration(days: 360));
+
     final DateTime? datePicked = await showDatePicker(
       locale: const Locale("ja"),
       context: context,
       initialDate: dateTime,
-      firstDate: DateTime(
-          DateTime.now().year, DateTime.now().month, DateTime.now().day),
-      lastDate: DateTime.now().add(
-        const Duration(days: 30),
-      ),
+      firstDate: firstDate,
+      lastDate: lastDate,
     );
     return datePicked;
   }
@@ -26,6 +26,7 @@ class AddTaskCalendar extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final state = ref.watch(editViewModelProvider);
     final notifier = ref.read(editViewModelProvider.notifier);
+    final theme = Theme.of(context);
 
     return GestureDetector(
       onTap: () async {
@@ -37,9 +38,10 @@ class AddTaskCalendar extends ConsumerWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          const Text(
+          Text(
             '開始日',
-            style: BrandText.bodyM,
+            style: theme.textTheme.bodySmall!
+                .copyWith(color: theme.primaryColorLight),
           ),
           const SizedBox(height: 5),
           Container(
@@ -54,7 +56,8 @@ class AddTaskCalendar extends ConsumerWidget {
               children: <Widget>[
                 Text(
                   state.dateTime.toJapaneseFormat(),
-                  style: BrandText.bodyS,
+                  style: theme.textTheme.bodySmall!
+                      .copyWith(color: theme.primaryColorLight),
                 ),
                 const Icon(
                   Icons.calendar_month_rounded,

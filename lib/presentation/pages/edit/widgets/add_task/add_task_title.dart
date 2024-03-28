@@ -12,21 +12,24 @@ class AddTaskTitle extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final notifier = ref.read(editViewModelProvider.notifier);
     final state = ref.watch(editViewModelProvider);
+    final theme = Theme.of(context);
 
     final controller = useTextEditingController(text: state.title);
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Text(
+        Text(
           'タイトル',
-          style: BrandText.bodyS,
+          style: theme.textTheme.bodySmall!
+              .copyWith(color: theme.primaryColorLight),
         ),
         const SizedBox(height: 5),
         SizedBox(
           height: 80,
           child: TextField(
-            style: BrandText.bodyS,
+            style: theme.textTheme.bodySmall!
+                .copyWith(color: theme.primaryColorLight),
             maxLength: 20,
             controller: controller,
             onChanged: (value) => notifier.setTitleText(value),

@@ -10,6 +10,7 @@ class EditAddTaskButton extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     ModalManager modal = ModalManager();
+    final theme = Theme.of(context);
 
     return GestureDetector(
       onTap: () {
@@ -20,7 +21,7 @@ class EditAddTaskButton extends ConsumerWidget {
         height: 50,
         width: 50,
         decoration: BoxDecoration(
-          color: BrandColor.blue,
+          color: theme.focusColor,
           borderRadius: BorderRadius.circular(25),
         ),
         child: const Icon(

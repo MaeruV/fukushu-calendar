@@ -32,6 +32,16 @@ class BrandIcon {
     );
   }
 
+  static SvgPicture settingIcon(ColorFilter color, double magnification) {
+    return SvgPicture.asset(
+      'assets/icons/setting_icon.svg',
+      semanticsLabel: 'setting',
+      width: 24 * magnification,
+      height: 24 * magnification,
+      colorFilter: color,
+    );
+  }
+
   static SvgPicture moreIcon = SvgPicture.asset(
     'assets/icons/more_horiz.svg',
     semanticsLabel: 'more',
@@ -42,6 +52,14 @@ class BrandIcon {
   static SvgPicture deleteIcon = SvgPicture.asset(
     'assets/icons/delete.svg',
     semanticsLabel: 'delete',
+    width: 24,
+    height: 24,
+  );
+
+  static SvgPicture hudeIcon = SvgPicture.asset(
+    'assets/icons/hude_icon.svg',
+    semanticsLabel: 'hude',
+    colorFilter: const ColorFilter.mode(Colors.grey, BlendMode.srcIn),
     width: 24,
     height: 24,
   );

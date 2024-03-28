@@ -11,11 +11,11 @@ mixin RunUsecaseMixin {
   }) async {
     final disableLoading = loadingController == null;
 
-    //
     if (disableLoading) {
       try {
         return await action();
       } catch (e) {
+        print(e);
         rethrow;
       }
     }

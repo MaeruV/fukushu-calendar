@@ -1,7 +1,6 @@
 import 'package:ebbinghaus_forgetting_curve/application/types/edit/edit_state.dart';
 import 'package:ebbinghaus_forgetting_curve/application/usecases/task/state/tasks_provider.dart';
 import 'package:ebbinghaus_forgetting_curve/domain/entities/task.dart';
-import 'package:flutter/foundation.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'edit_view_model.g.dart';
@@ -14,26 +13,36 @@ class EditViewModel extends _$EditViewModel {
   EditState build() {
     task = ref.watch(temporaryTaskProvider);
 
-    final datetime = task?.startTime ??
+    final startTime = task?.startTime ??
         DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day);
     final titleText = task?.title ?? '';
     final memoText = task?.memo ?? '';
     final List<int> intervalDays =
         task?.dates.map((date) => date.daysInterval).toList() ?? [1, 3, 7, 14];
     final pallete = task?.pallete ?? 0xFF388E3C;
-    final time = task?.time ?? DateTime(2023, 1, 1, 0, 0);
-    final hasTask = task != null ? true : false;
+    final hasTime = task?.time.toList() != null;
+    final checkDateTime = hasTime && task?.time.toList().isNotEmpty == true
+        ? task?.time.toList().first.dateTime
+        : null;
+    final bool flagNotification =
+        hasTime && task?.time.toList().isNotEmpty == true;
 
     return EditState(
       title: titleText,
       memo: memoText,
-      dateTime: datetime,
+      startTime: startTime,
       intervalDays: intervalDays,
-      hasTask: hasTask,
+      hasTask: false,
       pallete: pallete,
-      time: time,
-      hasChanges: hasTask,
+      time: checkDateTime,
+      flagNotification: flagNotification,
     );
+  }
+
+  setNotificationFlag(bool flag) {
+    state =
+        state.copyWith(flagNotification: flag, time: flag ? state.time : null);
+    _checkForChanges();
   }
 
   setTitleText(String text) {
@@ -48,7 +57,7 @@ class EditViewModel extends _$EditViewModel {
   }
 
   setDateTime(DateTime time) {
-    state = state.copyWith(dateTime: time);
+    state = state.copyWith(startTime: time);
     _checkForChanges();
   }
 
@@ -68,22 +77,6 @@ class EditViewModel extends _$EditViewModel {
   }
 
   void _checkForChanges() {
-    bool hasChanges = false;
-    if (task != null) {
-      bool isIntervalDaysEqual =
-          listEquals(task!.dates.toList(), state.intervalDays);
-      bool isDateTimeEqual = task!.startTime == state.dateTime;
-      if (state.title != '') {
-        hasChanges = task!.title != state.title ||
-            task!.memo != state.memo ||
-            task!.pallete != state.pallete ||
-            !isDateTimeEqual ||
-            !isIntervalDaysEqual ||
-            task!.time != state.time;
-      }
-    } else {
-      hasChanges = state.title != '';
-    }
-    state = state.copyWith(hasChanges: hasChanges);
+    state = state.copyWith(hasChanges: state.title != '');
   }
 }

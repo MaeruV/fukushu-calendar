@@ -50,14 +50,17 @@ class AddTaskNav extends ConsumerWidget with PresentationMixin {
                       await ref.read(taskUsecaseProvider).saveTaskEvent(
                             title: state.title,
                             memo: state.memo,
-                            dateTime: state.dateTime,
+                            dateTime: state.startTime,
                             intervalDays: state.intervalDays,
                             pallete: state.pallete,
                             time: state.time,
+                            flagNotification: state.flagNotification,
                           );
                     },
                   );
                   context.pop();
+                } else {
+                  print('hasChangesがfalse');
                 }
               },
               child: Text(

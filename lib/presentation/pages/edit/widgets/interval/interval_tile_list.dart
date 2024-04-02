@@ -29,7 +29,7 @@ class IntervalTileList extends ConsumerWidget {
           ),
         ),
         title: Text(
-          editState.dateTime
+          editState.startTime
               .add(Duration(days: state[index]))
               .toJapaneseFormat(),
           style: theme.textTheme.bodySmall!

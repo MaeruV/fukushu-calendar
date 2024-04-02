@@ -37,8 +37,9 @@ dependencies:
   percent_indicator: ^4.2.3
   flutter_colorpicker: ^1.0.3
   flutter_native_splash:
-  flutter_local_notifications:
+  flutter_local_notifications: ^17.0.0
   permission_handler:
+  package_info: ^2.0.2
   
 
 dev_dependencies:

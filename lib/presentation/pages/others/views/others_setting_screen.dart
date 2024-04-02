@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-class OthersModeScreen extends ConsumerWidget {
-  const OthersModeScreen({super.key});
+class OthersSettingScreen extends ConsumerWidget {
+  const OthersSettingScreen({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -24,7 +24,7 @@ class OthersModeScreen extends ConsumerWidget {
           ),
         ),
         title: Text(
-          darkModeScreenTitle,
+          settingTitle,
           style: theme.textTheme.titleMedium!
               .copyWith(color: theme.primaryColorLight),
         ),
@@ -44,7 +44,7 @@ class OthersModeScreen extends ConsumerWidget {
               onChanged: (flag) {
                 ref.read(othersViewModelProvider.notifier).setDarkMode(flag);
               },
-            )
+            ),
           ],
         ),
       ),

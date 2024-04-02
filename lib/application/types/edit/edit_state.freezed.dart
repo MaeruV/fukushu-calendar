@@ -18,11 +18,12 @@ final _privateConstructorUsedError = UnsupportedError(
 mixin _$EditState {
   String get title => throw _privateConstructorUsedError;
   String get memo => throw _privateConstructorUsedError;
-  DateTime get dateTime => throw _privateConstructorUsedError;
+  DateTime get startTime => throw _privateConstructorUsedError;
   List<int> get intervalDays => throw _privateConstructorUsedError;
   bool get hasTask => throw _privateConstructorUsedError;
   int get pallete => throw _privateConstructorUsedError;
-  DateTime get time => throw _privateConstructorUsedError;
+  DateTime? get time => throw _privateConstructorUsedError;
+  bool get flagNotification => throw _privateConstructorUsedError;
   bool get hasChanges => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
@@ -38,11 +39,12 @@ abstract class $EditStateCopyWith<$Res> {
   $Res call(
       {String title,
       String memo,
-      DateTime dateTime,
+      DateTime startTime,
       List<int> intervalDays,
       bool hasTask,
       int pallete,
-      DateTime time,
+      DateTime? time,
+      bool flagNotification,
       bool hasChanges});
 }
 
@@ -61,11 +63,12 @@ class _$EditStateCopyWithImpl<$Res, $Val extends EditState>
   $Res call({
     Object? title = null,
     Object? memo = null,
-    Object? dateTime = null,
+    Object? startTime = null,
     Object? intervalDays = null,
     Object? hasTask = null,
     Object? pallete = null,
-    Object? time = null,
+    Object? time = freezed,
+    Object? flagNotification = null,
     Object? hasChanges = null,
   }) {
     return _then(_value.copyWith(
@@ -77,9 +80,9 @@ class _$EditStateCopyWithImpl<$Res, $Val extends EditState>
           ? _value.memo
           : memo // ignore: cast_nullable_to_non_nullable
               as String,
-      dateTime: null == dateTime
-          ? _value.dateTime
-          : dateTime // ignore: cast_nullable_to_non_nullable
+      startTime: null == startTime
+          ? _value.startTime
+          : startTime // ignore: cast_nullable_to_non_nullable
               as DateTime,
       intervalDays: null == intervalDays
           ? _value.intervalDays
@@ -93,10 +96,14 @@ class _$EditStateCopyWithImpl<$Res, $Val extends EditState>
           ? _value.pallete
           : pallete // ignore: cast_nullable_to_non_nullable
               as int,
-      time: null == time
+      time: freezed == time
           ? _value.time
           : time // ignore: cast_nullable_to_non_nullable
-              as DateTime,
+              as DateTime?,
+      flagNotification: null == flagNotification
+          ? _value.flagNotification
+          : flagNotification // ignore: cast_nullable_to_non_nullable
+              as bool,
       hasChanges: null == hasChanges
           ? _value.hasChanges
           : hasChanges // ignore: cast_nullable_to_non_nullable
@@ -116,11 +123,12 @@ abstract class _$$EditStateImplCopyWith<$Res>
   $Res call(
       {String title,
       String memo,
-      DateTime dateTime,
+      DateTime startTime,
       List<int> intervalDays,
       bool hasTask,
       int pallete,
-      DateTime time,
+      DateTime? time,
+      bool flagNotification,
       bool hasChanges});
 }
 
@@ -137,11 +145,12 @@ class __$$EditStateImplCopyWithImpl<$Res>
   $Res call({
     Object? title = null,
     Object? memo = null,
-    Object? dateTime = null,
+    Object? startTime = null,
     Object? intervalDays = null,
     Object? hasTask = null,
     Object? pallete = null,
-    Object? time = null,
+    Object? time = freezed,
+    Object? flagNotification = null,
     Object? hasChanges = null,
   }) {
     return _then(_$EditStateImpl(
@@ -153,9 +162,9 @@ class __$$EditStateImplCopyWithImpl<$Res>
           ? _value.memo
           : memo // ignore: cast_nullable_to_non_nullable
               as String,
-      dateTime: null == dateTime
-          ? _value.dateTime
-          : dateTime // ignore: cast_nullable_to_non_nullable
+      startTime: null == startTime
+          ? _value.startTime
+          : startTime // ignore: cast_nullable_to_non_nullable
               as DateTime,
       intervalDays: null == intervalDays
           ? _value._intervalDays
@@ -169,10 +178,14 @@ class __$$EditStateImplCopyWithImpl<$Res>
           ? _value.pallete
           : pallete // ignore: cast_nullable_to_non_nullable
               as int,
-      time: null == time
+      time: freezed == time
           ? _value.time
           : time // ignore: cast_nullable_to_non_nullable
-              as DateTime,
+              as DateTime?,
+      flagNotification: null == flagNotification
+          ? _value.flagNotification
+          : flagNotification // ignore: cast_nullable_to_non_nullable
+              as bool,
       hasChanges: null == hasChanges
           ? _value.hasChanges
           : hasChanges // ignore: cast_nullable_to_non_nullable
@@ -187,11 +200,12 @@ class _$EditStateImpl with DiagnosticableTreeMixin implements _EditState {
   const _$EditStateImpl(
       {required this.title,
       required this.memo,
-      required this.dateTime,
+      required this.startTime,
       required final List<int> intervalDays,
       required this.hasTask,
       required this.pallete,
       required this.time,
+      required this.flagNotification,
       this.hasChanges = false})
       : _intervalDays = intervalDays;
 
@@ -200,7 +214,7 @@ class _$EditStateImpl with DiagnosticableTreeMixin implements _EditState {
   @override
   final String memo;
   @override
-  final DateTime dateTime;
+  final DateTime startTime;
   final List<int> _intervalDays;
   @override
   List<int> get intervalDays {
@@ -214,14 +228,16 @@ class _$EditStateImpl with DiagnosticableTreeMixin implements _EditState {
   @override
   final int pallete;
   @override
-  final DateTime time;
+  final DateTime? time;
+  @override
+  final bool flagNotification;
   @override
   @JsonKey()
   final bool hasChanges;
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'EditState(title: $title, memo: $memo, dateTime: $dateTime, intervalDays: $intervalDays, hasTask: $hasTask, pallete: $pallete, time: $time, hasChanges: $hasChanges)';
+    return 'EditState(title: $title, memo: $memo, startTime: $startTime, intervalDays: $intervalDays, hasTask: $hasTask, pallete: $pallete, time: $time, flagNotification: $flagNotification, hasChanges: $hasChanges)';
   }
 
   @override
@@ -231,11 +247,12 @@ class _$EditStateImpl with DiagnosticableTreeMixin implements _EditState {
       ..add(DiagnosticsProperty('type', 'EditState'))
       ..add(DiagnosticsProperty('title', title))
       ..add(DiagnosticsProperty('memo', memo))
-      ..add(DiagnosticsProperty('dateTime', dateTime))
+      ..add(DiagnosticsProperty('startTime', startTime))
       ..add(DiagnosticsProperty('intervalDays', intervalDays))
       ..add(DiagnosticsProperty('hasTask', hasTask))
       ..add(DiagnosticsProperty('pallete', pallete))
       ..add(DiagnosticsProperty('time', time))
+      ..add(DiagnosticsProperty('flagNotification', flagNotification))
       ..add(DiagnosticsProperty('hasChanges', hasChanges));
   }
 
@@ -246,13 +263,15 @@ class _$EditStateImpl with DiagnosticableTreeMixin implements _EditState {
             other is _$EditStateImpl &&
             (identical(other.title, title) || other.title == title) &&
             (identical(other.memo, memo) || other.memo == memo) &&
-            (identical(other.dateTime, dateTime) ||
-                other.dateTime == dateTime) &&
+            (identical(other.startTime, startTime) ||
+                other.startTime == startTime) &&
             const DeepCollectionEquality()
                 .equals(other._intervalDays, _intervalDays) &&
             (identical(other.hasTask, hasTask) || other.hasTask == hasTask) &&
             (identical(other.pallete, pallete) || other.pallete == pallete) &&
             (identical(other.time, time) || other.time == time) &&
+            (identical(other.flagNotification, flagNotification) ||
+                other.flagNotification == flagNotification) &&
             (identical(other.hasChanges, hasChanges) ||
                 other.hasChanges == hasChanges));
   }
@@ -262,11 +281,12 @@ class _$EditStateImpl with DiagnosticableTreeMixin implements _EditState {
       runtimeType,
       title,
       memo,
-      dateTime,
+      startTime,
       const DeepCollectionEquality().hash(_intervalDays),
       hasTask,
       pallete,
       time,
+      flagNotification,
       hasChanges);
 
   @JsonKey(ignore: true)
@@ -280,11 +300,12 @@ abstract class _EditState implements EditState {
   const factory _EditState(
       {required final String title,
       required final String memo,
-      required final DateTime dateTime,
+      required final DateTime startTime,
       required final List<int> intervalDays,
       required final bool hasTask,
       required final int pallete,
-      required final DateTime time,
+      required final DateTime? time,
+      required final bool flagNotification,
       final bool hasChanges}) = _$EditStateImpl;
 
   @override
@@ -292,7 +313,7 @@ abstract class _EditState implements EditState {
   @override
   String get memo;
   @override
-  DateTime get dateTime;
+  DateTime get startTime;
   @override
   List<int> get intervalDays;
   @override
@@ -300,7 +321,9 @@ abstract class _EditState implements EditState {
   @override
   int get pallete;
   @override
-  DateTime get time;
+  DateTime? get time;
+  @override
+  bool get flagNotification;
   @override
   bool get hasChanges;
   @override

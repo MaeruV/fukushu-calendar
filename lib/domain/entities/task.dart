@@ -14,7 +14,8 @@ class Task {
 
   late int pallete;
 
-  late DateTime time;
+  @Backlink(to: 'task')
+  final time = IsarLinks<NotificationTask>();
 
   @Backlink(to: 'task')
   final dates = IsarLinks<TaskDate>();
@@ -29,6 +30,15 @@ class TaskDate {
   late bool checkFlag;
 
   late DateTime? completeDay;
+
+  final task = IsarLink<Task>();
+}
+
+@Collection()
+class NotificationTask {
+  Id id = Isar.autoIncrement;
+
+  late DateTime? dateTime;
 
   final task = IsarLink<Task>();
 }

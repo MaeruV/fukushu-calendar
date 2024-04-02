@@ -6,3 +6,5 @@ const String darkModeScreenTitle = '外観の設定';
 const String darkModeScreenContenet = 'ダークモードの切り替えを管理します。';
 const String notificationTitle = '通知の設定';
 const String notificationContent = '通知オン・オフの切り替え';
+const String settingTitle = '設定';
+const String copyright = '著作権情報';

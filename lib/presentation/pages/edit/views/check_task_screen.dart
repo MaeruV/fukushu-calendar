@@ -165,7 +165,8 @@ class CheckTaskScreen extends ConsumerWidget {
                             color: theme.dividerColor,
                             height: 26.0,
                             thickness: 0.1),
-                        CheckTaskNotification(time: value.time),
+                        CheckTaskNotification(
+                            notificationTasks: value.time.toList()),
                         Divider(
                             color: theme.dividerColor,
                             height: 26.0,

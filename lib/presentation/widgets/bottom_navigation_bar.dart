@@ -63,13 +63,17 @@ class CustomBottomNavigationBar extends StatelessWidget {
           ),
           BottomNavigationBarItem(
             icon: currentIndex == 3
-                ? BrandIcon.settingIcon(
-                    const ColorFilter.mode(BrandColor.blue, BlendMode.srcIn),
-                    1.1)
-                : BrandIcon.settingIcon(
-                    const ColorFilter.mode(BrandColor.grey, BlendMode.srcIn),
-                    1.0),
-            label: '設定',
+                ? const Icon(
+                    Icons.menu,
+                    size: 25,
+                    color: BrandColor.blue,
+                  )
+                : const Icon(
+                    Icons.menu,
+                    size: 25,
+                    color: BrandColor.grey,
+                  ),
+            label: 'メニュー',
           ),
         ],
         type: BottomNavigationBarType.fixed,

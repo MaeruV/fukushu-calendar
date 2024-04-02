@@ -1,26 +1,27 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'edit_view_model.dart';
+part of 'others_notification_view_model.dart';
 
 // **************************************************************************
 // RiverpodGenerator
 // **************************************************************************
 
-String _$editViewModelHash() => r'dc5d2ab289c9cc8fdd296202fb828c0e641d7e54';
+String _$othersNotifierModelHash() =>
+    r'f91a2bd4fe9da0ab87244cba00aa30e3c8707de2';
 
-/// See also [EditViewModel].
-@ProviderFor(EditViewModel)
-final editViewModelProvider =
-    AutoDisposeNotifierProvider<EditViewModel, EditState>.internal(
-  EditViewModel.new,
-  name: r'editViewModelProvider',
+/// See also [OthersNotifierModel].
+@ProviderFor(OthersNotifierModel)
+final othersNotifierModelProvider =
+    NotifierProvider<OthersNotifierModel, NotificationDetails?>.internal(
+  OthersNotifierModel.new,
+  name: r'othersNotifierModelProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
       ? null
-      : _$editViewModelHash,
+      : _$othersNotifierModelHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );
 
-typedef _$EditViewModel = AutoDisposeNotifier<EditState>;
+typedef _$OthersNotifierModel = Notifier<NotificationDetails?>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

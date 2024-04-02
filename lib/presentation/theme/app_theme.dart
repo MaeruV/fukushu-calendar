@@ -1,10 +1,14 @@
 import 'package:ebbinghaus_forgetting_curve/presentation/theme/fonts.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'colors.dart'; // カスタムカラーの定義が含まれる
 
 class AppTheme {
   static final lightTheme = ThemeData(
     brightness: Brightness.light,
+    appBarTheme: const AppBarTheme(
+      systemOverlayStyle: SystemUiOverlayStyle.dark,
+    ),
     canvasColor: BrandColor.background,
     colorScheme: const ColorScheme.light(
       primary: BrandColor.background,
@@ -28,6 +32,9 @@ class AppTheme {
 
   static final darkTheme = ThemeData(
     brightness: Brightness.dark,
+    appBarTheme: const AppBarTheme(
+      systemOverlayStyle: SystemUiOverlayStyle.light,
+    ),
     canvasColor: BrandColor.canvas,
     colorScheme: const ColorScheme.dark(
       primary: BrandColor.background,

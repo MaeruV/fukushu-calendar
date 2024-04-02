@@ -5,10 +5,16 @@ import 'package:isar/isar.dart';
 /// Post テーブルに関するリポジトリ
 abstract interface class TaskRepository {
   /// タスク追加
-  Future<void> add({required Task task, required List<int> intervalDays});
+  Future<void> add(
+      {required Task task,
+      required List<int> intervalDays,
+      required DateTime? time});
 
   /// タスク情報変更
-  Future<void> update({required Task task, required List<int> intervalDays});
+  Future<void> update(
+      {required Task task,
+      required List<int> intervalDays,
+      required DateTime? time});
 
   /// タスク削除
   Future<void> delete({required Task task});
@@ -21,6 +27,9 @@ abstract interface class TaskRepository {
 
   // タスクDate完了情報取得
   Future<List<TaskDate>> fetchCompDate();
+
+  // タスク通知情報取得
+  Future<List<NotificationTask>> fetchNotificationTask();
 
   /// タスク全取得
   Future<List<Task>> fetchAll();

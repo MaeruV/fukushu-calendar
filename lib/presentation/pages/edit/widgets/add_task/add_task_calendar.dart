@@ -11,6 +11,7 @@ class AddTaskCalendar extends ConsumerWidget {
     final DateTime now = DateTime.now();
     final DateTime firstDate = dateTime.subtract(const Duration(days: 30));
     final DateTime lastDate = now.add(const Duration(days: 360));
+    final theme = Theme.of(context);
 
     final DateTime? datePicked = await showDatePicker(
       locale: const Locale("ja"),
@@ -18,6 +19,19 @@ class AddTaskCalendar extends ConsumerWidget {
       initialDate: dateTime,
       firstDate: firstDate,
       lastDate: lastDate,
+      builder: (BuildContext context, Widget? child) {
+        return Theme(
+          data: ThemeData.light().copyWith(
+            colorScheme: ColorScheme.light(
+              primary: Colors.blue,
+              onPrimary: theme.primaryColorDark,
+              onSurface: theme.primaryColorLight,
+            ),
+            dialogBackgroundColor: theme.canvasColor,
+          ),
+          child: child!,
+        );
+      },
     );
     return datePicked;
   }
@@ -30,8 +44,8 @@ class AddTaskCalendar extends ConsumerWidget {
 
     return GestureDetector(
       onTap: () async {
-        final datePicked = await showDate(context, state.dateTime);
-        if (datePicked != null && datePicked != state.dateTime) {
+        final datePicked = await showDate(context, state.startTime);
+        if (datePicked != null && datePicked != state.startTime) {
           notifier.setDateTime(datePicked);
         }
       },
@@ -55,7 +69,7 @@ class AddTaskCalendar extends ConsumerWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
                 Text(
-                  state.dateTime.toJapaneseFormat(),
+                  state.startTime.toJapaneseFormat(),
                   style: theme.textTheme.bodySmall!
                       .copyWith(color: theme.primaryColorLight),
                 ),

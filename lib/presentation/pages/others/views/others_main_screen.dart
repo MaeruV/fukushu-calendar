@@ -1,5 +1,5 @@
 import 'package:ebbinghaus_forgetting_curve/application/config/app_constants.dart';
-import 'package:ebbinghaus_forgetting_curve/presentation/theme/icons.dart';
+import 'package:ebbinghaus_forgetting_curve/presentation/theme/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -16,7 +16,7 @@ class OthersMainScreen extends ConsumerWidget {
         backgroundColor: theme.scaffoldBackgroundColor,
         elevation: 1.5,
         centerTitle: true,
-        title: Text('設定',
+        title: Text('メニュー',
             style: theme.textTheme.titleMedium!
                 .copyWith(color: theme.primaryColorLight)),
       ),
@@ -24,33 +24,30 @@ class OthersMainScreen extends ConsumerWidget {
         children: <Widget>[
           const SizedBox(height: 10),
           ListTile(
-            onTap: () => context.push('/others_mode'),
-            leading: BrandIcon.hudeIcon,
+            onTap: () => context.push('/others_setting'),
+            leading: const Icon(
+              Icons.settings,
+              color: BrandColor.grey,
+              size: 25,
+            ),
             title: Text(
-              darkModeScreenTitle,
+              settingTitle,
               style: theme.textTheme.bodyMedium!
                   .copyWith(color: theme.primaryColorLight),
-            ),
-            subtitle: Text(
-              darkModeScreenContenet,
-              style: theme.textTheme.bodySmall!.copyWith(color: Colors.grey),
             ),
             trailing: const Icon(Icons.chevron_right, size: 30),
           ),
           ListTile(
-            onTap: () => context.push('/others_notification'),
+            onTap: () => context.push('/others_copyright'),
             leading: const Icon(
-              Icons.notifications_active,
-              color: Colors.grey,
+              Icons.copyright,
+              color: BrandColor.grey,
+              size: 25,
             ),
             title: Text(
-              notificationTitle,
+              copyright,
               style: theme.textTheme.bodyMedium!
                   .copyWith(color: theme.primaryColorLight),
-            ),
-            subtitle: Text(
-              notificationContent,
-              style: theme.textTheme.bodySmall!.copyWith(color: Colors.grey),
             ),
             trailing: const Icon(Icons.chevron_right, size: 30),
           ),

@@ -14,6 +14,7 @@ class CheckTaskAppbar extends ConsumerWidget implements PreferredSizeWidget {
     final theme = Theme.of(context);
 
     return AppBar(
+      backgroundColor: theme.canvasColor,
       elevation: 1.0,
       leading: GestureDetector(
         onTap: backTap,

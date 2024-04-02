@@ -1,8 +1,8 @@
 import 'package:ebbinghaus_forgetting_curve/presentation/pages/edit/views/check_task_screen.dart';
 import 'package:ebbinghaus_forgetting_curve/presentation/pages/edit/views/interval_screen.dart';
 import 'package:ebbinghaus_forgetting_curve/presentation/pages/home_page.dart';
-import 'package:ebbinghaus_forgetting_curve/presentation/pages/others/views/others_mode_screen.dart';
-import 'package:ebbinghaus_forgetting_curve/presentation/pages/others/views/others_notification_screen.dart';
+import 'package:ebbinghaus_forgetting_curve/presentation/pages/others/views/others_copyright_screen.dart';
+import 'package:ebbinghaus_forgetting_curve/presentation/pages/others/views/others_setting_screen.dart';
 import 'package:go_router/go_router.dart';
 
 final router = GoRouter(
@@ -28,17 +28,17 @@ final router = GoRouter(
       },
     ),
     GoRoute(
-      name: 'others_mode',
-      path: '/others_mode',
+      name: 'others_setting',
+      path: '/others_setting',
       builder: (context, state) {
-        return const OthersModeScreen();
+        return const OthersSettingScreen();
       },
     ),
     GoRoute(
-      name: 'others_notification',
-      path: '/others_notification',
+      name: 'others_copyright',
+      path: '/others_copyright',
       builder: (context, state) {
-        return const OthersNotificationScreen();
+        return const OthersCopyrightScreen();
       },
     ),
   ],

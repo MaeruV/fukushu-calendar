@@ -6,6 +6,7 @@ import 'package:ebbinghaus_forgetting_curve/infrastructure/others/repository/oth
 import 'package:ebbinghaus_forgetting_curve/infrastructure/task_event/repository/take_event_repository_impl.dart';
 import 'package:ebbinghaus_forgetting_curve/presentation/app.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:isar/isar.dart';
 import 'package:path_provider/path_provider.dart';
@@ -36,12 +37,15 @@ void main() async {
 Future<Isar> initializeIsar() async {
   tz.initializeTimeZones();
   tz.setLocalLocation(tz.getLocation("Asia/Tokyo"));
+  SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual,
+      overlays: SystemUiOverlay.values);
 
   final dir = await getApplicationDocumentsDirectory();
   Isar isar = await Isar.open([
     TaskSchema,
     TaskDateSchema,
     OthersSchema,
+    NotificationTaskSchema,
   ], directory: dir.path, inspector: true);
   return isar;
 }

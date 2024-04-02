@@ -9,7 +9,10 @@ class TaskEventRepositoryImpl implements TaskRepository {
 
   @override
   Future<void> add(
-      {required Task task, required List<int> intervalDays}) async {
+      {required Task task,
+      required List<int> intervalDays,
+      required DateTime? time}) async {
+    DateTime? dt;
     await isar.writeTxn(() async {
       await isar.tasks.put(task);
       for (int days in intervalDays) {
@@ -17,10 +20,83 @@ class TaskEventRepositoryImpl implements TaskRepository {
           ..daysInterval = days
           ..checkFlag = false
           ..completeDay = null;
+
+        final stTime = task.startTime.add(Duration(days: days));
+        if (time != null) {
+          dt = DateTime(
+            stTime.year,
+            stTime.month,
+            stTime.day,
+            time.hour,
+            time.minute,
+          );
+          final notification = NotificationTask()..dateTime = dt;
+          await isar.notificationTasks.put(notification);
+          task.time.add(notification);
+        }
+
         await isar.taskDates.put(taskDate);
         task.dates.add(taskDate);
+        await task.time.save();
         await task.dates.save();
       }
+    });
+  }
+
+  @override
+  Future<void> update(
+      {required Task task,
+      required List<int> intervalDays,
+      required DateTime? time}) async {
+    await isar.writeTxn(() async {
+      final existingDays = task.dates.map((d) => d.daysInterval).toList();
+      final List<TaskDate> datesToRemove = [];
+
+      for (final taskDate in task.dates) {
+        if (!intervalDays.contains(taskDate.daysInterval)) {
+          datesToRemove.add(taskDate);
+        }
+      }
+
+      for (final taskDate in datesToRemove) {
+        await isar.taskDates.delete(taskDate.id);
+        task.dates.remove(taskDate);
+      }
+
+      for (final notificationTask in task.time) {
+        await isar.notificationTasks.delete(notificationTask.id);
+      }
+      task.time.clear();
+
+      for (int days in intervalDays) {
+        if (!existingDays.contains(days)) {
+          final taskDate = TaskDate()
+            ..daysInterval = days
+            ..checkFlag = false
+            ..completeDay = null;
+          await isar.taskDates.put(taskDate);
+          task.dates.add(taskDate);
+        }
+
+        final stTime = task.startTime.add(Duration(days: days));
+        if (time != null) {
+          DateTime dt = DateTime(
+            stTime.year,
+            stTime.month,
+            stTime.day,
+            time.hour,
+            time.minute,
+          );
+
+          final notification = NotificationTask()..dateTime = dt;
+          await isar.notificationTasks.put(notification);
+          task.time.add(notification);
+        }
+      }
+
+      await isar.tasks.put(task);
+      await task.dates.save();
+      await task.time.save();
     });
   }
 
@@ -40,10 +116,13 @@ class TaskEventRepositoryImpl implements TaskRepository {
   @override
   Future<void> delete({required Task task}) async {
     await isar.writeTxn(() async {
-      for (final taskDate in task.dates) {
+      for (var taskDate in task.dates) {
         await isar.taskDates.delete(taskDate.id);
       }
-      isar.tasks.delete(task.id);
+      for (var notificationTask in task.time) {
+        await isar.notificationTasks.delete(notificationTask.id);
+      }
+      await isar.tasks.delete(task.id);
     });
   }
 
@@ -78,47 +157,25 @@ class TaskEventRepositoryImpl implements TaskRepository {
   }
 
   @override
+  Future<List<NotificationTask>> fetchNotificationTask() async {
+    final notificationAll =
+        await isar.notificationTasks.where().sortByDateTime().findAll();
+    for (NotificationTask notification in notificationAll) {
+      await notification.task.load();
+    }
+
+    return notificationAll;
+  }
+
+  @override
   Future<List<Task>> fetchAll() async {
     final taskAll = await isar.tasks.where().sortByStartTime().findAll();
     final List<Task> tasks = [];
     for (Task task in taskAll) {
       await task.dates.load();
+      await task.time.load();
       tasks.add(task);
     }
     return tasks;
-  }
-
-  @override
-  Future<void> update(
-      {required Task task, required List<int> intervalDays}) async {
-    await isar.writeTxn(() async {
-      final existingDays = task.dates.map((d) => d.daysInterval).toList();
-
-      final List<TaskDate> datesToRemove = [];
-      for (final taskDate in task.dates) {
-        if (!intervalDays.contains(taskDate.daysInterval)) {
-          datesToRemove.add(taskDate);
-        }
-      }
-
-      for (final taskDate in datesToRemove) {
-        await isar.taskDates.delete(taskDate.id);
-        task.dates.remove(taskDate);
-      }
-
-      for (int days in intervalDays) {
-        if (!existingDays.contains(days)) {
-          final taskDate = TaskDate()
-            ..daysInterval = days
-            ..checkFlag = false
-            ..completeDay = null;
-          await isar.taskDates.put(taskDate);
-          task.dates.add(taskDate);
-        }
-      }
-
-      await isar.tasks.put(task);
-      await task.dates.save();
-    });
   }
 }

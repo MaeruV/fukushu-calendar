@@ -1,4 +1,5 @@
 import 'package:ebbinghaus_forgetting_curve/application/state/edit/edit_view_model.dart';
+import 'package:ebbinghaus_forgetting_curve/application/state/others/others_notification_view_model.dart';
 import 'package:ebbinghaus_forgetting_curve/presentation/common/date_time_extension.dart';
 import 'package:ebbinghaus_forgetting_curve/presentation/theme/colors.dart';
 import 'package:ebbinghaus_forgetting_curve/presentation/theme/fonts.dart';
@@ -47,13 +48,15 @@ class AddTaskNotification extends ConsumerWidget {
     final state = ref.watch(editViewModelProvider);
     final notifier = ref.read(editViewModelProvider.notifier);
     final theme = Theme.of(context);
+    final now = DateTime.now().toZeroHour();
 
     return GestureDetector(
       onTap: () async {
-        final datePicked = await showDate(context, state.time);
+        final now = DateTime.now().toZeroHour();
+        final datePicked = await showDate(context, state.time ?? now);
         if (datePicked != null) {
-          DateTime time = DateTime(state.time.year, state.time.month,
-              state.time.day, datePicked.hour, datePicked.minute);
+          DateTime time = DateTime(
+              now.year, now.month, now.day, datePicked.hour, datePicked.minute);
           if (time != state.time) {
             notifier.setTime(time);
           }
@@ -62,31 +65,52 @@ class AddTaskNotification extends ConsumerWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          Text(
-            '通知時間',
-            style: theme.textTheme.bodySmall!
-                .copyWith(color: theme.primaryColorLight),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                '通知時間',
+                style: theme.textTheme.bodySmall!
+                    .copyWith(color: theme.primaryColorLight),
+              ),
+              Switch(
+                value: state.flagNotification,
+                onChanged: (flag) async {
+                  if (flag) {
+                    await ref
+                        .read(othersNotifierModelProvider.notifier)
+                        .permission();
+                  }
+                  ref
+                      .read(editViewModelProvider.notifier)
+                      .setNotificationFlag(flag);
+                },
+              )
+            ],
           ),
           const SizedBox(height: 5),
-          Container(
-            height: 55,
-            padding: const EdgeInsets.symmetric(horizontal: 10),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(10),
-              border: Border.all(color: BrandColor.grey),
-            ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                Text(
-                  state.time.toHourMinute(),
-                  style: BrandText.bodyS,
-                ),
-                const Icon(
-                  Icons.timelapse,
-                  color: BrandColor.grey,
-                )
-              ],
+          Visibility(
+            visible: ref.watch(editViewModelProvider).flagNotification,
+            child: Container(
+              height: 55,
+              padding: const EdgeInsets.symmetric(horizontal: 10),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10),
+                border: Border.all(color: BrandColor.grey),
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  Text(
+                    state.time?.toHourMinute() ?? now.toHourMinute(),
+                    style: BrandText.bodyS,
+                  ),
+                  const Icon(
+                    Icons.timelapse,
+                    color: BrandColor.grey,
+                  )
+                ],
+              ),
             ),
           )
         ],

@@ -11,10 +11,12 @@ class AppTheme {
     ),
     canvasColor: BrandColor.background,
     colorScheme: const ColorScheme.light(
+      surface: BrandColor.background,
       primary: BrandColor.background,
       secondary: BrandColor.blue,
       brightness: Brightness.light,
     ),
+    highlightColor: BrandColor.white,
     primaryColor: BrandColor.ivoryBlack,
     primaryColorDark: BrandColor.white,
     primaryColorLight: BrandColor.black,
@@ -37,14 +39,16 @@ class AppTheme {
     ),
     canvasColor: BrandColor.canvas,
     colorScheme: const ColorScheme.dark(
+      surface: BrandColor.canvas,
       primary: BrandColor.background,
       secondary: BrandColor.blue,
       brightness: Brightness.dark,
     ),
+    highlightColor: BrandColor.brighterBlue1,
     primaryColor: BrandColor.background,
     primaryColorDark: BrandColor.black,
     primaryColorLight: BrandColor.white,
-    cardColor: BrandColor.flatBlackBlue,
+    cardColor: BrandColor.brighterBlue1,
     focusColor: BrandColor.blue,
     dividerColor: const Color(0xFFBDBDBD),
     scaffoldBackgroundColor: const Color(0xFF0A0E21),
@@ -58,6 +62,7 @@ class AppTheme {
   );
 
   static final TimePickerThemeData constTimePickerLight = TimePickerThemeData(
+    helpTextStyle: const TextStyle(fontSize: 18.0, color: BrandColor.black),
     hourMinuteColor: MaterialStateColor.resolveWith((states) =>
         states.contains(MaterialState.selected)
             ? Colors.blue.shade300
@@ -76,6 +81,7 @@ class AppTheme {
   );
 
   static final TimePickerThemeData constTimePickerDark = TimePickerThemeData(
+    helpTextStyle: const TextStyle(fontSize: 18.0, color: BrandColor.white),
     hourMinuteColor: MaterialStateColor.resolveWith((states) =>
         states.contains(MaterialState.selected)
             ? Colors.blue.shade300

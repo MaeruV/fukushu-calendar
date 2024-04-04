@@ -69,6 +69,7 @@ class AddTaskColor extends ConsumerWidget with PresentationMixin {
     ];
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
         Text(
           'カラー',
@@ -110,26 +111,46 @@ class AddTaskColor extends ConsumerWidget with PresentationMixin {
                     ],
                   );
                 } else {
-                  return Padding(
-                    padding: const EdgeInsets.only(right: 8),
-                    child: GestureDetector(
-                      onTap: () {
-                        ref
-                            .read(editViewModelProvider.notifier)
-                            .setPalette(combinedColors[index]);
-                      },
-                      child: CircleAvatar(
-                        radius: 15,
-                        backgroundColor: Color(combinedColors[index]),
-                        child: isSelected
-                            ? const Icon(
-                                Icons.check,
-                                color: BrandColor.white,
-                                size: 18,
-                              )
-                            : const SizedBox.shrink(),
+                  return Row(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(right: 8),
+                        child: GestureDetector(
+                          onTap: () {
+                            ref
+                                .read(editViewModelProvider.notifier)
+                                .setPalette(combinedColors[index]);
+                          },
+                          child: Align(
+                            alignment: Alignment.center,
+                            child: Stack(
+                              clipBehavior: Clip.none,
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.all(3),
+                                  child: CircleAvatar(
+                                    radius: 15,
+                                    backgroundColor:
+                                        Color(combinedColors[index]),
+                                  ),
+                                ),
+                                Positioned(
+                                  top: -5,
+                                  right: -5,
+                                  child: isSelected
+                                      ? const Icon(
+                                          Icons.check_circle,
+                                          color: BrandColor.white,
+                                          size: 18,
+                                        )
+                                      : const SizedBox.shrink(),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
                       ),
-                    ),
+                    ],
                   );
                 }
               }),

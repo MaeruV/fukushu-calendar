@@ -52,9 +52,13 @@ class TableCalendarPage extends ConsumerWidget {
 
     final weeks = _getWeeks(visiblePageDate);
     return Table(
-      border: TableBorder.symmetric(
-        inside: const BorderSide(color: Colors.grey, width: 0.5),
-        outside: const BorderSide(color: Colors.grey, width: 0.3),
+      border: const TableBorder(
+        top: BorderSide(color: Colors.grey, width: 0.3),
+        left: BorderSide(color: Colors.grey, width: 0.3),
+        right: BorderSide(color: Colors.grey, width: 0.3),
+        bottom: BorderSide.none, // 下の辺を非表示にする
+        horizontalInside: BorderSide(color: Colors.grey, width: 0.5), // 水平内側の線
+        verticalInside: BorderSide(color: Colors.grey, width: 0.5), // 垂直内側の線
       ),
       children: weeks.map((week) {
         return TableRow(

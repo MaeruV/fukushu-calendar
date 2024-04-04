@@ -13,11 +13,15 @@ class BrandColor {
   static const background = Color(0xFFF0F0F0);
   static const canvas = Color(0xFF0A0E21);
   static const ivoryBlack = Color(0xFF333132);
-  static const deepBlackBlue = Color(0xFF1A1A2E); // 深い黒に少し青を加えた色
-  static const flatBlackBlue = Color(0xFF2B2B3F); // 面で使いたい時の少し青が入った黒
-  static const standardBlackBlue = Color(0xFF33334D); // 標準的な黒に青を加えた色。文字色にも適している
-  static const softBlackBlue = Color(0xFF4D4D66); // 全体が柔らかめの時に使う、青が入った黒
-  static const versatileBlackBlue = Color(0xFF666680); // 他の色と合わせやすい、少し青が入った黒
+  static const brighterBlue1 = Color(0xFF131A3F);
+  static const brighterBlue2 = Color(0xFF101636);
+  static const darkerBlue1 = Color(0xFF0E132E);
+  static const darkerBlue2 = Color(0xFF0C1027);
+  static const darkestBlue = Color(0xFF0A0E21);
+  static const deepNightBlue1 = Color(0xFF080C1B);
+  static const deepNightBlue2 = Color(0xFF070A16);
+  static const deepNightBlue3 = Color(0xFF060812);
+  static const deepNightBlue4 = Color(0xFF05070F);
 }
 
 class TaskColorPalette {

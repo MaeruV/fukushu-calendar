@@ -17,6 +17,7 @@ final _privateConstructorUsedError = UnsupportedError(
 /// @nodoc
 mixin _$ScreenState {
   double get mediaHeight => throw _privateConstructorUsedError;
+  double get mediaWidth => throw _privateConstructorUsedError;
   double get safeAreaTop => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
@@ -30,7 +31,7 @@ abstract class $ScreenStateCopyWith<$Res> {
           ScreenState value, $Res Function(ScreenState) then) =
       _$ScreenStateCopyWithImpl<$Res, ScreenState>;
   @useResult
-  $Res call({double mediaHeight, double safeAreaTop});
+  $Res call({double mediaHeight, double mediaWidth, double safeAreaTop});
 }
 
 /// @nodoc
@@ -47,12 +48,17 @@ class _$ScreenStateCopyWithImpl<$Res, $Val extends ScreenState>
   @override
   $Res call({
     Object? mediaHeight = null,
+    Object? mediaWidth = null,
     Object? safeAreaTop = null,
   }) {
     return _then(_value.copyWith(
       mediaHeight: null == mediaHeight
           ? _value.mediaHeight
           : mediaHeight // ignore: cast_nullable_to_non_nullable
+              as double,
+      mediaWidth: null == mediaWidth
+          ? _value.mediaWidth
+          : mediaWidth // ignore: cast_nullable_to_non_nullable
               as double,
       safeAreaTop: null == safeAreaTop
           ? _value.safeAreaTop
@@ -70,7 +76,7 @@ abstract class _$$ScreenStateImplCopyWith<$Res>
       __$$ScreenStateImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({double mediaHeight, double safeAreaTop});
+  $Res call({double mediaHeight, double mediaWidth, double safeAreaTop});
 }
 
 /// @nodoc
@@ -85,12 +91,17 @@ class __$$ScreenStateImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? mediaHeight = null,
+    Object? mediaWidth = null,
     Object? safeAreaTop = null,
   }) {
     return _then(_$ScreenStateImpl(
       mediaHeight: null == mediaHeight
           ? _value.mediaHeight
           : mediaHeight // ignore: cast_nullable_to_non_nullable
+              as double,
+      mediaWidth: null == mediaWidth
+          ? _value.mediaWidth
+          : mediaWidth // ignore: cast_nullable_to_non_nullable
               as double,
       safeAreaTop: null == safeAreaTop
           ? _value.safeAreaTop
@@ -104,16 +115,20 @@ class __$$ScreenStateImplCopyWithImpl<$Res>
 
 class _$ScreenStateImpl with DiagnosticableTreeMixin implements _ScreenState {
   const _$ScreenStateImpl(
-      {required this.mediaHeight, required this.safeAreaTop});
+      {required this.mediaHeight,
+      required this.mediaWidth,
+      required this.safeAreaTop});
 
   @override
   final double mediaHeight;
+  @override
+  final double mediaWidth;
   @override
   final double safeAreaTop;
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'ScreenState(mediaHeight: $mediaHeight, safeAreaTop: $safeAreaTop)';
+    return 'ScreenState(mediaHeight: $mediaHeight, mediaWidth: $mediaWidth, safeAreaTop: $safeAreaTop)';
   }
 
   @override
@@ -122,6 +137,7 @@ class _$ScreenStateImpl with DiagnosticableTreeMixin implements _ScreenState {
     properties
       ..add(DiagnosticsProperty('type', 'ScreenState'))
       ..add(DiagnosticsProperty('mediaHeight', mediaHeight))
+      ..add(DiagnosticsProperty('mediaWidth', mediaWidth))
       ..add(DiagnosticsProperty('safeAreaTop', safeAreaTop));
   }
 
@@ -132,12 +148,15 @@ class _$ScreenStateImpl with DiagnosticableTreeMixin implements _ScreenState {
             other is _$ScreenStateImpl &&
             (identical(other.mediaHeight, mediaHeight) ||
                 other.mediaHeight == mediaHeight) &&
+            (identical(other.mediaWidth, mediaWidth) ||
+                other.mediaWidth == mediaWidth) &&
             (identical(other.safeAreaTop, safeAreaTop) ||
                 other.safeAreaTop == safeAreaTop));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, mediaHeight, safeAreaTop);
+  int get hashCode =>
+      Object.hash(runtimeType, mediaHeight, mediaWidth, safeAreaTop);
 
   @JsonKey(ignore: true)
   @override
@@ -149,10 +168,13 @@ class _$ScreenStateImpl with DiagnosticableTreeMixin implements _ScreenState {
 abstract class _ScreenState implements ScreenState {
   const factory _ScreenState(
       {required final double mediaHeight,
+      required final double mediaWidth,
       required final double safeAreaTop}) = _$ScreenStateImpl;
 
   @override
   double get mediaHeight;
+  @override
+  double get mediaWidth;
   @override
   double get safeAreaTop;
   @override

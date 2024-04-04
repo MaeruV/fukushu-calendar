@@ -9,11 +9,16 @@ class ScreenViewModel extends _$ScreenViewModel {
   ScreenState build() {
     return const ScreenState(
       mediaHeight: 0,
+      mediaWidth: 0,
       safeAreaTop: 0,
     );
   }
 
-  Future<void> setScreenSize(double height, double top) async {
-    state = state.copyWith(mediaHeight: height, safeAreaTop: top);
+  Future<void> setScreenSize(double height, double width, double top) async {
+    state = state.copyWith(
+      mediaHeight: height,
+      mediaWidth: width,
+      safeAreaTop: top,
+    );
   }
 }

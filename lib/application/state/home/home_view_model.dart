@@ -1,4 +1,4 @@
-import 'package:ebbinghaus_forgetting_curve/presentation/pages/calender/views/calendar_sliver_screen.dart';
+import 'package:ebbinghaus_forgetting_curve/presentation/pages/calender/views/calendar_custom_screen.dart';
 import 'package:ebbinghaus_forgetting_curve/presentation/pages/completed/views/completed_screen.dart';
 import 'package:ebbinghaus_forgetting_curve/presentation/pages/edit/views/edit_screen.dart';
 import 'package:ebbinghaus_forgetting_curve/presentation/pages/others/views/others_main_screen.dart';
@@ -17,7 +17,7 @@ class HomeViewModel extends _$HomeViewModel {
   List<Widget>? get screens => _screens;
 
   final _screens = [
-    const CalendarSliverScreen(),
+    const CalendarCustomScreen(),
     const EditScreen(),
     const CompletedScreen(),
     const OthersMainScreen()

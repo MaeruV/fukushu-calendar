@@ -156,9 +156,8 @@ class CheckTaskScreen extends ConsumerWidget {
                         ),
                         const SizedBox(height: 10),
                         CheckTaskList(
-                          dates: value.dates
-                              .map((taskDate) => taskDate.daysInterval)
-                              .toList(),
+                          dates:
+                              value.dates.map((taskDate) => taskDate).toList(),
                           startdate: value.startTime,
                         ),
                         Divider(

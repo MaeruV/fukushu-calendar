@@ -1,4 +1,3 @@
-import 'package:ebbinghaus_forgetting_curve/presentation/theme/colors.dart';
 import 'package:ebbinghaus_forgetting_curve/presentation/theme/fonts.dart';
 import 'package:flutter/material.dart';
 
@@ -11,18 +10,23 @@ class DaysOfTheWeek extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
 
-    return Row(
-      children: _DaysOfTheWeek.map((day) => Expanded(
-            child: Text(
-              day,
-              textAlign: TextAlign.center,
-              style: BrandText.bodyM.copyWith(
-                  color:
-                      day == _DaysOfTheWeek.first || day == _DaysOfTheWeek.last
-                          ? BrandColor.grey
-                          : theme.primaryColorLight),
-            ),
-          )).toList(),
+    return Container(
+      height: 25,
+      margin: const EdgeInsets.only(bottom: 5),
+      child: Row(
+        children: _DaysOfTheWeek.map((day) => Expanded(
+              child: Text(
+                day,
+                textAlign: TextAlign.center,
+                style: BrandText.bodyM.copyWith(
+                    color: day == _DaysOfTheWeek.first
+                        ? Colors.red // 日曜日を赤色に
+                        : day == _DaysOfTheWeek.last
+                            ? Colors.blue // 土曜日を青色に
+                            : theme.primaryColorLight), // 平日は元の色
+              ),
+            )).toList(),
+      ),
     );
   }
 }

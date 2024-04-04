@@ -1,7 +1,6 @@
 import 'package:ebbinghaus_forgetting_curve/application/state/loading/overlay_loading_provider.dart';
 import 'package:ebbinghaus_forgetting_curve/application/usecases/task/state/tasks_provider.dart';
 import 'package:ebbinghaus_forgetting_curve/presentation/component/loading.dart';
-import 'package:ebbinghaus_forgetting_curve/presentation/pages/edit/widgets/edit_widget/edit_add_task_button.dart';
 import 'package:ebbinghaus_forgetting_curve/presentation/pages/edit/widgets/edit_widget/edit_top_container.dart';
 import 'package:ebbinghaus_forgetting_curve/presentation/pages/edit/widgets/edit_widget/edit_view.dart';
 import 'package:flutter/material.dart';
@@ -34,11 +33,6 @@ class EditScreen extends HookConsumerWidget {
                   color: theme.focusColor,
                   onRefresh: () async => ref.invalidate(tasksProvider),
                   child: EditView(value: value)),
-              const Positioned(
-                bottom: 20,
-                right: 20,
-                child: EditAddTaskButton(),
-              ),
               if (isLoading) const OverlayLoading(),
             ],
           ),

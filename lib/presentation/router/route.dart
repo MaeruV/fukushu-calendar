@@ -1,8 +1,7 @@
 import 'package:ebbinghaus_forgetting_curve/presentation/pages/edit/views/check_task_screen.dart';
 import 'package:ebbinghaus_forgetting_curve/presentation/pages/edit/views/interval_screen.dart';
 import 'package:ebbinghaus_forgetting_curve/presentation/pages/home_page.dart';
-import 'package:ebbinghaus_forgetting_curve/presentation/pages/others/views/others_copyright_screen.dart';
-import 'package:ebbinghaus_forgetting_curve/presentation/pages/others/views/others_setting_screen.dart';
+import 'package:ebbinghaus_forgetting_curve/presentation/pages/others/views/appearance/appearance_font_size_page.dart';
 import 'package:go_router/go_router.dart';
 
 final router = GoRouter(
@@ -28,17 +27,10 @@ final router = GoRouter(
       },
     ),
     GoRoute(
-      name: 'others_setting',
-      path: '/others_setting',
+      name: 'appearance_font_size',
+      path: '/appearance_font_size',
       builder: (context, state) {
-        return const OthersSettingScreen();
-      },
-    ),
-    GoRoute(
-      name: 'others_copyright',
-      path: '/others_copyright',
-      builder: (context, state) {
-        return const OthersCopyrightScreen();
+        return const AppearanceFontSizePage();
       },
     ),
   ],

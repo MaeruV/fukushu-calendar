@@ -15,7 +15,7 @@ class AddTaskNav extends ConsumerWidget with PresentationMixin {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final state = ref.watch(editViewModelProvider);
-    String subject = state.hasTask ? '編集' : '新規';
+    String subject = state.hasTask ? '編集' : '新規スケジュール';
     Color color = state.hasChanges ? BrandColor.deleteRed : BrandColor.grey;
     final theme = Theme.of(context);
 

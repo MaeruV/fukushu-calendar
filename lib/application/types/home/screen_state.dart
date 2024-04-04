@@ -9,6 +9,7 @@ part 'screen_state.freezed.dart';
 class ScreenState with _$ScreenState {
   const factory ScreenState({
     required double mediaHeight,
+    required double mediaWidth,
     required double safeAreaTop,
   }) = _ScreenState;
 }

@@ -21,6 +21,7 @@ class App extends HookConsumerWidget {
 
     return MaterialApp.router(
       title: 'Flutter Demo',
+      debugShowCheckedModeBanner: false,
       theme: AppTheme.lightTheme,
       darkTheme: AppTheme.darkTheme,
       themeMode: state.darkMode ? ThemeMode.dark : ThemeMode.light,

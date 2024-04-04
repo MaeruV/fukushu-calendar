@@ -1,24 +1,19 @@
-import 'package:ebbinghaus_forgetting_curve/application/state/calender/calender_view_model.dart';
 import 'package:ebbinghaus_forgetting_curve/domain/entities/calendar_event.dart';
-import 'package:ebbinghaus_forgetting_curve/presentation/common/date_time_extension.dart';
+import 'package:ebbinghaus_forgetting_curve/presentation/pages/calender/widgets/days_row/event_labels.dart';
 import 'package:ebbinghaus_forgetting_curve/presentation/pages/calender/widgets/table_calendar_page_.dart';
 import 'package:ebbinghaus_forgetting_curve/presentation/theme/colors.dart';
 import 'package:ebbinghaus_forgetting_curve/presentation/theme/fonts.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-final collapsedProvider = StateProvider<bool>((ref) => false);
-
-const dayLabelContentHeight = 17;
-const dayLabelVerticalMargin = 1;
-const dayLabelHeight = dayLabelContentHeight + (dayLabelVerticalMargin * 2);
-
 const _eventLabelContentHeight = 8;
 const _eventLabelBottomMargin = 3;
 const _eventLabelHeight = _eventLabelContentHeight + _eventLabelBottomMargin;
 
-class EventLabels extends HookConsumerWidget {
-  const EventLabels({
+final appearamceCollapsedProvider = StateProvider<bool>((ref) => false);
+
+class AppearanceEventLabels extends HookConsumerWidget {
+  const AppearanceEventLabels({
     super.key,
     required this.date,
     required this.events,
@@ -54,7 +49,7 @@ class EventLabels extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final cellHeight = ref.watch(cellHeightProvider);
-    final isCollapsed = ref.watch(collapsedProvider);
+    final isCollapsed = ref.watch(appearamceCollapsedProvider);
     final eventsOnTheDay = _eventsOnTheDay(date, events);
 
     if (cellHeight == null) {
@@ -101,52 +96,6 @@ class EventLabels extends HookConsumerWidget {
           return const SizedBox.shrink();
         }
       },
-    );
-  }
-}
-
-class EventLabel extends ConsumerWidget {
-  const EventLabel({super.key, required this.event, required this.date});
-
-  final CalendarEvent event;
-  final DateTime date;
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final theme = Theme.of(context);
-
-    final isSelected =
-        date.isSameDay(ref.watch(calenderViewModelProvider).cellDateTime!);
-
-    final textColor = isSelected
-        ? theme.brightness == Brightness.dark
-            ? Colors.black
-            : Colors.white
-        : theme.brightness == Brightness.dark
-            ? Colors.white
-            : Colors.black;
-    return Container(
-      margin: const EdgeInsets.only(right: 3),
-      child: IntrinsicHeight(
-        child: Row(
-          children: [
-            Container(
-              width: 3,
-              color: event.eventBackgroundColor,
-              alignment: Alignment.center,
-            ),
-            const SizedBox(width: 1),
-            Expanded(
-              child: Text(
-                event.eventName,
-                style: BrandText.bodySS.copyWith(color: textColor),
-                textAlign: TextAlign.left,
-                overflow: TextOverflow.ellipsis,
-              ),
-            ),
-          ],
-        ),
-      ),
     );
   }
 }

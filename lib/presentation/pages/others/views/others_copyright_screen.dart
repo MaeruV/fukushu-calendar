@@ -12,6 +12,7 @@ class OthersCopyrightScreen extends ConsumerWidget {
         data: theme.copyWith(
             cardColor: theme.canvasColor,
             appBarTheme: theme.appBarTheme.copyWith(
+              titleTextStyle: theme.textTheme.titleMedium,
               elevation: 1.5,
               backgroundColor: theme.canvasColor,
               foregroundColor: theme.primaryColorLight,

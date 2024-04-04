@@ -22,7 +22,7 @@ class AddTaskNotification extends ConsumerWidget {
             data: Theme.of(context).copyWith(
               textTheme: const TextTheme(
                 bodyMedium: TextStyle(
-                  fontSize: 12.0,
+                  fontSize: 16.0,
                 ),
               ),
               timePickerTheme: theme.timePickerTheme,

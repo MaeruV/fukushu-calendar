@@ -1,8 +1,7 @@
-import 'package:ebbinghaus_forgetting_curve/application/config/app_constants.dart';
-import 'package:ebbinghaus_forgetting_curve/presentation/theme/colors.dart';
+import 'package:ebbinghaus_forgetting_curve/presentation/pages/others/widgets/others_app_info.dart';
+import 'package:ebbinghaus_forgetting_curve/presentation/pages/others/widgets/others_%20appearance.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
 
 class OthersMainScreen extends ConsumerWidget {
   const OthersMainScreen({super.key});
@@ -20,38 +19,17 @@ class OthersMainScreen extends ConsumerWidget {
             style: theme.textTheme.titleMedium!
                 .copyWith(color: theme.primaryColorLight)),
       ),
-      body: Column(
-        children: <Widget>[
-          const SizedBox(height: 10),
-          ListTile(
-            onTap: () => context.push('/others_setting'),
-            leading: const Icon(
-              Icons.settings,
-              color: BrandColor.grey,
-              size: 25,
-            ),
-            title: Text(
-              settingTitle,
-              style: theme.textTheme.bodyMedium!
-                  .copyWith(color: theme.primaryColorLight),
-            ),
-            trailing: const Icon(Icons.chevron_right, size: 30),
+      body: const SingleChildScrollView(
+        child: Padding(
+          padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+          child: Column(
+            children: <Widget>[
+              OthersAppearance(),
+              SizedBox(height: 30),
+              OthersAppInfo(),
+            ],
           ),
-          ListTile(
-            onTap: () => context.push('/others_copyright'),
-            leading: const Icon(
-              Icons.copyright,
-              color: BrandColor.grey,
-              size: 25,
-            ),
-            title: Text(
-              copyright,
-              style: theme.textTheme.bodyMedium!
-                  .copyWith(color: theme.primaryColorLight),
-            ),
-            trailing: const Icon(Icons.chevron_right, size: 30),
-          ),
-        ],
+        ),
       ),
     );
   }

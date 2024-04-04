@@ -20,32 +20,7 @@ class CalendarListTile extends HookConsumerWidget with PresentationMixin {
             (event) => switch (
                 ref.watch(tempTaskDateProvider(taskDate: event.taskDate))) {
               AsyncError(:final error) => Text('Error: $error'),
-              AsyncData(:final value) =>
-                // AsyncData(:final value) => value == null
-                // ? Card(
-                //     shape: RoundedRectangleBorder(
-                //       borderRadius: BorderRadius.circular(8),
-                //     ),
-                //     margin: const EdgeInsets.symmetric(
-                //         horizontal: 0, vertical: 5),
-                //     child: Container(
-                //       decoration: BoxDecoration(
-                //         color: event.eventBackgroundColor,
-                //         borderRadius: BorderRadius.circular(8),
-                //       ),
-                //       child: ListTile(
-                //         title: Text(
-                //           event.eventName,
-                //           style: theme.textTheme.bodyMedium,
-                //         ),
-                //         subtitle: Text(
-                //           "開始日",
-                //           style: theme.textTheme.bodySmall,
-                //         ),
-                //       ),
-                //     ),
-                //   )
-                Card(
+              AsyncData(:final value) => Card(
                   shape: const RoundedRectangleBorder(
                       borderRadius: BorderRadius.all(Radius.circular(8.0))),
                   elevation: Theme.of(context).brightness == Brightness.dark

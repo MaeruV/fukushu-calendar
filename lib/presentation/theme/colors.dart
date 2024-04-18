@@ -17,7 +17,6 @@ class BrandColor {
   static const brighterBlue2 = Color(0xFF101636);
   static const darkerBlue1 = Color(0xFF0E132E);
   static const darkerBlue2 = Color(0xFF0C1027);
-  static const darkestBlue = Color(0xFF0A0E21);
   static const deepNightBlue1 = Color(0xFF080C1B);
   static const deepNightBlue2 = Color(0xFF070A16);
   static const deepNightBlue3 = Color(0xFF060812);

@@ -51,7 +51,7 @@ class AppTheme {
     cardColor: BrandColor.brighterBlue1,
     focusColor: BrandColor.blue,
     dividerColor: const Color(0xFFBDBDBD),
-    scaffoldBackgroundColor: const Color(0xFF0A0E21),
+    scaffoldBackgroundColor: BrandColor.canvas,
     elevatedButtonTheme: elevatedButtonThemeData,
     fontFamily: BrandFont.general,
     textTheme: commonTextTheme,
@@ -102,12 +102,10 @@ class AppTheme {
   static const commonTextTheme = TextTheme(
     labelLarge: TextStyle(fontSize: 18, fontWeight: FontWeight.w300),
     labelMedium: TextStyle(fontSize: 14, fontWeight: FontWeight.w300),
-    labelSmall: TextStyle(fontSize: 11, fontWeight: FontWeight.w300),
-    bodyLarge:
-        TextStyle(fontSize: 22, fontWeight: FontWeight.normal), // 通常のテキスト色
+    labelSmall: TextStyle(fontSize: 12, fontWeight: FontWeight.w300),
+    bodyLarge: TextStyle(fontSize: 22, fontWeight: FontWeight.normal),
     bodyMedium: TextStyle(fontSize: 19, fontWeight: FontWeight.normal),
-    bodySmall:
-        TextStyle(fontSize: 15, fontWeight: FontWeight.normal), // サブテキストなどに使用
+    bodySmall: TextStyle(fontSize: 15, fontWeight: FontWeight.normal),
     titleLarge: TextStyle(fontSize: 26, fontWeight: FontWeight.bold),
     titleMedium: TextStyle(fontSize: 21, fontWeight: FontWeight.bold),
     titleSmall: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),

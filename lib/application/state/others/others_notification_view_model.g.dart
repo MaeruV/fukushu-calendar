@@ -7,7 +7,7 @@ part of 'others_notification_view_model.dart';
 // **************************************************************************
 
 String _$othersNotifierModelHash() =>
-    r'f91a2bd4fe9da0ab87244cba00aa30e3c8707de2';
+    r'409a17d6074f6e27af2b67e54aa7249de099d114';
 
 /// See also [OthersNotifierModel].
 @ProviderFor(OthersNotifierModel)

@@ -3,6 +3,7 @@ import 'package:ebbinghaus_forgetting_curve/presentation/theme/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class AddTaskInterval extends ConsumerWidget {
   const AddTaskInterval({super.key});
@@ -11,9 +12,10 @@ class AddTaskInterval extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final state = ref.watch(editViewModelProvider);
     final theme = Theme.of(context);
+    final appLocalizations = AppLocalizations.of(context)!;
 
     final formattedIntervals =
-        '${state.intervalDays.map((interval) => '$interval').join(', ')}日後';
+        '${state.intervalDays.map((interval) => '$interval').join(', ')} ${appLocalizations.days_after}';
 
     return GestureDetector(
       onTap: () => context.push('/interval'),
@@ -21,7 +23,7 @@ class AddTaskInterval extends ConsumerWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           Text(
-            '復習間隔',
+            appLocalizations.interval,
             style: theme.textTheme.bodySmall!
                 .copyWith(color: theme.primaryColorLight),
           ),

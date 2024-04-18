@@ -6,6 +6,7 @@ import 'package:ebbinghaus_forgetting_curve/presentation/theme/fonts.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class AddTaskNav extends ConsumerWidget with PresentationMixin {
   const AddTaskNav({
@@ -15,7 +16,10 @@ class AddTaskNav extends ConsumerWidget with PresentationMixin {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final state = ref.watch(editViewModelProvider);
-    String subject = state.hasTask ? '編集' : '新規スケジュール';
+    final appLocalizations = AppLocalizations.of(context)!;
+
+    String subject =
+        state.hasTask ? appLocalizations.edit : appLocalizations.new_schedule;
     Color color = state.hasChanges ? BrandColor.deleteRed : BrandColor.grey;
     final theme = Theme.of(context);
 
@@ -28,7 +32,7 @@ class AddTaskNav extends ConsumerWidget with PresentationMixin {
             child: GestureDetector(
               onTap: () => context.pop(),
               child: Text(
-                'キャンセル',
+                appLocalizations.cancel,
                 style: BrandText.titleS.copyWith(color: BrandColor.blue),
               ),
             ),
@@ -64,7 +68,7 @@ class AddTaskNav extends ConsumerWidget with PresentationMixin {
                 }
               },
               child: Text(
-                "完了",
+                appLocalizations.complete,
                 style: BrandText.titleS.copyWith(color: color),
               ),
             ),

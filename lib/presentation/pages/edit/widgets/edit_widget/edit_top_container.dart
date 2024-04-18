@@ -2,6 +2,7 @@ import 'package:ebbinghaus_forgetting_curve/domain/entities/task.dart';
 import 'package:ebbinghaus_forgetting_curve/presentation/pages/edit/views/edit_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class EditTopContainer extends ConsumerWidget implements PreferredSizeWidget {
   const EditTopContainer({super.key, required this.value});
@@ -33,6 +34,7 @@ class EditTopContainer extends ConsumerWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final theme = Theme.of(context);
+    final appLocalizations = AppLocalizations.of(context)!;
 
     return AppBar(
       elevation: 1.5,
@@ -51,7 +53,7 @@ class EditTopContainer extends ConsumerWidget implements PreferredSizeWidget {
             child: GestureDetector(
               onTap: () => todayTaskIndex(ref),
               child: Text(
-                '今日',
+                appLocalizations.today,
                 style: theme.textTheme.titleSmall!.copyWith(color: Colors.blue),
               ),
             ),
@@ -65,7 +67,7 @@ class EditTopContainer extends ConsumerWidget implements PreferredSizeWidget {
             child: Row(
               children: [
                 Text(
-                  'タスク数:  ${getTotalTaskCount(value)}',
+                  '${appLocalizations.number_of_events}  ${getTotalTaskCount(value)}',
                   style:
                       theme.textTheme.bodyMedium!.copyWith(color: Colors.grey),
                 ),
@@ -73,7 +75,7 @@ class EditTopContainer extends ConsumerWidget implements PreferredSizeWidget {
             ),
           )),
       title: Text(
-        'スケジュール',
+        appLocalizations.schedule,
         style: theme.textTheme.titleLarge!
             .copyWith(color: theme.primaryColorLight),
       ),

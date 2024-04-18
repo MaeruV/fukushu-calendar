@@ -3,6 +3,7 @@ import 'package:ebbinghaus_forgetting_curve/presentation/common/date_time_extens
 import 'package:ebbinghaus_forgetting_curve/presentation/theme/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class AddTaskCalendar extends ConsumerWidget {
   const AddTaskCalendar({super.key});
@@ -12,9 +13,10 @@ class AddTaskCalendar extends ConsumerWidget {
     final DateTime firstDate = dateTime.subtract(const Duration(days: 30));
     final DateTime lastDate = now.add(const Duration(days: 360));
     final theme = Theme.of(context);
+    final appLocalizations = AppLocalizations.of(context)!;
 
     final DateTime? datePicked = await showDatePicker(
-      locale: const Locale("ja"),
+      locale: Locale(appLocalizations.localeName),
       context: context,
       initialDate: dateTime,
       firstDate: firstDate,
@@ -41,6 +43,7 @@ class AddTaskCalendar extends ConsumerWidget {
     final state = ref.watch(editViewModelProvider);
     final notifier = ref.read(editViewModelProvider.notifier);
     final theme = Theme.of(context);
+    final appLocalizations = AppLocalizations.of(context)!;
 
     return GestureDetector(
       onTap: () async {
@@ -53,7 +56,7 @@ class AddTaskCalendar extends ConsumerWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           Text(
-            '開始日',
+            appLocalizations.start_date,
             style: theme.textTheme.bodySmall!
                 .copyWith(color: theme.primaryColorLight),
           ),
@@ -69,7 +72,7 @@ class AddTaskCalendar extends ConsumerWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
                 Text(
-                  state.startTime.toJapaneseFormat(),
+                  state.startTime.toSimpleFormat(appLocalizations.date),
                   style: theme.textTheme.bodySmall!
                       .copyWith(color: theme.primaryColorLight),
                 ),

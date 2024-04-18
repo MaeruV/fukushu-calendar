@@ -4,6 +4,7 @@ import 'package:ebbinghaus_forgetting_curve/presentation/theme/colors.dart';
 import 'package:ebbinghaus_forgetting_curve/presentation/theme/fonts.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class IntervalView extends ConsumerWidget {
   const IntervalView({super.key});
@@ -11,6 +12,7 @@ class IntervalView extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final state = ref.watch(intervalViewModelProvider);
+    final appLocalizations = AppLocalizations.of(context)!;
 
     return ListView.builder(
       itemCount: state.length + 1,
@@ -19,7 +21,7 @@ class IntervalView extends ConsumerWidget {
             ? IntervalTileList(index: index)
             : Center(
                 child: Text(
-                  '最大10個まで登録できます',
+                  appLocalizations.max_registration,
                   style: BrandText.bodyS.copyWith(color: BrandColor.grey),
                 ),
               );

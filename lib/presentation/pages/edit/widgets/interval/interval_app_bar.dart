@@ -6,6 +6,7 @@ import 'package:ebbinghaus_forgetting_curve/presentation/theme/fonts.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class IntervalAppBar extends ConsumerWidget
     with PresentationMixin
@@ -16,10 +17,11 @@ class IntervalAppBar extends ConsumerWidget
     final notifier = ref.read(editViewModelProvider.notifier);
     final intervalState = ref.watch(intervalViewModelProvider);
     final theme = Theme.of(context);
+    final appLocalizations = AppLocalizations.of(context)!;
 
     return AppBar(
       backgroundColor: theme.canvasColor,
-      title: Text("復習期間",
+      title: Text(appLocalizations.review_period,
           style: theme.textTheme.titleMedium!
               .copyWith(color: theme.primaryColorLight)),
       leading: GestureDetector(
@@ -40,13 +42,14 @@ class IntervalAppBar extends ConsumerWidget
                   notifier.updateIntervalDays(intervalState);
                   context.pop();
                 } else {
-                  throw Exception("復習日を1つ以上設定してください");
+                  throw Exception(
+                      appLocalizations.please_set_at_least_one_review_day);
                 }
               });
             },
             child: Center(
               child: Text(
-                "完了",
+                appLocalizations.complete,
                 style: BrandText.titleS.copyWith(color: BrandColor.deleteRed),
               ),
             ),

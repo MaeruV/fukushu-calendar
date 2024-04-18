@@ -16,7 +16,6 @@ class IntervalFloatingBtn extends ConsumerWidget {
     int selectedValue = 1;
 
     return FloatingActionButton(
-      // onPressed: () => notifier.setNumber(18),
       onPressed: () {
         modalManager.showModalPicker(
           context: context,

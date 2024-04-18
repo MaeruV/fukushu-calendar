@@ -4,6 +4,7 @@ import 'package:ebbinghaus_forgetting_curve/presentation/theme/colors.dart';
 import 'package:ebbinghaus_forgetting_curve/presentation/theme/fonts.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class ModalManager {
   void showModalPicker(
@@ -48,9 +49,12 @@ class ModalManager {
                 child: CupertinoPicker(
                   itemExtent: 30,
                   onSelectedItemChanged: onSelectedItemChanged,
-                  children:
-                      List.generate(100, (index) => _pickerItem((index + 1)))
-                          .toList(),
+                  children: List.generate(
+                      100,
+                      (index) => _pickerItem(
+                            (index + 1),
+                            context,
+                          )).toList(),
                 ),
               ),
             ),
@@ -60,18 +64,25 @@ class ModalManager {
     );
   }
 
-  Widget _pickerItem(int str) {
+  Widget _pickerItem(int str, BuildContext context) {
+    final appLocalizations = AppLocalizations.of(context)!;
+
     return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
+      mainAxisAlignment: MainAxisAlignment.start, // Changed to start alignment
       children: [
-        Text(
-          '$str日後',
-          style: BrandText.bodyL,
-        ),
         const SizedBox(width: 25),
         Text(
-          DateTime.now().add(Duration(days: str)).toJapaneseFormat(),
+          '$str ${appLocalizations.days_after}',
           style: BrandText.bodyL,
+          textAlign: TextAlign.start,
+        ),
+        const SizedBox(width: 20),
+        Text(
+          DateTime.now()
+              .add(Duration(days: str))
+              .toSimpleFormat(appLocalizations.date),
+          style: BrandText.bodyL,
+          textAlign: TextAlign.end,
         ),
       ],
     );

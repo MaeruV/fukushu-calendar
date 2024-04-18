@@ -1,9 +1,12 @@
+import 'package:ebbinghaus_forgetting_curve/application/state/analysis/analysis_view_model.dart';
 import 'package:ebbinghaus_forgetting_curve/application/usecases/task/state/tasks_provider.dart';
 import 'package:ebbinghaus_forgetting_curve/application/usecases/task/task_usecase.dart';
 import 'package:ebbinghaus_forgetting_curve/domain/entities/calendar_event.dart';
+import 'package:ebbinghaus_forgetting_curve/presentation/common/date_extension.dart';
 import 'package:ebbinghaus_forgetting_curve/presentation/presentation_mixin.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class CalendarListTile extends HookConsumerWidget with PresentationMixin {
   const CalendarListTile({super.key, required this.events});
@@ -13,6 +16,8 @@ class CalendarListTile extends HookConsumerWidget with PresentationMixin {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final theme = Theme.of(context);
+    final appLocalizations = AppLocalizations.of(context)!;
+    final state = ref.watch(analysisViewModelProvider);
 
     return Column(
       children: events
@@ -67,9 +72,11 @@ class CalendarListTile extends HookConsumerWidget with PresentationMixin {
                                 ),
                                 Text(
                                   value != null
-                                      ? "${value.daysInterval}日目"
-                                      : "開始日",
-                                  style: theme.textTheme.bodySmall,
+                                      ? value.daysInterval
+                                          .toformatDay(appLocalizations.date)
+                                      : appLocalizations.start_date,
+                                  style: theme.textTheme.bodySmall!
+                                      .copyWith(color: Colors.grey),
                                 ),
                               ],
                             ),
@@ -84,7 +91,11 @@ class CalendarListTile extends HookConsumerWidget with PresentationMixin {
                                       ref
                                           .read(taskUsecaseProvider)
                                           .saveTaskDate(
-                                              taskDate: value, flag: flag);
+                                            taskDate: value,
+                                            flag: flag,
+                                            time: state.dateTimeTapped,
+                                            weeks: state.oneWeek,
+                                          );
                                     }
                                   });
                                 },

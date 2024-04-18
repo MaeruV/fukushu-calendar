@@ -6,18 +6,21 @@ import 'package:ebbinghaus_forgetting_curve/presentation/widgets/circle_painter.
 import 'package:flutter/material.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class AddTaskColor extends ConsumerWidget with PresentationMixin {
   const AddTaskColor({super.key});
 
   showColorPicker(BuildContext context, WidgetRef ref) {
     final theme = Theme.of(context);
+    final appLocalizations = AppLocalizations.of(context)!;
+
     showDialog(
         context: context,
         builder: (BuildContext context) {
           Color? pickedColor;
           return AlertDialog(
-            title: Text('カラー',
+            title: Text(appLocalizations.color,
                 style: theme.textTheme.titleMedium!
                     .copyWith(color: theme.primaryColorLight)),
             content: SingleChildScrollView(
@@ -31,13 +34,13 @@ class AddTaskColor extends ConsumerWidget with PresentationMixin {
             ),
             actions: <Widget>[
               TextButton(
-                child: Text('キャンセル',
+                child: Text(appLocalizations.cancel,
                     style: theme.textTheme.bodySmall!
                         .copyWith(color: Colors.blue)),
                 onPressed: () => Navigator.of(context).pop(),
               ),
               TextButton(
-                child: Text('完了',
+                child: Text(appLocalizations.complete,
                     style:
                         theme.textTheme.bodySmall!.copyWith(color: Colors.red)),
                 onPressed: () {
@@ -61,6 +64,7 @@ class AddTaskColor extends ConsumerWidget with PresentationMixin {
     final state = ref.watch(editViewModelProvider);
     final colorState = ref.watch(colorPickerViewModelProvider);
     final theme = Theme.of(context);
+    final appLocalizations = AppLocalizations.of(context)!;
 
     List<int> combinedColors = [
       ...colorState,
@@ -72,7 +76,7 @@ class AddTaskColor extends ConsumerWidget with PresentationMixin {
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
         Text(
-          'カラー',
+          appLocalizations.color,
           style: theme.textTheme.bodySmall!
               .copyWith(color: theme.primaryColorLight),
         ),
@@ -138,9 +142,9 @@ class AddTaskColor extends ConsumerWidget with PresentationMixin {
                                   top: -5,
                                   right: -5,
                                   child: isSelected
-                                      ? const Icon(
+                                      ? Icon(
                                           Icons.check_circle,
-                                          color: BrandColor.white,
+                                          color: theme.primaryColorLight,
                                           size: 18,
                                         )
                                       : const SizedBox.shrink(),

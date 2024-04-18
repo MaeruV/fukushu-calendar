@@ -8,3 +8,9 @@ const String notificationTitle = '通知の設定';
 const String notificationContent = '通知オン・オフの切り替え';
 const String settingTitle = '設定';
 const String copyright = '著作権情報';
+
+const Map<String, String> languages = {
+  'ja': '日本語',
+  'en': 'English',
+  'ko': '한국어',
+};

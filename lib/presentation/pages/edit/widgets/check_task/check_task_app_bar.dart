@@ -1,6 +1,7 @@
 import 'package:ebbinghaus_forgetting_curve/presentation/theme/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class CheckTaskAppbar extends ConsumerWidget implements PreferredSizeWidget {
   const CheckTaskAppbar(
@@ -12,6 +13,7 @@ class CheckTaskAppbar extends ConsumerWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final theme = Theme.of(context);
+    final appLocalizations = AppLocalizations.of(context)!;
 
     return AppBar(
       backgroundColor: theme.canvasColor,
@@ -24,7 +26,7 @@ class CheckTaskAppbar extends ConsumerWidget implements PreferredSizeWidget {
           color: theme.primaryColorLight,
         ),
       ),
-      title: Text('スケジュール',
+      title: Text(appLocalizations.schedule,
           style: theme.textTheme.titleMedium!
               .copyWith(color: theme.primaryColorLight)),
       actions: [
@@ -34,7 +36,7 @@ class CheckTaskAppbar extends ConsumerWidget implements PreferredSizeWidget {
             child: GestureDetector(
               onTap: onTap,
               child: Text(
-                "編集",
+                appLocalizations.edit,
                 style: theme.textTheme.titleSmall!
                     .copyWith(color: BrandColor.blue),
               ),

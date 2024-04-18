@@ -40,4 +40,23 @@ extension DateExtension on int {
       return 12 - (-currentMonth % 12);
     }
   }
+
+  String toformatDay(String date) {
+    switch (date) {
+      case 'en_US':
+        if (this == 1) {
+          return '1st day';
+        } else if (this == 2) {
+          return '2nd day';
+        } else if (this == 3) {
+          return '3rd day';
+        } else {
+          return '${this}th day';
+        }
+      case 'ja_JP':
+        return '$this日目';
+      default:
+        return '$this日目';
+    }
+  }
 }

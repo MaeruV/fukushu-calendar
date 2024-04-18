@@ -3,7 +3,7 @@ import 'package:ebbinghaus_forgetting_curve/presentation/theme/colors.dart';
 import 'package:ebbinghaus_forgetting_curve/presentation/theme/fonts.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import '../../../../common/custom_hook_text_field.dart';
 
 class AddTaskMemo extends HookConsumerWidget {
@@ -14,14 +14,14 @@ class AddTaskMemo extends HookConsumerWidget {
     final memoText = ref.watch(editViewModelProvider).memo;
     final notifier = ref.read(editViewModelProvider.notifier);
     final theme = Theme.of(context);
-
+    final appLocalizations = AppLocalizations.of(context)!;
     final controller = useCustomTextEditingController(text: memoText);
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          'メモ',
+          appLocalizations.memo,
           style: theme.textTheme.bodySmall!
               .copyWith(color: theme.primaryColorLight),
         ),
@@ -35,7 +35,7 @@ class AddTaskMemo extends HookConsumerWidget {
             onChanged: (value) => notifier.setMemoText(value),
             maxLength: 100,
             decoration: InputDecoration(
-              hintText: 'メモを入力してください',
+              hintText: appLocalizations.memo_content,
               hintStyle: BrandText.bodyS.copyWith(color: BrandColor.grey),
               enabledBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(10),

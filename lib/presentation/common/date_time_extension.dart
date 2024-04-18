@@ -1,39 +1,45 @@
 import 'package:intl/intl.dart';
 
 extension DateTimeJapaneseFormat on DateTime {
-  String toSimpleFormat() {
-    final year = DateFormat('y').format(this);
-    final month = DateFormat('M').format(this);
-    final day = DateFormat('d').format(this);
-    final weekday = DateFormat('E', 'ja').format(this);
-    return '$year/$month/$day ($weekday)';
+  String toSimpleFormat(String date) {
+    switch (date) {
+      case 'en_US':
+        return DateFormat('EEEE, MMMM d, yyyy', date).format(this);
+      case 'ja_JP':
+        return DateFormat('yyyy年 MMMMd日 (E)', date).format(this);
+      default:
+        return DateFormat('yyyy年 MMMMd日 (E)', 'ja_JP').format(this);
+    }
   }
 
-  String toJapaneseFormat() {
-    final year = DateFormat('y').format(this);
-    final month = DateFormat('M').format(this);
-    final day = DateFormat('d').format(this);
-    final weekday = DateFormat('E', 'ja').format(this);
-    return '$year年$month月$day日 ($weekday)';
-  }
-
-  String toRelativeJapaneseFormat() {
+  String toRelativeJapaneseFormat(String locale) {
     final now = DateTime.now();
     final today = DateTime(now.year, now.month, now.day);
     final tomorrow = DateTime(now.year, now.month, now.day + 1);
     final yesterday = DateTime(now.year, now.month, now.day - 1);
-
     final targetDate = DateTime(year, month, day);
 
     if (targetDate == today) {
-      return '今日';
+      return locale == 'en_US' ? 'Today' : '今日';
     } else if (targetDate == tomorrow) {
-      return '明日';
+      return locale == 'en_US' ? 'Tommorow' : '明日';
     } else if (targetDate == yesterday) {
-      return '昨日';
+      return locale == 'en_US' ? 'Yesterday' : '昨日';
     } else {
-      return '${targetDate.year}年${targetDate.month}月${targetDate.day}日';
+      if (locale == 'en_US') {
+        return DateFormat('MMMM d, yyyy', locale).format(this);
+      } else {
+        return '${targetDate.year}年${targetDate.month}月${targetDate.day}日';
+      }
     }
+  }
+
+  String toYMDFormat() {
+    return DateFormat('yyyy/M/d').format(this);
+  }
+
+  String toMDFormat() {
+    return DateFormat('M/d').format(this);
   }
 
   DateTime toZeroHour() {
@@ -46,5 +52,16 @@ extension DateTimeJapaneseFormat on DateTime {
 
   String toHourMinute() {
     return DateFormat('HH:mm').format(this);
+  }
+
+  String toformatMonthYear(String date) {
+    switch (date) {
+      case 'en_US':
+        return DateFormat('MMMM yyyy', date).format(this);
+      case 'ja_JP':
+        return DateFormat('yyyy MMMM ', date).format(this);
+      default:
+        return DateFormat('MMMM yyyy', 'ja_JP').format(this);
+    }
   }
 }

@@ -36,24 +36,7 @@ final taskDatesProvider =
 );
 
 typedef TaskDatesRef = AutoDisposeFutureProviderRef<Map<DateTime, List<Task>>>;
-String _$compTaskDatesHash() => r'aac577f3075985af58b49da9b699ded0cbc23cfc';
-
-/// See also [compTaskDates].
-@ProviderFor(compTaskDates)
-final compTaskDatesProvider =
-    AutoDisposeFutureProvider<Map<DateTime, List<TaskDate>>>.internal(
-  compTaskDates,
-  name: r'compTaskDatesProvider',
-  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-      ? null
-      : _$compTaskDatesHash,
-  dependencies: null,
-  allTransitiveDependencies: null,
-);
-
-typedef CompTaskDatesRef
-    = AutoDisposeFutureProviderRef<Map<DateTime, List<TaskDate>>>;
-String _$tempTaskHash() => r'35d4be616b9fec43030d9aac2cf8de64ac8c61f0';
+String _$compWeekDataHash() => r'18dadbabf61131e9355f2972f01ac609ac3e1778';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -75,6 +58,269 @@ class _SystemHash {
     return 0x1fffffff & (hash + ((0x00003fff & hash) << 15));
   }
 }
+
+/// See also [compWeekData].
+@ProviderFor(compWeekData)
+const compWeekDataProvider = CompWeekDataFamily();
+
+/// See also [compWeekData].
+class CompWeekDataFamily
+    extends Family<AsyncValue<Map<DateTime, List<TaskDate>>>> {
+  /// See also [compWeekData].
+  const CompWeekDataFamily();
+
+  /// See also [compWeekData].
+  CompWeekDataProvider call({
+    required List<DateTime> weeks,
+  }) {
+    return CompWeekDataProvider(
+      weeks: weeks,
+    );
+  }
+
+  @override
+  CompWeekDataProvider getProviderOverride(
+    covariant CompWeekDataProvider provider,
+  ) {
+    return call(
+      weeks: provider.weeks,
+    );
+  }
+
+  static const Iterable<ProviderOrFamily>? _dependencies = null;
+
+  @override
+  Iterable<ProviderOrFamily>? get dependencies => _dependencies;
+
+  static const Iterable<ProviderOrFamily>? _allTransitiveDependencies = null;
+
+  @override
+  Iterable<ProviderOrFamily>? get allTransitiveDependencies =>
+      _allTransitiveDependencies;
+
+  @override
+  String? get name => r'compWeekDataProvider';
+}
+
+/// See also [compWeekData].
+class CompWeekDataProvider
+    extends AutoDisposeFutureProvider<Map<DateTime, List<TaskDate>>> {
+  /// See also [compWeekData].
+  CompWeekDataProvider({
+    required List<DateTime> weeks,
+  }) : this._internal(
+          (ref) => compWeekData(
+            ref as CompWeekDataRef,
+            weeks: weeks,
+          ),
+          from: compWeekDataProvider,
+          name: r'compWeekDataProvider',
+          debugGetCreateSourceHash:
+              const bool.fromEnvironment('dart.vm.product')
+                  ? null
+                  : _$compWeekDataHash,
+          dependencies: CompWeekDataFamily._dependencies,
+          allTransitiveDependencies:
+              CompWeekDataFamily._allTransitiveDependencies,
+          weeks: weeks,
+        );
+
+  CompWeekDataProvider._internal(
+    super._createNotifier, {
+    required super.name,
+    required super.dependencies,
+    required super.allTransitiveDependencies,
+    required super.debugGetCreateSourceHash,
+    required super.from,
+    required this.weeks,
+  }) : super.internal();
+
+  final List<DateTime> weeks;
+
+  @override
+  Override overrideWith(
+    FutureOr<Map<DateTime, List<TaskDate>>> Function(CompWeekDataRef provider)
+        create,
+  ) {
+    return ProviderOverride(
+      origin: this,
+      override: CompWeekDataProvider._internal(
+        (ref) => create(ref as CompWeekDataRef),
+        from: from,
+        name: null,
+        dependencies: null,
+        allTransitiveDependencies: null,
+        debugGetCreateSourceHash: null,
+        weeks: weeks,
+      ),
+    );
+  }
+
+  @override
+  AutoDisposeFutureProviderElement<Map<DateTime, List<TaskDate>>>
+      createElement() {
+    return _CompWeekDataProviderElement(this);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return other is CompWeekDataProvider && other.weeks == weeks;
+  }
+
+  @override
+  int get hashCode {
+    var hash = _SystemHash.combine(0, runtimeType.hashCode);
+    hash = _SystemHash.combine(hash, weeks.hashCode);
+
+    return _SystemHash.finish(hash);
+  }
+}
+
+mixin CompWeekDataRef
+    on AutoDisposeFutureProviderRef<Map<DateTime, List<TaskDate>>> {
+  /// The parameter `weeks` of this provider.
+  List<DateTime> get weeks;
+}
+
+class _CompWeekDataProviderElement
+    extends AutoDisposeFutureProviderElement<Map<DateTime, List<TaskDate>>>
+    with CompWeekDataRef {
+  _CompWeekDataProviderElement(super.provider);
+
+  @override
+  List<DateTime> get weeks => (origin as CompWeekDataProvider).weeks;
+}
+
+String _$compDayDataHash() => r'041f193b87737d1376c9d221a8128be6f5819b5a';
+
+/// See also [compDayData].
+@ProviderFor(compDayData)
+const compDayDataProvider = CompDayDataFamily();
+
+/// See also [compDayData].
+class CompDayDataFamily extends Family<AsyncValue<List<TaskDate>>> {
+  /// See also [compDayData].
+  const CompDayDataFamily();
+
+  /// See also [compDayData].
+  CompDayDataProvider call({
+    required DateTime? time,
+  }) {
+    return CompDayDataProvider(
+      time: time,
+    );
+  }
+
+  @override
+  CompDayDataProvider getProviderOverride(
+    covariant CompDayDataProvider provider,
+  ) {
+    return call(
+      time: provider.time,
+    );
+  }
+
+  static const Iterable<ProviderOrFamily>? _dependencies = null;
+
+  @override
+  Iterable<ProviderOrFamily>? get dependencies => _dependencies;
+
+  static const Iterable<ProviderOrFamily>? _allTransitiveDependencies = null;
+
+  @override
+  Iterable<ProviderOrFamily>? get allTransitiveDependencies =>
+      _allTransitiveDependencies;
+
+  @override
+  String? get name => r'compDayDataProvider';
+}
+
+/// See also [compDayData].
+class CompDayDataProvider extends AutoDisposeFutureProvider<List<TaskDate>> {
+  /// See also [compDayData].
+  CompDayDataProvider({
+    required DateTime? time,
+  }) : this._internal(
+          (ref) => compDayData(
+            ref as CompDayDataRef,
+            time: time,
+          ),
+          from: compDayDataProvider,
+          name: r'compDayDataProvider',
+          debugGetCreateSourceHash:
+              const bool.fromEnvironment('dart.vm.product')
+                  ? null
+                  : _$compDayDataHash,
+          dependencies: CompDayDataFamily._dependencies,
+          allTransitiveDependencies:
+              CompDayDataFamily._allTransitiveDependencies,
+          time: time,
+        );
+
+  CompDayDataProvider._internal(
+    super._createNotifier, {
+    required super.name,
+    required super.dependencies,
+    required super.allTransitiveDependencies,
+    required super.debugGetCreateSourceHash,
+    required super.from,
+    required this.time,
+  }) : super.internal();
+
+  final DateTime? time;
+
+  @override
+  Override overrideWith(
+    FutureOr<List<TaskDate>> Function(CompDayDataRef provider) create,
+  ) {
+    return ProviderOverride(
+      origin: this,
+      override: CompDayDataProvider._internal(
+        (ref) => create(ref as CompDayDataRef),
+        from: from,
+        name: null,
+        dependencies: null,
+        allTransitiveDependencies: null,
+        debugGetCreateSourceHash: null,
+        time: time,
+      ),
+    );
+  }
+
+  @override
+  AutoDisposeFutureProviderElement<List<TaskDate>> createElement() {
+    return _CompDayDataProviderElement(this);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return other is CompDayDataProvider && other.time == time;
+  }
+
+  @override
+  int get hashCode {
+    var hash = _SystemHash.combine(0, runtimeType.hashCode);
+    hash = _SystemHash.combine(hash, time.hashCode);
+
+    return _SystemHash.finish(hash);
+  }
+}
+
+mixin CompDayDataRef on AutoDisposeFutureProviderRef<List<TaskDate>> {
+  /// The parameter `time` of this provider.
+  DateTime? get time;
+}
+
+class _CompDayDataProviderElement
+    extends AutoDisposeFutureProviderElement<List<TaskDate>>
+    with CompDayDataRef {
+  _CompDayDataProviderElement(super.provider);
+
+  @override
+  DateTime? get time => (origin as CompDayDataProvider).time;
+}
+
+String _$tempTaskHash() => r'35d4be616b9fec43030d9aac2cf8de64ac8c61f0';
 
 /// See also [tempTask].
 @ProviderFor(tempTask)

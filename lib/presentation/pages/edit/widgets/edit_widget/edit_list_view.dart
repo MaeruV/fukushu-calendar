@@ -1,3 +1,4 @@
+import 'package:ebbinghaus_forgetting_curve/application/state/analysis/analysis_view_model.dart';
 import 'package:ebbinghaus_forgetting_curve/application/usecases/task/task_usecase.dart';
 import 'package:ebbinghaus_forgetting_curve/domain/entities/task.dart';
 import 'package:ebbinghaus_forgetting_curve/presentation/common/date_time_extension.dart';
@@ -8,6 +9,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:go_router/go_router.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 enum SlidableActionPropaties {
   edit,
@@ -36,13 +38,14 @@ class EditListView extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final theme = Theme.of(context);
+    final appLocalizations = AppLocalizations.of(context)!;
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
         Padding(
           padding: const EdgeInsets.all(8.0),
-          child: Text('${dateTime.toRelativeJapaneseFormat()}から',
+          child: Text(dateTime.toRelativeJapaneseFormat(appLocalizations.date),
               style: theme.textTheme.titleMedium!
                   .copyWith(color: todayColor(theme))),
         ),
@@ -62,6 +65,7 @@ class EditSlidableAction extends ConsumerWidget {
     SlidableActionPropaties action,
     Task task,
   ) async {
+    final state = ref.watch(analysisViewModelProvider);
     switch (action) {
       case SlidableActionPropaties.edit:
         ScaffoldMessenger.of(context).showSnackBar(
@@ -71,7 +75,11 @@ class EditSlidableAction extends ConsumerWidget {
         final controller = Slidable.of(context);
         controller!.dismiss(
           ResizeRequest(const Duration(milliseconds: 300), () async {
-            await ref.read(taskUsecaseProvider).deleteTaskEvent(task);
+            await ref.read(taskUsecaseProvider).deleteTaskEvent(
+                  task,
+                  state.dateTimeTapped,
+                  state.oneWeek,
+                );
           }),
           duration: const Duration(milliseconds: 300),
         );
@@ -133,6 +141,7 @@ class MainTaskWidget extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final formattedIntervals =
         task.dates.map((interval) => '${interval.daysInterval}').join(', ');
+    final appLocalizations = AppLocalizations.of(context)!;
 
     final int totalTasks = task.dates.length;
     final int completedTasks =
@@ -186,22 +195,26 @@ class MainTaskWidget extends ConsumerWidget {
                       const SizedBox(height: 8),
                       Row(
                         children: [
-                          const Text(
-                            '復習間隔',
-                            style: BrandText.bodyS,
+                          Text(
+                            appLocalizations.interval,
+                            style: theme.textTheme.bodySmall!
+                                .copyWith(color: Colors.grey),
                           ),
-                          const SizedBox(width: 20),
+                          const SizedBox(width: 10),
                           Flexible(
                             fit: FlexFit.loose,
                             child: Text(
                               formattedIntervals,
-                              style: BrandText.bodyS,
+                              style: theme.textTheme.bodySmall!
+                                  .copyWith(color: Colors.grey),
                               overflow: TextOverflow.ellipsis,
                             ),
                           ),
-                          const Text(
-                            "日後",
-                            style: BrandText.bodyS,
+                          const SizedBox(width: 10),
+                          Text(
+                            appLocalizations.days_after,
+                            style: theme.textTheme.bodySmall!
+                                .copyWith(color: Colors.grey),
                           ),
                         ],
                       ),

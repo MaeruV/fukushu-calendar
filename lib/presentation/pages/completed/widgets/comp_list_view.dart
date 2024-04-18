@@ -1,11 +1,14 @@
+import 'package:ebbinghaus_forgetting_curve/application/state/analysis/analysis_view_model.dart';
 import 'package:ebbinghaus_forgetting_curve/application/usecases/task/task_usecase.dart';
 import 'package:ebbinghaus_forgetting_curve/domain/entities/task.dart';
+import 'package:ebbinghaus_forgetting_curve/presentation/common/date_extension.dart';
 import 'package:ebbinghaus_forgetting_curve/presentation/common/date_time_extension.dart';
 import 'package:ebbinghaus_forgetting_curve/presentation/presentation_mixin.dart';
 import 'package:ebbinghaus_forgetting_curve/presentation/theme/colors.dart';
 import 'package:ebbinghaus_forgetting_curve/presentation/theme/fonts.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class CompListView extends ConsumerWidget {
   const CompListView(
@@ -29,6 +32,7 @@ class CompListView extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final appLocalizations = AppLocalizations.of(context)!;
     final theme = Theme.of(context);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -36,25 +40,28 @@ class CompListView extends ConsumerWidget {
         Padding(
           padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
           child: Text(
-            dateTime.toRelativeJapaneseFormat(),
+            dateTime.toRelativeJapaneseFormat(appLocalizations.date),
             style:
                 theme.textTheme.titleMedium!.copyWith(color: todayColor(theme)),
           ),
         ),
-        CompListWidget(taskDates: taskDates),
+        CompListWidget(taskDates: taskDates, dateTime: dateTime),
       ],
     );
   }
 }
 
 class CompListWidget extends ConsumerWidget with PresentationMixin {
-  const CompListWidget({super.key, required this.taskDates});
+  const CompListWidget(
+      {super.key, required this.taskDates, required this.dateTime});
 
   final List<TaskDate> taskDates;
+  final DateTime dateTime;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final theme = Theme.of(context);
+    final appLocalizations = AppLocalizations.of(context)!;
 
     return Column(
       children: taskDates.map((taskDate) {
@@ -95,7 +102,8 @@ class CompListWidget extends ConsumerWidget with PresentationMixin {
                                 ),
                                 const SizedBox(height: 5),
                                 Text(
-                                  '${taskDate.daysInterval}日目',
+                                  taskDate.daysInterval
+                                      .toformatDay(appLocalizations.date),
                                   style: BrandText.bodyS
                                       .copyWith(color: BrandColor.grey),
                                 ),
@@ -117,7 +125,13 @@ class CompListWidget extends ConsumerWidget with PresentationMixin {
                             execute(context, action: () async {
                               if (flag != null) {
                                 ref.read(taskUsecaseProvider).saveTaskDate(
-                                    taskDate: taskDate, flag: flag);
+                                      taskDate: taskDate,
+                                      flag: flag,
+                                      time: dateTime,
+                                      weeks: ref
+                                          .watch(analysisViewModelProvider)
+                                          .oneWeek,
+                                    );
                               }
                             });
                           },

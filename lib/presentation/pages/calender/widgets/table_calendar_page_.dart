@@ -1,4 +1,5 @@
 import 'package:ebbinghaus_forgetting_curve/application/state/calender/calender_view_model.dart';
+import 'package:ebbinghaus_forgetting_curve/application/state/theme/custom_theme.dart';
 import 'package:ebbinghaus_forgetting_curve/domain/entities/calendar_event.dart';
 import 'package:ebbinghaus_forgetting_curve/presentation/common/date_extension.dart';
 import 'package:ebbinghaus_forgetting_curve/presentation/common/date_time_extension.dart';
@@ -49,6 +50,7 @@ class TableCalendarPage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final theme = Theme.of(context);
+    final textHeight = ref.watch(customThemeProvider).textHeight;
 
     final weeks = _getWeeks(visiblePageDate);
     return Table(
@@ -89,11 +91,10 @@ class TableCalendarPage extends ConsumerWidget {
                     child: Column(
                       children: [
                         Container(
-                          margin: EdgeInsets.symmetric(
-                              vertical: dayLabelVerticalMargin.toDouble()),
-                          height: dayLabelContentHeight.toDouble(),
+                          height: textHeight.toDouble(),
+                          padding: const EdgeInsets.symmetric(vertical: 2),
                           child: Text(date.day.toString(),
-                              style: theme.textTheme.bodySmall!
+                              style: theme.textTheme.labelSmall!
                                   .copyWith(color: textColor)),
                         ),
                         Expanded(

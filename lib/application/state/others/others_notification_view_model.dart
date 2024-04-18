@@ -92,7 +92,6 @@ class OthersNotifierModel extends _$OthersNotifierModel {
           state!,
           uiLocalNotificationDateInterpretation:
               UILocalNotificationDateInterpretation.absoluteTime,
-          payload: key.toRelativeJapaneseFormat(),
         );
       }
     });

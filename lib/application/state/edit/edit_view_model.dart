@@ -26,13 +26,14 @@ class EditViewModel extends _$EditViewModel {
         : null;
     final bool flagNotification =
         hasTime && task?.time.toList().isNotEmpty == true;
+    final hasTask = task != null ? true : false;
 
     return EditState(
       title: titleText,
       memo: memoText,
       startTime: startTime,
       intervalDays: intervalDays,
-      hasTask: false,
+      hasTask: hasTask,
       pallete: pallete,
       time: checkDateTime,
       flagNotification: flagNotification,

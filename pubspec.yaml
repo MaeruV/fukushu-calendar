@@ -40,6 +40,8 @@ dependencies:
   flutter_local_notifications: ^17.0.0
   permission_handler:
   package_info: ^2.0.2
+  webview_flutter: ^4.5.0
+  fl_chart: ^0.64.0
   
 
 dev_dependencies:
@@ -51,7 +53,6 @@ dev_dependencies:
   riverpod_generator: ^2.3.9
   build_runner: ^2.4.8
   custom_lint: ^0.5.8
-  # riverpod_lint: ^2.3.7
   json_serializable: ^6.7.1
   isar_generator: ^3.1.0+1
 
@@ -64,7 +65,7 @@ flutter_native_splash:
   fullscreen: true
 
 flutter:
-
+  generate: true
   uses-material-design: true
 
   assets:
@@ -72,24 +73,85 @@ flutter:
     - assets/picture/
 
   fonts:
-    - family: Inter
-      fonts:
-       - asset: assets/fonts/Inter/static/Inter-Thin.ttf
-         weight: 100
-       - asset: assets/fonts/Inter/static/Inter-ExtraLight.ttf
-         weight: 200
-       - asset: assets/fonts/Inter/static/Inter-Light.ttf
-         weight: 300
-       - asset: assets/fonts/Inter/static/Inter-Regular.ttf
-         weight: 400
-       - asset: assets/fonts/Inter/static/Inter-Medium.ttf
-         weight: 500
-       - asset: assets/fonts/Inter/static/Inter-SemiBold.ttf
-         weight: 600
-       - asset: assets/fonts/Inter/static/Inter-Bold.ttf
-         weight: 700
-       - asset: assets/fonts/Inter/static/Inter-ExtraBold.ttf
-         weight: 800
-       - asset: assets/fonts/Inter/static/Inter-Black.ttf
-         weight: 900
+  - family: Noto
+    fonts:
+      - asset: assets/fonts/Noto/static/NotoSansJP-Thin.ttf
+        weight: 100
+      - asset: assets/fonts/Noto/static/NotoSansJP-ExtraLight.ttf
+        weight: 200
+      - asset: assets/fonts/Noto/static/NotoSansJP-Light.ttf
+        weight: 300
+      - asset: assets/fonts/Noto/static/NotoSansJP-Regular.ttf
+        weight: 400
+      - asset: assets/fonts/Noto/static/NotoSansJP-Medium.ttf
+        weight: 500
+      - asset: assets/fonts/Noto/static/NotoSansJP-SemiBold.ttf
+        weight: 600
+      - asset: assets/fonts/Noto/static/NotoSansJP-Bold.ttf
+        weight: 700
+      - asset: assets/fonts/Noto/static/NotoSansJP-ExtraBold.ttf
+        weight: 800
+      - asset: assets/fonts/Noto/static/NotoSansJP-Black.ttf
+        weight: 900
 
+  - family: Inter
+    fonts:
+      - asset: assets/fonts/Inter/static/Inter-Thin.ttf
+        weight: 100
+      - asset: assets/fonts/Inter/static/Inter-ExtraLight.ttf
+        weight: 200
+      - asset: assets/fonts/Inter/static/Inter-Light.ttf
+        weight: 300
+      - asset: assets/fonts/Inter/static/Inter-Regular.ttf
+        weight: 400
+      - asset: assets/fonts/Inter/static/Inter-Medium.ttf
+        weight: 500
+      - asset: assets/fonts/Inter/static/Inter-SemiBold.ttf
+        weight: 600
+      - asset: assets/fonts/Inter/static/Inter-Bold.ttf
+        weight: 700
+      - asset: assets/fonts/Inter/static/Inter-ExtraBold.ttf
+        weight: 800
+      - asset: assets/fonts/Inter/static/Inter-Black.ttf
+        weight: 900
+
+  - family: Zen_Kaku_Gothic_New
+    fonts:
+      - asset: assets/fonts/Zen_Kaku_Gothic_New/static/ZenKakuGothicNew-Regular.ttf
+        weight: 400
+      - asset: assets/fonts/Zen_Kaku_Gothic_New/static/ZenKakuGothicNew-Medium.ttf
+        weight: 500
+      - asset: assets/fonts/Zen_Kaku_Gothic_New/static/ZenKakuGothicNew-Light.ttf
+        weight: 300
+      - asset: assets/fonts/Zen_Kaku_Gothic_New/static/ZenKakuGothicNew-Bold.ttf
+        weight: 700
+      - asset: assets/fonts/Zen_Kaku_Gothic_New/static/ZenKakuGothicNew-Black.ttf
+        weight: 900
+  
+  - family: Kiwi_Maru
+    fonts:
+      - asset: assets/fonts/Kiwi_Maru/static/KiwiMaru-Light.ttf
+        weight: 300
+      - asset: assets/fonts/Kiwi_Maru/static/KiwiMaru-Medium.ttf
+        weight: 500
+      - asset: assets/fonts/Kiwi_Maru/static/KiwiMaru-Regular.ttf
+        weight: 400
+
+  - family: Kaisei_Opti
+    fonts:
+      - asset: assets/fonts/Kaisei_Opti/static/KaiseiOpti-Regular.ttf
+        weight: 400
+      - asset: assets/fonts/Kaisei_Opti/static/KaiseiOpti-Medium.ttf
+        weight: 500
+      - asset: assets/fonts/Kaisei_Opti/static/KaiseiOpti-Bold.ttf
+        weight: 700
+
+  - family: Reggae_One
+    fonts:
+      - asset: assets/fonts/Reggae_One/static/ReggaeOne-Regular.ttf
+        weight: 400
+
+  - family: Yuji_Syuku_selection
+    fonts:
+      - asset: assets/fonts/Yuji_Syuku_selection/static/YujiSyuku-Regular.ttf
+        weight: 400

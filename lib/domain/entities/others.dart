@@ -6,7 +6,13 @@ part 'others.g.dart';
 class Others {
   Id id = Isar.autoIncrement;
 
-  bool darkMode = false;
+  String currentTheme = 'light';
 
-  bool notification = false;
+  double fontSize = 13;
+
+  String thickness = 'thin';
+
+  String textFamily = 'Inter';
+
+  String language = 'ja';
 }

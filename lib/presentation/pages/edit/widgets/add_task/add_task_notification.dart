@@ -5,6 +5,7 @@ import 'package:ebbinghaus_forgetting_curve/presentation/theme/colors.dart';
 import 'package:ebbinghaus_forgetting_curve/presentation/theme/fonts.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class AddTaskNotification extends ConsumerWidget {
   const AddTaskNotification({super.key});
@@ -49,6 +50,7 @@ class AddTaskNotification extends ConsumerWidget {
     final notifier = ref.read(editViewModelProvider.notifier);
     final theme = Theme.of(context);
     final now = DateTime.now().toZeroHour();
+    final appLocalizations = AppLocalizations.of(context)!;
 
     return GestureDetector(
       onTap: () async {
@@ -69,7 +71,7 @@ class AddTaskNotification extends ConsumerWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                '通知時間',
+                appLocalizations.notification,
                 style: theme.textTheme.bodySmall!
                     .copyWith(color: theme.primaryColorLight),
               ),

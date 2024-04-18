@@ -11,6 +11,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class CheckTaskScreen extends ConsumerWidget {
   const CheckTaskScreen({
@@ -25,6 +26,7 @@ class CheckTaskScreen extends ConsumerWidget {
     final config = ref.watch(tempTaskProvider(taskId: taskId));
     ModalManager modal = ModalManager();
     final theme = Theme.of(context);
+    final appLocalizations = AppLocalizations.of(context)!;
 
     switch (config) {
       case AsyncError(:final error):
@@ -68,7 +70,7 @@ class CheckTaskScreen extends ConsumerWidget {
                             Expanded(
                               child: Column(
                                 children: <Widget>[
-                                  Text('全タスク数',
+                                  Text(appLocalizations.all_events,
                                       style: theme.textTheme.bodyMedium!
                                           .copyWith(
                                               color: theme.primaryColorLight)),
@@ -80,7 +82,7 @@ class CheckTaskScreen extends ConsumerWidget {
                                           color: theme.primaryColorLight),
                                       children: <TextSpan>[
                                         TextSpan(
-                                          text: ' タスク',
+                                          text: appLocalizations.event,
                                           style: BrandText.bodyS.copyWith(
                                             color: theme.primaryColorLight,
                                           ),
@@ -89,7 +91,7 @@ class CheckTaskScreen extends ConsumerWidget {
                                     ),
                                   ),
                                   const SizedBox(height: 10),
-                                  Text('完了タスク数',
+                                  Text(appLocalizations.completed_events,
                                       style: theme.textTheme.bodyMedium!
                                           .copyWith(
                                               color: theme.primaryColorLight)),
@@ -102,7 +104,7 @@ class CheckTaskScreen extends ConsumerWidget {
                                       ),
                                       children: <TextSpan>[
                                         TextSpan(
-                                          text: ' タスク',
+                                          text: appLocalizations.event,
                                           style: BrandText.bodyS.copyWith(
                                             color: theme.primaryColorLight,
                                           ),
@@ -122,7 +124,6 @@ class CheckTaskScreen extends ConsumerWidget {
                                   lineWidth: 20.0,
                                   percent: completionPercentage,
                                   center: Text(completionMessage),
-                                  // backgroundColor: theme.primaryColorLight,
                                   progressColor: Color(value.pallete),
                                 ),
                               ),
@@ -149,7 +150,7 @@ class CheckTaskScreen extends ConsumerWidget {
                             height: 26.0,
                             thickness: 0.1),
                         Text(
-                          '復習日程',
+                          appLocalizations.review_period,
                           style: BrandText.bodyM.copyWith(
                             color: theme.primaryColorLight,
                           ),

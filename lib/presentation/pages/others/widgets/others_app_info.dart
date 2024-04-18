@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class OthersAppInfo extends ConsumerWidget {
   const OthersAppInfo({super.key});
@@ -7,12 +9,13 @@ class OthersAppInfo extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final theme = Theme.of(context);
+    final appLocalizations = AppLocalizations.of(context)!;
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
         Text(
-          'アプリについて',
+          appLocalizations.about_the_app,
           style: theme.textTheme.titleMedium!
               .copyWith(color: theme.primaryColorLight),
         ),
@@ -43,26 +46,31 @@ class OthersDetails extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final theme = Theme.of(context);
+    final appLocalizations = AppLocalizations.of(context)!;
 
     return Padding(
       padding: const EdgeInsets.only(left: 5.0),
       child: GestureDetector(
-        onTap: () {},
+        onTap: () => context.push('/others_copyright'),
         child: SizedBox(
           height: 50,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
-              Row(
-                children: [
-                  const Icon(Icons.info, color: Colors.grey),
-                  const SizedBox(width: 10),
-                  Text(
-                    'アプリ詳細',
-                    style: theme.textTheme.labelLarge!
-                        .copyWith(color: theme.primaryColorLight),
-                  ),
-                ],
+              Expanded(
+                child: Row(
+                  children: [
+                    const Icon(Icons.info, color: Colors.grey),
+                    const SizedBox(width: 10),
+                    Expanded(
+                      child: Text(
+                        appLocalizations.license_information,
+                        style: theme.textTheme.labelLarge!
+                            .copyWith(color: theme.primaryColorLight),
+                      ),
+                    ),
+                  ],
+                ),
               ),
               Icon(
                 Icons.chevron_right,
@@ -82,26 +90,31 @@ class OthersHelp extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final theme = Theme.of(context);
+    final appLocalizations = AppLocalizations.of(context)!;
 
     return Padding(
       padding: const EdgeInsets.only(left: 5.0),
       child: GestureDetector(
-        onTap: () {},
+        onTap: () => context.push("/others_help_site"),
         child: SizedBox(
           height: 50,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
-              Row(
-                children: [
-                  const Icon(Icons.help, color: Colors.grey),
-                  const SizedBox(width: 10),
-                  Text(
-                    'ヘルプ・よくある質問',
-                    style: theme.textTheme.labelLarge!
-                        .copyWith(color: theme.primaryColorLight),
-                  ),
-                ],
+              Expanded(
+                child: Row(
+                  children: [
+                    const Icon(Icons.help, color: Colors.grey),
+                    const SizedBox(width: 10),
+                    Expanded(
+                      child: Text(
+                        appLocalizations.faq,
+                        style: theme.textTheme.labelLarge!
+                            .copyWith(color: theme.primaryColorLight),
+                      ),
+                    ),
+                  ],
+                ),
               ),
               Icon(
                 Icons.chevron_right,
@@ -121,6 +134,7 @@ class OthersOpinion extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final theme = Theme.of(context);
+    final appLocalizations = AppLocalizations.of(context)!;
 
     return Padding(
       padding: const EdgeInsets.only(left: 5.0),
@@ -136,7 +150,7 @@ class OthersOpinion extends ConsumerWidget {
                   const Icon(Icons.question_answer, color: Colors.grey),
                   const SizedBox(width: 10),
                   Text(
-                    'ご意見・ご要望',
+                    appLocalizations.feedback,
                     style: theme.textTheme.labelLarge!
                         .copyWith(color: theme.primaryColorLight),
                   ),

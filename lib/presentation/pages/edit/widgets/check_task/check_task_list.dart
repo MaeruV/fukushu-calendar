@@ -3,6 +3,7 @@ import 'package:ebbinghaus_forgetting_curve/presentation/common/date_time_extens
 import 'package:ebbinghaus_forgetting_curve/presentation/theme/colors.dart';
 import 'package:ebbinghaus_forgetting_curve/presentation/theme/fonts.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class CheckTaskList extends ConsumerWidget {
@@ -15,6 +16,7 @@ class CheckTaskList extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final theme = Theme.of(context);
+    final appLocalizations = AppLocalizations.of(context)!;
 
     return Column(
         children: dates
@@ -26,9 +28,9 @@ class CheckTaskList extends ConsumerWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
                     SizedBox(
-                      width: 60,
+                      width: 100,
                       child: Text(
-                        '${dateData.daysInterval}日後',
+                        '${dateData.daysInterval} ${appLocalizations.days_after}',
                         style: BrandText.bodyM.copyWith(
                             color: theme.primaryColorLight,
                             decoration: dateData.checkFlag
@@ -42,7 +44,7 @@ class CheckTaskList extends ConsumerWidget {
                         Text(
                           startdate
                               .add(Duration(days: dateData.daysInterval))
-                              .toJapaneseFormat(),
+                              .toSimpleFormat(appLocalizations.date),
                           style: BrandText.bodyM.copyWith(
                               color: theme.primaryColorLight,
                               decoration: dateData.checkFlag
@@ -53,19 +55,20 @@ class CheckTaskList extends ConsumerWidget {
                         ),
                         const SizedBox(width: 10),
                         SizedBox(
-                          width: 60,
-                          child: dateData.checkFlag
-                              ? Text('完了済み',
-                                  textAlign: TextAlign.center,
-                                  style: theme.textTheme.bodySmall!.copyWith(
-                                    color: BrandColor.deleteRed,
+                            width: 60,
+                            child: dateData.checkFlag
+                                ? Text(
+                                    "完了",
+                                    textAlign: TextAlign.center,
+                                    style: theme.textTheme.bodySmall!
+                                        .copyWith(color: BrandColor.deleteRed),
+                                  )
+                                : Text(
+                                    "未完了",
+                                    textAlign: TextAlign.center,
+                                    style: theme.textTheme.bodySmall!.copyWith(
+                                        color: theme.primaryColorLight),
                                   ))
-                              : Text('未完了',
-                                  textAlign: TextAlign.center,
-                                  style: theme.textTheme.bodySmall!.copyWith(
-                                    color: BrandColor.blue,
-                                  )),
-                        )
                       ],
                     ),
                   ],

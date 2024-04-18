@@ -178,4 +178,36 @@ class TaskEventRepositoryImpl implements TaskRepository {
     }
     return tasks;
   }
+
+  @override
+  Future<List<TaskDate>> fetchCompWeekData(
+      {required List<DateTime> weeks}) async {
+    final datesAll = await isar.taskDates
+        .filter()
+        .checkFlagEqualTo(true)
+        .completeDayBetween(weeks[0], weeks[1])
+        .sortByCompleteDay()
+        .findAll();
+    for (var taskDate in datesAll) {
+      await taskDate.task.load();
+    }
+    return datesAll;
+  }
+
+  @override
+  Future<List<TaskDate>> fetchCompDayData({required DateTime? time}) async {
+    if (time != null) {
+      final datesAll = await isar.taskDates
+          .filter()
+          .checkFlagEqualTo(true)
+          .completeDayEqualTo(time)
+          .findAll();
+      for (var taskDate in datesAll) {
+        await taskDate.task.load();
+      }
+      return datesAll;
+    } else {
+      return [];
+    }
+  }
 }

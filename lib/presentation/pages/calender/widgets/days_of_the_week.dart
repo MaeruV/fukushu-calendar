@@ -1,7 +1,6 @@
 import 'package:ebbinghaus_forgetting_curve/presentation/theme/fonts.dart';
 import 'package:flutter/material.dart';
-
-const List<String> _DaysOfTheWeek = ['日', '月', '火', '水', '木', '金', '土'];
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class DaysOfTheWeek extends StatelessWidget {
   const DaysOfTheWeek({super.key});
@@ -9,6 +8,17 @@ class DaysOfTheWeek extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final appLocalizations = AppLocalizations.of(context)!;
+
+    final List<String> _DaysOfTheWeek = [
+      appLocalizations.sunday,
+      appLocalizations.monday,
+      appLocalizations.tuesday,
+      appLocalizations.wednesday,
+      appLocalizations.thursday,
+      appLocalizations.friday,
+      appLocalizations.saturday,
+    ];
 
     return Container(
       height: 25,
@@ -18,7 +28,7 @@ class DaysOfTheWeek extends StatelessWidget {
               child: Text(
                 day,
                 textAlign: TextAlign.center,
-                style: BrandText.bodyM.copyWith(
+                style: theme.textTheme.labelSmall!.copyWith(
                     color: day == _DaysOfTheWeek.first
                         ? Colors.red // 日曜日を赤色に
                         : day == _DaysOfTheWeek.last

@@ -9,10 +9,11 @@ import 'package:ebbinghaus_forgetting_curve/presentation/pages/calender/widgets/
 import 'package:ebbinghaus_forgetting_curve/presentation/pages/calender/widgets/days_row/event_labels.dart';
 import 'package:ebbinghaus_forgetting_curve/presentation/pages/calender/widgets/table_calendar_page_.dart';
 import 'package:ebbinghaus_forgetting_curve/presentation/theme/colors.dart';
-import 'package:ebbinghaus_forgetting_curve/presentation/theme/fonts.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class CalendarCustomScreen extends HookConsumerWidget {
   const CalendarCustomScreen({super.key});
@@ -25,8 +26,8 @@ class CalendarCustomScreen extends HookConsumerWidget {
     final topContainerHeightFactor = useState(0.8);
     final height = MediaQuery.of(context).size.height;
     final size = ref.watch(screenViewModelProvider);
-    const maxHeightFactor = 0.8; // 最大高さ割合
-    final minHeight = 300 + size.safeAreaTop;
+    const maxHeightFactor = 0.8;
+    final minHeight = 400 + size.safeAreaTop;
     final minHeightFactor = minHeight / height;
 
     void _onVerticalDragUpdate(DragUpdateDetails details) {
@@ -37,7 +38,7 @@ class CalendarCustomScreen extends HookConsumerWidget {
     }
 
     void _onVerticalDragEnd(DragEndDetails details) {
-      if (topContainerHeightFactor.value < 0.6) {
+      if (topContainerHeightFactor.value < 0.7) {
         topContainerHeightFactor.value = minHeightFactor;
         collapsed.state = true;
       } else {
@@ -53,6 +54,8 @@ class CalendarCustomScreen extends HookConsumerWidget {
       final events = value[date];
       if (events != null) {
         notifier.getCalendarEvent(events);
+        topContainerHeightFactor.value = minHeightFactor;
+        collapsed.state = true;
       } else {
         notifier.getCalendarEvent([]);
       }
@@ -120,50 +123,44 @@ class TopContainerWidget extends ConsumerWidget {
           bottomRight: Radius.circular(15),
         ),
       ),
-      child: LayoutBuilder(builder: (context, constraints) {
-        WidgetsBinding.instance.addPostFrameCallback((_) {
-          print('Top container size: ${constraints.maxHeight}');
-          ref.read(tableHeightProvider.notifier).state = constraints.maxHeight;
-        });
-        return Column(
-          children: <Widget>[
-            SizedBox(height: size.safeAreaTop),
-            SubjectWidget(mapEvents: value),
-            const DaysOfTheWeek(),
-            CalenderPageView(
-              events: value.values.expand((events) => events).toList(),
-              onCellTapped: onCellTapped,
+      child: Column(
+        children: <Widget>[
+          SizedBox(height: size.safeAreaTop),
+          SubjectWidget(mapEvents: value),
+          const DaysOfTheWeek(),
+          CalenderPageView(
+            events: value.values.expand((events) => events).toList(),
+            onCellTapped: onCellTapped,
+          ),
+          Container(
+            height: 25,
+            width: double.infinity,
+            decoration: BoxDecoration(
+              color: theme.canvasColor,
+              border: Border.all(color: Colors.grey, width: 0.5),
+              borderRadius: const BorderRadius.only(
+                bottomLeft: Radius.circular(15),
+                bottomRight: Radius.circular(15),
+              ),
             ),
-            Container(
-              height: 25,
-              width: double.infinity,
-              decoration: BoxDecoration(
-                color: theme.canvasColor,
-                border: Border.all(color: Colors.grey, width: 0.5),
-                borderRadius: const BorderRadius.only(
-                  bottomLeft: Radius.circular(15),
-                  bottomRight: Radius.circular(15),
-                ),
-              ),
-              child: Stack(
-                children: [
-                  Align(
-                    alignment: Alignment.center,
-                    child: Container(
-                      margin: const EdgeInsets.symmetric(vertical: 10),
-                      height: 5,
-                      width: 60,
-                      decoration: const BoxDecoration(
-                          color: Colors.grey,
-                          borderRadius: BorderRadius.all(Radius.circular(5))),
-                    ),
+            child: Stack(
+              children: [
+                Align(
+                  alignment: Alignment.center,
+                  child: Container(
+                    margin: const EdgeInsets.symmetric(vertical: 10),
+                    height: 5,
+                    width: 60,
+                    decoration: const BoxDecoration(
+                        color: Colors.grey,
+                        borderRadius: BorderRadius.all(Radius.circular(5))),
                   ),
-                ],
-              ),
-            )
-          ],
-        );
-      }),
+                ),
+              ],
+            ),
+          )
+        ],
+      ),
     );
   }
 }
@@ -188,7 +185,6 @@ class CalenderPageView extends ConsumerWidget {
     return Expanded(
       child: LayoutBuilder(builder: (context, constraints) {
         WidgetsBinding.instance.addPostFrameCallback((_) {
-          print('Talbe Size: ${constraints.maxHeight}');
           ref.read(tableHeightProvider.notifier).state = constraints.maxHeight;
         });
         return PageView.builder(
@@ -218,6 +214,7 @@ class CalendarList extends ConsumerWidget {
     final state = ref.watch(calenderViewModelProvider);
     final events = mapEvents[state.cellDateTime] ?? [];
     final theme = Theme.of(context);
+    final appLocalizations = AppLocalizations.of(context)!;
 
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 10),
@@ -229,11 +226,12 @@ class CalendarList extends ConsumerWidget {
             children: [
               Text(
                   state.cellDateTime != null
-                      ? state.cellDateTime!.toJapaneseFormat()
+                      ? state.cellDateTime!
+                          .toSimpleFormat(appLocalizations.date)
                       : "",
                   style: theme.textTheme.titleMedium!
                       .copyWith(color: theme.primaryColorLight)),
-              Text('${events.length}イベント',
+              Text('${events.length} ${appLocalizations.event}',
                   style: theme.textTheme.titleSmall!
                       .copyWith(color: theme.primaryColorLight))
             ],
@@ -254,8 +252,7 @@ class SubjectWidget extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final state = ref.watch(calenderViewModelProvider);
-    final visibleMonth = state.currentIndex.visibleDateTime.month.toString();
-    final visibleYear = state.currentIndex.visibleDateTime.year.toString();
+    final appLocalizations = AppLocalizations.of(context)!;
     const duration = Duration(milliseconds: 300);
     const curve = Curves.easeIn;
     final theme = Theme.of(context);
@@ -269,24 +266,13 @@ class SubjectWidget extends ConsumerWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Expanded(
-              child: Row(
-                children: <Widget>[
-                  Text(
-                    visibleYear,
-                    style: theme.textTheme.titleLarge!.copyWith(
-                        color: theme.brightness == Brightness.dark
-                            ? Colors.white
-                            : Colors.black),
-                  ),
-                  const SizedBox(width: 15),
-                  Text(
-                    "$visibleMonth月",
-                    style: theme.textTheme.titleLarge!.copyWith(
-                        color: theme.brightness == Brightness.dark
-                            ? Colors.white
-                            : Colors.black),
-                  ),
-                ],
+              child: Text(
+                state.currentIndex.visibleDateTime
+                    .toformatMonthYear(appLocalizations.date),
+                style: theme.textTheme.titleLarge!.copyWith(
+                    color: theme.brightness == Brightness.dark
+                        ? Colors.white
+                        : Colors.black),
               ),
             ),
             Row(
@@ -309,46 +295,49 @@ class SubjectWidget extends ConsumerWidget {
                         .animateToPage(1200, duration: duration, curve: curve);
                   },
                   child: SizedBox(
-                      width: 40,
+                      width: 80,
                       child: Text(
-                        '今日',
-                        style:
-                            BrandText.titleS.copyWith(color: BrandColor.blue),
+                        appLocalizations.today,
+                        style: theme.textTheme.titleSmall!
+                            .copyWith(color: BrandColor.blue),
                         textAlign: TextAlign.center,
                       )),
                 ),
-                const SizedBox(width: 20),
-                GestureDetector(
-                  onTap: () => state.pageController
-                      .previousPage(duration: duration, curve: curve),
-                  child: SizedBox(
-                    width: 30,
-                    child: Text(
-                      "<",
-                      style: theme.textTheme.titleLarge!.copyWith(
-                          color: theme.brightness == Brightness.dark
-                              ? Colors.white
-                              : Colors.black),
-                      textAlign: TextAlign.center,
+                Row(
+                  children: <Widget>[
+                    GestureDetector(
+                      onTap: () => state.pageController
+                          .previousPage(duration: duration, curve: curve),
+                      child: SizedBox(
+                        width: 30,
+                        child: Text(
+                          "<",
+                          style: theme.textTheme.titleLarge!.copyWith(
+                              color: theme.brightness == Brightness.dark
+                                  ? Colors.white
+                                  : Colors.black),
+                          textAlign: TextAlign.center,
+                        ),
+                      ),
                     ),
-                  ),
-                ),
-                const SizedBox(width: 10),
-                GestureDetector(
-                  onTap: () => state.pageController
-                      .nextPage(duration: duration, curve: curve),
-                  child: SizedBox(
-                    width: 30,
-                    child: Text(
-                      ">",
-                      style: theme.textTheme.titleLarge!.copyWith(
-                          color: theme.brightness == Brightness.dark
-                              ? Colors.white
-                              : Colors.black),
-                      textAlign: TextAlign.center,
+                    const SizedBox(width: 10),
+                    GestureDetector(
+                      onTap: () => state.pageController
+                          .nextPage(duration: duration, curve: curve),
+                      child: SizedBox(
+                        width: 30,
+                        child: Text(
+                          ">",
+                          style: theme.textTheme.titleLarge!.copyWith(
+                              color: theme.brightness == Brightness.dark
+                                  ? Colors.white
+                                  : Colors.black),
+                          textAlign: TextAlign.center,
+                        ),
+                      ),
                     ),
-                  ),
-                ),
+                  ],
+                )
               ],
             )
           ],

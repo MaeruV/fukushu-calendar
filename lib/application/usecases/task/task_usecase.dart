@@ -1,5 +1,4 @@
 import 'dart:ui';
-
 import 'package:ebbinghaus_forgetting_curve/application/state/loading/overlay_loading_provider.dart';
 import 'package:ebbinghaus_forgetting_curve/application/state/others/others_notification_view_model.dart';
 import 'package:ebbinghaus_forgetting_curve/application/usecases/run_usecase_mixin.dart';
@@ -27,7 +26,10 @@ class TaskUsecase with RunUsecaseMixin {
   StateController<Task?> get _temporaryTaskController =>
       _ref.read(temporaryTaskProvider.notifier);
   void _refreshCalendarProvider() => _ref.refresh(tasksCalendarProvider.future);
-  void _refreshCompleteProvider() => _ref.refresh(compTaskDatesProvider.future);
+  void _refreshCompleteDayDateProvider(DateTime time) =>
+      _ref.refresh(compDayDataProvider(time: time).future);
+  void _refreshCompleteWeekProvider(List<DateTime> weeks) =>
+      _ref.refresh(CompWeekDataProvider(weeks: weeks).future);
   void _refreshTempTaskProvider(int taskId) =>
       _ref.refresh(tempTaskProvider(taskId: taskId).future);
   void _refreshTempTaskDateProvider(TaskDate taskDate) =>
@@ -85,15 +87,22 @@ class TaskUsecase with RunUsecaseMixin {
     _fetchNotificationTaskAll();
   }
 
-  Future<void> saveTaskDate(
-      {required TaskDate taskDate, required bool flag}) async {
+  Future<void> saveTaskDate({
+    required TaskDate taskDate,
+    required bool flag,
+    required DateTime? time,
+    required List<DateTime> weeks,
+  }) async {
     await execute(action: () async {
       return await _taskRepository.addTaskDate(taskDate: taskDate, flag: flag);
     });
     _refreshTempTaskDateProvider(taskDate);
     _invalidateTasksProvider();
     _refreshCalendarProvider();
-    _refreshCompleteProvider();
+    if (time != null) {
+      _refreshCompleteDayDateProvider(time);
+    }
+    _refreshCompleteWeekProvider(weeks);
   }
 
   Future<Task?> fetch(Id taskId) async {
@@ -120,9 +129,28 @@ class TaskUsecase with RunUsecaseMixin {
     return groupedTasks;
   }
 
-  Future<Map<DateTime, List<TaskDate>>> fetchCompTaskAll() async {
+  // Future<Map<DateTime, List<TaskDate>>> fetchCompTaskAll() async {
+  //   final taskDates = await execute(action: () async {
+  //     return await _taskRepository.fetchCompDate();
+  //   });
+  //   final Map<DateTime, List<TaskDate>> groupedTaskDates = {};
+
+  //   for (final taskDate in taskDates) {
+  //     final dateOnly = DateTime(taskDate.completeDay!.year,
+  //         taskDate.completeDay!.month, taskDate.completeDay!.day);
+  //     if (!groupedTaskDates.containsKey(dateOnly)) {
+  //       groupedTaskDates[dateOnly] = [];
+  //     }
+  //     groupedTaskDates[dateOnly]!.add(taskDate);
+  //   }
+
+  //   return groupedTaskDates;
+  // }
+
+  Future<Map<DateTime, List<TaskDate>>> fetchCompWeekData(
+      List<DateTime> weeks) async {
     final taskDates = await execute(action: () async {
-      return await _taskRepository.fetchCompDate();
+      return await _taskRepository.fetchCompWeekData(weeks: weeks);
     });
     final Map<DateTime, List<TaskDate>> groupedTaskDates = {};
 
@@ -136,6 +164,13 @@ class TaskUsecase with RunUsecaseMixin {
     }
 
     return groupedTaskDates;
+  }
+
+  Future<List<TaskDate>> fetchCompDayData(DateTime? time) async {
+    final taskDates = await execute(action: () async {
+      return await _taskRepository.fetchCompDayData(time: time);
+    });
+    return taskDates;
   }
 
   Future<void> _fetchNotificationTaskAll() async {
@@ -203,12 +238,19 @@ class TaskUsecase with RunUsecaseMixin {
     return calendarEventsByDate;
   }
 
-  Future<void> deleteTaskEvent(Task task) async {
+  Future<void> deleteTaskEvent(
+    Task task,
+    DateTime? time,
+    List<DateTime> weeks,
+  ) async {
     await _taskRepository.delete(task: task);
     _invalidateTasksProvider();
     _refreshCalendarProvider();
-    _refreshCompleteProvider();
     _fetchNotificationTaskAll();
+    if (time != null) {
+      _refreshCompleteDayDateProvider(time);
+    }
+    _refreshCompleteWeekProvider(weeks);
   }
 
   void temporaryTask(Id taskId) async {

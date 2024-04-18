@@ -17,13 +17,19 @@ class OthersUsecase with RunUsecaseMixin {
   StateController<bool> get _loadingController =>
       _ref.read(overlayLoadingProvider.notifier);
 
-  void saveOthers({
-    required bool darkMode,
-    required bool notification,
-  }) {
+  Future<void> saveOthers({
+    required String? currentTheme,
+    required double? fontSize,
+    required String? thickness,
+    required String? textFamily,
+    required String? language,
+  }) async {
     Others others = Others()
-      ..darkMode = darkMode
-      ..notification = notification;
+      ..currentTheme = currentTheme ?? 'light'
+      ..fontSize = fontSize ?? 13
+      ..thickness = thickness ?? 'thin'
+      ..textFamily = textFamily ?? 'Inter'
+      ..language = language ?? 'ja';
     execute(
       loadingController: _loadingController,
       action: () async {
@@ -32,29 +38,35 @@ class OthersUsecase with RunUsecaseMixin {
     );
   }
 
-  void updateOthers({
+  Future<void> updateOthers({
     required Others others,
-    required bool darkMode,
-    required bool notification,
-  }) {
+    required String? currentTheme,
+    required double? fontSize,
+    required String? thickness,
+    required String? textFamily,
+    required String? language,
+  }) async {
     others
-      ..darkMode = darkMode
-      ..notification = notification;
+      ..currentTheme = currentTheme ?? 'light'
+      ..fontSize = fontSize ?? 13
+      ..thickness = thickness ?? 'thin'
+      ..textFamily = textFamily ?? 'Inter'
+      ..language = language ?? 'ja';
     execute(
       loadingController: _loadingController,
       action: () async {
-        await _othersRepository.add(others: others);
+        await _othersRepository.update(others: others);
       },
     );
   }
 
   Future<Others?> fetchAll() async {
-    final others = await execute(
-      action: () async {
-        return await _othersRepository.fetchAll();
-      },
-      loadingController: _loadingController,
-    );
-    return others;
+    // final others = await execute(
+    //   action: () async {
+    return await _othersRepository.fetchAll();
+    // },
+    //   loadingController: _loadingController,
+    // );
+    // return others;
   }
 }

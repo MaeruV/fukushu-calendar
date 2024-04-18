@@ -104,7 +104,7 @@ class AppTheme {
     labelMedium: TextStyle(fontSize: 14, fontWeight: FontWeight.w300),
     labelSmall: TextStyle(fontSize: 12, fontWeight: FontWeight.w300),
     bodyLarge: TextStyle(fontSize: 22, fontWeight: FontWeight.normal),
-    bodyMedium: TextStyle(fontSize: 19, fontWeight: FontWeight.normal),
+    bodyMedium: TextStyle(fontSize: 17, fontWeight: FontWeight.normal),
     bodySmall: TextStyle(fontSize: 15, fontWeight: FontWeight.normal),
     titleLarge: TextStyle(fontSize: 26, fontWeight: FontWeight.bold),
     titleMedium: TextStyle(fontSize: 21, fontWeight: FontWeight.bold),

@@ -16,9 +16,10 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$AnalysisState {
-  List<DateTime> get oneWeek => throw _privateConstructorUsedError;
+  List<DateTime> get range => throw _privateConstructorUsedError;
   int? get indexTapped => throw _privateConstructorUsedError;
   DateTime? get dateTimeTapped => throw _privateConstructorUsedError;
+  DisplayMode get displayMode => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $AnalysisStateCopyWith<AnalysisState> get copyWith =>
@@ -32,7 +33,10 @@ abstract class $AnalysisStateCopyWith<$Res> {
       _$AnalysisStateCopyWithImpl<$Res, AnalysisState>;
   @useResult
   $Res call(
-      {List<DateTime> oneWeek, int? indexTapped, DateTime? dateTimeTapped});
+      {List<DateTime> range,
+      int? indexTapped,
+      DateTime? dateTimeTapped,
+      DisplayMode displayMode});
 }
 
 /// @nodoc
@@ -48,14 +52,15 @@ class _$AnalysisStateCopyWithImpl<$Res, $Val extends AnalysisState>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? oneWeek = null,
+    Object? range = null,
     Object? indexTapped = freezed,
     Object? dateTimeTapped = freezed,
+    Object? displayMode = null,
   }) {
     return _then(_value.copyWith(
-      oneWeek: null == oneWeek
-          ? _value.oneWeek
-          : oneWeek // ignore: cast_nullable_to_non_nullable
+      range: null == range
+          ? _value.range
+          : range // ignore: cast_nullable_to_non_nullable
               as List<DateTime>,
       indexTapped: freezed == indexTapped
           ? _value.indexTapped
@@ -65,6 +70,10 @@ class _$AnalysisStateCopyWithImpl<$Res, $Val extends AnalysisState>
           ? _value.dateTimeTapped
           : dateTimeTapped // ignore: cast_nullable_to_non_nullable
               as DateTime?,
+      displayMode: null == displayMode
+          ? _value.displayMode
+          : displayMode // ignore: cast_nullable_to_non_nullable
+              as DisplayMode,
     ) as $Val);
   }
 }
@@ -78,7 +87,10 @@ abstract class _$$AnalysisStateImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {List<DateTime> oneWeek, int? indexTapped, DateTime? dateTimeTapped});
+      {List<DateTime> range,
+      int? indexTapped,
+      DateTime? dateTimeTapped,
+      DisplayMode displayMode});
 }
 
 /// @nodoc
@@ -92,14 +104,15 @@ class __$$AnalysisStateImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? oneWeek = null,
+    Object? range = null,
     Object? indexTapped = freezed,
     Object? dateTimeTapped = freezed,
+    Object? displayMode = null,
   }) {
     return _then(_$AnalysisStateImpl(
-      oneWeek: null == oneWeek
-          ? _value._oneWeek
-          : oneWeek // ignore: cast_nullable_to_non_nullable
+      range: null == range
+          ? _value._range
+          : range // ignore: cast_nullable_to_non_nullable
               as List<DateTime>,
       indexTapped: freezed == indexTapped
           ? _value.indexTapped
@@ -109,6 +122,10 @@ class __$$AnalysisStateImplCopyWithImpl<$Res>
           ? _value.dateTimeTapped
           : dateTimeTapped // ignore: cast_nullable_to_non_nullable
               as DateTime?,
+      displayMode: null == displayMode
+          ? _value.displayMode
+          : displayMode // ignore: cast_nullable_to_non_nullable
+              as DisplayMode,
     ));
   }
 }
@@ -119,27 +136,30 @@ class _$AnalysisStateImpl
     with DiagnosticableTreeMixin
     implements _AnalysisState {
   const _$AnalysisStateImpl(
-      {required final List<DateTime> oneWeek,
+      {required final List<DateTime> range,
       required this.indexTapped,
-      required this.dateTimeTapped})
-      : _oneWeek = oneWeek;
+      required this.dateTimeTapped,
+      required this.displayMode})
+      : _range = range;
 
-  final List<DateTime> _oneWeek;
+  final List<DateTime> _range;
   @override
-  List<DateTime> get oneWeek {
-    if (_oneWeek is EqualUnmodifiableListView) return _oneWeek;
+  List<DateTime> get range {
+    if (_range is EqualUnmodifiableListView) return _range;
     // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_oneWeek);
+    return EqualUnmodifiableListView(_range);
   }
 
   @override
   final int? indexTapped;
   @override
   final DateTime? dateTimeTapped;
+  @override
+  final DisplayMode displayMode;
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'AnalysisState(oneWeek: $oneWeek, indexTapped: $indexTapped, dateTimeTapped: $dateTimeTapped)';
+    return 'AnalysisState(range: $range, indexTapped: $indexTapped, dateTimeTapped: $dateTimeTapped, displayMode: $displayMode)';
   }
 
   @override
@@ -147,9 +167,10 @@ class _$AnalysisStateImpl
     super.debugFillProperties(properties);
     properties
       ..add(DiagnosticsProperty('type', 'AnalysisState'))
-      ..add(DiagnosticsProperty('oneWeek', oneWeek))
+      ..add(DiagnosticsProperty('range', range))
       ..add(DiagnosticsProperty('indexTapped', indexTapped))
-      ..add(DiagnosticsProperty('dateTimeTapped', dateTimeTapped));
+      ..add(DiagnosticsProperty('dateTimeTapped', dateTimeTapped))
+      ..add(DiagnosticsProperty('displayMode', displayMode));
   }
 
   @override
@@ -157,19 +178,22 @@ class _$AnalysisStateImpl
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$AnalysisStateImpl &&
-            const DeepCollectionEquality().equals(other._oneWeek, _oneWeek) &&
+            const DeepCollectionEquality().equals(other._range, _range) &&
             (identical(other.indexTapped, indexTapped) ||
                 other.indexTapped == indexTapped) &&
             (identical(other.dateTimeTapped, dateTimeTapped) ||
-                other.dateTimeTapped == dateTimeTapped));
+                other.dateTimeTapped == dateTimeTapped) &&
+            (identical(other.displayMode, displayMode) ||
+                other.displayMode == displayMode));
   }
 
   @override
   int get hashCode => Object.hash(
       runtimeType,
-      const DeepCollectionEquality().hash(_oneWeek),
+      const DeepCollectionEquality().hash(_range),
       indexTapped,
-      dateTimeTapped);
+      dateTimeTapped,
+      displayMode);
 
   @JsonKey(ignore: true)
   @override
@@ -180,16 +204,19 @@ class _$AnalysisStateImpl
 
 abstract class _AnalysisState implements AnalysisState {
   const factory _AnalysisState(
-      {required final List<DateTime> oneWeek,
+      {required final List<DateTime> range,
       required final int? indexTapped,
-      required final DateTime? dateTimeTapped}) = _$AnalysisStateImpl;
+      required final DateTime? dateTimeTapped,
+      required final DisplayMode displayMode}) = _$AnalysisStateImpl;
 
   @override
-  List<DateTime> get oneWeek;
+  List<DateTime> get range;
   @override
   int? get indexTapped;
   @override
   DateTime? get dateTimeTapped;
+  @override
+  DisplayMode get displayMode;
   @override
   @JsonKey(ignore: true)
   _$$AnalysisStateImplCopyWith<_$AnalysisStateImpl> get copyWith =>

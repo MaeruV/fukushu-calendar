@@ -130,7 +130,7 @@ class CompListWidget extends ConsumerWidget with PresentationMixin {
                                       time: dateTime,
                                       weeks: ref
                                           .watch(analysisViewModelProvider)
-                                          .oneWeek,
+                                          .range,
                                     );
                               }
                             });

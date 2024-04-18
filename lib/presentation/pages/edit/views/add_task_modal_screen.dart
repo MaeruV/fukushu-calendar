@@ -39,7 +39,7 @@ class AddTaskModalScreen extends HookConsumerWidget {
                     AddTaskTitle(),
                     AddTaskMemo(),
                     AddTaskCalendar(),
-                    SizedBox(height: 20),
+                    SizedBox(height: 10),
                     AddTaskInterval(),
                     SizedBox(height: 20),
                     AddTaskColor(),

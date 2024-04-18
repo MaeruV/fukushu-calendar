@@ -70,7 +70,7 @@ class CheckTaskScreen extends ConsumerWidget {
                             Expanded(
                               child: Column(
                                 children: <Widget>[
-                                  Text(appLocalizations.all_events,
+                                  Text(appLocalizations.all_tasks,
                                       style: theme.textTheme.bodyMedium!
                                           .copyWith(
                                               color: theme.primaryColorLight)),
@@ -91,7 +91,7 @@ class CheckTaskScreen extends ConsumerWidget {
                                     ),
                                   ),
                                   const SizedBox(height: 10),
-                                  Text(appLocalizations.completed_events,
+                                  Text(appLocalizations.completed_tasks,
                                       style: theme.textTheme.bodyMedium!
                                           .copyWith(
                                               color: theme.primaryColorLight)),

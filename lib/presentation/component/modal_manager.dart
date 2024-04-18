@@ -66,6 +66,10 @@ class ModalManager {
 
   Widget _pickerItem(int str, BuildContext context) {
     final appLocalizations = AppLocalizations.of(context)!;
+    final theme = Theme.of(context);
+
+    TextStyle style =
+        theme.textTheme.bodyLarge!.copyWith(color: theme.primaryColorLight);
 
     return Row(
       mainAxisAlignment: MainAxisAlignment.start, // Changed to start alignment
@@ -73,7 +77,7 @@ class ModalManager {
         const SizedBox(width: 25),
         Text(
           '$str ${appLocalizations.days_after}',
-          style: BrandText.bodyL,
+          style: style,
           textAlign: TextAlign.start,
         ),
         const SizedBox(width: 20),
@@ -81,7 +85,7 @@ class ModalManager {
           DateTime.now()
               .add(Duration(days: str))
               .toSimpleFormat(appLocalizations.date),
-          style: BrandText.bodyL,
+          style: style,
           textAlign: TextAlign.end,
         ),
       ],

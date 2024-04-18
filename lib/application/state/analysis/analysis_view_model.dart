@@ -3,14 +3,18 @@ import 'package:ebbinghaus_forgetting_curve/presentation/common/date_time_extens
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 part 'analysis_view_model.g.dart';
 
+// analysis_state.dart
+enum DisplayMode { week, month, year }
+
 @riverpod
 class AnalysisViewModel extends _$AnalysisViewModel {
   @override
   AnalysisState build() {
     return AnalysisState(
-      oneWeek: initializeWeeks(),
+      range: initializeWeeks(),
       indexTapped: null,
       dateTimeTapped: null,
+      displayMode: DisplayMode.week,
     );
   }
 
@@ -21,23 +25,93 @@ class AnalysisViewModel extends _$AnalysisViewModel {
     return [startweek, endweek];
   }
 
-  void _updateWeekRange(DateTime date) {
-    final startweek =
-        date.subtract(Duration(days: date.weekday - 1)).toZeroHour();
-    final endweek = startweek.add(const Duration(days: 6)).toZeroHour();
-    state = state.copyWith(oneWeek: [startweek, endweek], indexTapped: null);
+  void goToPrevious() {
+    DateTime startDate = state.range[0];
+    DateTime newStartDate;
+
+    switch (state.displayMode) {
+      case DisplayMode.week:
+        newStartDate = startDate.subtract(const Duration(days: 7));
+        break;
+      case DisplayMode.month:
+        newStartDate = DateTime(startDate.year, startDate.month - 1, 1);
+        break;
+      case DisplayMode.year:
+        newStartDate = DateTime(startDate.year - 1, 1, 1);
+        break;
+    }
+
+    _updateRange(newStartDate);
   }
 
-  void goToPreviousWeek() {
-    _updateWeekRange(state.oneWeek[0].subtract(const Duration(days: 7)));
+  void goToNext() {
+    DateTime endDate = state.range[1];
+    DateTime newStartDate;
+
+    switch (state.displayMode) {
+      case DisplayMode.week:
+        newStartDate = endDate.add(const Duration(days: 1));
+        break;
+      case DisplayMode.month:
+        newStartDate = DateTime(endDate.year, endDate.month + 1, 1);
+        break;
+      case DisplayMode.year:
+        newStartDate = DateTime(endDate.year + 1, 1, 1);
+        break;
+    }
+
+    _updateRange(newStartDate);
   }
 
-  void goToNextWeek() {
-    _updateWeekRange(state.oneWeek[1].add(const Duration(days: 1)));
+  void _updateRange(DateTime startDate) {
+    List<DateTime> newRange;
+
+    switch (state.displayMode) {
+      case DisplayMode.week:
+        final startWeek = startDate;
+        final endWeek = startWeek.add(const Duration(days: 6));
+        newRange = [startWeek, endWeek];
+        break;
+      case DisplayMode.month:
+        final startMonth = DateTime(startDate.year, startDate.month, 1);
+        final endMonth = DateTime(startDate.year, startDate.month + 1, 0);
+        newRange = [startMonth, endMonth];
+        break;
+      case DisplayMode.year:
+        final startYear = DateTime(startDate.year, 1, 1);
+        final endYear = DateTime(startDate.year + 1, 1, 0);
+        newRange = [startYear, endYear];
+        break;
+    }
+
+    state = state.copyWith(range: newRange);
   }
 
   void barIndexTapped(int index) {
-    final time = state.oneWeek[0].add(Duration(days: index));
+    final time = state.range[0].add(Duration(days: index));
     state = state.copyWith(indexTapped: index, dateTimeTapped: time);
+  }
+
+  void setDisplayMode(DisplayMode mode) {
+    List<DateTime> newRange;
+    final now = DateTime.now().toZeroHour();
+    switch (mode) {
+      case DisplayMode.week:
+        var startWeek = now.subtract(Duration(days: now.weekday - 1));
+        var endWeek = startWeek.add(Duration(days: 6));
+        newRange = [startWeek, endWeek];
+        break;
+      case DisplayMode.month:
+        var startMonth = DateTime(now.year, now.month, 1);
+        var endMonth = DateTime(now.year, now.month + 1, 0);
+        newRange = [startMonth, endMonth];
+        break;
+      case DisplayMode.year:
+        var startYear = DateTime(now.year, 1, 1);
+        var endYear = DateTime(now.year, 12, 31);
+        newRange = [startYear, endYear];
+        break;
+    }
+    state = state.copyWith(displayMode: mode, range: newRange);
   }
 }

@@ -1,7 +1,7 @@
 import 'package:ebbinghaus_forgetting_curve/application/state/analysis/analysis_view_model.dart';
 import 'package:ebbinghaus_forgetting_curve/presentation/common/date_time_extension.dart';
 import 'package:ebbinghaus_forgetting_curve/presentation/pages/analysis/widgets/bar%20graph/bar_data.dart';
-import 'package:ebbinghaus_forgetting_curve/presentation/theme/colors.dart';
+import 'package:ebbinghaus_forgetting_curve/presentation/pages/analysis/widgets/bar%20graph/individual_bar.dart';
 import 'package:ebbinghaus_forgetting_curve/presentation/theme/fonts.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -9,27 +9,25 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class MyBarGraph extends HookConsumerWidget {
-  const MyBarGraph({super.key, required this.weeklySummary});
-  final List<double> weeklySummary;
+  const MyBarGraph({
+    super.key,
+    required this.summary,
+    required this.mode,
+  });
+  final List<double> summary;
+  final DisplayMode mode;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final theme = Theme.of(context);
     final state = ref.watch(analysisViewModelProvider);
 
-    BarData myBarData = BarData(
-      monAmount: weeklySummary[0],
-      tueAmount: weeklySummary[1],
-      wedAmount: weeklySummary[2],
-      thurAmount: weeklySummary[3],
-      friAmount: weeklySummary[4],
-      satAmount: weeklySummary[5],
-      sunAmount: weeklySummary[6],
-    );
-    myBarData.initializeBarData();
+    BarData myBarData = BarData(amounts: summary);
+// BarDataからバーグラフのデータを取得
+    List<IndividualBar> barData = myBarData.getBarData();
 
     return BarChart(BarChartData(
-        maxY: 10,
+        maxY: summary.reduce((a, b) => a + b) + 4,
         minY: 0,
         gridData: const FlGridData(drawVerticalLine: false),
         borderData: FlBorderData(show: false),
@@ -48,12 +46,12 @@ class MyBarGraph extends HookConsumerWidget {
             )),
             bottomTitles: AxisTitles(
                 sideTitles: SideTitles(
-              reservedSize: 45,
+              reservedSize: 50,
               showTitles: true,
               getTitlesWidget: (value, meta) =>
-                  GetBottomTitles(value: value, meta: meta),
+                  GetBottomTitles(value: value, meta: meta, mode: mode),
             ))),
-        barGroups: myBarData.barData
+        barGroups: barData
             .asMap()
             .map((index, data) {
               final isTouched = index == state.indexTapped;
@@ -105,7 +103,8 @@ class GetLeftTitles extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final theme = Theme.of(context);
 
-    final style = theme.textTheme.bodySmall!.copyWith(color: BrandColor.grey);
+    final style =
+        theme.textTheme.bodySmall!.copyWith(color: theme.primaryColorLight);
 
     return Text(
       value.toInt().toString(),
@@ -116,88 +115,75 @@ class GetLeftTitles extends ConsumerWidget {
 }
 
 class GetBottomTitles extends ConsumerWidget {
-  const GetBottomTitles({super.key, required this.value, required this.meta});
+  const GetBottomTitles(
+      {super.key, required this.value, required this.meta, required this.mode});
 
   final double value;
   final TitleMeta meta;
+  final DisplayMode mode;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final appLocalizations = AppLocalizations.of(context)!;
     final theme = Theme.of(context);
 
-    final analysis = ref.watch(analysisViewModelProvider);
+    final style =
+        theme.textTheme.bodySmall!.copyWith(color: theme.primaryColorLight);
+    Widget widget;
 
-    List<DateTime> weekDates = [];
-    for (int i = 0; i < 7; i++) {
-      weekDates.add(analysis.oneWeek[0].add(Duration(days: i)));
-    }
-
-    final dayStyle =
-        theme.textTheme.bodySmall!.copyWith(color: BrandColor.grey);
-    final weekStyle = BrandText.bodySS.copyWith(color: BrandColor.grey);
-
-    Widget text;
-    switch (value.toInt()) {
-      case 0:
-        text = Column(
-          children: [
-            Text(weekDates[0].toMDFormat(), style: dayStyle),
-            Text(appLocalizations.monday, style: weekStyle),
-          ],
-        );
+    switch (mode) {
+      case DisplayMode.month:
+        // 月モードの場合、週のラベルを表示
+        widget = Text("Week ${value.toInt() + 1}", style: style);
         break;
-      case 1:
-        text = Column(
-          children: [
-            Text(weekDates[1].toMDFormat(), style: dayStyle),
-            Text(appLocalizations.tuesday, style: weekStyle),
-          ],
-        );
-      case 2:
-        text = Column(
-          children: [
-            Text(weekDates[2].toMDFormat(), style: dayStyle),
-            Text(appLocalizations.wednesday, style: weekStyle),
-          ],
-        );
-        break;
-      case 3:
-        text = Column(
-          children: [
-            Text(weekDates[3].toMDFormat(), style: dayStyle),
-            Text(appLocalizations.thursday, style: weekStyle),
-          ],
-        );
-        break;
-      case 4:
-        text = Column(
-          children: [
-            Text(weekDates[4].toMDFormat(), style: dayStyle),
-            Text(appLocalizations.friday, style: weekStyle),
-          ],
-        );
-        break;
-      case 5:
-        text = Column(
-          children: [
-            Text(weekDates[5].toMDFormat(), style: dayStyle),
-            Text(appLocalizations.saturday, style: weekStyle),
-          ],
-        );
-        break;
-      case 6:
-        text = Column(
-          children: [
-            Text(weekDates[6].toMDFormat(), style: dayStyle),
-            Text(appLocalizations.sunday, style: weekStyle),
-          ],
-        );
+      case DisplayMode.year:
+        // 年モードの場合、月のラベルを表示
+        List<String> months = [
+          appLocalizations.january,
+          appLocalizations.february,
+          appLocalizations.march,
+          appLocalizations.april,
+          appLocalizations.may,
+          appLocalizations.june,
+          appLocalizations.july,
+          appLocalizations.august,
+          appLocalizations.september,
+          appLocalizations.october,
+          appLocalizations.november,
+          appLocalizations.december,
+        ];
+        widget = Text(months[value.toInt()], style: style);
         break;
       default:
-        text = Text("", style: dayStyle);
+        // 週モードの場合、日付と曜日のラベルを表示
+        final DateTime firstDayOfWeek =
+            DateTime.now().subtract(Duration(days: DateTime.now().weekday - 1));
+        final DateTime targetDate =
+            firstDayOfWeek.add(Duration(days: value.toInt()));
+        final int weekDayIndex = targetDate.weekday % 7;
+        final List<String> weekDays = [
+          appLocalizations.monday,
+          appLocalizations.tuesday,
+          appLocalizations.wednesday,
+          appLocalizations.thursday,
+          appLocalizations.friday,
+          appLocalizations.saturday,
+          appLocalizations.sunday,
+        ];
+        widget = Column(
+          children: <Widget>[
+            Text(targetDate.toMDFormat(), style: style),
+            Text(weekDays[weekDayIndex],
+                style:
+                    BrandText.bodySS.copyWith(color: theme.primaryColorLight)),
+          ],
+        );
         break;
     }
-    return SideTitleWidget(axisSide: meta.axisSide, child: text);
+
+    return SideTitleWidget(
+      axisSide: meta.axisSide,
+      child: widget,
+    );
   }
 }

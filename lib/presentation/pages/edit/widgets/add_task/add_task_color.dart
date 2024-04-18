@@ -11,7 +11,8 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 class AddTaskColor extends ConsumerWidget with PresentationMixin {
   const AddTaskColor({super.key});
 
-  showColorPicker(BuildContext context, WidgetRef ref) {
+  showColorPicker(
+      BuildContext context, WidgetRef ref, Function(Color?) onPressed) {
     final theme = Theme.of(context);
     final appLocalizations = AppLocalizations.of(context)!;
 
@@ -44,14 +45,7 @@ class AddTaskColor extends ConsumerWidget with PresentationMixin {
                     style:
                         theme.textTheme.bodySmall!.copyWith(color: Colors.red)),
                 onPressed: () {
-                  execute(context, action: () async {
-                    if (pickedColor != null) {
-                      ref
-                          .read(colorPickerViewModelProvider.notifier)
-                          .addColorPicker(pickedColor!.value);
-                    }
-                    Navigator.of(context).pop();
-                  });
+                  onPressed.call(pickedColor);
                 },
               ),
             ],
@@ -71,6 +65,11 @@ class AddTaskColor extends ConsumerWidget with PresentationMixin {
       0,
       ...TaskColorPalette.normalPalette
     ];
+
+    for (var element in combinedColors) {
+      print("Color: $element");
+    }
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisAlignment: MainAxisAlignment.center,
@@ -94,7 +93,21 @@ class AddTaskColor extends ConsumerWidget with PresentationMixin {
                     children: [
                       GestureDetector(
                         onTap: () {
-                          showColorPicker(context, ref);
+                          showColorPicker(
+                            context,
+                            ref,
+                            (pickedColor) async {
+                              if (pickedColor != null) {
+                                ref
+                                    .read(colorPickerViewModelProvider.notifier)
+                                    .addColorPicker(pickedColor.value);
+                                ref
+                                    .read(editViewModelProvider.notifier)
+                                    .setPalette(pickedColor.value);
+                              }
+                              Navigator.of(context).pop();
+                            },
+                          );
                         },
                         child: const Center(
                           child: CustomPaint(

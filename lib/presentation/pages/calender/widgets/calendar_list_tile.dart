@@ -94,7 +94,7 @@ class CalendarListTile extends HookConsumerWidget with PresentationMixin {
                                             taskDate: value,
                                             flag: flag,
                                             time: state.dateTimeTapped,
-                                            weeks: state.oneWeek,
+                                            weeks: state.range,
                                           );
                                     }
                                   });

@@ -78,7 +78,7 @@ class EditSlidableAction extends ConsumerWidget {
             await ref.read(taskUsecaseProvider).deleteTaskEvent(
                   task,
                   state.dateTimeTapped,
-                  state.oneWeek,
+                  state.range,
                 );
           }),
           duration: const Duration(milliseconds: 300),

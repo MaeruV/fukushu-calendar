@@ -26,25 +26,25 @@ class AddTaskTitle extends HookConsumerWidget {
               .copyWith(color: theme.primaryColorLight),
         ),
         const SizedBox(height: 5),
-        SizedBox(
-          height: 80,
-          child: TextField(
-            style: theme.textTheme.bodySmall!
-                .copyWith(color: theme.primaryColorLight),
-            maxLength: 20,
-            controller: controller,
-            onChanged: (value) => notifier.setTitleText(value),
-            decoration: InputDecoration(
-              hintText: appLocalizations.title_content,
-              hintStyle: BrandText.bodyS.copyWith(color: BrandColor.grey),
-              enabledBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(10),
-                borderSide: const BorderSide(color: BrandColor.grey),
-              ),
-              focusedBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(10),
-                  borderSide: const BorderSide(color: BrandColor.blue)),
+        TextField(
+          style: theme.textTheme.bodyMedium!
+              .copyWith(color: theme.primaryColorLight),
+          maxLength: 20,
+          controller: controller,
+          onChanged: (value) => notifier.setTitleText(value),
+          decoration: InputDecoration(
+            contentPadding:
+                const EdgeInsets.symmetric(vertical: 15, horizontal: 10),
+            isDense: true,
+            hintText: appLocalizations.title_content,
+            hintStyle: BrandText.bodyS.copyWith(color: BrandColor.grey),
+            enabledBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(10),
+              borderSide: const BorderSide(color: BrandColor.grey),
             ),
+            focusedBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(10),
+                borderSide: const BorderSide(color: BrandColor.blue)),
           ),
         ),
       ],

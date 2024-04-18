@@ -9,7 +9,7 @@ class ColorPickerViewModel extends _$ColorPickerViewModel {
     return [];
   }
 
-  void addColorPicker(int palette) {
+  Future<void> addColorPicker(int palette) async {
     if (!state.contains(palette)) {
       List<int> newState = [palette, ...state];
       if (newState.length > 3) {

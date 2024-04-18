@@ -231,9 +231,19 @@ class CalendarList extends ConsumerWidget {
                       : "",
                   style: theme.textTheme.titleMedium!
                       .copyWith(color: theme.primaryColorLight)),
-              Text('${events.length} ${appLocalizations.event}',
-                  style: theme.textTheme.titleSmall!
-                      .copyWith(color: theme.primaryColorLight))
+              RichText(
+                text: TextSpan(
+                    text: events.length.toString(),
+                    style: theme.textTheme.titleSmall!
+                        .copyWith(color: theme.primaryColorLight),
+                    children: [
+                      TextSpan(
+                        text: " ${appLocalizations.task}",
+                        style: theme.textTheme.bodySmall!
+                            .copyWith(color: theme.primaryColorLight),
+                      )
+                    ]),
+              ),
             ],
           ),
           const SizedBox(height: 5),

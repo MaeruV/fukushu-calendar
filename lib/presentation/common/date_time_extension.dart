@@ -4,7 +4,7 @@ extension DateTimeJapaneseFormat on DateTime {
   String toSimpleFormat(String date) {
     switch (date) {
       case 'en_US':
-        return DateFormat('EEEE, MMMM d, yyyy', date).format(this);
+        return DateFormat('EEEE, M/d/yyyy', date).format(this);
       case 'ja_JP':
         return DateFormat('yyyy年 MMMMd日 (E)', date).format(this);
       default:

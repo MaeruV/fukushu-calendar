@@ -75,7 +75,7 @@ class HomePage extends HookConsumerWidget {
                   iconData: Icons.edit_calendar_outlined,
                   text: appLocalizations.schedule),
               FABBottomAppBarItem(
-                  iconData: Icons.check_box, text: appLocalizations.completed),
+                  iconData: Icons.bar_chart, text: appLocalizations.analysis),
               FABBottomAppBarItem(
                   iconData: Icons.menu, text: appLocalizations.menu),
             ],

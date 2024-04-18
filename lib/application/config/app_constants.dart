@@ -12,5 +12,4 @@ const String copyright = '著作権情報';
 const Map<String, String> languages = {
   'ja': '日本語',
   'en': 'English',
-  'ko': '한국어',
 };

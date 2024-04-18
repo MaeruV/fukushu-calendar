@@ -1,7 +1,7 @@
 import 'package:ebbinghaus_forgetting_curve/application/state/analysis/analysis_view_model.dart';
 import 'package:ebbinghaus_forgetting_curve/application/usecases/task/state/tasks_provider.dart';
 import 'package:ebbinghaus_forgetting_curve/presentation/common/date_time_extension.dart';
-import 'package:ebbinghaus_forgetting_curve/presentation/pages/completed/widgets/comp_list_view.dart';
+import 'package:ebbinghaus_forgetting_curve/presentation/pages/analysis/widgets/completed/comp_list_view.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -17,7 +17,7 @@ class AnalysisBottomContainer extends ConsumerWidget {
 
     DateTime? time;
     state.indexTapped != null
-        ? time = state.oneWeek[0].add(Duration(days: state.indexTapped!))
+        ? time = state.range[0].add(Duration(days: state.indexTapped!))
         : time = null;
 
     final config = ref.watch(compDayDataProvider(time: time));

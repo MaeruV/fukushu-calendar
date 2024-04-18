@@ -3,6 +3,7 @@ import 'package:ebbinghaus_forgetting_curve/application/state/home/screen_view_m
 import 'package:ebbinghaus_forgetting_curve/application/usecases/task/state/tasks_provider.dart';
 import 'package:ebbinghaus_forgetting_curve/presentation/pages/analysis/widgets/analysis_app_bar.dart';
 import 'package:ebbinghaus_forgetting_curve/presentation/pages/analysis/widgets/analysis_bottom_container.dart';
+import 'package:ebbinghaus_forgetting_curve/presentation/pages/analysis/widgets/analysis_select_day.dart';
 import 'package:ebbinghaus_forgetting_curve/presentation/pages/analysis/widgets/analysis_top_container.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -16,7 +17,7 @@ class AnalysisMainScreen extends HookConsumerWidget {
     final size = ref.watch(screenViewModelProvider);
     final theme = Theme.of(context);
     final weeks = ref.watch(analysisViewModelProvider);
-    final config = ref.watch(compWeekDataProvider(weeks: weeks.oneWeek));
+    final config = ref.watch(compWeekDataProvider(weeks: weeks.range));
     final appLocalizations = AppLocalizations.of(context)!;
 
     return Scaffold(
@@ -32,10 +33,25 @@ class AnalysisMainScreen extends HookConsumerWidget {
               children: [
                 Padding(
                   padding: const EdgeInsets.only(top: 12.0),
-                  child: Text(appLocalizations.analysis_title,
-                      style: theme.textTheme.titleSmall!.copyWith(
-                        color: theme.primaryColorLight,
-                      )),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(appLocalizations.analysis_title,
+                          style: theme.textTheme.titleSmall!.copyWith(
+                            color: theme.primaryColorLight,
+                          )),
+                      Container(
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(5),
+                            border: Border.all(color: theme.primaryColor)),
+                        child: const Row(children: [
+                          AnalysisSelectDay(mode: DisplayMode.week),
+                          AnalysisSelectDay(mode: DisplayMode.month),
+                          AnalysisSelectDay(mode: DisplayMode.year),
+                        ]),
+                      )
+                    ],
+                  ),
                 ),
                 const SizedBox(height: 5),
                 Row(
@@ -75,17 +91,24 @@ class AnalysisMainScreen extends HookConsumerWidget {
                         ElevatedButton(
                           onPressed: ref
                               .read(analysisViewModelProvider.notifier)
-                              .goToPreviousWeek,
+                              .goToPrevious,
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: theme.cardColor,
+                          ),
                           child: Icon(
                             Icons.arrow_left,
                             color: theme.primaryColorLight,
                             size: 25,
                           ),
                         ),
+                        const SizedBox(width: 5),
                         ElevatedButton(
                           onPressed: ref
                               .read(analysisViewModelProvider.notifier)
-                              .goToNextWeek,
+                              .goToNext,
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: theme.cardColor,
+                          ),
                           child: Icon(
                             Icons.arrow_right,
                             color: theme.primaryColorLight,

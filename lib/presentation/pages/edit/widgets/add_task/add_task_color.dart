@@ -66,10 +66,6 @@ class AddTaskColor extends ConsumerWidget with PresentationMixin {
       ...TaskColorPalette.normalPalette
     ];
 
-    for (var element in combinedColors) {
-      print("Color: $element");
-    }
-
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisAlignment: MainAxisAlignment.center,

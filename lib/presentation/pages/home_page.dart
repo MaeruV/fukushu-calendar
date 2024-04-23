@@ -35,13 +35,17 @@ class HomePage extends HookConsumerWidget {
       return null;
     }, []);
 
-    void _selectedIndex(int index) {
-      notifier.onItemTapped(index);
-    }
-
     void _actionButtonTapped() {
       ref.read(temporaryTaskProvider.notifier).state = null;
       modal.customShowModalSheet(context);
+    }
+
+    void _selectedIndex(int index) {
+      if (index == 2) {
+        _actionButtonTapped();
+      } else {
+        notifier.onItemTapped(index);
+      }
     }
 
     return Stack(
@@ -51,16 +55,16 @@ class HomePage extends HookConsumerWidget {
             index: state,
             children: notifier.screens!,
           ),
-          floatingActionButtonLocation:
-              FloatingActionButtonLocation.centerDocked,
-          floatingActionButton: FloatingActionButton(
-            backgroundColor: theme.focusColor,
-            onPressed: _actionButtonTapped,
-            child: const Icon(
-              Icons.add,
-              color: Colors.white,
-            ),
-          ),
+          // floatingActionButtonLocation:
+          //     FloatingActionButtonLocation.centerDocked,
+          // floatingActionButton: FloatingActionButton(
+          //   backgroundColor: theme.focusColor,
+          //   onPressed: _actionButtonTapped,
+          //   child: const Icon(
+          //     Icons.add,
+          //     color: Colors.white,
+          //   ),
+          // ),
           bottomNavigationBar: FABBottomAppBar(
             centerItemText: '',
             color: Colors.grey,
@@ -74,6 +78,7 @@ class HomePage extends HookConsumerWidget {
               FABBottomAppBarItem(
                   iconData: Icons.edit_calendar_outlined,
                   text: appLocalizations.schedule),
+              FABBottomAppBarItem(iconData: Icons.add, text: ""),
               FABBottomAppBarItem(
                   iconData: Icons.bar_chart, text: appLocalizations.analysis),
               FABBottomAppBarItem(

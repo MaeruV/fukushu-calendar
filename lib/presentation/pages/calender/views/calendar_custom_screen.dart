@@ -112,7 +112,6 @@ class TopContainerWidget extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final size = ref.watch(screenViewModelProvider);
     final theme = Theme.of(context);
 
     return Container(
@@ -123,43 +122,44 @@ class TopContainerWidget extends ConsumerWidget {
           bottomRight: Radius.circular(15),
         ),
       ),
-      child: Column(
-        children: <Widget>[
-          SizedBox(height: size.safeAreaTop),
-          SubjectWidget(mapEvents: value),
-          const DaysOfTheWeek(),
-          CalenderPageView(
-            events: value.values.expand((events) => events).toList(),
-            onCellTapped: onCellTapped,
-          ),
-          Container(
-            height: 25,
-            width: double.infinity,
-            decoration: BoxDecoration(
-              color: theme.canvasColor,
-              border: Border.all(color: Colors.grey, width: 0.5),
-              borderRadius: const BorderRadius.only(
-                bottomLeft: Radius.circular(15),
-                bottomRight: Radius.circular(15),
-              ),
+      child: SafeArea(
+        child: Column(
+          children: <Widget>[
+            SubjectWidget(mapEvents: value),
+            const DaysOfTheWeek(),
+            CalenderPageView(
+              events: value.values.expand((events) => events).toList(),
+              onCellTapped: onCellTapped,
             ),
-            child: Stack(
-              children: [
-                Align(
-                  alignment: Alignment.center,
-                  child: Container(
-                    margin: const EdgeInsets.symmetric(vertical: 10),
-                    height: 5,
-                    width: 60,
-                    decoration: const BoxDecoration(
-                        color: Colors.grey,
-                        borderRadius: BorderRadius.all(Radius.circular(5))),
-                  ),
+            Container(
+              height: 25,
+              width: double.infinity,
+              decoration: BoxDecoration(
+                color: theme.canvasColor,
+                border: Border.all(color: Colors.grey, width: 0.5),
+                borderRadius: const BorderRadius.only(
+                  bottomLeft: Radius.circular(15),
+                  bottomRight: Radius.circular(15),
                 ),
-              ],
-            ),
-          )
-        ],
+              ),
+              child: Stack(
+                children: [
+                  Align(
+                    alignment: Alignment.center,
+                    child: Container(
+                      margin: const EdgeInsets.symmetric(vertical: 10),
+                      height: 5,
+                      width: 60,
+                      decoration: const BoxDecoration(
+                          color: Colors.grey,
+                          borderRadius: BorderRadius.all(Radius.circular(5))),
+                    ),
+                  ),
+                ],
+              ),
+            )
+          ],
+        ),
       ),
     );
   }

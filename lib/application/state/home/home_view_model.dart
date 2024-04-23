@@ -16,10 +16,10 @@ class HomeViewModel extends _$HomeViewModel {
 
   List<Widget>? get screens => _screens;
 
-  final _screens = [
+  final _screens = const [
     CalendarCustomScreen(),
     EditScreen(),
-    // const CompletedScreen(),
+    CalendarCustomScreen(),
     AnalysisMainScreen(),
     OthersMainScreen()
   ];

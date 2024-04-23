@@ -191,32 +191,33 @@ class _CompWeekDataProviderElement
   List<DateTime> get weeks => (origin as CompWeekDataProvider).weeks;
 }
 
-String _$compDayDataHash() => r'041f193b87737d1376c9d221a8128be6f5819b5a';
+String _$fetchDataForPeriodHash() =>
+    r'daf70b7b1c881da502d0aba60447c013becd4230';
 
-/// See also [compDayData].
-@ProviderFor(compDayData)
-const compDayDataProvider = CompDayDataFamily();
+/// See also [fetchDataForPeriod].
+@ProviderFor(fetchDataForPeriod)
+const fetchDataForPeriodProvider = FetchDataForPeriodFamily();
 
-/// See also [compDayData].
-class CompDayDataFamily extends Family<AsyncValue<List<TaskDate>>> {
-  /// See also [compDayData].
-  const CompDayDataFamily();
+/// See also [fetchDataForPeriod].
+class FetchDataForPeriodFamily extends Family<AsyncValue<List<TaskDate>>> {
+  /// See also [fetchDataForPeriod].
+  const FetchDataForPeriodFamily();
 
-  /// See also [compDayData].
-  CompDayDataProvider call({
-    required DateTime? time,
+  /// See also [fetchDataForPeriod].
+  FetchDataForPeriodProvider call({
+    required List<DateTime> times,
   }) {
-    return CompDayDataProvider(
-      time: time,
+    return FetchDataForPeriodProvider(
+      times: times,
     );
   }
 
   @override
-  CompDayDataProvider getProviderOverride(
-    covariant CompDayDataProvider provider,
+  FetchDataForPeriodProvider getProviderOverride(
+    covariant FetchDataForPeriodProvider provider,
   ) {
     return call(
-      time: provider.time,
+      times: provider.times,
     );
   }
 
@@ -232,92 +233,93 @@ class CompDayDataFamily extends Family<AsyncValue<List<TaskDate>>> {
       _allTransitiveDependencies;
 
   @override
-  String? get name => r'compDayDataProvider';
+  String? get name => r'fetchDataForPeriodProvider';
 }
 
-/// See also [compDayData].
-class CompDayDataProvider extends AutoDisposeFutureProvider<List<TaskDate>> {
-  /// See also [compDayData].
-  CompDayDataProvider({
-    required DateTime? time,
+/// See also [fetchDataForPeriod].
+class FetchDataForPeriodProvider
+    extends AutoDisposeFutureProvider<List<TaskDate>> {
+  /// See also [fetchDataForPeriod].
+  FetchDataForPeriodProvider({
+    required List<DateTime> times,
   }) : this._internal(
-          (ref) => compDayData(
-            ref as CompDayDataRef,
-            time: time,
+          (ref) => fetchDataForPeriod(
+            ref as FetchDataForPeriodRef,
+            times: times,
           ),
-          from: compDayDataProvider,
-          name: r'compDayDataProvider',
+          from: fetchDataForPeriodProvider,
+          name: r'fetchDataForPeriodProvider',
           debugGetCreateSourceHash:
               const bool.fromEnvironment('dart.vm.product')
                   ? null
-                  : _$compDayDataHash,
-          dependencies: CompDayDataFamily._dependencies,
+                  : _$fetchDataForPeriodHash,
+          dependencies: FetchDataForPeriodFamily._dependencies,
           allTransitiveDependencies:
-              CompDayDataFamily._allTransitiveDependencies,
-          time: time,
+              FetchDataForPeriodFamily._allTransitiveDependencies,
+          times: times,
         );
 
-  CompDayDataProvider._internal(
+  FetchDataForPeriodProvider._internal(
     super._createNotifier, {
     required super.name,
     required super.dependencies,
     required super.allTransitiveDependencies,
     required super.debugGetCreateSourceHash,
     required super.from,
-    required this.time,
+    required this.times,
   }) : super.internal();
 
-  final DateTime? time;
+  final List<DateTime> times;
 
   @override
   Override overrideWith(
-    FutureOr<List<TaskDate>> Function(CompDayDataRef provider) create,
+    FutureOr<List<TaskDate>> Function(FetchDataForPeriodRef provider) create,
   ) {
     return ProviderOverride(
       origin: this,
-      override: CompDayDataProvider._internal(
-        (ref) => create(ref as CompDayDataRef),
+      override: FetchDataForPeriodProvider._internal(
+        (ref) => create(ref as FetchDataForPeriodRef),
         from: from,
         name: null,
         dependencies: null,
         allTransitiveDependencies: null,
         debugGetCreateSourceHash: null,
-        time: time,
+        times: times,
       ),
     );
   }
 
   @override
   AutoDisposeFutureProviderElement<List<TaskDate>> createElement() {
-    return _CompDayDataProviderElement(this);
+    return _FetchDataForPeriodProviderElement(this);
   }
 
   @override
   bool operator ==(Object other) {
-    return other is CompDayDataProvider && other.time == time;
+    return other is FetchDataForPeriodProvider && other.times == times;
   }
 
   @override
   int get hashCode {
     var hash = _SystemHash.combine(0, runtimeType.hashCode);
-    hash = _SystemHash.combine(hash, time.hashCode);
+    hash = _SystemHash.combine(hash, times.hashCode);
 
     return _SystemHash.finish(hash);
   }
 }
 
-mixin CompDayDataRef on AutoDisposeFutureProviderRef<List<TaskDate>> {
-  /// The parameter `time` of this provider.
-  DateTime? get time;
+mixin FetchDataForPeriodRef on AutoDisposeFutureProviderRef<List<TaskDate>> {
+  /// The parameter `times` of this provider.
+  List<DateTime> get times;
 }
 
-class _CompDayDataProviderElement
+class _FetchDataForPeriodProviderElement
     extends AutoDisposeFutureProviderElement<List<TaskDate>>
-    with CompDayDataRef {
-  _CompDayDataProviderElement(super.provider);
+    with FetchDataForPeriodRef {
+  _FetchDataForPeriodProviderElement(super.provider);
 
   @override
-  DateTime? get time => (origin as CompDayDataProvider).time;
+  List<DateTime> get times => (origin as FetchDataForPeriodProvider).times;
 }
 
 String _$tempTaskHash() => r'35d4be616b9fec43030d9aac2cf8de64ac8c61f0';

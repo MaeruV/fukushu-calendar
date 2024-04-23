@@ -195,12 +195,13 @@ class TaskEventRepositoryImpl implements TaskRepository {
   }
 
   @override
-  Future<List<TaskDate>> fetchCompDayData({required DateTime? time}) async {
-    if (time != null) {
+  Future<List<TaskDate>> fetchDataForPeriod(
+      {required List<DateTime> times}) async {
+    if (times.isNotEmpty) {
       final datesAll = await isar.taskDates
           .filter()
           .checkFlagEqualTo(true)
-          .completeDayEqualTo(time)
+          .completeDayBetween(times[0], times[1])
           .findAll();
       for (var taskDate in datesAll) {
         await taskDate.task.load();

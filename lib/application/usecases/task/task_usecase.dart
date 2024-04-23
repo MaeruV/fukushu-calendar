@@ -26,8 +26,8 @@ class TaskUsecase with RunUsecaseMixin {
   StateController<Task?> get _temporaryTaskController =>
       _ref.read(temporaryTaskProvider.notifier);
   void _refreshCalendarProvider() => _ref.refresh(tasksCalendarProvider.future);
-  void _refreshCompleteDayDateProvider(DateTime time) =>
-      _ref.refresh(compDayDataProvider(time: time).future);
+  void _refreshCompleteDayDateProvider(List<DateTime> time) =>
+      _ref.refresh(fetchDataForPeriodProvider(times: time).future);
   void _refreshCompleteWeekProvider(List<DateTime> weeks) =>
       _ref.refresh(CompWeekDataProvider(weeks: weeks).future);
   void _refreshTempTaskProvider(int taskId) =>
@@ -90,7 +90,7 @@ class TaskUsecase with RunUsecaseMixin {
   Future<void> saveTaskDate({
     required TaskDate taskDate,
     required bool flag,
-    required DateTime? time,
+    required List<DateTime> time,
     required List<DateTime> weeks,
   }) async {
     await execute(action: () async {
@@ -99,7 +99,7 @@ class TaskUsecase with RunUsecaseMixin {
     _refreshTempTaskDateProvider(taskDate);
     _invalidateTasksProvider();
     _refreshCalendarProvider();
-    if (time != null) {
+    if (time != []) {
       _refreshCompleteDayDateProvider(time);
     }
     _refreshCompleteWeekProvider(weeks);
@@ -166,9 +166,9 @@ class TaskUsecase with RunUsecaseMixin {
     return groupedTaskDates;
   }
 
-  Future<List<TaskDate>> fetchCompDayData(DateTime? time) async {
+  Future<List<TaskDate>> fetchDataForPeriod(List<DateTime> times) async {
     final taskDates = await execute(action: () async {
-      return await _taskRepository.fetchCompDayData(time: time);
+      return await _taskRepository.fetchDataForPeriod(times: times);
     });
     return taskDates;
   }
@@ -240,15 +240,15 @@ class TaskUsecase with RunUsecaseMixin {
 
   Future<void> deleteTaskEvent(
     Task task,
-    DateTime? time,
+    List<DateTime> times,
     List<DateTime> weeks,
   ) async {
     await _taskRepository.delete(task: task);
     _invalidateTasksProvider();
     _refreshCalendarProvider();
     _fetchNotificationTaskAll();
-    if (time != null) {
-      _refreshCompleteDayDateProvider(time);
+    if (times.isNotEmpty) {
+      _refreshCompleteDayDateProvider(times);
     }
     _refreshCompleteWeekProvider(weeks);
   }

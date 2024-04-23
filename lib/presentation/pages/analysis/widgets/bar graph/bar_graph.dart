@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:ebbinghaus_forgetting_curve/application/state/analysis/analysis_view_model.dart';
 import 'package:ebbinghaus_forgetting_curve/presentation/common/date_time_extension.dart';
 import 'package:ebbinghaus_forgetting_curve/presentation/pages/analysis/widgets/bar%20graph/bar_data.dart';
@@ -23,11 +25,20 @@ class MyBarGraph extends HookConsumerWidget {
     final state = ref.watch(analysisViewModelProvider);
 
     BarData myBarData = BarData(amounts: summary);
-// BarDataからバーグラフのデータを取得
     List<IndividualBar> barData = myBarData.getBarData();
 
+    double width = 25;
+    switch (mode) {
+      case DisplayMode.week:
+        width = 25;
+      case DisplayMode.month:
+        width = 25;
+      default:
+        width = 15;
+    }
+
     return BarChart(BarChartData(
-        maxY: summary.reduce((a, b) => a + b) + 4,
+        maxY: summary.reduce(max) + 4,
         minY: 0,
         gridData: const FlGridData(drawVerticalLine: false),
         borderData: FlBorderData(show: false),
@@ -60,8 +71,10 @@ class MyBarGraph extends HookConsumerWidget {
                   BarChartGroupData(x: data.x, barRods: [
                     BarChartRodData(
                       toY: data.y,
-                      color: isTouched ? Colors.red : Colors.grey[800],
-                      width: 25,
+                      color: isTouched
+                          ? theme.focusColor
+                          : theme.primaryColorLight,
+                      width: width,
                       borderRadius: const BorderRadius.vertical(
                         bottom: Radius.circular(0),
                         top: Radius.circular(4),
@@ -73,7 +86,7 @@ class MyBarGraph extends HookConsumerWidget {
             .toList(),
         barTouchData: BarTouchData(
             touchTooltipData: BarTouchTooltipData(
-              tooltipBgColor: Colors.blueGrey,
+              tooltipBgColor: theme.primaryColorLight,
               getTooltipItem: (group, groupIndex, rod, rodIndex) {
                 return BarTooltipItem(
                     rod.toY.round().toString(),
@@ -126,6 +139,7 @@ class GetBottomTitles extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final appLocalizations = AppLocalizations.of(context)!;
     final theme = Theme.of(context);
+    final analysisState = ref.watch(analysisViewModelProvider);
 
     final style =
         theme.textTheme.bodySmall!.copyWith(color: theme.primaryColorLight);
@@ -133,8 +147,12 @@ class GetBottomTitles extends ConsumerWidget {
 
     switch (mode) {
       case DisplayMode.month:
-        // 月モードの場合、週のラベルを表示
-        widget = Text("Week ${value.toInt() + 1}", style: style);
+        switch (appLocalizations.localeName) {
+          case "en":
+            widget = Text("Week ${value.toInt() + 1}", style: style);
+          default:
+            widget = Text("第${value.toInt() + 1}週", style: style);
+        }
         break;
       case DisplayMode.year:
         // 年モードの場合、月のラベルを表示
@@ -152,15 +170,21 @@ class GetBottomTitles extends ConsumerWidget {
           appLocalizations.november,
           appLocalizations.december,
         ];
-        widget = Text(months[value.toInt()], style: style);
+        switch (appLocalizations.localeName) {
+          case "en":
+            widget = Text(months[value.toInt()],
+                style: style.copyWith(fontSize: 13));
+          default:
+            widget = Text(months[value.toInt()], style: style);
+        }
         break;
       default:
         // 週モードの場合、日付と曜日のラベルを表示
-        final DateTime firstDayOfWeek =
-            DateTime.now().subtract(Duration(days: DateTime.now().weekday - 1));
+        final DateTime firstDayOfWeek = analysisState.range[0]
+            .subtract(Duration(days: analysisState.range[0].weekday - 1));
         final DateTime targetDate =
             firstDayOfWeek.add(Duration(days: value.toInt()));
-        final int weekDayIndex = targetDate.weekday % 7;
+        final int weekDayIndex = targetDate.weekday - 1;
         final List<String> weekDays = [
           appLocalizations.monday,
           appLocalizations.tuesday,

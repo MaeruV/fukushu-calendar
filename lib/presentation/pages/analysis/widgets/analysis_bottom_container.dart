@@ -1,10 +1,10 @@
 import 'package:ebbinghaus_forgetting_curve/application/state/analysis/analysis_view_model.dart';
 import 'package:ebbinghaus_forgetting_curve/application/usecases/task/state/tasks_provider.dart';
-import 'package:ebbinghaus_forgetting_curve/presentation/common/date_time_extension.dart';
 import 'package:ebbinghaus_forgetting_curve/presentation/pages/analysis/widgets/completed/comp_list_view.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:intl/intl.dart';
 
 class AnalysisBottomContainer extends ConsumerWidget {
   const AnalysisBottomContainer({super.key});
@@ -15,57 +15,138 @@ class AnalysisBottomContainer extends ConsumerWidget {
     final theme = Theme.of(context);
     final appLocalizations = AppLocalizations.of(context)!;
 
-    DateTime? time;
-    state.indexTapped != null
-        ? time = state.range[0].add(Duration(days: state.indexTapped!))
-        : time = null;
-
-    final config = ref.watch(compDayDataProvider(time: time));
+    final config =
+        ref.watch(fetchDataForPeriodProvider(times: state.dateTimeTapped));
 
     switch (config) {
       case AsyncError(:final error):
         return Text('Error: $error');
 
       case AsyncLoading():
-        return const CircularProgressIndicator();
+        return const Center(
+            child: SizedBox(
+                height: 50, width: 50, child: CircularProgressIndicator()));
 
       case AsyncData(:final value):
         Widget widget;
-        time != null
-            ? widget = SingleChildScrollView(
-                child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(time.toSimpleFormat(appLocalizations.date),
-                            style: theme.textTheme.titleSmall!),
-                        RichText(
-                          text: TextSpan(
-                              text: value.length.toString(),
-                              style: theme.textTheme.titleSmall!
-                                  .copyWith(color: theme.primaryColorLight),
-                              children: [
-                                TextSpan(
-                                  text: " ${appLocalizations.task}",
-                                  style: theme.textTheme.bodySmall!,
-                                )
-                              ]),
-                        ),
-                      ],
-                    ),
+        if (state.dateTimeTapped.isNotEmpty) {
+          widget = SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 15),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      AnalysisBottomTitleWidget(times: state.dateTimeTapped),
+                      RichText(
+                        text: TextSpan(
+                            text: value.length.toString(),
+                            style: theme.textTheme.titleSmall!
+                                .copyWith(color: theme.primaryColorLight),
+                            children: [
+                              TextSpan(
+                                text: " ${appLocalizations.task}",
+                                style: theme.textTheme.bodySmall!,
+                              )
+                            ]),
+                      ),
+                    ],
                   ),
-                  CompListView(dateTime: time, taskDates: value),
-                ],
-              ))
-            : widget = const SizedBox.shrink();
+                ),
+                const SizedBox(height: 10),
+                CompListView(
+                    dateTime: state.dateTimeTapped[0], taskDates: value)
+              ],
+            ),
+          );
+        } else {
+          widget = Align(
+            alignment: Alignment.topCenter,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 15),
+              child: AnalysisBottomTitleWidget(times: state.range),
+            ),
+          );
+        }
         return widget;
-
       default:
-        return const CircularProgressIndicator();
+        return const Center(
+            child: SizedBox(
+                height: 50, width: 50, child: CircularProgressIndicator()));
+    }
+  }
+}
+
+class AnalysisBottomTitleWidget extends ConsumerWidget {
+  const AnalysisBottomTitleWidget({super.key, required this.times});
+  final List<DateTime> times;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final state = ref.watch(analysisViewModelProvider);
+    final theme = Theme.of(context);
+    final style = theme.textTheme.titleSmall;
+    final appLocalizations = AppLocalizations.of(context)!;
+
+    // 日付範囲をフォーマットする共通関数
+    Widget formatDateRange(DateTime start, DateTime end) {
+      switch (appLocalizations.date) {
+        case "en_US":
+          final startFormat = DateFormat("MMMM d", "en_US").format(start);
+          final endFormat = DateFormat("d, yyyy", "en_US").format(end);
+          return Row(
+            children: [
+              Text(startFormat, style: style),
+              const Text(" - "),
+              Text(endFormat, style: style),
+            ],
+          );
+        default:
+          final startFormat =
+              DateFormat("yyyy年MMMMd", appLocalizations.localeName)
+                  .format(start);
+          final endFormat = DateFormat("d日", "en_US").format(end);
+          return Row(
+            children: [
+              Text(startFormat, style: style),
+              const Text(" - "),
+              Text(endFormat, style: style),
+            ],
+          );
+      }
+    }
+
+    // DisplayMode.weekの場合のフォーマット
+    Widget formatWeek(DateTime date) {
+      DateFormat dateFormat;
+      switch (appLocalizations.date) {
+        case "en_US":
+          dateFormat = DateFormat("MMMM d, yyyy", appLocalizations.localeName);
+        default:
+          dateFormat = DateFormat("yyyy年MMMMd日", appLocalizations.localeName);
+      }
+
+      return Align(
+          alignment: Alignment.topLeft,
+          child: Text(dateFormat.format(date), style: style));
+    }
+
+    // DisplayModeに基づいて表示を切り替え
+    switch (state.displayMode) {
+      case DisplayMode.week:
+        if (state.dateTimeTapped.isNotEmpty) {
+          return formatWeek(times[0]);
+        } else {
+          return formatDateRange(times[0], times[1]);
+        }
+      case DisplayMode.month:
+        return formatDateRange(times[0], times[1]);
+      case DisplayMode.year:
+        return formatDateRange(times[0], times[1]);
+      default:
+        return Container();
     }
   }
 }

@@ -37,8 +37,12 @@ class FABBottomAppBar extends HookConsumerWidget {
     final _selectedIndex = useState(0);
 
     updateIndex(int index) {
-      onTabSelected(index);
-      _selectedIndex.value = index;
+      if (index != 2) {
+        onTabSelected(index);
+        _selectedIndex.value = index;
+      } else {
+        onTabSelected(index);
+      }
     }
 
     List<Widget> items = List.generate(this.items.length, (int index) {
@@ -49,7 +53,6 @@ class FABBottomAppBar extends HookConsumerWidget {
         selectedIndex: _selectedIndex.value,
       );
     });
-    items.insert(items.length >> 1, _buildMiddleTabItem());
 
     return BottomAppBar(
       color: backgroundColor,
@@ -61,25 +64,6 @@ class FABBottomAppBar extends HookConsumerWidget {
     );
   }
 
-  Widget _buildMiddleTabItem() {
-    return Expanded(
-      child: SizedBox(
-        height: height,
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            SizedBox(height: iconSize),
-            Text(
-              centerItemText,
-              style: TextStyle(color: color),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
   Widget _buildTabItem({
     required FABBottomAppBarItem item,
     required int index,
@@ -87,27 +71,64 @@ class FABBottomAppBar extends HookConsumerWidget {
     required int selectedIndex,
   }) {
     Color itemColor = selectedIndex == index ? selectedColor : color;
-    return Expanded(
-      child: SizedBox(
-        height: height,
+    if (index == 2) {
+      return Expanded(
         child: Material(
-          type: MaterialType.transparency,
           child: InkWell(
             onTap: () => onPressed(index),
             child: Column(
               mainAxisSize: MainAxisSize.min,
               mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                Icon(item.iconData, color: itemColor, size: iconSize),
-                Text(
-                  item.text,
-                  style: TextStyle(color: itemColor, fontSize: 13),
-                )
+              children: [
+                Container(
+                  width: 40,
+                  height: 40,
+                  alignment: Alignment.center,
+                  decoration: BoxDecoration(
+                    border: Border.all(width: 1.5, color: Colors.grey),
+                    shape: BoxShape.circle,
+                  ),
+                  child: Icon(
+                    item.iconData,
+                    color: Colors.grey,
+                    size: 30,
+                  ),
+                ),
               ],
             ),
           ),
         ),
-      ),
-    );
+      );
+    } else {
+      return Expanded(
+        child: SizedBox(
+          height: height,
+          child: Material(
+            type: MaterialType.transparency,
+            child: InkWell(
+              onTap: () => onPressed(index),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: <Widget>[
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  SizedBox(
+                      height: 40,
+                      child: Icon(item.iconData,
+                          color: itemColor, size: iconSize)),
+                  Expanded(
+                    child: Text(
+                      item.text,
+                      style: TextStyle(color: itemColor, fontSize: 10),
+                    ),
+                  )
+                ],
+              ),
+            ),
+          ),
+        ),
+      );
+    }
   }
 }

@@ -18,7 +18,7 @@ final _privateConstructorUsedError = UnsupportedError(
 mixin _$AnalysisState {
   List<DateTime> get range => throw _privateConstructorUsedError;
   int? get indexTapped => throw _privateConstructorUsedError;
-  DateTime? get dateTimeTapped => throw _privateConstructorUsedError;
+  List<DateTime> get dateTimeTapped => throw _privateConstructorUsedError;
   DisplayMode get displayMode => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
@@ -35,7 +35,7 @@ abstract class $AnalysisStateCopyWith<$Res> {
   $Res call(
       {List<DateTime> range,
       int? indexTapped,
-      DateTime? dateTimeTapped,
+      List<DateTime> dateTimeTapped,
       DisplayMode displayMode});
 }
 
@@ -54,7 +54,7 @@ class _$AnalysisStateCopyWithImpl<$Res, $Val extends AnalysisState>
   $Res call({
     Object? range = null,
     Object? indexTapped = freezed,
-    Object? dateTimeTapped = freezed,
+    Object? dateTimeTapped = null,
     Object? displayMode = null,
   }) {
     return _then(_value.copyWith(
@@ -66,10 +66,10 @@ class _$AnalysisStateCopyWithImpl<$Res, $Val extends AnalysisState>
           ? _value.indexTapped
           : indexTapped // ignore: cast_nullable_to_non_nullable
               as int?,
-      dateTimeTapped: freezed == dateTimeTapped
+      dateTimeTapped: null == dateTimeTapped
           ? _value.dateTimeTapped
           : dateTimeTapped // ignore: cast_nullable_to_non_nullable
-              as DateTime?,
+              as List<DateTime>,
       displayMode: null == displayMode
           ? _value.displayMode
           : displayMode // ignore: cast_nullable_to_non_nullable
@@ -89,7 +89,7 @@ abstract class _$$AnalysisStateImplCopyWith<$Res>
   $Res call(
       {List<DateTime> range,
       int? indexTapped,
-      DateTime? dateTimeTapped,
+      List<DateTime> dateTimeTapped,
       DisplayMode displayMode});
 }
 
@@ -106,7 +106,7 @@ class __$$AnalysisStateImplCopyWithImpl<$Res>
   $Res call({
     Object? range = null,
     Object? indexTapped = freezed,
-    Object? dateTimeTapped = freezed,
+    Object? dateTimeTapped = null,
     Object? displayMode = null,
   }) {
     return _then(_$AnalysisStateImpl(
@@ -118,10 +118,10 @@ class __$$AnalysisStateImplCopyWithImpl<$Res>
           ? _value.indexTapped
           : indexTapped // ignore: cast_nullable_to_non_nullable
               as int?,
-      dateTimeTapped: freezed == dateTimeTapped
-          ? _value.dateTimeTapped
+      dateTimeTapped: null == dateTimeTapped
+          ? _value._dateTimeTapped
           : dateTimeTapped // ignore: cast_nullable_to_non_nullable
-              as DateTime?,
+              as List<DateTime>,
       displayMode: null == displayMode
           ? _value.displayMode
           : displayMode // ignore: cast_nullable_to_non_nullable
@@ -138,9 +138,10 @@ class _$AnalysisStateImpl
   const _$AnalysisStateImpl(
       {required final List<DateTime> range,
       required this.indexTapped,
-      required this.dateTimeTapped,
+      required final List<DateTime> dateTimeTapped,
       required this.displayMode})
-      : _range = range;
+      : _range = range,
+        _dateTimeTapped = dateTimeTapped;
 
   final List<DateTime> _range;
   @override
@@ -152,8 +153,14 @@ class _$AnalysisStateImpl
 
   @override
   final int? indexTapped;
+  final List<DateTime> _dateTimeTapped;
   @override
-  final DateTime? dateTimeTapped;
+  List<DateTime> get dateTimeTapped {
+    if (_dateTimeTapped is EqualUnmodifiableListView) return _dateTimeTapped;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_dateTimeTapped);
+  }
+
   @override
   final DisplayMode displayMode;
 
@@ -181,8 +188,8 @@ class _$AnalysisStateImpl
             const DeepCollectionEquality().equals(other._range, _range) &&
             (identical(other.indexTapped, indexTapped) ||
                 other.indexTapped == indexTapped) &&
-            (identical(other.dateTimeTapped, dateTimeTapped) ||
-                other.dateTimeTapped == dateTimeTapped) &&
+            const DeepCollectionEquality()
+                .equals(other._dateTimeTapped, _dateTimeTapped) &&
             (identical(other.displayMode, displayMode) ||
                 other.displayMode == displayMode));
   }
@@ -192,7 +199,7 @@ class _$AnalysisStateImpl
       runtimeType,
       const DeepCollectionEquality().hash(_range),
       indexTapped,
-      dateTimeTapped,
+      const DeepCollectionEquality().hash(_dateTimeTapped),
       displayMode);
 
   @JsonKey(ignore: true)
@@ -206,7 +213,7 @@ abstract class _AnalysisState implements AnalysisState {
   const factory _AnalysisState(
       {required final List<DateTime> range,
       required final int? indexTapped,
-      required final DateTime? dateTimeTapped,
+      required final List<DateTime> dateTimeTapped,
       required final DisplayMode displayMode}) = _$AnalysisStateImpl;
 
   @override
@@ -214,7 +221,7 @@ abstract class _AnalysisState implements AnalysisState {
   @override
   int? get indexTapped;
   @override
-  DateTime? get dateTimeTapped;
+  List<DateTime> get dateTimeTapped;
   @override
   DisplayMode get displayMode;
   @override

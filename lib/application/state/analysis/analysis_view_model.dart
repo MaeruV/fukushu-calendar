@@ -13,7 +13,7 @@ class AnalysisViewModel extends _$AnalysisViewModel {
     return AnalysisState(
       range: initializeWeeks(),
       indexTapped: null,
-      dateTimeTapped: null,
+      dateTimeTapped: [],
       displayMode: DisplayMode.week,
     );
   }
@@ -84,12 +84,36 @@ class AnalysisViewModel extends _$AnalysisViewModel {
         break;
     }
 
-    state = state.copyWith(range: newRange);
+    state = state.copyWith(
+      range: newRange,
+      indexTapped: null,
+      dateTimeTapped: [],
+    );
   }
 
   void barIndexTapped(int index) {
-    final time = state.range[0].add(Duration(days: index));
-    state = state.copyWith(indexTapped: index, dateTimeTapped: time);
+    DateTime startDate;
+    DateTime endDate;
+
+    switch (state.displayMode) {
+      case DisplayMode.week:
+        startDate = state.range[0].add(Duration(days: index));
+        endDate = startDate.add(const Duration(days: 1));
+        break;
+      case DisplayMode.month:
+        // 月モードの場合、タップされた週の開始日と終了日を計算
+        startDate = state.range[0].add(Duration(days: index * 7));
+        endDate = startDate.add(const Duration(days: 6));
+        break;
+      case DisplayMode.year:
+        // 年モードの場合、タップされた月の開始日と終了日を計算
+        startDate = DateTime(state.range[0].year, index + 1, 1);
+        endDate = DateTime(state.range[0].year, index + 2, 0);
+        break;
+    }
+
+    state = state
+        .copyWith(indexTapped: index, dateTimeTapped: [startDate, endDate]);
   }
 
   void setDisplayMode(DisplayMode mode) {
@@ -98,7 +122,7 @@ class AnalysisViewModel extends _$AnalysisViewModel {
     switch (mode) {
       case DisplayMode.week:
         var startWeek = now.subtract(Duration(days: now.weekday - 1));
-        var endWeek = startWeek.add(Duration(days: 6));
+        var endWeek = startWeek.add(const Duration(days: 6));
         newRange = [startWeek, endWeek];
         break;
       case DisplayMode.month:
@@ -112,6 +136,11 @@ class AnalysisViewModel extends _$AnalysisViewModel {
         newRange = [startYear, endYear];
         break;
     }
-    state = state.copyWith(displayMode: mode, range: newRange);
+    state = state.copyWith(
+      displayMode: mode,
+      range: newRange,
+      indexTapped: null,
+      dateTimeTapped: [],
+    );
   }
 }

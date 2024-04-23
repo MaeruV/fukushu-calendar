@@ -20,18 +20,23 @@ final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   final isar = await initializeIsar();
-
-  return runApp(
-    ProviderScope(
-      overrides: [
-        taskRepositoryProvider
-            .overrideWithValue(TaskEventRepositoryImpl(isar: isar)),
-        othersRepositoryProvider
-            .overrideWithValue(OtherRepositoryImpl(isar: isar)),
-      ],
-      child: const App(),
-    ),
-  );
+  SystemChrome.setPreferredOrientations([
+    // 縦向き
+    DeviceOrientation.portraitUp,
+    DeviceOrientation.portraitDown,
+  ]).then((_) {
+    return runApp(
+      ProviderScope(
+        overrides: [
+          taskRepositoryProvider
+              .overrideWithValue(TaskEventRepositoryImpl(isar: isar)),
+          othersRepositoryProvider
+              .overrideWithValue(OtherRepositoryImpl(isar: isar)),
+        ],
+        child: const App(),
+      ),
+    );
+  });
 }
 
 Future<Isar> initializeIsar() async {

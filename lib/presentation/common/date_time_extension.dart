@@ -34,6 +34,10 @@ extension DateTimeJapaneseFormat on DateTime {
     }
   }
 
+  bool isSameDayAs(DateTime other) {
+    return year == other.year && month == other.month && day == other.day;
+  }
+
   String toYMDFormat() {
     return DateFormat('yyyy/M/d').format(this);
   }
@@ -59,9 +63,35 @@ extension DateTimeJapaneseFormat on DateTime {
       case 'en_US':
         return DateFormat('MMMM yyyy', date).format(this);
       case 'ja_JP':
-        return DateFormat('yyyy MMMM ', date).format(this);
+        return DateFormat('yyyy年MMMM', date).format(this);
       default:
-        return DateFormat('MMMM yyyy', 'ja_JP').format(this);
+        return DateFormat('MMMM yyyy', 'en_US').format(this);
+    }
+  }
+
+  String toYFormat(String date) {
+    switch (date) {
+      case 'en_US':
+        return DateFormat('MMMM', date).format(this);
+
+      case 'ja_JP':
+        return DateFormat('MMMM', date).format(this);
+
+      default:
+        return DateFormat('MMMM', 'ja_JP').format(this);
+    }
+  }
+
+  String toDFormat(String date) {
+    switch (date) {
+      case 'en_US':
+        return DateFormat('d', date).format(this);
+
+      case 'ja_JP':
+        return DateFormat('d', date).format(this);
+
+      default:
+        return DateFormat('d', 'ja_JP').format(this);
     }
   }
 }

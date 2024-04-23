@@ -9,7 +9,7 @@ class AnalysisState with _$AnalysisState {
   const factory AnalysisState({
     required List<DateTime> range,
     required int? indexTapped,
-    required DateTime? dateTimeTapped,
+    required List<DateTime> dateTimeTapped,
     required DisplayMode displayMode,
   }) = _AnalysisState;
 }

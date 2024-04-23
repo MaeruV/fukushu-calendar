@@ -17,12 +17,6 @@ Future<Map<DateTime, List<Task>>> taskDates(TasksRef ref) async {
   return ref.watch(taskUsecaseProvider).fetchAll();
 }
 
-// @riverpod
-// Future<Map<DateTime, List<TaskDate>>> compTaskDates(
-//     CompTaskDatesRef ref) async {
-//   return ref.watch(taskUsecaseProvider).fetchCompTaskAll();
-// }
-
 @riverpod
 Future<Map<DateTime, List<TaskDate>>> compWeekData(CompWeekDataRef ref,
     {required List<DateTime> weeks}) async {
@@ -30,9 +24,9 @@ Future<Map<DateTime, List<TaskDate>>> compWeekData(CompWeekDataRef ref,
 }
 
 @riverpod
-Future<List<TaskDate>> compDayData(CompDayDataRef ref,
-    {required DateTime? time}) async {
-  return ref.watch(taskUsecaseProvider).fetchCompDayData(time);
+Future<List<TaskDate>> fetchDataForPeriod(FetchDataForPeriodRef ref,
+    {required List<DateTime> times}) async {
+  return ref.watch(taskUsecaseProvider).fetchDataForPeriod(times);
 }
 
 //一時起きタスク

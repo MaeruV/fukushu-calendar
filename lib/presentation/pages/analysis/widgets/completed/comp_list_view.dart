@@ -2,7 +2,6 @@ import 'package:ebbinghaus_forgetting_curve/application/state/analysis/analysis_
 import 'package:ebbinghaus_forgetting_curve/application/usecases/task/task_usecase.dart';
 import 'package:ebbinghaus_forgetting_curve/domain/entities/task.dart';
 import 'package:ebbinghaus_forgetting_curve/presentation/common/date_extension.dart';
-import 'package:ebbinghaus_forgetting_curve/presentation/common/date_time_extension.dart';
 import 'package:ebbinghaus_forgetting_curve/presentation/presentation_mixin.dart';
 import 'package:ebbinghaus_forgetting_curve/presentation/theme/colors.dart';
 import 'package:ebbinghaus_forgetting_curve/presentation/theme/fonts.dart';
@@ -32,22 +31,7 @@ class CompListView extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final appLocalizations = AppLocalizations.of(context)!;
-    final theme = Theme.of(context);
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: <Widget>[
-        Padding(
-          padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
-          child: Text(
-            dateTime.toRelativeJapaneseFormat(appLocalizations.date),
-            style:
-                theme.textTheme.titleMedium!.copyWith(color: todayColor(theme)),
-          ),
-        ),
-        CompListWidget(taskDates: taskDates, dateTime: dateTime),
-      ],
-    );
+    return CompListWidget(taskDates: taskDates, dateTime: dateTime);
   }
 }
 
@@ -62,6 +46,7 @@ class CompListWidget extends ConsumerWidget with PresentationMixin {
   Widget build(BuildContext context, WidgetRef ref) {
     final theme = Theme.of(context);
     final appLocalizations = AppLocalizations.of(context)!;
+    final analysisState = ref.watch(analysisViewModelProvider);
 
     return Column(
       children: taskDates.map((taskDate) {
@@ -127,10 +112,8 @@ class CompListWidget extends ConsumerWidget with PresentationMixin {
                                 ref.read(taskUsecaseProvider).saveTaskDate(
                                       taskDate: taskDate,
                                       flag: flag,
-                                      time: dateTime,
-                                      weeks: ref
-                                          .watch(analysisViewModelProvider)
-                                          .range,
+                                      time: analysisState.dateTimeTapped,
+                                      weeks: analysisState.range,
                                     );
                               }
                             });

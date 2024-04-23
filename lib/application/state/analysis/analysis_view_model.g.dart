@@ -6,7 +6,7 @@ part of 'analysis_view_model.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$analysisViewModelHash() => r'20c81a562f3050578d9e36997af952e12a22af01';
+String _$analysisViewModelHash() => r'1ae42391100d72cba695dfa1bd10c868ff427f48';
 
 /// See also [AnalysisViewModel].
 @ProviderFor(AnalysisViewModel)

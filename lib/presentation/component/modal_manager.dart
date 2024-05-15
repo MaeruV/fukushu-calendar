@@ -97,6 +97,7 @@ class ModalManager {
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(10),
       ),
+      enableDrag: true,
       isScrollControlled: true,
       context: context,
       builder: (ct) => AddTaskModalScreen(

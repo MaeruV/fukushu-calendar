@@ -5,7 +5,7 @@
 		<key>CFBundleDevelopmentRegion</key>
 		<string>$(DEVELOPMENT_LANGUAGE)</string>
 		<key>CFBundleDisplayName</key>
-		<string>Ebbinghaus Forgetting Curve</string>
+		<string>復習カレンダー</string>
 		<key>CFBundleExecutable</key>
 		<string>$(EXECUTABLE_NAME)</string>
 		<key>CFBundleIdentifier</key>
@@ -50,6 +50,6 @@
 		<key>UIViewControllerBasedStatusBarAppearance</key>
 		<false/>
 		<key>PermissionGroupNotification</key>
-        <string>ローカル通知をするため</string>
+		<string>ローカル通知をするため</string>
 	</dict>
 </plist>

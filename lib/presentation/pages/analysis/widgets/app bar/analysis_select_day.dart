@@ -20,9 +20,6 @@ class AnalysisSelectDay extends ConsumerWidget {
       case DisplayMode.week:
         text = appLocalizations.week;
         break;
-      case DisplayMode.month:
-        text = appLocalizations.month;
-        break;
       case DisplayMode.year:
         text = appLocalizations.year;
         break;
@@ -43,14 +40,17 @@ class AnalysisSelectDay extends ConsumerWidget {
       onTap: () =>
           ref.read(analysisViewModelProvider.notifier).setDisplayMode(mode),
       child: Container(
+        height: 30,
         padding: const EdgeInsets.symmetric(vertical: 2, horizontal: 10),
         decoration: BoxDecoration(
           color: backgroundColor,
           borderRadius: const BorderRadius.all(Radius.circular(3)),
         ),
-        child: Text(
-          text,
-          style: style,
+        child: Center(
+          child: Text(
+            text,
+            style: style,
+          ),
         ),
       ),
     );

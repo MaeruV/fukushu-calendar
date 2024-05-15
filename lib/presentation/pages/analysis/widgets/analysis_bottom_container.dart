@@ -1,6 +1,9 @@
 import 'package:ebbinghaus_forgetting_curve/application/state/analysis/analysis_view_model.dart';
 import 'package:ebbinghaus_forgetting_curve/application/usecases/task/state/tasks_provider.dart';
-import 'package:ebbinghaus_forgetting_curve/presentation/pages/analysis/widgets/completed/comp_list_view.dart';
+import 'package:ebbinghaus_forgetting_curve/domain/entities/task.dart';
+import 'package:ebbinghaus_forgetting_curve/presentation/pages/analysis/widgets/app%20bar/analysis_select_data.dart';
+import 'package:ebbinghaus_forgetting_curve/presentation/pages/analysis/widgets/completed/comp_event_list_view.dart';
+import 'package:ebbinghaus_forgetting_curve/presentation/pages/analysis/widgets/completed/comp_task_list_view.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -14,9 +17,21 @@ class AnalysisBottomContainer extends ConsumerWidget {
     final state = ref.watch(analysisViewModelProvider);
     final theme = Theme.of(context);
     final appLocalizations = AppLocalizations.of(context)!;
+    final dataState = ref.watch(dataModeProvider);
+    AsyncValue<List<dynamic>> config;
+    String modeText;
 
-    final config =
-        ref.watch(fetchDataForPeriodProvider(times: state.dateTimeTapped));
+    switch (dataState) {
+      case DataMode.tasks:
+        config =
+            ref.watch(fetchDataForTappedProvider(times: state.dateTimeTapped));
+        modeText = appLocalizations.lowercase_task;
+
+      default:
+        config = ref.watch(
+            fetchCompEventForTappedProvider(times: state.dateTimeTapped));
+        modeText = appLocalizations.lowercase_event;
+    }
 
     switch (config) {
       case AsyncError(:final error):
@@ -47,7 +62,7 @@ class AnalysisBottomContainer extends ConsumerWidget {
                                 .copyWith(color: theme.primaryColorLight),
                             children: [
                               TextSpan(
-                                text: " ${appLocalizations.task}",
+                                text: " $modeText",
                                 style: theme.textTheme.bodySmall!,
                               )
                             ]),
@@ -56,8 +71,13 @@ class AnalysisBottomContainer extends ConsumerWidget {
                   ),
                 ),
                 const SizedBox(height: 10),
-                CompListView(
-                    dateTime: state.dateTimeTapped[0], taskDates: value)
+                dataState == DataMode.tasks
+                    ? CompListView(
+                        dateTime: state.dateTimeTapped[0],
+                        taskDates: value as List<TaskDate>)
+                    : CompEventListView(
+                        dateTime: state.dateTimeTapped[0],
+                        tasks: value as List<Task>)
               ],
             ),
           );
@@ -107,7 +127,8 @@ class AnalysisBottomTitleWidget extends ConsumerWidget {
           final startFormat =
               DateFormat("yyyy年MMMMd", appLocalizations.localeName)
                   .format(start);
-          final endFormat = DateFormat("d日", "en_US").format(end);
+          final endFormat =
+              DateFormat("MMMMd", appLocalizations.localeName).format(end);
           return Row(
             children: [
               Text(startFormat, style: style),
@@ -141,8 +162,6 @@ class AnalysisBottomTitleWidget extends ConsumerWidget {
         } else {
           return formatDateRange(times[0], times[1]);
         }
-      case DisplayMode.month:
-        return formatDateRange(times[0], times[1]);
       case DisplayMode.year:
         return formatDateRange(times[0], times[1]);
       default:

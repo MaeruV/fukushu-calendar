@@ -29,7 +29,7 @@ class CheckTaskStartDay extends ConsumerWidget {
         ),
         Text(
           date.toSimpleFormat(appLocalizations.date),
-          style: BrandText.bodyM.copyWith(color: BrandColor.deleteRed),
+          style: BrandText.bodyM.copyWith(color: BrandColor.blue),
         ),
       ],
     );

@@ -3,6 +3,7 @@ import 'package:ebbinghaus_forgetting_curve/application/usecases/task/state/task
 import 'package:ebbinghaus_forgetting_curve/application/usecases/task/task_usecase.dart';
 import 'package:ebbinghaus_forgetting_curve/domain/entities/calendar_event.dart';
 import 'package:ebbinghaus_forgetting_curve/presentation/common/date_extension.dart';
+import 'package:ebbinghaus_forgetting_curve/presentation/common/review_range_extension.dart';
 import 'package:ebbinghaus_forgetting_curve/presentation/presentation_mixin.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -20,95 +21,90 @@ class CalendarListTile extends HookConsumerWidget with PresentationMixin {
     final state = ref.watch(analysisViewModelProvider);
 
     return Column(
-      children: events
-          .map(
-            (event) => switch (
-                ref.watch(tempTaskDateProvider(taskDate: event.taskDate))) {
-              AsyncError(:final error) => Text('Error: $error'),
-              AsyncData(:final value) => Card(
-                  shape: const RoundedRectangleBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(8.0))),
-                  elevation: Theme.of(context).brightness == Brightness.dark
-                      ? 8.0
-                      : 1.0,
-                  color: theme.cardColor,
-                  margin:
-                      const EdgeInsets.symmetric(horizontal: 0, vertical: 5),
-                  child: IntrinsicHeight(
-                    child: Row(
-                      children: <Widget>[
-                        value != null
-                            ? Container(
-                                width: 10,
-                                decoration: BoxDecoration(
-                                  borderRadius: const BorderRadius.only(
-                                      topLeft: Radius.circular(8),
-                                      bottomLeft: Radius.circular(8)),
-                                  color: event.eventBackgroundColor,
-                                ),
-                              )
-                            : Center(
-                                child: Container(
-                                  margin: const EdgeInsets.only(left: 10),
-                                  height: 10,
-                                  width: 10,
-                                  decoration: BoxDecoration(
-                                    shape: BoxShape.circle,
-                                    color: event.eventBackgroundColor,
-                                  ),
-                                ),
-                              ),
-                        const SizedBox(width: 10),
-                        Expanded(
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(
-                                vertical: 10.0, horizontal: 10),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: <Widget>[
-                                Text(
-                                  event.eventName,
-                                  style: theme.textTheme.bodyMedium,
-                                ),
-                                Text(
-                                  value != null
-                                      ? value.daysInterval
-                                          .toformatDay(appLocalizations.date)
-                                      : appLocalizations.start_date,
-                                  style: theme.textTheme.bodySmall!
-                                      .copyWith(color: Colors.grey),
-                                ),
-                              ],
-                            ),
+      children: events.map(
+        (event) {
+          final formatRange =
+              "${event.firstRange} ${event.secoundRange != null ? "- ${event.secoundRange}" : ""} ${event.rangeType.updateSelectionText(appLocalizations)}";
+          return switch (
+              ref.watch(tempTaskDateProvider(taskDate: event.taskDate))) {
+            AsyncError(:final error) => Text('Error: $error'),
+            AsyncData(:final value) => Card(
+                shape: const RoundedRectangleBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(8.0))),
+                elevation:
+                    Theme.of(context).brightness == Brightness.dark ? 8.0 : 1.0,
+                color: theme.cardColor,
+                margin: const EdgeInsets.symmetric(horizontal: 0, vertical: 5),
+                child: IntrinsicHeight(
+                  child: Row(
+                    children: <Widget>[
+                      SizedBox(
+                        width: 70,
+                        child: Center(
+                          child: Text(
+                            value != null
+                                ? value.daysInterval
+                                    .toformatDay(appLocalizations.date)
+                                : appLocalizations.start_date,
+                            overflow: TextOverflow.ellipsis,
+                            style: theme.textTheme.bodySmall!
+                                .copyWith(color: theme.primaryColorLight),
                           ),
                         ),
-                        value != null
-                            ? Checkbox(
-                                value: value.checkFlag,
-                                onChanged: (flag) {
-                                  execute(context, action: () async {
-                                    if (flag != null) {
-                                      ref
-                                          .read(taskUsecaseProvider)
-                                          .saveTaskDate(
-                                            taskDate: value,
-                                            flag: flag,
-                                            time: state.dateTimeTapped,
-                                            weeks: state.range,
-                                          );
-                                    }
-                                  });
-                                },
-                              )
-                            : const SizedBox.shrink(),
-                      ],
-                    ),
+                      ),
+                      Container(
+                        width: 8,
+                        margin: const EdgeInsets.symmetric(vertical: 3.0),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(8.0),
+                          color: event.eventBackgroundColor,
+                        ),
+                      ),
+                      const SizedBox(width: 10),
+                      Expanded(
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(
+                              vertical: 8.0, horizontal: 10),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              Text(
+                                event.eventName,
+                                style: theme.textTheme.bodyMedium,
+                              ),
+                              Text(
+                                formatRange,
+                                style: theme.textTheme.bodySmall,
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                      value != null
+                          ? Checkbox(
+                              value: value.checkFlag,
+                              onChanged: (flag) {
+                                execute(context, action: () async {
+                                  if (flag != null) {
+                                    ref.read(taskUsecaseProvider).saveTaskDate(
+                                          taskDate: value,
+                                          flag: flag,
+                                          time: state.dateTimeTapped,
+                                          weeks: state.range,
+                                        );
+                                  }
+                                });
+                              },
+                            )
+                          : const SizedBox.shrink(),
+                    ],
                   ),
                 ),
-              _ => const CircularProgressIndicator()
-            },
-          )
-          .toList(),
+              ),
+            _ => const CircularProgressIndicator()
+          };
+        },
+      ).toList(),
     );
   }
 }

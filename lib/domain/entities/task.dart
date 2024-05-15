@@ -8,11 +8,21 @@ class Task {
 
   late String title;
 
+  late String rangeType;
+
+  late int firstRange;
+
+  late int? secoundRange;
+
   late DateTime startTime;
 
   late String memo;
 
   late int pallete;
+
+  bool completedEvent = false;
+
+  late DateTime? eventCompDay;
 
   @Backlink(to: 'task')
   final time = IsarLinks<NotificationTask>();

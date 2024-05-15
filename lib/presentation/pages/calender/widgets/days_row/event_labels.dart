@@ -121,7 +121,9 @@ class EventLabel extends ConsumerWidget {
         : theme.brightness == Brightness.dark
             ? Colors.white
             : Colors.black;
-
+    if (event.completedFlag) {
+      return const SizedBox.shrink();
+    }
     return Container(
       height: eventLabelContentHeight.toDouble(),
       margin: const EdgeInsets.only(right: 3),

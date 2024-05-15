@@ -21,6 +21,7 @@ class IntervalAppBar extends ConsumerWidget
 
     return AppBar(
       backgroundColor: theme.canvasColor,
+      elevation: 0.5,
       title: Text(appLocalizations.review_period,
           style: theme.textTheme.titleMedium!
               .copyWith(color: theme.primaryColorLight)),

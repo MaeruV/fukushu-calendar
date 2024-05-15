@@ -17,6 +17,9 @@ final _privateConstructorUsedError = UnsupportedError(
 /// @nodoc
 mixin _$EditState {
   String get title => throw _privateConstructorUsedError;
+  ReviewRange get reviewRange => throw _privateConstructorUsedError;
+  int? get firstRange => throw _privateConstructorUsedError;
+  int? get secoundRange => throw _privateConstructorUsedError;
   String get memo => throw _privateConstructorUsedError;
   DateTime get startTime => throw _privateConstructorUsedError;
   List<int> get intervalDays => throw _privateConstructorUsedError;
@@ -38,6 +41,9 @@ abstract class $EditStateCopyWith<$Res> {
   @useResult
   $Res call(
       {String title,
+      ReviewRange reviewRange,
+      int? firstRange,
+      int? secoundRange,
       String memo,
       DateTime startTime,
       List<int> intervalDays,
@@ -62,6 +68,9 @@ class _$EditStateCopyWithImpl<$Res, $Val extends EditState>
   @override
   $Res call({
     Object? title = null,
+    Object? reviewRange = null,
+    Object? firstRange = freezed,
+    Object? secoundRange = freezed,
     Object? memo = null,
     Object? startTime = null,
     Object? intervalDays = null,
@@ -76,6 +85,18 @@ class _$EditStateCopyWithImpl<$Res, $Val extends EditState>
           ? _value.title
           : title // ignore: cast_nullable_to_non_nullable
               as String,
+      reviewRange: null == reviewRange
+          ? _value.reviewRange
+          : reviewRange // ignore: cast_nullable_to_non_nullable
+              as ReviewRange,
+      firstRange: freezed == firstRange
+          ? _value.firstRange
+          : firstRange // ignore: cast_nullable_to_non_nullable
+              as int?,
+      secoundRange: freezed == secoundRange
+          ? _value.secoundRange
+          : secoundRange // ignore: cast_nullable_to_non_nullable
+              as int?,
       memo: null == memo
           ? _value.memo
           : memo // ignore: cast_nullable_to_non_nullable
@@ -122,6 +143,9 @@ abstract class _$$EditStateImplCopyWith<$Res>
   @useResult
   $Res call(
       {String title,
+      ReviewRange reviewRange,
+      int? firstRange,
+      int? secoundRange,
       String memo,
       DateTime startTime,
       List<int> intervalDays,
@@ -144,6 +168,9 @@ class __$$EditStateImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? title = null,
+    Object? reviewRange = null,
+    Object? firstRange = freezed,
+    Object? secoundRange = freezed,
     Object? memo = null,
     Object? startTime = null,
     Object? intervalDays = null,
@@ -158,6 +185,18 @@ class __$$EditStateImplCopyWithImpl<$Res>
           ? _value.title
           : title // ignore: cast_nullable_to_non_nullable
               as String,
+      reviewRange: null == reviewRange
+          ? _value.reviewRange
+          : reviewRange // ignore: cast_nullable_to_non_nullable
+              as ReviewRange,
+      firstRange: freezed == firstRange
+          ? _value.firstRange
+          : firstRange // ignore: cast_nullable_to_non_nullable
+              as int?,
+      secoundRange: freezed == secoundRange
+          ? _value.secoundRange
+          : secoundRange // ignore: cast_nullable_to_non_nullable
+              as int?,
       memo: null == memo
           ? _value.memo
           : memo // ignore: cast_nullable_to_non_nullable
@@ -199,6 +238,9 @@ class __$$EditStateImplCopyWithImpl<$Res>
 class _$EditStateImpl with DiagnosticableTreeMixin implements _EditState {
   const _$EditStateImpl(
       {required this.title,
+      required this.reviewRange,
+      required this.firstRange,
+      required this.secoundRange,
       required this.memo,
       required this.startTime,
       required final List<int> intervalDays,
@@ -211,6 +253,12 @@ class _$EditStateImpl with DiagnosticableTreeMixin implements _EditState {
 
   @override
   final String title;
+  @override
+  final ReviewRange reviewRange;
+  @override
+  final int? firstRange;
+  @override
+  final int? secoundRange;
   @override
   final String memo;
   @override
@@ -237,7 +285,7 @@ class _$EditStateImpl with DiagnosticableTreeMixin implements _EditState {
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'EditState(title: $title, memo: $memo, startTime: $startTime, intervalDays: $intervalDays, hasTask: $hasTask, pallete: $pallete, time: $time, flagNotification: $flagNotification, hasChanges: $hasChanges)';
+    return 'EditState(title: $title, reviewRange: $reviewRange, firstRange: $firstRange, secoundRange: $secoundRange, memo: $memo, startTime: $startTime, intervalDays: $intervalDays, hasTask: $hasTask, pallete: $pallete, time: $time, flagNotification: $flagNotification, hasChanges: $hasChanges)';
   }
 
   @override
@@ -246,6 +294,9 @@ class _$EditStateImpl with DiagnosticableTreeMixin implements _EditState {
     properties
       ..add(DiagnosticsProperty('type', 'EditState'))
       ..add(DiagnosticsProperty('title', title))
+      ..add(DiagnosticsProperty('reviewRange', reviewRange))
+      ..add(DiagnosticsProperty('firstRange', firstRange))
+      ..add(DiagnosticsProperty('secoundRange', secoundRange))
       ..add(DiagnosticsProperty('memo', memo))
       ..add(DiagnosticsProperty('startTime', startTime))
       ..add(DiagnosticsProperty('intervalDays', intervalDays))
@@ -262,6 +313,12 @@ class _$EditStateImpl with DiagnosticableTreeMixin implements _EditState {
         (other.runtimeType == runtimeType &&
             other is _$EditStateImpl &&
             (identical(other.title, title) || other.title == title) &&
+            (identical(other.reviewRange, reviewRange) ||
+                other.reviewRange == reviewRange) &&
+            (identical(other.firstRange, firstRange) ||
+                other.firstRange == firstRange) &&
+            (identical(other.secoundRange, secoundRange) ||
+                other.secoundRange == secoundRange) &&
             (identical(other.memo, memo) || other.memo == memo) &&
             (identical(other.startTime, startTime) ||
                 other.startTime == startTime) &&
@@ -280,6 +337,9 @@ class _$EditStateImpl with DiagnosticableTreeMixin implements _EditState {
   int get hashCode => Object.hash(
       runtimeType,
       title,
+      reviewRange,
+      firstRange,
+      secoundRange,
       memo,
       startTime,
       const DeepCollectionEquality().hash(_intervalDays),
@@ -299,6 +359,9 @@ class _$EditStateImpl with DiagnosticableTreeMixin implements _EditState {
 abstract class _EditState implements EditState {
   const factory _EditState(
       {required final String title,
+      required final ReviewRange reviewRange,
+      required final int? firstRange,
+      required final int? secoundRange,
       required final String memo,
       required final DateTime startTime,
       required final List<int> intervalDays,
@@ -310,6 +373,12 @@ abstract class _EditState implements EditState {
 
   @override
   String get title;
+  @override
+  ReviewRange get reviewRange;
+  @override
+  int? get firstRange;
+  @override
+  int? get secoundRange;
   @override
   String get memo;
   @override

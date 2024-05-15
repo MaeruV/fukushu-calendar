@@ -19,41 +19,44 @@ class AddTaskInterval extends ConsumerWidget {
 
     return GestureDetector(
       onTap: () => context.push('/interval'),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          Text(
-            appLocalizations.interval,
-            style: theme.textTheme.bodySmall!
-                .copyWith(color: theme.primaryColorLight),
-          ),
-          const SizedBox(height: 5),
-          Container(
-            height: 55,
-            padding: const EdgeInsets.symmetric(horizontal: 10),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(10),
-              border: Border.all(color: BrandColor.grey),
+      child: SizedBox(
+        height: 105,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            Text(
+              appLocalizations.review_period,
+              style: theme.textTheme.bodySmall!
+                  .copyWith(color: theme.primaryColorLight),
             ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Expanded(
-                  child: Text(
-                    formattedIntervals,
-                    style: theme.textTheme.bodySmall!
-                        .copyWith(color: theme.primaryColorLight),
-                    overflow: TextOverflow.ellipsis,
+            const SizedBox(height: 5),
+            Container(
+              height: 55,
+              padding: const EdgeInsets.symmetric(horizontal: 10),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10),
+                border: Border.all(color: BrandColor.grey),
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Expanded(
+                    child: Text(
+                      formattedIntervals,
+                      style: theme.textTheme.bodySmall!
+                          .copyWith(color: theme.primaryColorLight),
+                      overflow: TextOverflow.ellipsis,
+                    ),
                   ),
-                ),
-                const Icon(
-                  Icons.calendar_view_week_rounded,
-                  color: BrandColor.grey,
-                ),
-              ],
+                  const Icon(
+                    Icons.calendar_view_week_rounded,
+                    color: BrandColor.grey,
+                  ),
+                ],
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

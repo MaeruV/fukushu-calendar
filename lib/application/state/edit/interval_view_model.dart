@@ -7,7 +7,7 @@ import '../../config/app_constants.dart';
 
 part 'interval_view_model.g.dart';
 
-@riverpod
+@Riverpod(keepAlive: false)
 class IntervalViewModel extends _$IntervalViewModel {
   @override
   List<int> build() {
@@ -30,7 +30,7 @@ class IntervalViewModel extends _$IntervalViewModel {
       List<int> currentList = List<int>.from(state);
       currentList.add(num);
       currentList.sort();
-      currentList.toSet().toList();
+      currentList = currentList.toSet().toList();
       state = currentList;
     }
   }

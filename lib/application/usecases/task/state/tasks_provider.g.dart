@@ -21,7 +21,7 @@ final tasksProvider =
 );
 
 typedef TasksRef = AutoDisposeFutureProviderRef<Map<DateTime, List<Task>>>;
-String _$taskDatesHash() => r'd5d024cb4115938491695621bada5d1f8391a5d4';
+String _$taskDatesHash() => r'cfc670e44a61e7e1b93009864f0444fff4725853';
 
 /// See also [taskDates].
 @ProviderFor(taskDates)
@@ -36,7 +36,8 @@ final taskDatesProvider =
 );
 
 typedef TaskDatesRef = AutoDisposeFutureProviderRef<Map<DateTime, List<Task>>>;
-String _$compWeekDataHash() => r'18dadbabf61131e9355f2972f01ac609ac3e1778';
+String _$compTaskDataPeriodHash() =>
+    r'db645607bab621e2015936a17e79c7012654ce98';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -59,28 +60,28 @@ class _SystemHash {
   }
 }
 
-/// See also [compWeekData].
-@ProviderFor(compWeekData)
-const compWeekDataProvider = CompWeekDataFamily();
+/// See also [compTaskDataPeriod].
+@ProviderFor(compTaskDataPeriod)
+const compTaskDataPeriodProvider = CompTaskDataPeriodFamily();
 
-/// See also [compWeekData].
-class CompWeekDataFamily
+/// See also [compTaskDataPeriod].
+class CompTaskDataPeriodFamily
     extends Family<AsyncValue<Map<DateTime, List<TaskDate>>>> {
-  /// See also [compWeekData].
-  const CompWeekDataFamily();
+  /// See also [compTaskDataPeriod].
+  const CompTaskDataPeriodFamily();
 
-  /// See also [compWeekData].
-  CompWeekDataProvider call({
+  /// See also [compTaskDataPeriod].
+  CompTaskDataPeriodProvider call({
     required List<DateTime> weeks,
   }) {
-    return CompWeekDataProvider(
+    return CompTaskDataPeriodProvider(
       weeks: weeks,
     );
   }
 
   @override
-  CompWeekDataProvider getProviderOverride(
-    covariant CompWeekDataProvider provider,
+  CompTaskDataPeriodProvider getProviderOverride(
+    covariant CompTaskDataPeriodProvider provider,
   ) {
     return call(
       weeks: provider.weeks,
@@ -99,33 +100,33 @@ class CompWeekDataFamily
       _allTransitiveDependencies;
 
   @override
-  String? get name => r'compWeekDataProvider';
+  String? get name => r'compTaskDataPeriodProvider';
 }
 
-/// See also [compWeekData].
-class CompWeekDataProvider
+/// See also [compTaskDataPeriod].
+class CompTaskDataPeriodProvider
     extends AutoDisposeFutureProvider<Map<DateTime, List<TaskDate>>> {
-  /// See also [compWeekData].
-  CompWeekDataProvider({
+  /// See also [compTaskDataPeriod].
+  CompTaskDataPeriodProvider({
     required List<DateTime> weeks,
   }) : this._internal(
-          (ref) => compWeekData(
-            ref as CompWeekDataRef,
+          (ref) => compTaskDataPeriod(
+            ref as CompTaskDataPeriodRef,
             weeks: weeks,
           ),
-          from: compWeekDataProvider,
-          name: r'compWeekDataProvider',
+          from: compTaskDataPeriodProvider,
+          name: r'compTaskDataPeriodProvider',
           debugGetCreateSourceHash:
               const bool.fromEnvironment('dart.vm.product')
                   ? null
-                  : _$compWeekDataHash,
-          dependencies: CompWeekDataFamily._dependencies,
+                  : _$compTaskDataPeriodHash,
+          dependencies: CompTaskDataPeriodFamily._dependencies,
           allTransitiveDependencies:
-              CompWeekDataFamily._allTransitiveDependencies,
+              CompTaskDataPeriodFamily._allTransitiveDependencies,
           weeks: weeks,
         );
 
-  CompWeekDataProvider._internal(
+  CompTaskDataPeriodProvider._internal(
     super._createNotifier, {
     required super.name,
     required super.dependencies,
@@ -139,13 +140,14 @@ class CompWeekDataProvider
 
   @override
   Override overrideWith(
-    FutureOr<Map<DateTime, List<TaskDate>>> Function(CompWeekDataRef provider)
+    FutureOr<Map<DateTime, List<TaskDate>>> Function(
+            CompTaskDataPeriodRef provider)
         create,
   ) {
     return ProviderOverride(
       origin: this,
-      override: CompWeekDataProvider._internal(
-        (ref) => create(ref as CompWeekDataRef),
+      override: CompTaskDataPeriodProvider._internal(
+        (ref) => create(ref as CompTaskDataPeriodRef),
         from: from,
         name: null,
         dependencies: null,
@@ -159,12 +161,12 @@ class CompWeekDataProvider
   @override
   AutoDisposeFutureProviderElement<Map<DateTime, List<TaskDate>>>
       createElement() {
-    return _CompWeekDataProviderElement(this);
+    return _CompTaskDataPeriodProviderElement(this);
   }
 
   @override
   bool operator ==(Object other) {
-    return other is CompWeekDataProvider && other.weeks == weeks;
+    return other is CompTaskDataPeriodProvider && other.weeks == weeks;
   }
 
   @override
@@ -176,45 +178,180 @@ class CompWeekDataProvider
   }
 }
 
-mixin CompWeekDataRef
+mixin CompTaskDataPeriodRef
     on AutoDisposeFutureProviderRef<Map<DateTime, List<TaskDate>>> {
   /// The parameter `weeks` of this provider.
   List<DateTime> get weeks;
 }
 
-class _CompWeekDataProviderElement
+class _CompTaskDataPeriodProviderElement
     extends AutoDisposeFutureProviderElement<Map<DateTime, List<TaskDate>>>
-    with CompWeekDataRef {
-  _CompWeekDataProviderElement(super.provider);
+    with CompTaskDataPeriodRef {
+  _CompTaskDataPeriodProviderElement(super.provider);
 
   @override
-  List<DateTime> get weeks => (origin as CompWeekDataProvider).weeks;
+  List<DateTime> get weeks => (origin as CompTaskDataPeriodProvider).weeks;
 }
 
-String _$fetchDataForPeriodHash() =>
-    r'daf70b7b1c881da502d0aba60447c013becd4230';
+String _$compEventDataPeriodHash() =>
+    r'afac5f14ff86e5408e15ae94d1c0576630134486';
 
-/// See also [fetchDataForPeriod].
-@ProviderFor(fetchDataForPeriod)
-const fetchDataForPeriodProvider = FetchDataForPeriodFamily();
+/// See also [compEventDataPeriod].
+@ProviderFor(compEventDataPeriod)
+const compEventDataPeriodProvider = CompEventDataPeriodFamily();
 
-/// See also [fetchDataForPeriod].
-class FetchDataForPeriodFamily extends Family<AsyncValue<List<TaskDate>>> {
-  /// See also [fetchDataForPeriod].
-  const FetchDataForPeriodFamily();
+/// See also [compEventDataPeriod].
+class CompEventDataPeriodFamily
+    extends Family<AsyncValue<Map<DateTime, List<Task>>>> {
+  /// See also [compEventDataPeriod].
+  const CompEventDataPeriodFamily();
 
-  /// See also [fetchDataForPeriod].
-  FetchDataForPeriodProvider call({
+  /// See also [compEventDataPeriod].
+  CompEventDataPeriodProvider call({
+    required List<DateTime> weeks,
+  }) {
+    return CompEventDataPeriodProvider(
+      weeks: weeks,
+    );
+  }
+
+  @override
+  CompEventDataPeriodProvider getProviderOverride(
+    covariant CompEventDataPeriodProvider provider,
+  ) {
+    return call(
+      weeks: provider.weeks,
+    );
+  }
+
+  static const Iterable<ProviderOrFamily>? _dependencies = null;
+
+  @override
+  Iterable<ProviderOrFamily>? get dependencies => _dependencies;
+
+  static const Iterable<ProviderOrFamily>? _allTransitiveDependencies = null;
+
+  @override
+  Iterable<ProviderOrFamily>? get allTransitiveDependencies =>
+      _allTransitiveDependencies;
+
+  @override
+  String? get name => r'compEventDataPeriodProvider';
+}
+
+/// See also [compEventDataPeriod].
+class CompEventDataPeriodProvider
+    extends AutoDisposeFutureProvider<Map<DateTime, List<Task>>> {
+  /// See also [compEventDataPeriod].
+  CompEventDataPeriodProvider({
+    required List<DateTime> weeks,
+  }) : this._internal(
+          (ref) => compEventDataPeriod(
+            ref as CompEventDataPeriodRef,
+            weeks: weeks,
+          ),
+          from: compEventDataPeriodProvider,
+          name: r'compEventDataPeriodProvider',
+          debugGetCreateSourceHash:
+              const bool.fromEnvironment('dart.vm.product')
+                  ? null
+                  : _$compEventDataPeriodHash,
+          dependencies: CompEventDataPeriodFamily._dependencies,
+          allTransitiveDependencies:
+              CompEventDataPeriodFamily._allTransitiveDependencies,
+          weeks: weeks,
+        );
+
+  CompEventDataPeriodProvider._internal(
+    super._createNotifier, {
+    required super.name,
+    required super.dependencies,
+    required super.allTransitiveDependencies,
+    required super.debugGetCreateSourceHash,
+    required super.from,
+    required this.weeks,
+  }) : super.internal();
+
+  final List<DateTime> weeks;
+
+  @override
+  Override overrideWith(
+    FutureOr<Map<DateTime, List<Task>>> Function(
+            CompEventDataPeriodRef provider)
+        create,
+  ) {
+    return ProviderOverride(
+      origin: this,
+      override: CompEventDataPeriodProvider._internal(
+        (ref) => create(ref as CompEventDataPeriodRef),
+        from: from,
+        name: null,
+        dependencies: null,
+        allTransitiveDependencies: null,
+        debugGetCreateSourceHash: null,
+        weeks: weeks,
+      ),
+    );
+  }
+
+  @override
+  AutoDisposeFutureProviderElement<Map<DateTime, List<Task>>> createElement() {
+    return _CompEventDataPeriodProviderElement(this);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return other is CompEventDataPeriodProvider && other.weeks == weeks;
+  }
+
+  @override
+  int get hashCode {
+    var hash = _SystemHash.combine(0, runtimeType.hashCode);
+    hash = _SystemHash.combine(hash, weeks.hashCode);
+
+    return _SystemHash.finish(hash);
+  }
+}
+
+mixin CompEventDataPeriodRef
+    on AutoDisposeFutureProviderRef<Map<DateTime, List<Task>>> {
+  /// The parameter `weeks` of this provider.
+  List<DateTime> get weeks;
+}
+
+class _CompEventDataPeriodProviderElement
+    extends AutoDisposeFutureProviderElement<Map<DateTime, List<Task>>>
+    with CompEventDataPeriodRef {
+  _CompEventDataPeriodProviderElement(super.provider);
+
+  @override
+  List<DateTime> get weeks => (origin as CompEventDataPeriodProvider).weeks;
+}
+
+String _$fetchDataForTappedHash() =>
+    r'4ef25fb837b41c560904d9463f13dfac7e095e7f';
+
+/// See also [fetchDataForTapped].
+@ProviderFor(fetchDataForTapped)
+const fetchDataForTappedProvider = FetchDataForTappedFamily();
+
+/// See also [fetchDataForTapped].
+class FetchDataForTappedFamily extends Family<AsyncValue<List<TaskDate>>> {
+  /// See also [fetchDataForTapped].
+  const FetchDataForTappedFamily();
+
+  /// See also [fetchDataForTapped].
+  FetchDataForTappedProvider call({
     required List<DateTime> times,
   }) {
-    return FetchDataForPeriodProvider(
+    return FetchDataForTappedProvider(
       times: times,
     );
   }
 
   @override
-  FetchDataForPeriodProvider getProviderOverride(
-    covariant FetchDataForPeriodProvider provider,
+  FetchDataForTappedProvider getProviderOverride(
+    covariant FetchDataForTappedProvider provider,
   ) {
     return call(
       times: provider.times,
@@ -233,33 +370,33 @@ class FetchDataForPeriodFamily extends Family<AsyncValue<List<TaskDate>>> {
       _allTransitiveDependencies;
 
   @override
-  String? get name => r'fetchDataForPeriodProvider';
+  String? get name => r'fetchDataForTappedProvider';
 }
 
-/// See also [fetchDataForPeriod].
-class FetchDataForPeriodProvider
+/// See also [fetchDataForTapped].
+class FetchDataForTappedProvider
     extends AutoDisposeFutureProvider<List<TaskDate>> {
-  /// See also [fetchDataForPeriod].
-  FetchDataForPeriodProvider({
+  /// See also [fetchDataForTapped].
+  FetchDataForTappedProvider({
     required List<DateTime> times,
   }) : this._internal(
-          (ref) => fetchDataForPeriod(
-            ref as FetchDataForPeriodRef,
+          (ref) => fetchDataForTapped(
+            ref as FetchDataForTappedRef,
             times: times,
           ),
-          from: fetchDataForPeriodProvider,
-          name: r'fetchDataForPeriodProvider',
+          from: fetchDataForTappedProvider,
+          name: r'fetchDataForTappedProvider',
           debugGetCreateSourceHash:
               const bool.fromEnvironment('dart.vm.product')
                   ? null
-                  : _$fetchDataForPeriodHash,
-          dependencies: FetchDataForPeriodFamily._dependencies,
+                  : _$fetchDataForTappedHash,
+          dependencies: FetchDataForTappedFamily._dependencies,
           allTransitiveDependencies:
-              FetchDataForPeriodFamily._allTransitiveDependencies,
+              FetchDataForTappedFamily._allTransitiveDependencies,
           times: times,
         );
 
-  FetchDataForPeriodProvider._internal(
+  FetchDataForTappedProvider._internal(
     super._createNotifier, {
     required super.name,
     required super.dependencies,
@@ -273,12 +410,12 @@ class FetchDataForPeriodProvider
 
   @override
   Override overrideWith(
-    FutureOr<List<TaskDate>> Function(FetchDataForPeriodRef provider) create,
+    FutureOr<List<TaskDate>> Function(FetchDataForTappedRef provider) create,
   ) {
     return ProviderOverride(
       origin: this,
-      override: FetchDataForPeriodProvider._internal(
-        (ref) => create(ref as FetchDataForPeriodRef),
+      override: FetchDataForTappedProvider._internal(
+        (ref) => create(ref as FetchDataForTappedRef),
         from: from,
         name: null,
         dependencies: null,
@@ -291,12 +428,12 @@ class FetchDataForPeriodProvider
 
   @override
   AutoDisposeFutureProviderElement<List<TaskDate>> createElement() {
-    return _FetchDataForPeriodProviderElement(this);
+    return _FetchDataForTappedProviderElement(this);
   }
 
   @override
   bool operator ==(Object other) {
-    return other is FetchDataForPeriodProvider && other.times == times;
+    return other is FetchDataForTappedProvider && other.times == times;
   }
 
   @override
@@ -308,18 +445,149 @@ class FetchDataForPeriodProvider
   }
 }
 
-mixin FetchDataForPeriodRef on AutoDisposeFutureProviderRef<List<TaskDate>> {
+mixin FetchDataForTappedRef on AutoDisposeFutureProviderRef<List<TaskDate>> {
   /// The parameter `times` of this provider.
   List<DateTime> get times;
 }
 
-class _FetchDataForPeriodProviderElement
+class _FetchDataForTappedProviderElement
     extends AutoDisposeFutureProviderElement<List<TaskDate>>
-    with FetchDataForPeriodRef {
-  _FetchDataForPeriodProviderElement(super.provider);
+    with FetchDataForTappedRef {
+  _FetchDataForTappedProviderElement(super.provider);
 
   @override
-  List<DateTime> get times => (origin as FetchDataForPeriodProvider).times;
+  List<DateTime> get times => (origin as FetchDataForTappedProvider).times;
+}
+
+String _$fetchCompEventForTappedHash() =>
+    r'bd18af15802dfe60977ad7558a4104f90169b721';
+
+/// See also [fetchCompEventForTapped].
+@ProviderFor(fetchCompEventForTapped)
+const fetchCompEventForTappedProvider = FetchCompEventForTappedFamily();
+
+/// See also [fetchCompEventForTapped].
+class FetchCompEventForTappedFamily extends Family<AsyncValue<List<Task>>> {
+  /// See also [fetchCompEventForTapped].
+  const FetchCompEventForTappedFamily();
+
+  /// See also [fetchCompEventForTapped].
+  FetchCompEventForTappedProvider call({
+    required List<DateTime> times,
+  }) {
+    return FetchCompEventForTappedProvider(
+      times: times,
+    );
+  }
+
+  @override
+  FetchCompEventForTappedProvider getProviderOverride(
+    covariant FetchCompEventForTappedProvider provider,
+  ) {
+    return call(
+      times: provider.times,
+    );
+  }
+
+  static const Iterable<ProviderOrFamily>? _dependencies = null;
+
+  @override
+  Iterable<ProviderOrFamily>? get dependencies => _dependencies;
+
+  static const Iterable<ProviderOrFamily>? _allTransitiveDependencies = null;
+
+  @override
+  Iterable<ProviderOrFamily>? get allTransitiveDependencies =>
+      _allTransitiveDependencies;
+
+  @override
+  String? get name => r'fetchCompEventForTappedProvider';
+}
+
+/// See also [fetchCompEventForTapped].
+class FetchCompEventForTappedProvider
+    extends AutoDisposeFutureProvider<List<Task>> {
+  /// See also [fetchCompEventForTapped].
+  FetchCompEventForTappedProvider({
+    required List<DateTime> times,
+  }) : this._internal(
+          (ref) => fetchCompEventForTapped(
+            ref as FetchCompEventForTappedRef,
+            times: times,
+          ),
+          from: fetchCompEventForTappedProvider,
+          name: r'fetchCompEventForTappedProvider',
+          debugGetCreateSourceHash:
+              const bool.fromEnvironment('dart.vm.product')
+                  ? null
+                  : _$fetchCompEventForTappedHash,
+          dependencies: FetchCompEventForTappedFamily._dependencies,
+          allTransitiveDependencies:
+              FetchCompEventForTappedFamily._allTransitiveDependencies,
+          times: times,
+        );
+
+  FetchCompEventForTappedProvider._internal(
+    super._createNotifier, {
+    required super.name,
+    required super.dependencies,
+    required super.allTransitiveDependencies,
+    required super.debugGetCreateSourceHash,
+    required super.from,
+    required this.times,
+  }) : super.internal();
+
+  final List<DateTime> times;
+
+  @override
+  Override overrideWith(
+    FutureOr<List<Task>> Function(FetchCompEventForTappedRef provider) create,
+  ) {
+    return ProviderOverride(
+      origin: this,
+      override: FetchCompEventForTappedProvider._internal(
+        (ref) => create(ref as FetchCompEventForTappedRef),
+        from: from,
+        name: null,
+        dependencies: null,
+        allTransitiveDependencies: null,
+        debugGetCreateSourceHash: null,
+        times: times,
+      ),
+    );
+  }
+
+  @override
+  AutoDisposeFutureProviderElement<List<Task>> createElement() {
+    return _FetchCompEventForTappedProviderElement(this);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return other is FetchCompEventForTappedProvider && other.times == times;
+  }
+
+  @override
+  int get hashCode {
+    var hash = _SystemHash.combine(0, runtimeType.hashCode);
+    hash = _SystemHash.combine(hash, times.hashCode);
+
+    return _SystemHash.finish(hash);
+  }
+}
+
+mixin FetchCompEventForTappedRef on AutoDisposeFutureProviderRef<List<Task>> {
+  /// The parameter `times` of this provider.
+  List<DateTime> get times;
+}
+
+class _FetchCompEventForTappedProviderElement
+    extends AutoDisposeFutureProviderElement<List<Task>>
+    with FetchCompEventForTappedRef {
+  _FetchCompEventForTappedProviderElement(super.provider);
+
+  @override
+  List<DateTime> get times => (origin as FetchCompEventForTappedProvider).times;
 }
 
 String _$tempTaskHash() => r'35d4be616b9fec43030d9aac2cf8de64ac8c61f0';

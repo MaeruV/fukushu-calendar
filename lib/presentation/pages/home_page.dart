@@ -51,23 +51,15 @@ class HomePage extends HookConsumerWidget {
     return Stack(
       children: [
         Scaffold(
+          resizeToAvoidBottomInset: false,
           body: IndexedStack(
             index: state,
             children: notifier.screens!,
           ),
-          // floatingActionButtonLocation:
-          //     FloatingActionButtonLocation.centerDocked,
-          // floatingActionButton: FloatingActionButton(
-          //   backgroundColor: theme.focusColor,
-          //   onPressed: _actionButtonTapped,
-          //   child: const Icon(
-          //     Icons.add,
-          //     color: Colors.white,
-          //   ),
-          // ),
           bottomNavigationBar: FABBottomAppBar(
             centerItemText: '',
             color: Colors.grey,
+            backgroundColor: theme.canvasColor,
             selectedColor: BrandColor.blue,
             notchedShape: const CircularNotchedRectangle(),
             onTabSelected: _selectedIndex,
@@ -84,7 +76,6 @@ class HomePage extends HookConsumerWidget {
               FABBottomAppBarItem(
                   iconData: Icons.menu, text: appLocalizations.menu),
             ],
-            backgroundColor: theme.canvasColor,
           ),
         ),
         IgnorePointer(

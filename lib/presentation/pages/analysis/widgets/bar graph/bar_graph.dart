@@ -31,8 +31,6 @@ class MyBarGraph extends HookConsumerWidget {
     switch (mode) {
       case DisplayMode.week:
         width = 25;
-      case DisplayMode.month:
-        width = 25;
       default:
         width = 15;
     }
@@ -146,14 +144,6 @@ class GetBottomTitles extends ConsumerWidget {
     Widget widget;
 
     switch (mode) {
-      case DisplayMode.month:
-        switch (appLocalizations.localeName) {
-          case "en":
-            widget = Text("Week ${value.toInt() + 1}", style: style);
-          default:
-            widget = Text("第${value.toInt() + 1}週", style: style);
-        }
-        break;
       case DisplayMode.year:
         // 年モードの場合、月のラベルを表示
         List<String> months = [

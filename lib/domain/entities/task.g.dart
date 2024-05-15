@@ -17,23 +17,48 @@ const TaskSchema = CollectionSchema(
   name: r'Task',
   id: 2998003626758701373,
   properties: {
-    r'memo': PropertySchema(
+    r'completedEvent': PropertySchema(
       id: 0,
+      name: r'completedEvent',
+      type: IsarType.bool,
+    ),
+    r'eventCompDay': PropertySchema(
+      id: 1,
+      name: r'eventCompDay',
+      type: IsarType.dateTime,
+    ),
+    r'firstRange': PropertySchema(
+      id: 2,
+      name: r'firstRange',
+      type: IsarType.long,
+    ),
+    r'memo': PropertySchema(
+      id: 3,
       name: r'memo',
       type: IsarType.string,
     ),
     r'pallete': PropertySchema(
-      id: 1,
+      id: 4,
       name: r'pallete',
       type: IsarType.long,
     ),
+    r'rangeType': PropertySchema(
+      id: 5,
+      name: r'rangeType',
+      type: IsarType.string,
+    ),
+    r'secoundRange': PropertySchema(
+      id: 6,
+      name: r'secoundRange',
+      type: IsarType.long,
+    ),
     r'startTime': PropertySchema(
-      id: 2,
+      id: 7,
       name: r'startTime',
       type: IsarType.dateTime,
     ),
     r'title': PropertySchema(
-      id: 3,
+      id: 8,
       name: r'title',
       type: IsarType.string,
     )
@@ -74,6 +99,7 @@ int _taskEstimateSize(
 ) {
   var bytesCount = offsets.last;
   bytesCount += 3 + object.memo.length * 3;
+  bytesCount += 3 + object.rangeType.length * 3;
   bytesCount += 3 + object.title.length * 3;
   return bytesCount;
 }
@@ -84,10 +110,15 @@ void _taskSerialize(
   List<int> offsets,
   Map<Type, List<int>> allOffsets,
 ) {
-  writer.writeString(offsets[0], object.memo);
-  writer.writeLong(offsets[1], object.pallete);
-  writer.writeDateTime(offsets[2], object.startTime);
-  writer.writeString(offsets[3], object.title);
+  writer.writeBool(offsets[0], object.completedEvent);
+  writer.writeDateTime(offsets[1], object.eventCompDay);
+  writer.writeLong(offsets[2], object.firstRange);
+  writer.writeString(offsets[3], object.memo);
+  writer.writeLong(offsets[4], object.pallete);
+  writer.writeString(offsets[5], object.rangeType);
+  writer.writeLong(offsets[6], object.secoundRange);
+  writer.writeDateTime(offsets[7], object.startTime);
+  writer.writeString(offsets[8], object.title);
 }
 
 Task _taskDeserialize(
@@ -97,11 +128,16 @@ Task _taskDeserialize(
   Map<Type, List<int>> allOffsets,
 ) {
   final object = Task();
+  object.completedEvent = reader.readBool(offsets[0]);
+  object.eventCompDay = reader.readDateTimeOrNull(offsets[1]);
+  object.firstRange = reader.readLong(offsets[2]);
   object.id = id;
-  object.memo = reader.readString(offsets[0]);
-  object.pallete = reader.readLong(offsets[1]);
-  object.startTime = reader.readDateTime(offsets[2]);
-  object.title = reader.readString(offsets[3]);
+  object.memo = reader.readString(offsets[3]);
+  object.pallete = reader.readLong(offsets[4]);
+  object.rangeType = reader.readString(offsets[5]);
+  object.secoundRange = reader.readLongOrNull(offsets[6]);
+  object.startTime = reader.readDateTime(offsets[7]);
+  object.title = reader.readString(offsets[8]);
   return object;
 }
 
@@ -113,12 +149,22 @@ P _taskDeserializeProp<P>(
 ) {
   switch (propertyId) {
     case 0:
-      return (reader.readString(offset)) as P;
+      return (reader.readBool(offset)) as P;
     case 1:
-      return (reader.readLong(offset)) as P;
+      return (reader.readDateTimeOrNull(offset)) as P;
     case 2:
-      return (reader.readDateTime(offset)) as P;
+      return (reader.readLong(offset)) as P;
     case 3:
+      return (reader.readString(offset)) as P;
+    case 4:
+      return (reader.readLong(offset)) as P;
+    case 5:
+      return (reader.readString(offset)) as P;
+    case 6:
+      return (reader.readLongOrNull(offset)) as P;
+    case 7:
+      return (reader.readDateTime(offset)) as P;
+    case 8:
       return (reader.readString(offset)) as P;
     default:
       throw IsarError('Unknown property with id $propertyId');
@@ -215,6 +261,137 @@ extension TaskQueryWhere on QueryBuilder<Task, Task, QWhereClause> {
 }
 
 extension TaskQueryFilter on QueryBuilder<Task, Task, QFilterCondition> {
+  QueryBuilder<Task, Task, QAfterFilterCondition> completedEventEqualTo(
+      bool value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'completedEvent',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<Task, Task, QAfterFilterCondition> eventCompDayIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNull(
+        property: r'eventCompDay',
+      ));
+    });
+  }
+
+  QueryBuilder<Task, Task, QAfterFilterCondition> eventCompDayIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNotNull(
+        property: r'eventCompDay',
+      ));
+    });
+  }
+
+  QueryBuilder<Task, Task, QAfterFilterCondition> eventCompDayEqualTo(
+      DateTime? value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'eventCompDay',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<Task, Task, QAfterFilterCondition> eventCompDayGreaterThan(
+    DateTime? value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'eventCompDay',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<Task, Task, QAfterFilterCondition> eventCompDayLessThan(
+    DateTime? value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'eventCompDay',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<Task, Task, QAfterFilterCondition> eventCompDayBetween(
+    DateTime? lower,
+    DateTime? upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'eventCompDay',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+      ));
+    });
+  }
+
+  QueryBuilder<Task, Task, QAfterFilterCondition> firstRangeEqualTo(int value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'firstRange',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<Task, Task, QAfterFilterCondition> firstRangeGreaterThan(
+    int value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'firstRange',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<Task, Task, QAfterFilterCondition> firstRangeLessThan(
+    int value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'firstRange',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<Task, Task, QAfterFilterCondition> firstRangeBetween(
+    int lower,
+    int upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'firstRange',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+      ));
+    });
+  }
+
   QueryBuilder<Task, Task, QAfterFilterCondition> idEqualTo(Id value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
@@ -439,6 +616,205 @@ extension TaskQueryFilter on QueryBuilder<Task, Task, QFilterCondition> {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.between(
         property: r'pallete',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+      ));
+    });
+  }
+
+  QueryBuilder<Task, Task, QAfterFilterCondition> rangeTypeEqualTo(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'rangeType',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<Task, Task, QAfterFilterCondition> rangeTypeGreaterThan(
+    String value, {
+    bool include = false,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'rangeType',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<Task, Task, QAfterFilterCondition> rangeTypeLessThan(
+    String value, {
+    bool include = false,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'rangeType',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<Task, Task, QAfterFilterCondition> rangeTypeBetween(
+    String lower,
+    String upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'rangeType',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<Task, Task, QAfterFilterCondition> rangeTypeStartsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.startsWith(
+        property: r'rangeType',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<Task, Task, QAfterFilterCondition> rangeTypeEndsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.endsWith(
+        property: r'rangeType',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<Task, Task, QAfterFilterCondition> rangeTypeContains(
+      String value,
+      {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.contains(
+        property: r'rangeType',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<Task, Task, QAfterFilterCondition> rangeTypeMatches(
+      String pattern,
+      {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.matches(
+        property: r'rangeType',
+        wildcard: pattern,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<Task, Task, QAfterFilterCondition> rangeTypeIsEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'rangeType',
+        value: '',
+      ));
+    });
+  }
+
+  QueryBuilder<Task, Task, QAfterFilterCondition> rangeTypeIsNotEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        property: r'rangeType',
+        value: '',
+      ));
+    });
+  }
+
+  QueryBuilder<Task, Task, QAfterFilterCondition> secoundRangeIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNull(
+        property: r'secoundRange',
+      ));
+    });
+  }
+
+  QueryBuilder<Task, Task, QAfterFilterCondition> secoundRangeIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNotNull(
+        property: r'secoundRange',
+      ));
+    });
+  }
+
+  QueryBuilder<Task, Task, QAfterFilterCondition> secoundRangeEqualTo(
+      int? value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'secoundRange',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<Task, Task, QAfterFilterCondition> secoundRangeGreaterThan(
+    int? value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'secoundRange',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<Task, Task, QAfterFilterCondition> secoundRangeLessThan(
+    int? value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'secoundRange',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<Task, Task, QAfterFilterCondition> secoundRangeBetween(
+    int? lower,
+    int? upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'secoundRange',
         lower: lower,
         includeLower: includeLower,
         upper: upper,
@@ -746,6 +1122,42 @@ extension TaskQueryLinks on QueryBuilder<Task, Task, QFilterCondition> {
 }
 
 extension TaskQuerySortBy on QueryBuilder<Task, Task, QSortBy> {
+  QueryBuilder<Task, Task, QAfterSortBy> sortByCompletedEvent() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'completedEvent', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Task, Task, QAfterSortBy> sortByCompletedEventDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'completedEvent', Sort.desc);
+    });
+  }
+
+  QueryBuilder<Task, Task, QAfterSortBy> sortByEventCompDay() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'eventCompDay', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Task, Task, QAfterSortBy> sortByEventCompDayDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'eventCompDay', Sort.desc);
+    });
+  }
+
+  QueryBuilder<Task, Task, QAfterSortBy> sortByFirstRange() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'firstRange', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Task, Task, QAfterSortBy> sortByFirstRangeDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'firstRange', Sort.desc);
+    });
+  }
+
   QueryBuilder<Task, Task, QAfterSortBy> sortByMemo() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'memo', Sort.asc);
@@ -767,6 +1179,30 @@ extension TaskQuerySortBy on QueryBuilder<Task, Task, QSortBy> {
   QueryBuilder<Task, Task, QAfterSortBy> sortByPalleteDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'pallete', Sort.desc);
+    });
+  }
+
+  QueryBuilder<Task, Task, QAfterSortBy> sortByRangeType() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'rangeType', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Task, Task, QAfterSortBy> sortByRangeTypeDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'rangeType', Sort.desc);
+    });
+  }
+
+  QueryBuilder<Task, Task, QAfterSortBy> sortBySecoundRange() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'secoundRange', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Task, Task, QAfterSortBy> sortBySecoundRangeDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'secoundRange', Sort.desc);
     });
   }
 
@@ -796,6 +1232,42 @@ extension TaskQuerySortBy on QueryBuilder<Task, Task, QSortBy> {
 }
 
 extension TaskQuerySortThenBy on QueryBuilder<Task, Task, QSortThenBy> {
+  QueryBuilder<Task, Task, QAfterSortBy> thenByCompletedEvent() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'completedEvent', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Task, Task, QAfterSortBy> thenByCompletedEventDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'completedEvent', Sort.desc);
+    });
+  }
+
+  QueryBuilder<Task, Task, QAfterSortBy> thenByEventCompDay() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'eventCompDay', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Task, Task, QAfterSortBy> thenByEventCompDayDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'eventCompDay', Sort.desc);
+    });
+  }
+
+  QueryBuilder<Task, Task, QAfterSortBy> thenByFirstRange() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'firstRange', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Task, Task, QAfterSortBy> thenByFirstRangeDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'firstRange', Sort.desc);
+    });
+  }
+
   QueryBuilder<Task, Task, QAfterSortBy> thenById() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'id', Sort.asc);
@@ -832,6 +1304,30 @@ extension TaskQuerySortThenBy on QueryBuilder<Task, Task, QSortThenBy> {
     });
   }
 
+  QueryBuilder<Task, Task, QAfterSortBy> thenByRangeType() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'rangeType', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Task, Task, QAfterSortBy> thenByRangeTypeDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'rangeType', Sort.desc);
+    });
+  }
+
+  QueryBuilder<Task, Task, QAfterSortBy> thenBySecoundRange() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'secoundRange', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Task, Task, QAfterSortBy> thenBySecoundRangeDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'secoundRange', Sort.desc);
+    });
+  }
+
   QueryBuilder<Task, Task, QAfterSortBy> thenByStartTime() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'startTime', Sort.asc);
@@ -858,6 +1354,24 @@ extension TaskQuerySortThenBy on QueryBuilder<Task, Task, QSortThenBy> {
 }
 
 extension TaskQueryWhereDistinct on QueryBuilder<Task, Task, QDistinct> {
+  QueryBuilder<Task, Task, QDistinct> distinctByCompletedEvent() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'completedEvent');
+    });
+  }
+
+  QueryBuilder<Task, Task, QDistinct> distinctByEventCompDay() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'eventCompDay');
+    });
+  }
+
+  QueryBuilder<Task, Task, QDistinct> distinctByFirstRange() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'firstRange');
+    });
+  }
+
   QueryBuilder<Task, Task, QDistinct> distinctByMemo(
       {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
@@ -868,6 +1382,19 @@ extension TaskQueryWhereDistinct on QueryBuilder<Task, Task, QDistinct> {
   QueryBuilder<Task, Task, QDistinct> distinctByPallete() {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'pallete');
+    });
+  }
+
+  QueryBuilder<Task, Task, QDistinct> distinctByRangeType(
+      {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'rangeType', caseSensitive: caseSensitive);
+    });
+  }
+
+  QueryBuilder<Task, Task, QDistinct> distinctBySecoundRange() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'secoundRange');
     });
   }
 
@@ -892,6 +1419,24 @@ extension TaskQueryProperty on QueryBuilder<Task, Task, QQueryProperty> {
     });
   }
 
+  QueryBuilder<Task, bool, QQueryOperations> completedEventProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'completedEvent');
+    });
+  }
+
+  QueryBuilder<Task, DateTime?, QQueryOperations> eventCompDayProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'eventCompDay');
+    });
+  }
+
+  QueryBuilder<Task, int, QQueryOperations> firstRangeProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'firstRange');
+    });
+  }
+
   QueryBuilder<Task, String, QQueryOperations> memoProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'memo');
@@ -901,6 +1446,18 @@ extension TaskQueryProperty on QueryBuilder<Task, Task, QQueryProperty> {
   QueryBuilder<Task, int, QQueryOperations> palleteProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'pallete');
+    });
+  }
+
+  QueryBuilder<Task, String, QQueryOperations> rangeTypeProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'rangeType');
+    });
+  }
+
+  QueryBuilder<Task, int?, QQueryOperations> secoundRangeProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'secoundRange');
     });
   }
 

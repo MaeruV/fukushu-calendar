@@ -22,26 +22,29 @@ dependencies:
   go_router: ^13.0.1
   flutter_svg: ^2.0.9
   table_calendar: ^3.0.9
-  intl: ^0.18.1
+  intl: ^0.19.0
   freezed_annotation: ^2.4.1
   json_annotation: ^4.8.1
   freezed: ^2.4.6
   flutter_hooks: ^0.20.4
   hooks_riverpod: ^2.4.9
-  flutter_slidable: ^3.0.1
+  flutter_slidable: ^3.1.0
   flutter_localizations:
       sdk: flutter
   isar: ^3.1.0+1
   isar_flutter_libs: ^3.1.0+1
   path_provider: ^2.0.15
   percent_indicator: ^4.2.3
-  flutter_colorpicker: ^1.0.3
   flutter_native_splash:
   flutter_local_notifications: ^17.0.0
   permission_handler:
   package_info: ^2.0.2
   webview_flutter: ^4.5.0
   fl_chart: ^0.64.0
+  badges: ^3.1.2
+  keyboard_actions: "^4.1.0"
+  # flutter_colorpicker: ^1.0.3
+
   
 
 dev_dependencies:
@@ -55,11 +58,12 @@ dev_dependencies:
   custom_lint: ^0.5.8
   json_serializable: ^6.7.1
   isar_generator: ^3.1.0+1
+  flutter_launcher_icons: ^0.9.2
 
 
 flutter_native_splash:
-  color: '#add8e6'
-  image: assets/picture/dorapoyoron.png
+  color: '#FFFFFF'
+  image: assets/images/splash/splash_background.png
   android: true
   ios: true
   fullscreen: true
@@ -70,7 +74,6 @@ flutter:
 
   assets:
     - assets/icons/
-    - assets/picture/
 
   fonts:
   - family: Noto
@@ -155,3 +158,11 @@ flutter:
     fonts:
       - asset: assets/fonts/Yuji_Syuku_selection/static/YujiSyuku-Regular.ttf
         weight: 400
+
+flutter_icons:
+  ios: true
+  image_path: "assets/images/launcher/icon_ios.png"
+  remove_alpha_ios: true
+  android: true
+  adaptive_icon_background: "assets/images/launcher/icon_ios.png"
+  adaptive_icon_foreground: "assets/images/launcher/icon_adaptive_foreground.png"

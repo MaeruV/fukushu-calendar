@@ -106,10 +106,27 @@ class TaskEventRepositoryImpl implements TaskRepository {
     final now = DateTime.now().toZeroHour();
     final checkFlag = flag ? now : null;
     await isar.writeTxn(() async {
-      final taslDates = taskDate
+      // TaskDateの更新
+      final taskDates = taskDate
         ..checkFlag = flag
         ..completeDay = checkFlag;
-      await isar.taskDates.put(taslDates);
+      await isar.taskDates.put(taskDates);
+      await taskDate.task.load();
+      final task = taskDate.task.value;
+      if (task != null) {
+        await task.dates.load();
+        final allChecked = task.dates.every((date) => date.checkFlag);
+        if (allChecked) {
+          task
+            ..completedEvent = true
+            ..eventCompDay = now;
+        } else {
+          task
+            ..completedEvent = false
+            ..eventCompDay = null;
+        }
+        await isar.tasks.put(task);
+      }
     });
   }
 
@@ -140,6 +157,9 @@ class TaskEventRepositoryImpl implements TaskRepository {
   @override
   Future<TaskDate?> fetchDate({required Id dateId}) async {
     final taskDate = await isar.taskDates.get(dateId);
+    if (taskDate != null) {
+      taskDate.task.load();
+    }
     return taskDate;
   }
 
@@ -163,7 +183,6 @@ class TaskEventRepositoryImpl implements TaskRepository {
     for (NotificationTask notification in notificationAll) {
       await notification.task.load();
     }
-
     return notificationAll;
   }
 
@@ -180,7 +199,7 @@ class TaskEventRepositoryImpl implements TaskRepository {
   }
 
   @override
-  Future<List<TaskDate>> fetchCompWeekData(
+  Future<List<TaskDate>> fetchCompTaskDataPeriod(
       {required List<DateTime> weeks}) async {
     final datesAll = await isar.taskDates
         .filter()
@@ -195,7 +214,23 @@ class TaskEventRepositoryImpl implements TaskRepository {
   }
 
   @override
-  Future<List<TaskDate>> fetchDataForPeriod(
+  Future<List<Task>> fetchCompEventDataPeriod(
+      {required List<DateTime> weeks}) async {
+    final tasksAll = await isar.tasks
+        .filter()
+        .completedEventEqualTo(true)
+        .eventCompDayBetween(weeks[0], weeks[1])
+        .sortByCompletedEvent()
+        .findAll();
+    for (var task in tasksAll) {
+      await task.dates.load();
+      await task.time.load();
+    }
+    return tasksAll;
+  }
+
+  @override
+  Future<List<TaskDate>> fetchDataForTapped(
       {required List<DateTime> times}) async {
     if (times.isNotEmpty) {
       final datesAll = await isar.taskDates
@@ -207,6 +242,25 @@ class TaskEventRepositoryImpl implements TaskRepository {
         await taskDate.task.load();
       }
       return datesAll;
+    } else {
+      return [];
+    }
+  }
+
+  @override
+  Future<List<Task>> fetchCompEventForTapped(
+      {required List<DateTime> times}) async {
+    if (times.isNotEmpty) {
+      final tasksAll = await isar.tasks
+          .filter()
+          .completedEventEqualTo(true)
+          .eventCompDayBetween(times[0], times[1])
+          .findAll();
+      for (var task in tasksAll) {
+        await task.dates.load();
+        await task.time.load();
+      }
+      return tasksAll;
     } else {
       return [];
     }

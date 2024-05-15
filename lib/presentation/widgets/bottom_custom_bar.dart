@@ -13,7 +13,7 @@ class FABBottomAppBar extends HookConsumerWidget {
     super.key,
     required this.items,
     required this.centerItemText,
-    this.height = 65.0,
+    this.height = 50.0,
     this.iconSize = 24.0,
     required this.backgroundColor,
     required this.color,
@@ -55,10 +55,12 @@ class FABBottomAppBar extends HookConsumerWidget {
     });
 
     return BottomAppBar(
+      padding: EdgeInsets.zero,
+      height: height,
       color: backgroundColor,
       child: Row(
         mainAxisSize: MainAxisSize.max,
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        mainAxisAlignment: MainAxisAlignment.center,
         children: items,
       ),
     );
@@ -73,59 +75,44 @@ class FABBottomAppBar extends HookConsumerWidget {
     Color itemColor = selectedIndex == index ? selectedColor : color;
     if (index == 2) {
       return Expanded(
-        child: Material(
-          child: InkWell(
-            onTap: () => onPressed(index),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Container(
-                  width: 40,
-                  height: 40,
-                  alignment: Alignment.center,
-                  decoration: BoxDecoration(
-                    border: Border.all(width: 1.5, color: Colors.grey),
-                    shape: BoxShape.circle,
-                  ),
-                  child: Icon(
-                    item.iconData,
-                    color: Colors.grey,
-                    size: 30,
-                  ),
+        child: GestureDetector(
+          onTap: () => onPressed(index),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Container(
+                width: 40,
+                alignment: Alignment.center,
+                decoration: BoxDecoration(
+                  border: Border.all(width: 1.5, color: Colors.grey),
+                  shape: BoxShape.circle,
                 ),
-              ],
-            ),
+                child: Icon(
+                  item.iconData,
+                  color: Colors.grey,
+                  size: 30,
+                ),
+              ),
+            ],
           ),
         ),
       );
     } else {
       return Expanded(
-        child: SizedBox(
-          height: height,
-          child: Material(
-            type: MaterialType.transparency,
-            child: InkWell(
-              onTap: () => onPressed(index),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: <Widget>[
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  SizedBox(
-                      height: 40,
-                      child: Icon(item.iconData,
-                          color: itemColor, size: iconSize)),
-                  Expanded(
-                    child: Text(
-                      item.text,
-                      style: TextStyle(color: itemColor, fontSize: 10),
-                    ),
-                  )
-                ],
+        child: InkWell(
+          onTap: () => onPressed(index),
+          splashColor: Colors.transparent,
+          highlightColor: Colors.transparent,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              Icon(item.iconData, color: itemColor, size: iconSize),
+              Text(
+                item.text,
+                style: TextStyle(color: itemColor, fontSize: 10),
               ),
-            ),
+            ],
           ),
         ),
       );

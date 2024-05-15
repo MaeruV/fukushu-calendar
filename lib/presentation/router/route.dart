@@ -1,3 +1,4 @@
+import 'package:ebbinghaus_forgetting_curve/presentation/pages/analysis/view/comp_event_check_task_screen.dart';
 import 'package:ebbinghaus_forgetting_curve/presentation/pages/edit/views/check_task_screen.dart';
 import 'package:ebbinghaus_forgetting_curve/presentation/pages/edit/views/interval_screen.dart';
 import 'package:ebbinghaus_forgetting_curve/presentation/pages/home_page.dart';
@@ -63,6 +64,13 @@ final router = GoRouter(
       path: '/others_help_site',
       builder: (context, state) {
         return const OthersHelpSitePage();
+      },
+    ),
+    GoRoute(
+      name: 'comp_event_check_task',
+      path: '/comp_event_check_task',
+      builder: (context, state) {
+        return CompEventCheckTaskScreen(taskId: state.extra as int);
       },
     ),
   ],

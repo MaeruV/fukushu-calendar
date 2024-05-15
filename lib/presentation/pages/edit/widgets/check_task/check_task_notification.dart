@@ -1,5 +1,7 @@
+import 'package:ebbinghaus_forgetting_curve/application/state/others/others_notification_view_model.dart';
 import 'package:ebbinghaus_forgetting_curve/domain/entities/task.dart';
 import 'package:ebbinghaus_forgetting_curve/presentation/common/date_time_extension.dart';
+import 'package:ebbinghaus_forgetting_curve/presentation/theme/colors.dart';
 import 'package:ebbinghaus_forgetting_curve/presentation/theme/fonts.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -14,6 +16,7 @@ class CheckTaskNotification extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final theme = Theme.of(context);
     final appLocalizations = AppLocalizations.of(context)!;
+    final notificaitonState = ref.watch(notificationPermissionProvider);
 
     DateTime? time;
     if (notificationTasks.isNotEmpty) {
@@ -29,13 +32,21 @@ class CheckTaskNotification extends ConsumerWidget {
             )),
         Padding(
           padding: const EdgeInsets.only(right: 10.0),
-          child: Text(
-              time != null
-                  ? time.toHourMinute()
-                  : appLocalizations.notification_off,
-              style: BrandText.bodyM.copyWith(
-                color: theme.primaryColorLight,
-              )),
+          child: notificaitonState
+              ? Text(
+                  time != null
+                      ? time.toHourMinute()
+                      : appLocalizations.notification_off,
+                  style: BrandText.bodyM.copyWith(
+                    color: theme.primaryColorLight,
+                  ))
+              : Align(
+                  alignment: Alignment.bottomRight,
+                  child: Text(
+                    appLocalizations.notification_permission,
+                    style: theme.textTheme.bodySmall!
+                        .copyWith(color: BrandColor.deleteRed),
+                  )),
         ),
       ],
     );

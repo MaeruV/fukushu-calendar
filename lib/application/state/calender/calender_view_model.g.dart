@@ -6,12 +6,12 @@ part of 'calender_view_model.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$calenderViewModelHash() => r'4b9292d13ecda581a1df4c9b7df09f53337a26c8';
+String _$calenderViewModelHash() => r'8006b70e95f818077e26037ccb555ca3a536758a';
 
 /// See also [CalenderViewModel].
 @ProviderFor(CalenderViewModel)
 final calenderViewModelProvider =
-    AutoDisposeNotifierProvider<CalenderViewModel, CalenderState>.internal(
+    NotifierProvider<CalenderViewModel, CalenderState>.internal(
   CalenderViewModel.new,
   name: r'calenderViewModelProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
@@ -21,6 +21,6 @@ final calenderViewModelProvider =
   allTransitiveDependencies: null,
 );
 
-typedef _$CalenderViewModel = AutoDisposeNotifier<CalenderState>;
+typedef _$CalenderViewModel = Notifier<CalenderState>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

@@ -1,3 +1,4 @@
+import 'package:ebbinghaus_forgetting_curve/presentation/pages/analysis/widgets/app%20bar/analysis_select_data.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -25,6 +26,11 @@ class AnalysisAppBar extends ConsumerWidget implements PreferredSizeWidget {
         style: theme.textTheme.titleLarge!
             .copyWith(color: theme.primaryColorLight),
       ),
+      actions: const [
+        Center(
+          child: AnalysisSelectData(),
+        )
+      ],
     );
   }
 

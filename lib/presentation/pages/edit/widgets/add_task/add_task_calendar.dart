@@ -52,38 +52,41 @@ class AddTaskCalendar extends ConsumerWidget {
           notifier.setDateTime(datePicked);
         }
       },
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          Text(
-            appLocalizations.start_date,
-            style: theme.textTheme.bodySmall!
-                .copyWith(color: theme.primaryColorLight),
-          ),
-          const SizedBox(height: 5),
-          Container(
-            height: 55,
-            padding: const EdgeInsets.symmetric(horizontal: 10),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(10),
-              border: Border.all(color: BrandColor.grey),
+      child: SizedBox(
+        height: 105,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            Text(
+              appLocalizations.start_date,
+              style: theme.textTheme.bodySmall!
+                  .copyWith(color: theme.primaryColorLight),
             ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                Text(
-                  state.startTime.toSimpleFormat(appLocalizations.date),
-                  style: theme.textTheme.bodySmall!
-                      .copyWith(color: theme.primaryColorLight),
-                ),
-                const Icon(
-                  Icons.calendar_month_rounded,
-                  color: BrandColor.grey,
-                )
-              ],
-            ),
-          )
-        ],
+            const SizedBox(height: 5),
+            Container(
+              height: 55,
+              padding: const EdgeInsets.symmetric(horizontal: 10),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10),
+                border: Border.all(color: BrandColor.grey),
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  Text(
+                    state.startTime.toSimpleFormat(appLocalizations.date),
+                    style: theme.textTheme.bodySmall!
+                        .copyWith(color: theme.primaryColorLight),
+                  ),
+                  const Icon(
+                    Icons.calendar_month_rounded,
+                    color: BrandColor.grey,
+                  )
+                ],
+              ),
+            )
+          ],
+        ),
       ),
     );
   }

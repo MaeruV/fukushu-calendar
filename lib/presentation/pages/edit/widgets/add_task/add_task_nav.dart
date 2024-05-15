@@ -1,4 +1,5 @@
 import 'package:ebbinghaus_forgetting_curve/application/state/edit/edit_view_model.dart';
+import 'package:ebbinghaus_forgetting_curve/application/state/material_history/material_history_view_model.dart';
 import 'package:ebbinghaus_forgetting_curve/application/usecases/task/task_usecase.dart';
 import 'package:ebbinghaus_forgetting_curve/presentation/presentation_mixin.dart';
 import 'package:ebbinghaus_forgetting_curve/presentation/theme/colors.dart';
@@ -52,6 +53,9 @@ class AddTaskNav extends ConsumerWidget with PresentationMixin {
                     context,
                     action: () async {
                       await ref.read(taskUsecaseProvider).saveTaskEvent(
+                            rangeType: state.reviewRange,
+                            firstRange: state.firstRange ?? 0,
+                            secoundRange: state.secoundRange,
                             title: state.title,
                             memo: state.memo,
                             dateTime: state.startTime,
@@ -59,7 +63,11 @@ class AddTaskNav extends ConsumerWidget with PresentationMixin {
                             pallete: state.pallete,
                             time: state.time,
                             flagNotification: state.flagNotification,
+                            eventCompDay: null,
                           );
+                      await ref
+                          .read(materialHistoryViewModelProvider.notifier)
+                          .saveMaterialHistory(state.title);
                     },
                   );
                   context.pop();

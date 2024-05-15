@@ -6,6 +6,7 @@ import 'package:ebbinghaus_forgetting_curve/application/usecases/task/state/task
 import 'package:ebbinghaus_forgetting_curve/domain/entities/calendar_event.dart';
 import 'package:ebbinghaus_forgetting_curve/domain/entities/task.dart';
 import 'package:ebbinghaus_forgetting_curve/domain/repository/task_event_repository_interface.dart';
+import 'package:ebbinghaus_forgetting_curve/presentation/common/review_range_extension.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:isar/isar.dart';
 
@@ -26,10 +27,18 @@ class TaskUsecase with RunUsecaseMixin {
   StateController<Task?> get _temporaryTaskController =>
       _ref.read(temporaryTaskProvider.notifier);
   void _refreshCalendarProvider() => _ref.refresh(tasksCalendarProvider.future);
-  void _refreshCompleteDayDateProvider(List<DateTime> time) =>
-      _ref.refresh(fetchDataForPeriodProvider(times: time).future);
-  void _refreshCompleteWeekProvider(List<DateTime> weeks) =>
-      _ref.refresh(CompWeekDataProvider(weeks: weeks).future);
+
+  void _refreshCompleteTaskPeriodProvider(List<DateTime> weeks) =>
+      _ref.refresh(compTaskDataPeriodProvider(weeks: weeks).future);
+
+  void _refreshCompletedTaskTappedProvider(List<DateTime> time) =>
+      _ref.refresh(fetchDataForTappedProvider(times: time).future);
+
+  void _refreshCompletedEventPeriodProvider(List<DateTime> time) =>
+      _ref.refresh(fetchCompEventForTappedProvider(times: time).future);
+  void _refreshCompleteEventPeriodProvider(List<DateTime> weeks) =>
+      _ref.refresh(CompEventDataPeriodProvider(weeks: weeks).future);
+
   void _refreshTempTaskProvider(int taskId) =>
       _ref.refresh(tempTaskProvider(taskId: taskId).future);
   void _refreshTempTaskDateProvider(TaskDate taskDate) =>
@@ -37,29 +46,41 @@ class TaskUsecase with RunUsecaseMixin {
 
   Future<void> saveTaskEvent({
     required String title,
+    required ReviewRange rangeType,
+    required int firstRange,
+    required int? secoundRange,
     required String memo,
     required DateTime dateTime,
     required List<int> intervalDays,
     required int pallete,
+    required DateTime? eventCompDay,
     required DateTime? time,
     required bool flagNotification,
   }) async {
     Task task;
-
+    final formatRange = rangeType.enumToString();
     if (_temporaryTaskController.state == null) {
       // 新規タスクの作成
       task = Task()
         ..title = title
+        ..rangeType = formatRange
+        ..firstRange = firstRange
+        ..secoundRange = secoundRange
         ..memo = memo
         ..startTime = dateTime
-        ..pallete = pallete;
+        ..pallete = pallete
+        ..eventCompDay = eventCompDay;
     } else {
       // 既存のタスクの更新
       task = _temporaryTaskController.state!
         ..title = title
+        ..rangeType = formatRange
+        ..firstRange = firstRange
+        ..secoundRange = secoundRange
         ..memo = memo
         ..startTime = dateTime
-        ..pallete = pallete;
+        ..pallete = pallete
+        ..eventCompDay = eventCompDay;
     }
 
     await execute(
@@ -96,13 +117,16 @@ class TaskUsecase with RunUsecaseMixin {
     await execute(action: () async {
       return await _taskRepository.addTaskDate(taskDate: taskDate, flag: flag);
     });
+
     _refreshTempTaskDateProvider(taskDate);
     _invalidateTasksProvider();
     _refreshCalendarProvider();
+    _refreshCompleteTaskPeriodProvider(weeks);
+    _refreshCompleteEventPeriodProvider(weeks);
     if (time != []) {
-      _refreshCompleteDayDateProvider(time);
+      _refreshCompletedTaskTappedProvider(time);
+      _refreshCompletedEventPeriodProvider(time);
     }
-    _refreshCompleteWeekProvider(weeks);
   }
 
   Future<Task?> fetch(Id taskId) async {
@@ -129,28 +153,10 @@ class TaskUsecase with RunUsecaseMixin {
     return groupedTasks;
   }
 
-  // Future<Map<DateTime, List<TaskDate>>> fetchCompTaskAll() async {
-  //   final taskDates = await execute(action: () async {
-  //     return await _taskRepository.fetchCompDate();
-  //   });
-  //   final Map<DateTime, List<TaskDate>> groupedTaskDates = {};
-
-  //   for (final taskDate in taskDates) {
-  //     final dateOnly = DateTime(taskDate.completeDay!.year,
-  //         taskDate.completeDay!.month, taskDate.completeDay!.day);
-  //     if (!groupedTaskDates.containsKey(dateOnly)) {
-  //       groupedTaskDates[dateOnly] = [];
-  //     }
-  //     groupedTaskDates[dateOnly]!.add(taskDate);
-  //   }
-
-  //   return groupedTaskDates;
-  // }
-
-  Future<Map<DateTime, List<TaskDate>>> fetchCompWeekData(
+  Future<Map<DateTime, List<TaskDate>>> fetchCompTaskDataPeriod(
       List<DateTime> weeks) async {
     final taskDates = await execute(action: () async {
-      return await _taskRepository.fetchCompWeekData(weeks: weeks);
+      return await _taskRepository.fetchCompTaskDataPeriod(weeks: weeks);
     });
     final Map<DateTime, List<TaskDate>> groupedTaskDates = {};
 
@@ -166,9 +172,35 @@ class TaskUsecase with RunUsecaseMixin {
     return groupedTaskDates;
   }
 
-  Future<List<TaskDate>> fetchDataForPeriod(List<DateTime> times) async {
+  Future<Map<DateTime, List<Task>>> fetchCompEventDataPeriod(
+      List<DateTime> weeks) async {
+    final tasks = await execute(action: () async {
+      return await _taskRepository.fetchCompEventDataPeriod(weeks: weeks);
+    });
+    final Map<DateTime, List<Task>> groupedTasks = {};
+
+    for (final task in tasks) {
+      final dateOnly = DateTime(task.eventCompDay!.year,
+          task.eventCompDay!.month, task.eventCompDay!.day);
+      if (!groupedTasks.containsKey(dateOnly)) {
+        groupedTasks[dateOnly] = [];
+      }
+      groupedTasks[dateOnly]!.add(task);
+    }
+
+    return groupedTasks;
+  }
+
+  Future<List<TaskDate>> fetchDataForTapped(List<DateTime> times) async {
     final taskDates = await execute(action: () async {
-      return await _taskRepository.fetchDataForPeriod(times: times);
+      return await _taskRepository.fetchDataForTapped(times: times);
+    });
+    return taskDates;
+  }
+
+  Future<List<Task>> fetchCompEventForTapped(List<DateTime> times) async {
+    final taskDates = await execute(action: () async {
+      return await _taskRepository.fetchCompEventForTapped(times: times);
     });
     return taskDates;
   }
@@ -207,6 +239,7 @@ class TaskUsecase with RunUsecaseMixin {
     final Map<DateTime, List<CalendarEvent>> calendarEventsByDate = {};
 
     for (final task in tasks) {
+      final formatRangeType = task.rangeType.stringToReviewRange();
       final startDate = DateTime(
           task.startTime.year, task.startTime.month, task.startTime.day);
       final startEvent = CalendarEvent(
@@ -215,6 +248,10 @@ class TaskUsecase with RunUsecaseMixin {
         eventBackgroundColor: Color(task.pallete),
         eventID: task.id,
         taskDate: null,
+        completedFlag: task.completedEvent,
+        rangeType: formatRangeType,
+        firstRange: task.firstRange,
+        secoundRange: task.secoundRange,
       );
       calendarEventsByDate.putIfAbsent(startDate, () => []).add(startEvent);
 
@@ -228,6 +265,10 @@ class TaskUsecase with RunUsecaseMixin {
             eventBackgroundColor: Color(task.pallete),
             eventID: task.id,
             taskDate: daysToAdd,
+            completedFlag: false,
+            rangeType: formatRangeType,
+            firstRange: task.firstRange,
+            secoundRange: task.secoundRange,
           );
           calendarEventsByDate
               .putIfAbsent(reviewDate, () => [])
@@ -247,10 +288,12 @@ class TaskUsecase with RunUsecaseMixin {
     _invalidateTasksProvider();
     _refreshCalendarProvider();
     _fetchNotificationTaskAll();
+    _refreshCompleteTaskPeriodProvider(weeks);
+    _refreshCompleteEventPeriodProvider(weeks);
     if (times.isNotEmpty) {
-      _refreshCompleteDayDateProvider(times);
+      _refreshCompletedTaskTappedProvider(times);
+      _refreshCompletedEventPeriodProvider(times);
     }
-    _refreshCompleteWeekProvider(weeks);
   }
 
   void temporaryTask(Id taskId) async {

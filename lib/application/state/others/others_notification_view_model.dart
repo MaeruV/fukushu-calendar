@@ -12,12 +12,10 @@ import 'package:timezone/timezone.dart' as tz;
 part 'others_notification_view_model.g.dart';
 
 @Riverpod(keepAlive: true)
-class OthersNotifierModel extends _$OthersNotifierModel {
-  final _localNotifications = FlutterLocalNotificationsPlugin();
-
+class NotificationPermission extends _$NotificationPermission {
   @override
-  NotificationDetails? build() {
-    return null;
+  bool build() {
+    return false;
   }
 
   Future<void> permission() async {
@@ -25,9 +23,25 @@ class OthersNotifierModel extends _$OthersNotifierModel {
       var statusForNotification = await Permission.notification.status;
 
       if (statusForNotification != PermissionStatus.granted) {
-        await openAppSettings();
+        state = false;
+      } else {
+        state = true;
       }
     }
+  }
+
+  Future<void> openSettings() async {
+    await openAppSettings();
+  }
+}
+
+@Riverpod(keepAlive: true)
+class OthersNotifierModel extends _$OthersNotifierModel {
+  final _localNotifications = FlutterLocalNotificationsPlugin();
+
+  @override
+  NotificationDetails? build() {
+    return null;
   }
 
   Future<void> showNotification() async {
@@ -58,15 +72,6 @@ class OthersNotifierModel extends _$OthersNotifierModel {
   void onDidReceiveLocalNotification(
       int id, String? title, String? body, String? payload) {
     debugPrint('id ----- $id');
-  }
-
-  Future<void> testNotification() async {
-    _localNotifications.show(
-      3,
-      'タイトル',
-      'Test1',
-      state!,
-    );
   }
 
   Future<void> scheduleNotificationOnSpecificDate(
@@ -113,5 +118,14 @@ class OthersNotifierModel extends _$OthersNotifierModel {
       debugPrint(
           '予約済みの通知: [id: ${pendingNotificationRequest.id}, title: ${pendingNotificationRequest.title}, body: ${pendingNotificationRequest.body}, payload: ${pendingNotificationRequest.payload}]');
     }
+  }
+
+  Future<void> testNotification() async {
+    _localNotifications.show(
+      3,
+      'タイトル',
+      'Test1',
+      state!,
+    );
   }
 }

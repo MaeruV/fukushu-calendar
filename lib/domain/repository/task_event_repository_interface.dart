@@ -28,11 +28,18 @@ abstract interface class TaskRepository {
   // タスクDate完了情報取得
   Future<List<TaskDate>> fetchCompDate();
 
-  // 1週間分のタスク完了データ
-  Future<List<TaskDate>> fetchCompWeekData({required List<DateTime> weeks});
+  // 指定期間内のタスク完了データ
+  Future<List<TaskDate>> fetchCompTaskDataPeriod(
+      {required List<DateTime> weeks});
+
+  // 指定期間内のイベント完了データ
+  Future<List<Task>> fetchCompEventDataPeriod({required List<DateTime> weeks});
 
   //指定日のタスク完了データ
-  Future<List<TaskDate>> fetchDataForPeriod({required List<DateTime> times});
+  Future<List<TaskDate>> fetchDataForTapped({required List<DateTime> times});
+
+  //指定日のイベント完了データ
+  Future<List<Task>> fetchCompEventForTapped({required List<DateTime> times});
 
   // タスク通知情報取得
   Future<List<NotificationTask>> fetchNotificationTask();

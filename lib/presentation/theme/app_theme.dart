@@ -128,8 +128,8 @@ class AppTheme {
       ElevatedButtonThemeData(
     style: ButtonStyle(
       backgroundColor:
-          MaterialStateProperty.all<Color>(const Color(0xFF1E88E5)), // ボタンの背景色
-      foregroundColor: MaterialStateProperty.all<Color>(Colors.white), // テキストの色
+          WidgetStateProperty.all<Color>(const Color(0xFF1E88E5)), // ボタンの背景色
+      foregroundColor: WidgetStateProperty.all<Color>(Colors.white), // テキストの色
     ),
   );
 }

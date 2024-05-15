@@ -1,3 +1,4 @@
+import 'package:ebbinghaus_forgetting_curve/application/state/edit/task_selection_view_model.dart';
 import 'package:ebbinghaus_forgetting_curve/domain/entities/task.dart';
 import 'package:ebbinghaus_forgetting_curve/presentation/pages/edit/views/edit_screen.dart';
 import 'package:flutter/material.dart';
@@ -10,8 +11,8 @@ class EditTopContainer extends ConsumerWidget implements PreferredSizeWidget {
   final Map<DateTime, List<Task>> value;
 
   String getTotalTaskCount(Map<DateTime, List<Task>> allTasks) {
-    int totalTaskCount =
-        allTasks.values.fold(0, (sum, list) => sum + list.length);
+    int totalTaskCount = allTasks.values.fold(0,
+        (sum, list) => sum + list.where((task) => !task.completedEvent).length);
     return totalTaskCount.toString();
   }
 
@@ -48,15 +49,40 @@ class EditTopContainer extends ConsumerWidget implements PreferredSizeWidget {
       ),
       actions: [
         Center(
-          child: Padding(
-            padding: const EdgeInsets.only(right: 10.0),
-            child: GestureDetector(
-              onTap: () => todayTaskIndex(ref),
-              child: Text(
-                appLocalizations.today,
-                style: theme.textTheme.titleSmall!.copyWith(color: Colors.blue),
+          child: Row(
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(right: 10.0),
+                child: GestureDetector(
+                  onTap: () => todayTaskIndex(ref),
+                  child: Text(
+                    appLocalizations.today,
+                    style: theme.textTheme.titleSmall!
+                        .copyWith(color: Colors.blue),
+                  ),
+                ),
               ),
-            ),
+              Padding(
+                padding: const EdgeInsets.only(right: 10.0),
+                child: GestureDetector(
+                  onTap: () {
+                    ref
+                        .read(taskSelectionViewModelProvider.notifier)
+                        .clearSelections();
+
+                    ref.read(editTaskAllProvider.notifier).state =
+                        !ref.watch(editTaskAllProvider);
+                  },
+                  child: Text(
+                    ref.read(editTaskAllProvider)
+                        ? appLocalizations.cancel
+                        : appLocalizations.edit,
+                    style: theme.textTheme.titleSmall!
+                        .copyWith(color: theme.primaryColorLight),
+                  ),
+                ),
+              ),
+            ],
           ),
         ),
       ],

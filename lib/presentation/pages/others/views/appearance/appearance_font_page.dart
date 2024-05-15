@@ -1,6 +1,7 @@
 import 'package:ebbinghaus_forgetting_curve/application/state/home/screen_view_model.dart';
 import 'package:ebbinghaus_forgetting_curve/application/state/theme/custom_theme.dart';
 import 'package:ebbinghaus_forgetting_curve/domain/entities/calendar_event.dart';
+import 'package:ebbinghaus_forgetting_curve/presentation/common/review_range_extension.dart';
 import 'package:ebbinghaus_forgetting_curve/presentation/component/custom_app_bar.dart';
 import 'package:ebbinghaus_forgetting_curve/presentation/pages/others/widgets/appearance/appearance_labels.dart';
 import 'package:flutter/material.dart';
@@ -84,6 +85,10 @@ class AppearanceCell extends ConsumerWidget {
                 eventBackgroundColor: Colors.amber,
                 eventID: 0,
                 taskDate: null,
+                completedFlag: false,
+                rangeType: ReviewRange.page,
+                firstRange: 0,
+                secoundRange: 0,
               ),
               CalendarEvent(
                 eventName: appLocalizations.temp_math,
@@ -91,6 +96,10 @@ class AppearanceCell extends ConsumerWidget {
                 eventBackgroundColor: Colors.green,
                 eventID: 0,
                 taskDate: null,
+                completedFlag: false,
+                rangeType: ReviewRange.page,
+                firstRange: 0,
+                secoundRange: 0,
               ),
             ],
           ),
@@ -168,35 +177,33 @@ class AppearanceFontSizeWidget extends HookConsumerWidget {
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(10.0),
         ),
-        child: GestureDetector(
-          child: SizedBox(
-            height: 50,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                Expanded(
-                  child: Text(
-                    appLocalizations.text_size,
-                    style: theme.textTheme.labelLarge!
-                        .copyWith(color: theme.primaryColorLight),
-                  ),
+        child: SizedBox(
+          height: 50,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: <Widget>[
+              Expanded(
+                child: Text(
+                  appLocalizations.text_size,
+                  style: theme.textTheme.labelLarge!
+                      .copyWith(color: theme.primaryColorLight),
                 ),
-                Row(
-                  children: [
-                    Text(
-                      '${themeState.fontSize.toInt().toString()} px',
-                      style: theme.textTheme.labelLarge!
-                          .copyWith(color: Colors.grey),
-                    ),
-                    const SizedBox(width: 10),
-                    Icon(
-                      Icons.unfold_more_sharp,
-                      color: theme.primaryColorLight,
-                    ),
-                  ],
-                )
-              ],
-            ),
+              ),
+              Row(
+                children: [
+                  Text(
+                    '${themeState.fontSize.toInt().toString()} px',
+                    style: theme.textTheme.labelLarge!
+                        .copyWith(color: Colors.grey),
+                  ),
+                  const SizedBox(width: 10),
+                  Icon(
+                    Icons.unfold_more_sharp,
+                    color: theme.primaryColorLight,
+                  ),
+                ],
+              )
+            ],
           ),
         ),
       ),

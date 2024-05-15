@@ -1,9 +1,11 @@
 import 'package:ebbinghaus_forgetting_curve/application/usecases/task/state/tasks_provider.dart';
+import 'package:ebbinghaus_forgetting_curve/presentation/common/review_range_extension.dart';
 import 'package:ebbinghaus_forgetting_curve/presentation/component/modal_manager.dart';
 import 'package:ebbinghaus_forgetting_curve/presentation/pages/edit/widgets/check_task/check_task_app_bar.dart';
 import 'package:ebbinghaus_forgetting_curve/presentation/pages/edit/widgets/check_task/check_task_list.dart';
 import 'package:ebbinghaus_forgetting_curve/presentation/pages/edit/widgets/check_task/check_task_memo.dart';
 import 'package:ebbinghaus_forgetting_curve/presentation/pages/edit/widgets/check_task/check_task_notification.dart';
+import 'package:ebbinghaus_forgetting_curve/presentation/pages/edit/widgets/check_task/check_task_review_range.dart';
 import 'package:ebbinghaus_forgetting_curve/presentation/pages/edit/widgets/check_task/check_task_start_day.dart';
 import 'package:ebbinghaus_forgetting_curve/presentation/pages/edit/widgets/check_task/check_task_title.dart';
 import 'package:ebbinghaus_forgetting_curve/presentation/theme/fonts.dart';
@@ -54,6 +56,7 @@ class CheckTaskScreen extends ConsumerWidget {
                 modal.customShowModalSheet(context);
               },
               backTap: () => context.pop(),
+              actionMode: ActionMode.edit,
             ),
             body: SingleChildScrollView(
               child: Column(
@@ -135,6 +138,15 @@ class CheckTaskScreen extends ConsumerWidget {
                             height: 26.0,
                             thickness: 0.1),
                         CheckTaskTitle(title: value.title),
+                        Divider(
+                            color: theme.dividerColor,
+                            height: 26.0,
+                            thickness: 0.1),
+                        CheckTaskReviewRange(
+                          reviewRange: value.rangeType.stringToReviewRange(),
+                          firstRange: value.firstRange,
+                          secoundRange: value.secoundRange,
+                        ),
                         Divider(
                             color: theme.dividerColor,
                             height: 26.0,

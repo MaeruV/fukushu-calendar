@@ -21,6 +21,10 @@ mixin _$CalendarEvent {
   int get eventID => throw _privateConstructorUsedError;
   Color get eventBackgroundColor => throw _privateConstructorUsedError;
   TaskDate? get taskDate => throw _privateConstructorUsedError;
+  bool get completedFlag => throw _privateConstructorUsedError;
+  ReviewRange get rangeType => throw _privateConstructorUsedError;
+  int get firstRange => throw _privateConstructorUsedError;
+  int? get secoundRange => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $CalendarEventCopyWith<CalendarEvent> get copyWith =>
@@ -38,7 +42,11 @@ abstract class $CalendarEventCopyWith<$Res> {
       DateTime eventDate,
       int eventID,
       Color eventBackgroundColor,
-      TaskDate? taskDate});
+      TaskDate? taskDate,
+      bool completedFlag,
+      ReviewRange rangeType,
+      int firstRange,
+      int? secoundRange});
 }
 
 /// @nodoc
@@ -59,6 +67,10 @@ class _$CalendarEventCopyWithImpl<$Res, $Val extends CalendarEvent>
     Object? eventID = null,
     Object? eventBackgroundColor = null,
     Object? taskDate = freezed,
+    Object? completedFlag = null,
+    Object? rangeType = null,
+    Object? firstRange = null,
+    Object? secoundRange = freezed,
   }) {
     return _then(_value.copyWith(
       eventName: null == eventName
@@ -81,6 +93,22 @@ class _$CalendarEventCopyWithImpl<$Res, $Val extends CalendarEvent>
           ? _value.taskDate
           : taskDate // ignore: cast_nullable_to_non_nullable
               as TaskDate?,
+      completedFlag: null == completedFlag
+          ? _value.completedFlag
+          : completedFlag // ignore: cast_nullable_to_non_nullable
+              as bool,
+      rangeType: null == rangeType
+          ? _value.rangeType
+          : rangeType // ignore: cast_nullable_to_non_nullable
+              as ReviewRange,
+      firstRange: null == firstRange
+          ? _value.firstRange
+          : firstRange // ignore: cast_nullable_to_non_nullable
+              as int,
+      secoundRange: freezed == secoundRange
+          ? _value.secoundRange
+          : secoundRange // ignore: cast_nullable_to_non_nullable
+              as int?,
     ) as $Val);
   }
 }
@@ -98,7 +126,11 @@ abstract class _$$CalendarEventImplCopyWith<$Res>
       DateTime eventDate,
       int eventID,
       Color eventBackgroundColor,
-      TaskDate? taskDate});
+      TaskDate? taskDate,
+      bool completedFlag,
+      ReviewRange rangeType,
+      int firstRange,
+      int? secoundRange});
 }
 
 /// @nodoc
@@ -117,6 +149,10 @@ class __$$CalendarEventImplCopyWithImpl<$Res>
     Object? eventID = null,
     Object? eventBackgroundColor = null,
     Object? taskDate = freezed,
+    Object? completedFlag = null,
+    Object? rangeType = null,
+    Object? firstRange = null,
+    Object? secoundRange = freezed,
   }) {
     return _then(_$CalendarEventImpl(
       eventName: null == eventName
@@ -139,6 +175,22 @@ class __$$CalendarEventImplCopyWithImpl<$Res>
           ? _value.taskDate
           : taskDate // ignore: cast_nullable_to_non_nullable
               as TaskDate?,
+      completedFlag: null == completedFlag
+          ? _value.completedFlag
+          : completedFlag // ignore: cast_nullable_to_non_nullable
+              as bool,
+      rangeType: null == rangeType
+          ? _value.rangeType
+          : rangeType // ignore: cast_nullable_to_non_nullable
+              as ReviewRange,
+      firstRange: null == firstRange
+          ? _value.firstRange
+          : firstRange // ignore: cast_nullable_to_non_nullable
+              as int,
+      secoundRange: freezed == secoundRange
+          ? _value.secoundRange
+          : secoundRange // ignore: cast_nullable_to_non_nullable
+              as int?,
     ));
   }
 }
@@ -151,7 +203,11 @@ class _$CalendarEventImpl implements _CalendarEvent {
       required this.eventDate,
       required this.eventID,
       required this.eventBackgroundColor,
-      required this.taskDate});
+      required this.taskDate,
+      required this.completedFlag,
+      required this.rangeType,
+      required this.firstRange,
+      required this.secoundRange});
 
   @override
   final String eventName;
@@ -163,10 +219,18 @@ class _$CalendarEventImpl implements _CalendarEvent {
   final Color eventBackgroundColor;
   @override
   final TaskDate? taskDate;
+  @override
+  final bool completedFlag;
+  @override
+  final ReviewRange rangeType;
+  @override
+  final int firstRange;
+  @override
+  final int? secoundRange;
 
   @override
   String toString() {
-    return 'CalendarEvent(eventName: $eventName, eventDate: $eventDate, eventID: $eventID, eventBackgroundColor: $eventBackgroundColor, taskDate: $taskDate)';
+    return 'CalendarEvent(eventName: $eventName, eventDate: $eventDate, eventID: $eventID, eventBackgroundColor: $eventBackgroundColor, taskDate: $taskDate, completedFlag: $completedFlag, rangeType: $rangeType, firstRange: $firstRange, secoundRange: $secoundRange)';
   }
 
   @override
@@ -182,12 +246,29 @@ class _$CalendarEventImpl implements _CalendarEvent {
             (identical(other.eventBackgroundColor, eventBackgroundColor) ||
                 other.eventBackgroundColor == eventBackgroundColor) &&
             (identical(other.taskDate, taskDate) ||
-                other.taskDate == taskDate));
+                other.taskDate == taskDate) &&
+            (identical(other.completedFlag, completedFlag) ||
+                other.completedFlag == completedFlag) &&
+            (identical(other.rangeType, rangeType) ||
+                other.rangeType == rangeType) &&
+            (identical(other.firstRange, firstRange) ||
+                other.firstRange == firstRange) &&
+            (identical(other.secoundRange, secoundRange) ||
+                other.secoundRange == secoundRange));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, eventName, eventDate, eventID,
-      eventBackgroundColor, taskDate);
+  int get hashCode => Object.hash(
+      runtimeType,
+      eventName,
+      eventDate,
+      eventID,
+      eventBackgroundColor,
+      taskDate,
+      completedFlag,
+      rangeType,
+      firstRange,
+      secoundRange);
 
   @JsonKey(ignore: true)
   @override
@@ -202,7 +283,11 @@ abstract class _CalendarEvent implements CalendarEvent {
       required final DateTime eventDate,
       required final int eventID,
       required final Color eventBackgroundColor,
-      required final TaskDate? taskDate}) = _$CalendarEventImpl;
+      required final TaskDate? taskDate,
+      required final bool completedFlag,
+      required final ReviewRange rangeType,
+      required final int firstRange,
+      required final int? secoundRange}) = _$CalendarEventImpl;
 
   @override
   String get eventName;
@@ -214,6 +299,14 @@ abstract class _CalendarEvent implements CalendarEvent {
   Color get eventBackgroundColor;
   @override
   TaskDate? get taskDate;
+  @override
+  bool get completedFlag;
+  @override
+  ReviewRange get rangeType;
+  @override
+  int get firstRange;
+  @override
+  int? get secoundRange;
   @override
   @JsonKey(ignore: true)
   _$$CalendarEventImplCopyWith<_$CalendarEventImpl> get copyWith =>

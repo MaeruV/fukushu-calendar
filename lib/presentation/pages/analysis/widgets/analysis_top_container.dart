@@ -1,6 +1,6 @@
 import 'package:ebbinghaus_forgetting_curve/application/state/analysis/analysis_view_model.dart';
 import 'package:ebbinghaus_forgetting_curve/application/usecases/task/state/tasks_provider.dart';
-import 'package:ebbinghaus_forgetting_curve/domain/entities/task.dart';
+import 'package:ebbinghaus_forgetting_curve/presentation/pages/analysis/widgets/app%20bar/analysis_select_data.dart';
 import 'package:ebbinghaus_forgetting_curve/presentation/pages/analysis/widgets/bar%20graph/bar_graph.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -11,9 +11,15 @@ class AnalysisTopContainer extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final analysisState = ref.watch(analysisViewModelProvider);
-
-    final config = ref.watch(compWeekDataProvider(weeks: analysisState.range));
-
+    final dataState = ref.watch(dataModeProvider);
+    AsyncValue<Map<DateTime, List<dynamic>>> config;
+    if (dataState == DataMode.tasks) {
+      config =
+          ref.watch(compTaskDataPeriodProvider(weeks: analysisState.range));
+    } else {
+      config =
+          ref.watch(compEventDataPeriodProvider(weeks: analysisState.range));
+    }
     switch (config) {
       case AsyncError(:final error):
         return Text('Error: $error');
@@ -25,8 +31,7 @@ class AnalysisTopContainer extends ConsumerWidget {
         switch (analysisState.displayMode) {
           case DisplayMode.week:
             return _buildWeeklyData(context, value, analysisState.range);
-          case DisplayMode.month:
-            return _buildMonthlyData(context, value, analysisState.range);
+
           case DisplayMode.year:
             return _buildYearlyData(context, value, analysisState.range);
           default:
@@ -39,8 +44,8 @@ class AnalysisTopContainer extends ConsumerWidget {
   }
 
   Widget _buildWeeklyData(BuildContext context,
-      Map<DateTime, List<TaskDate>> value, List<DateTime> range) {
-    Map<DateTime, List<TaskDate>> weekDates = {};
+      Map<DateTime, List<dynamic>> value, List<DateTime> range) {
+    Map<DateTime, List<dynamic>> weekDates = {};
     for (int i = 0; i < 7; i++) {
       final date = range[0].add(Duration(days: i));
       weekDates[date] = [];
@@ -60,35 +65,8 @@ class AnalysisTopContainer extends ConsumerWidget {
     return MyBarGraph(summary: weeklyTaskCounts, mode: DisplayMode.week);
   }
 
-  Widget _buildMonthlyData(BuildContext context,
-      Map<DateTime, List<TaskDate>> value, List<DateTime> range) {
-    Map<DateTime, int> weekCounts = {};
-
-    value.forEach((date, tasks) {
-      DateTime weekStart = date.subtract(Duration(days: date.weekday - 1));
-      weekCounts.update(weekStart, (count) => count + tasks.length,
-          ifAbsent: () => tasks.length);
-    });
-
-    List<DateTime> weeks = [];
-    DateTime firstDayOfMonth = DateTime(range.first.year, range.first.month);
-    DateTime lastDayOfMonth =
-        DateTime(range.first.year, range.first.month + 1, 0);
-    for (DateTime weekStart = firstDayOfMonth;
-        weekStart.isBefore(lastDayOfMonth);
-        weekStart = weekStart.add(const Duration(days: 7))) {
-      weeks.add(weekStart);
-    }
-
-    List<double> weeklyTaskCounts = weeks
-        .map((weekStart) => weekCounts[weekStart]?.toDouble() ?? 0.0)
-        .toList();
-
-    return MyBarGraph(summary: weeklyTaskCounts, mode: DisplayMode.month);
-  }
-
   Widget _buildYearlyData(BuildContext context,
-      Map<DateTime, List<TaskDate>> value, List<DateTime> range) {
+      Map<DateTime, List<dynamic>> value, List<DateTime> range) {
     Map<int, int> monthCounts = {};
 
     value.forEach((date, tasks) {

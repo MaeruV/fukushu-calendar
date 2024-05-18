@@ -141,7 +141,8 @@ class OthersOpinion extends ConsumerWidget {
       padding: const EdgeInsets.only(left: 5.0),
       child: GestureDetector(
         onTap: () {
-          ref.read(othersNotifierModelProvider.notifier).getScheduled();
+          // ref.read(othersNotifierModelProvider.notifier).getScheduled();
+          ref.read(othersNotifierModelProvider.notifier).testNotification();
         },
         child: SizedBox(
           height: 50,

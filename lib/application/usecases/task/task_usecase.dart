@@ -8,6 +8,7 @@ import 'package:ebbinghaus_forgetting_curve/domain/entities/task.dart';
 import 'package:ebbinghaus_forgetting_curve/domain/repository/task_event_repository_interface.dart';
 import 'package:ebbinghaus_forgetting_curve/presentation/common/review_range_extension.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:isar/isar.dart';
 
 final taskUsecaseProvider = Provider<TaskUsecase>(
@@ -56,6 +57,7 @@ class TaskUsecase with RunUsecaseMixin {
     required DateTime? eventCompDay,
     required DateTime? time,
     required bool flagNotification,
+    required AppLocalizations appLocalizations,
   }) async {
     Task task;
     final formatRange = rangeType.enumToString();
@@ -105,7 +107,7 @@ class TaskUsecase with RunUsecaseMixin {
     }
     _invalidateTasksProvider();
     _refreshCalendarProvider();
-    _fetchNotificationTaskAll();
+    _fetchNotificationTaskAll(appLocalizations: appLocalizations);
   }
 
   Future<void> saveTaskDate({
@@ -205,7 +207,8 @@ class TaskUsecase with RunUsecaseMixin {
     return taskDates;
   }
 
-  Future<void> _fetchNotificationTaskAll() async {
+  Future<void> _fetchNotificationTaskAll(
+      {required AppLocalizations appLocalizations}) async {
     final notificationTasks = await execute(action: () async {
       return await _taskRepository.fetchNotificationTask();
     });
@@ -231,7 +234,8 @@ class TaskUsecase with RunUsecaseMixin {
     _ref
         .read(othersNotifierModelProvider.notifier)
         .scheduleNotificationOnSpecificDate(
-            notificationTasks: groupedTaskDates);
+            notificationTasks: groupedTaskDates,
+            appLocalizations: appLocalizations);
   }
 
   Future<Map<DateTime, List<CalendarEvent>>> groupTasksByReviewDates() async {
@@ -283,11 +287,12 @@ class TaskUsecase with RunUsecaseMixin {
     Task task,
     List<DateTime> times,
     List<DateTime> weeks,
+    AppLocalizations appLocalizations,
   ) async {
     await _taskRepository.delete(task: task);
     _invalidateTasksProvider();
     _refreshCalendarProvider();
-    _fetchNotificationTaskAll();
+    _fetchNotificationTaskAll(appLocalizations: appLocalizations);
     _refreshCompleteTaskPeriodProvider(weeks);
     _refreshCompleteEventPeriodProvider(weeks);
     if (times.isNotEmpty) {

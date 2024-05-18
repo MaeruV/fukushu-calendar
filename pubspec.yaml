@@ -35,7 +35,7 @@ dependencies:
   isar_flutter_libs: ^3.1.0+1
   path_provider: ^2.0.15
   percent_indicator: ^4.2.3
-  flutter_native_splash:
+  flutter_native_splash: ^2.2.16
   flutter_local_notifications: ^17.0.0
   permission_handler:
   package_info: ^2.0.2
@@ -43,7 +43,7 @@ dependencies:
   fl_chart: ^0.64.0
   badges: ^3.1.2
   keyboard_actions: "^4.1.0"
-  # flutter_colorpicker: ^1.0.3
+  flex_color_picker: ^3.5.0
 
   
 
@@ -162,7 +162,6 @@ flutter:
 flutter_icons:
   ios: true
   image_path: "assets/images/launcher/icon_ios.png"
-  remove_alpha_ios: true
+  remove_alpha_ios: truez
   android: true
-  adaptive_icon_background: "assets/images/launcher/icon_ios.png"
   adaptive_icon_foreground: "assets/images/launcher/icon_adaptive_foreground.png"

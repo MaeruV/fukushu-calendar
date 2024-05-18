@@ -93,11 +93,8 @@ class CompEventCheckTaskScreen extends ConsumerWidget {
                     context: context,
                     appLocalizations: appLocalizations,
                     onDoneBtn: () {
-                      ref.read(taskUsecaseProvider).deleteTaskEvent(
-                            value,
-                            state.dateTimeTapped,
-                            state.range,
-                          );
+                      ref.read(taskUsecaseProvider).deleteTaskEvent(value,
+                          state.dateTimeTapped, state.range, appLocalizations);
                       context.go('/');
                     });
               },

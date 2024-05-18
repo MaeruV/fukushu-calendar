@@ -11,13 +11,8 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 class AddTaskTitle extends HookConsumerWidget {
   const AddTaskTitle({super.key});
 
-  static String _displayStringForOption(MaterialsHistory option) =>
-      option.teachingMaterials;
-
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final notifier = ref.read(editViewModelProvider.notifier);
-    final state = ref.watch(editViewModelProvider);
     final theme = Theme.of(context);
     final appLocalizations = AppLocalizations.of(context)!;
     final config = ref.watch(fetchMaterialHistorysProvider);
@@ -41,104 +36,110 @@ class AddTaskTitle extends HookConsumerWidget {
                     .copyWith(color: theme.primaryColorLight),
               ),
               const SizedBox(height: 5),
-              Expanded(
-                child: Autocomplete<MaterialsHistory>(
-                  displayStringForOption: _displayStringForOption,
-                  optionsBuilder: (TextEditingValue textEditingValue) {
-                    return value.where((MaterialsHistory option) {
-                      return option.teachingMaterials
-                          .toLowerCase()
-                          .contains(textEditingValue.text.toLowerCase());
-                    });
-                  },
-                  fieldViewBuilder: (context, textEditingController, focusNode,
-                      onFieldSubmitted) {
-                    textEditingController.text = state.title;
-                    return TextFormField(
-                      style: theme.textTheme.bodyMedium!
-                          .copyWith(color: theme.primaryColorLight),
-                      controller: textEditingController,
-                      focusNode: focusNode,
-                      enabled: true,
-                      obscureText: false,
-                      maxLines: 1,
-                      onFieldSubmitted: (value) => notifier.setTitleText(value),
-                      maxLength: 20,
-                      cursorColor: BrandColor.blue,
-                      decoration: InputDecoration(
-                        contentPadding: const EdgeInsets.symmetric(
-                            vertical: 15, horizontal: 10),
-                        isDense: true,
-                        hintText: appLocalizations.teaching_materials_content,
-                        hintStyle:
-                            BrandText.bodyS.copyWith(color: BrandColor.grey),
-                        enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10),
-                          borderSide: const BorderSide(color: BrandColor.grey),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10),
-                            borderSide:
-                                const BorderSide(color: BrandColor.blue)),
-                      ),
-                    );
-                  },
-                  optionsViewBuilder: (BuildContext context,
-                      void Function(MaterialsHistory) onSelected,
-                      Iterable<MaterialsHistory> options) {
-                    return Align(
-                      alignment: Alignment.topLeft,
-                      child: Material(
-                        elevation: 4.0,
-                        child: ConstrainedBox(
-                          constraints: const BoxConstraints(maxHeight: 200),
-                          child: ListView.builder(
-                            shrinkWrap: true,
-                            padding: EdgeInsets.zero,
-                            itemCount: options.length,
-                            itemBuilder: (BuildContext context, int index) {
-                              final MaterialsHistory option =
-                                  options.elementAt(index);
-                              return InkWell(
-                                onTap: () => onSelected(option),
-                                child: ListTile(
-                                  title: Text(option.teachingMaterials,
-                                      style: theme.textTheme.bodyMedium!
-                                          .copyWith(
-                                              color: theme.primaryColorLight),
-                                      overflow: TextOverflow.ellipsis),
-                                  trailing: Padding(
-                                    padding: const EdgeInsets.only(right: 20.0),
-                                    child: InkWell(
-                                      onTap: () {
-                                        ref
-                                            .read(
-                                                materialHistoryViewModelProvider
-                                                    .notifier)
-                                            .deleteMaterialHistory(option);
-                                      },
-                                      child: const Icon(Icons.highlight_remove,
-                                          color: Colors.grey),
-                                    ),
-                                  ),
-                                ),
-                              );
-                            },
-                          ),
-                        ),
-                      ),
-                    );
-                  },
-                  onSelected: (MaterialsHistory selection) {
-                    notifier.setTitleText(selection.teachingMaterials);
-                  },
-                ),
-              ),
+              Expanded(child: AutocompleteWidget(value: value)),
             ],
           ),
         );
       default:
         return const CircularProgressIndicator();
     }
+  }
+}
+
+class AutocompleteWidget extends ConsumerWidget {
+  const AutocompleteWidget({super.key, required this.value});
+  final List<MaterialsHistory> value;
+
+  static String _displayStringForOption(MaterialsHistory option) =>
+      option.teachingMaterials;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final notifier = ref.read(editViewModelProvider.notifier);
+    final state = ref.watch(editViewModelProvider);
+    final theme = Theme.of(context);
+    final appLocalizations = AppLocalizations.of(context)!;
+
+    return Autocomplete<MaterialsHistory>(
+      initialValue: TextEditingValue(text: state.title),
+      displayStringForOption: _displayStringForOption,
+      optionsBuilder: (TextEditingValue textEditingValue) {
+        return value.where((MaterialsHistory option) {
+          return option.teachingMaterials
+              .toLowerCase()
+              .contains(textEditingValue.text.toLowerCase());
+        });
+      },
+      onSelected: (MaterialsHistory selection) {
+        notifier.setTitleText(selection.teachingMaterials);
+      },
+      fieldViewBuilder:
+          (context, textEditingController, focusNode, onFieldSubmitted) {
+        return TextFormField(
+          style: theme.textTheme.bodyMedium!
+              .copyWith(color: theme.primaryColorLight),
+          controller: textEditingController,
+          focusNode: focusNode,
+          enabled: true,
+          obscureText: false,
+          maxLines: 1,
+          onChanged: (value) => notifier.setTitleText(value),
+          maxLength: 20,
+          cursorColor: BrandColor.blue,
+          decoration: InputDecoration(
+            contentPadding:
+                const EdgeInsets.symmetric(vertical: 15, horizontal: 10),
+            isDense: true,
+            hintText: appLocalizations.teaching_materials_content,
+            hintStyle: BrandText.bodyS.copyWith(color: BrandColor.grey),
+            enabledBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(10),
+              borderSide: const BorderSide(color: BrandColor.grey),
+            ),
+            focusedBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(10),
+                borderSide: const BorderSide(color: BrandColor.blue)),
+          ),
+        );
+      },
+      optionsViewBuilder: (context, onSelected, options) {
+        return Align(
+          alignment: Alignment.topLeft,
+          child: Material(
+            elevation: 4,
+            child: ListView.builder(
+              padding: EdgeInsets.zero,
+              shrinkWrap: true,
+              itemCount: options.length,
+              itemBuilder: (BuildContext context, int index) {
+                final MaterialsHistory option = options.elementAt(index);
+                return ListTile(
+                  title: Text(
+                    option.teachingMaterials,
+                    style: theme.textTheme.bodyMedium!
+                        .copyWith(color: theme.primaryColorLight),
+                  ),
+                  onTap: () {
+                    onSelected(option);
+                  },
+                  trailing: Padding(
+                    padding: const EdgeInsets.only(right: 20.0),
+                    child: InkWell(
+                      onTap: () {
+                        ref
+                            .read(materialHistoryViewModelProvider.notifier)
+                            .deleteMaterialHistory(option);
+                      },
+                      child: const Icon(Icons.highlight_remove,
+                          color: Colors.grey),
+                    ),
+                  ),
+                );
+              },
+            ),
+          ),
+        );
+      },
+    );
   }
 }

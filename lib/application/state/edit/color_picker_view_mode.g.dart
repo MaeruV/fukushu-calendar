@@ -7,7 +7,7 @@ part of 'color_picker_view_mode.dart';
 // **************************************************************************
 
 String _$colorPickerViewModelHash() =>
-    r'e565c70002ba63a055de9d436574b2a104f40661';
+    r'd83051bbb5a5fcd43f4dd4898519d96fceadc604';
 
 /// See also [ColorPickerViewModel].
 @ProviderFor(ColorPickerViewModel)

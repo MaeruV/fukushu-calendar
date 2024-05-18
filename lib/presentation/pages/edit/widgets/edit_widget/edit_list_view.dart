@@ -81,6 +81,7 @@ class EditSlidableAction extends ConsumerWidget {
     SlidableActionPropaties action,
     Task task,
   ) async {
+    final appLocalizations = AppLocalizations.of(context)!;
     final state = ref.watch(analysisViewModelProvider);
     switch (action) {
       case SlidableActionPropaties.edit:
@@ -89,10 +90,7 @@ class EditSlidableAction extends ConsumerWidget {
         break;
       case SlidableActionPropaties.delete:
         await ref.read(taskUsecaseProvider).deleteTaskEvent(
-              task,
-              state.dateTimeTapped,
-              state.range,
-            );
+            task, state.dateTimeTapped, state.range, appLocalizations);
         break;
       default:
     }
@@ -101,6 +99,7 @@ class EditSlidableAction extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final isEnabled = ref.watch(editTaskAllProvider);
+
     return SlidableAutoCloseBehavior(
       closeWhenOpened: true,
       child: Column(
@@ -270,11 +269,16 @@ class CheckBoxContainer extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final isSelected = ref.watch(taskSelectionViewModelProvider)[task] ?? false;
     final isEnabled = ref.watch(editTaskAllProvider);
+    final theme = Theme.of(context);
 
     return SizedBox(
       width: isEnabled ? 50 : 10,
       child: isEnabled
-          ? Checkbox(value: isSelected, onChanged: onChanged)
+          ? Checkbox(
+              value: isSelected,
+              onChanged: onChanged,
+              activeColor: theme.primaryColorLight,
+            )
           : const SizedBox(width: 10),
     );
   }

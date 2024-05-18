@@ -11,23 +11,21 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:badges/badges.dart' as badges;
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 final editTodayKeyProvider = StateProvider((ref) => GlobalKey());
 
 class EditScreen extends HookConsumerWidget {
   const EditScreen({super.key});
 
-  void deleteSelectedTasks(WidgetRef ref) {
+  void deleteSelectedTasks(WidgetRef ref, AppLocalizations appLocalizations) {
     final selectedTask = ref.watch(taskSelectionViewModelProvider);
     final state = ref.watch(analysisViewModelProvider);
 
     for (var task in selectedTask.keys) {
       if (selectedTask[task] == true) {
         ref.read(taskUsecaseProvider).deleteTaskEvent(
-              task,
-              state.dateTimeTapped,
-              state.range,
-            );
+            task, state.dateTimeTapped, state.range, appLocalizations);
       }
     }
     ref.read(taskSelectionViewModelProvider.notifier).clearSelections();
@@ -39,6 +37,7 @@ class EditScreen extends HookConsumerWidget {
     final config = ref.watch(tasksProvider);
     final isLoading = ref.watch(overlayLoadingProvider);
     final theme = Theme.of(context);
+    final appLocalizations = AppLocalizations.of(context)!;
 
     switch (config) {
       case AsyncError(:final error):
@@ -60,7 +59,7 @@ class EditScreen extends HookConsumerWidget {
                 bottom: 10,
                 right: 20,
                 child: GestureDetector(
-                  onTap: () => deleteSelectedTasks(ref),
+                  onTap: () => deleteSelectedTasks(ref, appLocalizations),
                   child: const AnimationFloationDeleteButton(),
                 ),
               ),
@@ -101,11 +100,13 @@ class AnimationFloationDeleteButton extends HookConsumerWidget {
           return Opacity(
             opacity: tweenAnimation.value,
             child: badges.Badge(
-              badgeContent:
-                  Text(countTask.toString(), style: theme.textTheme.bodySmall),
-              badgeStyle: const badges.BadgeStyle(
-                badgeColor: Colors.white,
-                borderSide: BorderSide(width: 1.5, color: BrandColor.white),
+              position: badges.BadgePosition.topEnd(top: -15, end: -10),
+              badgeContent: Text(countTask.toString(),
+                  style: theme.textTheme.titleSmall!
+                      .copyWith(color: theme.primaryColorDark)),
+              badgeStyle: badges.BadgeStyle(
+                padding: const EdgeInsets.all(8.0),
+                badgeColor: theme.primaryColorLight,
               ),
               child: Container(
                 height: 50,

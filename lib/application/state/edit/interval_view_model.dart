@@ -9,9 +9,11 @@ part 'interval_view_model.g.dart';
 
 @Riverpod(keepAlive: false)
 class IntervalViewModel extends _$IntervalViewModel {
+  late DialogManager dialogManager;
   @override
   List<int> build() {
     final editState = ref.watch(editViewModelProvider);
+    dialogManager = DialogManager();
     return editState.intervalDays;
   }
 
@@ -19,12 +21,14 @@ class IntervalViewModel extends _$IntervalViewModel {
     if (state.contains(num)) {
       showDialog(
         context: context,
-        builder: (context) => const DialogManager(content: sameNumContent),
+        builder: (context) => dialogManager.setIntervalDialog(
+            content: sameNumContent, context: context),
       );
     } else if (state.length > 9) {
       showDialog(
         context: context,
-        builder: (context) => const DialogManager(content: maxLengthContent),
+        builder: (context) => dialogManager.setIntervalDialog(
+            content: maxLengthContent, context: context),
       );
     } else {
       List<int> currentList = List<int>.from(state);

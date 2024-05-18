@@ -30,9 +30,9 @@ class AddTaskNotification extends ConsumerWidget {
               textButtonTheme: TextButtonThemeData(
                 style: ButtonStyle(
                   foregroundColor:
-                      MaterialStateColor.resolveWith((states) => Colors.blue),
+                      WidgetStateColor.resolveWith((states) => Colors.blue),
                   overlayColor:
-                      MaterialStateColor.resolveWith((states) => Colors.blue),
+                      WidgetStateColor.resolveWith((states) => Colors.blue),
                 ),
               ),
             ),
@@ -65,98 +65,94 @@ class AddTaskNotification extends ConsumerWidget {
           }
         }
       },
-      child: SizedBox(
-        height: 105,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            SizedBox(
-              height: 50,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    appLocalizations.notification,
-                    style: theme.textTheme.bodySmall!
-                        .copyWith(color: theme.primaryColorLight),
-                  ),
-                  notificaitonState
-                      ? Switch(
-                          value: state.flagNotification,
-                          onChanged: (flag) async {
-                            ref
-                                .read(editViewModelProvider.notifier)
-                                .setNotificationFlag(flag);
-                          },
-                        )
-                      : const SizedBox.shrink()
-                ],
-              ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          SizedBox(
+            height: 50,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  appLocalizations.notification,
+                  style: theme.textTheme.bodySmall!
+                      .copyWith(color: theme.primaryColorLight),
+                ),
+                notificaitonState
+                    ? Switch(
+                        activeColor: theme.primaryColorLight,
+                        value: state.flagNotification,
+                        onChanged: (flag) async {
+                          ref
+                              .read(editViewModelProvider.notifier)
+                              .setNotificationFlag(flag);
+                        },
+                      )
+                    : const SizedBox.shrink()
+              ],
             ),
-            Expanded(
-              child: notificaitonState
-                  ? state.flagNotification
-                      ? Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 10),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10),
-                            border: Border.all(color: BrandColor.grey),
+          ),
+          notificaitonState
+              ? state.flagNotification
+                  ? Container(
+                      height: 60,
+                      padding: const EdgeInsets.symmetric(horizontal: 10),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10),
+                        border: Border.all(color: BrandColor.grey),
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: <Widget>[
+                          Text(
+                            state.time?.toHourMinute() ?? now.toHourMinute(),
+                            style: BrandText.bodyS,
                           ),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: <Widget>[
-                              Text(
-                                state.time?.toHourMinute() ??
-                                    now.toHourMinute(),
-                                style: BrandText.bodyS,
-                              ),
-                              const Icon(
-                                Icons.timelapse,
-                                color: BrandColor.grey,
-                              )
-                            ],
-                          ),
-                        )
-                      : const SizedBox.shrink()
-                  : GestureDetector(
-                      onTap: () async {
-                        await ref
-                            .read(notificationPermissionProvider.notifier)
-                            .openSettings();
-                      },
-                      child: Card(
-                        child: ListTile(
-                          contentPadding: const EdgeInsets.symmetric(
-                              horizontal: 10, vertical: 15),
-                          leading: const Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Icon(Icons.notification_important,
-                                  color: BrandColor.deleteRed),
-                            ],
-                          ),
-                          trailing: const Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Icon(Icons.chevron_right),
-                            ],
-                          ),
-                          title: Text(
-                            appLocalizations.notification_permission,
-                            style: theme.textTheme.titleSmall!
-                                .copyWith(color: BrandColor.deleteRed),
-                          ),
-                          subtitle: Text(
-                            appLocalizations.notification_permission_content,
-                            style: theme.textTheme.bodySmall!
-                                .copyWith(color: theme.primaryColorLight),
-                          ),
-                        ),
+                          const Icon(
+                            Icons.timelapse,
+                            color: BrandColor.grey,
+                          )
+                        ],
+                      ),
+                    )
+                  : const SizedBox.shrink()
+              : GestureDetector(
+                  onTap: () async {
+                    await ref
+                        .read(notificationPermissionProvider.notifier)
+                        .openSettings();
+                  },
+                  child: Card(
+                    child: ListTile(
+                      contentPadding: const EdgeInsets.symmetric(
+                          horizontal: 10, vertical: 15),
+                      leading: const Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(Icons.notification_important,
+                              color: BrandColor.deleteRed),
+                        ],
+                      ),
+                      trailing: const Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(Icons.chevron_right),
+                        ],
+                      ),
+                      title: Text(
+                        appLocalizations.notification_permission,
+                        style: theme.textTheme.titleSmall!
+                            .copyWith(color: BrandColor.deleteRed),
+                      ),
+                      subtitle: Text(
+                        appLocalizations.notification_permission_content,
+                        style: theme.textTheme.bodySmall!
+                            .copyWith(color: theme.primaryColorLight),
                       ),
                     ),
-            ),
-          ],
-        ),
+                  ),
+                ),
+        ],
       ),
     );
   }

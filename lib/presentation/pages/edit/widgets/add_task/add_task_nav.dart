@@ -64,6 +64,7 @@ class AddTaskNav extends ConsumerWidget with PresentationMixin {
                             time: state.time,
                             flagNotification: state.flagNotification,
                             eventCompDay: null,
+                            appLocalizations: appLocalizations,
                           );
                       await ref
                           .read(materialHistoryViewModelProvider.notifier)

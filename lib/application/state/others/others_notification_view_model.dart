@@ -1,11 +1,12 @@
 import 'dart:io';
 import 'package:ebbinghaus_forgetting_curve/domain/entities/task.dart';
-import 'package:ebbinghaus_forgetting_curve/presentation/common/date_time_extension.dart';
+import 'package:ebbinghaus_forgetting_curve/presentation/common/review_range_extension.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import 'package:timezone/timezone.dart' as tz;
 
@@ -55,7 +56,12 @@ class OthersNotifierModel extends _$OthersNotifierModel {
     );
     var initializationSettings =
         InitializationSettings(android: androidInitialize, iOS: iOSInitialize);
-    await _localNotifications.initialize(initializationSettings);
+    bool? isInitialized =
+        await _localNotifications.initialize(initializationSettings);
+    if (isInitialized == null || !isInitialized) {
+      debugPrint('Notification initialization failed');
+      return;
+    }
 
     var androidDetails = const AndroidNotificationDetails(
       'channelId',
@@ -74,9 +80,10 @@ class OthersNotifierModel extends _$OthersNotifierModel {
     debugPrint('id ----- $id');
   }
 
-  Future<void> scheduleNotificationOnSpecificDate(
-      {required Map<DateTime, List<NotificationTask>>
-          notificationTasks}) async {
+  Future<void> scheduleNotificationOnSpecificDate({
+    required Map<DateTime, List<NotificationTask>> notificationTasks,
+    required AppLocalizations appLocalizations,
+  }) async {
     await cancelScheduleAll();
     notificationTasks.forEach((key, value) async {
       tz.TZDateTime scheduledDateTime = tz.TZDateTime.from(key, tz.local);
@@ -87,17 +94,22 @@ class OthersNotifierModel extends _$OthersNotifierModel {
         debugPrint('Error: scheduledDateTime is in the past.');
         return;
       }
-      final String bodyComment = '今日 ${key.toHourMinute()}';
+      // final String bodyComment = '今日 ${key.toHourMinute()}';
       for (final time in value) {
-        await _localNotifications.zonedSchedule(
-          time.id,
-          time.task.value?.title,
-          bodyComment,
-          scheduledDateTime,
-          state!,
-          uiLocalNotificationDateInterpretation:
-              UILocalNotificationDateInterpretation.absoluteTime,
-        );
+        final task = time.task.value;
+        if (task != null) {
+          final formatRange =
+              "${task.firstRange} ${task.secoundRange != null ? "- ${task.secoundRange}" : ""} ${task.rangeType.stringToReviewRange().updateSelectionText(appLocalizations)}";
+          await _localNotifications.zonedSchedule(
+            time.id,
+            time.task.value?.title,
+            formatRange,
+            scheduledDateTime,
+            state!,
+            uiLocalNotificationDateInterpretation:
+                UILocalNotificationDateInterpretation.absoluteTime,
+          );
+        }
       }
     });
   }

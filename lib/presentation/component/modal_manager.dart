@@ -100,9 +100,7 @@ class ModalManager {
       enableDrag: true,
       isScrollControlled: true,
       context: context,
-      builder: (ct) => AddTaskModalScreen(
-        parentContext: ct,
-      ),
+      builder: (ct) => AddTaskModalScreen(parentContext: ct),
     );
   }
 }

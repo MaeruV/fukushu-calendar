@@ -86,5 +86,7 @@
   "word": "word",
   "chapter": "chapter",
   "start": "Start",
-  "finish": "Finish"
+  "finish": "Finish",
+  "select_color": "Select color",
+  "select_color_shade": "Select color shade"
 }

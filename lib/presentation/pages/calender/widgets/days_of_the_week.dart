@@ -1,4 +1,3 @@
-import 'package:ebbinghaus_forgetting_curve/presentation/theme/fonts.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 

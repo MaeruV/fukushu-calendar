@@ -16,12 +16,6 @@ class AddTaskMemo extends HookConsumerWidget {
     final theme = Theme.of(context);
     final appLocalizations = AppLocalizations.of(context)!;
     final controller = useTextEditingController(text: memoText);
-    useEffect(() {
-      controller.addListener(() {
-        notifier.setMemoText(controller.text);
-      });
-      return null;
-    }, []);
 
     return SizedBox(
       height: 105,
@@ -37,6 +31,7 @@ class AddTaskMemo extends HookConsumerWidget {
           Expanded(
             child: TextField(
               controller: controller,
+              onChanged: (value) => notifier.setMemoText(value),
               style: theme.textTheme.bodyMedium!
                   .copyWith(color: theme.primaryColorLight),
               maxLength: 100,

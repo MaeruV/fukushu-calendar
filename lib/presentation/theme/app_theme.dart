@@ -21,7 +21,7 @@ class AppTheme {
     primaryColorDark: BrandColor.white,
     primaryColorLight: BrandColor.black,
     dividerColor: BrandColor.grey,
-    focusColor: BrandColor.deepBlue,
+    focusColor: BrandColor.blue,
     cardColor: Colors.white,
     scaffoldBackgroundColor: BrandColor.background,
     fontFamily: BrandFont.general,
@@ -41,7 +41,7 @@ class AppTheme {
     colorScheme: const ColorScheme.dark(
       surface: BrandColor.canvas,
       primary: BrandColor.background,
-      secondary: BrandColor.blue,
+      secondary: BrandColor.deepBlue,
       brightness: Brightness.dark,
     ),
     highlightColor: BrandColor.brighterBlue1,
@@ -63,18 +63,18 @@ class AppTheme {
 
   static final TimePickerThemeData constTimePickerLight = TimePickerThemeData(
     helpTextStyle: const TextStyle(fontSize: 18.0, color: BrandColor.black),
-    hourMinuteColor: MaterialStateColor.resolveWith((states) =>
-        states.contains(MaterialState.selected)
+    hourMinuteColor: WidgetStateColor.resolveWith((states) =>
+        states.contains(WidgetState.selected)
             ? Colors.blue.shade300
             : Colors.transparent),
-    hourMinuteTextColor: MaterialStateColor.resolveWith((states) =>
-        states.contains(MaterialState.selected)
+    hourMinuteTextColor: WidgetStateColor.resolveWith((states) =>
+        states.contains(WidgetState.selected)
             ? BrandColor.black
             : BrandColor.black),
     dialHandColor: Colors.blue,
     dayPeriodTextColor: Colors.red,
-    dialTextColor: MaterialStateColor.resolveWith((states) =>
-        states.contains(MaterialState.selected)
+    dialTextColor: WidgetStateColor.resolveWith((states) =>
+        states.contains(WidgetState.selected)
             ? BrandColor.white
             : BrandColor.black),
     entryModeIconColor: Colors.blue,
@@ -82,18 +82,18 @@ class AppTheme {
 
   static final TimePickerThemeData constTimePickerDark = TimePickerThemeData(
     helpTextStyle: const TextStyle(fontSize: 18.0, color: BrandColor.white),
-    hourMinuteColor: MaterialStateColor.resolveWith((states) =>
-        states.contains(MaterialState.selected)
+    hourMinuteColor: WidgetStateColor.resolveWith((states) =>
+        states.contains(WidgetState.selected)
             ? Colors.blue.shade300
             : Colors.transparent),
-    hourMinuteTextColor: MaterialStateColor.resolveWith((states) =>
-        states.contains(MaterialState.selected)
+    hourMinuteTextColor: WidgetStateColor.resolveWith((states) =>
+        states.contains(WidgetState.selected)
             ? BrandColor.background
             : BrandColor.white),
     dialHandColor: Colors.blue,
     dayPeriodTextColor: Colors.red,
-    dialTextColor: MaterialStateColor.resolveWith((states) =>
-        states.contains(MaterialState.selected)
+    dialTextColor: WidgetStateColor.resolveWith((states) =>
+        states.contains(WidgetState.selected)
             ? BrandColor.black
             : BrandColor.white),
     entryModeIconColor: Colors.blue,

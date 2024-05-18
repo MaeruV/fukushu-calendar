@@ -100,14 +100,7 @@ class CompListWidget extends ConsumerWidget with PresentationMixin {
                     ),
                   ),
                   Checkbox(
-                    fillColor: MaterialStateProperty.resolveWith<Color>(
-                        (Set<MaterialState> states) {
-                      if (states.contains(MaterialState.selected)) {
-                        return theme.focusColor;
-                      }
-                      return theme.colorScheme.secondary;
-                    }),
-                    checkColor: Colors.white,
+                    activeColor: theme.primaryColorLight,
                     value: taskDate.checkFlag,
                     onChanged: (flag) {
                       execute(context, action: () async {

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-typedef void OnWidgetSizeChange(Size? size);
+typedef OnWidgetSizeChange = void Function(Size? size);
 
 class MeasureSize extends StatefulWidget {
   final Widget child;
@@ -13,7 +13,7 @@ class MeasureSize extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  _MeasureSizeState createState() => _MeasureSizeState();
+  State<MeasureSize> createState() => _MeasureSizeState();
 }
 
 class _MeasureSizeState extends State<MeasureSize> {

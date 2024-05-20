@@ -28,14 +28,14 @@ class CalendarCustomScreen extends HookConsumerWidget {
     const minHeight = 400;
     final minHeightFactor = minHeight / height;
 
-    void _onVerticalDragUpdate(DragUpdateDetails details) {
+    void onVerticalDragUpdate(DragUpdateDetails details) {
       final newHeightFactor =
           (topContainerHeightFactor.value + details.primaryDelta! / height)
               .clamp(minHeightFactor, maxHeightFactor);
       topContainerHeightFactor.value = newHeightFactor;
     }
 
-    void _onVerticalDragEnd(DragEndDetails details) {
+    void onVerticalDragEnd(DragEndDetails details) {
       if (topContainerHeightFactor.value < 0.6) {
         topContainerHeightFactor.value = minHeightFactor;
         collapsed.state = true;
@@ -105,8 +105,8 @@ class CalendarCustomScreen extends HookConsumerWidget {
           body: Column(
             children: <Widget>[
               GestureDetector(
-                onVerticalDragUpdate: _onVerticalDragUpdate,
-                onVerticalDragEnd: _onVerticalDragEnd,
+                onVerticalDragUpdate: onVerticalDragUpdate,
+                onVerticalDragEnd: onVerticalDragEnd,
                 child: AnimatedContainer(
                   duration: const Duration(milliseconds: 100),
                   height: height * topContainerHeightFactor.value,

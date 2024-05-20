@@ -2,7 +2,7 @@ import 'package:ebbinghaus_forgetting_curve/application/state/edit/edit_view_mod
 import 'package:ebbinghaus_forgetting_curve/presentation/common/review_range_extension.dart';
 import 'package:ebbinghaus_forgetting_curve/presentation/component/custom_keyboard_action_config.dart';
 import 'package:ebbinghaus_forgetting_curve/presentation/theme/colors.dart';
-import 'package:ebbinghaus_forgetting_curve/presentation/theme/text_%20field_design.dart';
+import 'package:ebbinghaus_forgetting_curve/presentation/theme/text_field_design.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';

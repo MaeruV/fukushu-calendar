@@ -15,7 +15,6 @@ mixin RunUsecaseMixin {
       try {
         return await action();
       } catch (e) {
-        print(e);
         rethrow;
       }
     }

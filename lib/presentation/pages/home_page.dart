@@ -35,14 +35,14 @@ class HomePage extends HookConsumerWidget {
       return null;
     }, []);
 
-    void _actionButtonTapped() {
+    void actionButtonTapped() {
       ref.read(temporaryTaskProvider.notifier).state = null;
       modal.customShowModalSheet(context);
     }
 
-    void _selectedIndex(int index) {
+    void selectedIndex(int index) {
       if (index == 2) {
-        _actionButtonTapped();
+        actionButtonTapped();
       } else {
         notifier.onItemTapped(index);
       }
@@ -62,7 +62,7 @@ class HomePage extends HookConsumerWidget {
             backgroundColor: theme.canvasColor,
             selectedColor: BrandColor.blue,
             notchedShape: const CircularNotchedRectangle(),
-            onTabSelected: _selectedIndex,
+            onTabSelected: selectedIndex,
             items: [
               FABBottomAppBarItem(
                   iconData: Icons.calendar_month,

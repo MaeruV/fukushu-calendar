@@ -1,5 +1,5 @@
 import 'package:ebbinghaus_forgetting_curve/presentation/pages/others/widgets/others_app_info.dart';
-import 'package:ebbinghaus_forgetting_curve/presentation/pages/others/widgets/others_%20appearance.dart';
+import 'package:ebbinghaus_forgetting_curve/presentation/pages/others/widgets/others_appearance.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';

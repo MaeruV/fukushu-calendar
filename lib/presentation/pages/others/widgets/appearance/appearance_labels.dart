@@ -26,14 +26,14 @@ class AppearanceEventLabels extends HookConsumerWidget {
     return res;
   }
 
-  bool _hasEnoughSpace(
+  bool hasEnoughSpace(
       double cellHeight, int eventsLength, int eventLabelHeight) {
     final eventsTotalHeight = eventLabelHeight * eventsLength;
     final spaceForEvents = cellHeight;
     return spaceForEvents > eventsTotalHeight;
   }
 
-  int _maxIndex(double cellHeight, int eventsLength, int eventLabelHeight) {
+  int maxIndex(double cellHeight, int eventsLength, int eventLabelHeight) {
     final spaceForEvents = cellHeight;
     const indexing = 1;
     const indexForPlot = 1;

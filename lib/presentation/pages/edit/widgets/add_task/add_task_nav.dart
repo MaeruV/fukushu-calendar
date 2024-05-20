@@ -72,8 +72,6 @@ class AddTaskNav extends ConsumerWidget with PresentationMixin {
                     },
                   );
                   context.pop();
-                } else {
-                  print('hasChangesがfalse');
                 }
               },
               child: Text(

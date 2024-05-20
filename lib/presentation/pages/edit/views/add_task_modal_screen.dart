@@ -8,7 +8,6 @@ import 'package:ebbinghaus_forgetting_curve/presentation/pages/edit/widgets/add_
 import 'package:ebbinghaus_forgetting_curve/presentation/pages/edit/widgets/add_task/add_task_sliver_app_bar.dart';
 import 'package:ebbinghaus_forgetting_curve/presentation/pages/edit/widgets/add_task/add_task_title.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class AddTaskModalScreen extends HookConsumerWidget {

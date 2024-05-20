@@ -70,7 +70,6 @@ class EditViewModel extends _$EditViewModel {
       state = state.copyWith(firstRange: formatRange);
       _checkForChanges();
     } else {
-      print("Error: Invalid input for range. Please enter a valid integer.");
       state = state.copyWith(firstRange: 0);
     }
   }
@@ -81,7 +80,6 @@ class EditViewModel extends _$EditViewModel {
       state = state.copyWith(secoundRange: formatRange);
       _checkForChanges();
     } else {
-      print("Error: Invalid input for range. Please enter a valid integer.");
       state = state.copyWith(secoundRange: 0);
     }
   }

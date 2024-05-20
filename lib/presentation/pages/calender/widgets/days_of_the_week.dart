@@ -9,7 +9,7 @@ class DaysOfTheWeek extends StatelessWidget {
     final theme = Theme.of(context);
     final appLocalizations = AppLocalizations.of(context)!;
 
-    final List<String> _DaysOfTheWeek = [
+    final List<String> daysOfTheWeek = [
       appLocalizations.sunday,
       appLocalizations.monday,
       appLocalizations.tuesday,
@@ -23,18 +23,20 @@ class DaysOfTheWeek extends StatelessWidget {
       height: 25,
       margin: const EdgeInsets.only(bottom: 5),
       child: Row(
-        children: _DaysOfTheWeek.map((day) => Expanded(
-              child: Text(
-                day,
-                textAlign: TextAlign.center,
-                style: theme.textTheme.labelSmall!.copyWith(
-                    color: day == _DaysOfTheWeek.first
-                        ? Colors.red // 日曜日を赤色に
-                        : day == _DaysOfTheWeek.last
-                            ? Colors.blue // 土曜日を青色に
-                            : theme.primaryColorLight), // 平日は元の色
-              ),
-            )).toList(),
+        children: daysOfTheWeek
+            .map((day) => Expanded(
+                  child: Text(
+                    day,
+                    textAlign: TextAlign.center,
+                    style: theme.textTheme.labelSmall!.copyWith(
+                        color: day == daysOfTheWeek.first
+                            ? Colors.red // 日曜日を赤色に
+                            : day == daysOfTheWeek.last
+                                ? Colors.blue // 土曜日を青色に
+                                : theme.primaryColorLight), // 平日は元の色
+                  ),
+                ))
+            .toList(),
       ),
     );
   }

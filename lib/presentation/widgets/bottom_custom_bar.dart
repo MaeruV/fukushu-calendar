@@ -34,12 +34,12 @@ class FABBottomAppBar extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final _selectedIndex = useState(0);
+    final selectedIndex = useState(0);
 
     updateIndex(int index) {
       if (index != 2) {
         onTabSelected(index);
-        _selectedIndex.value = index;
+        selectedIndex.value = index;
       } else {
         onTabSelected(index);
       }
@@ -50,7 +50,7 @@ class FABBottomAppBar extends HookConsumerWidget {
         item: this.items[index],
         index: index,
         onPressed: updateIndex,
-        selectedIndex: _selectedIndex.value,
+        selectedIndex: selectedIndex.value,
       );
     });
 

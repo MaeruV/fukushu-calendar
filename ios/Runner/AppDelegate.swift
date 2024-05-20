@@ -11,7 +11,7 @@ import Flutter
     
     // iOS 10.0以上での通知センターのデリゲート設定
     if #available(iOS 10.0, *) {
-      UNUserNotificationCenter.current().delegate = self as? UNUserNotificationCenterDelegate
+      UNUserNotificationCenter.current().delegate = self
     }
     
     return super.application(application, didFinishLaunchingWithOptions: launchOptions)

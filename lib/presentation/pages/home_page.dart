@@ -1,6 +1,5 @@
 import 'package:ebbinghaus_forgetting_curve/application/state/home/home_view_model.dart';
 import 'package:ebbinghaus_forgetting_curve/application/state/home/screen_view_model.dart';
-import 'package:ebbinghaus_forgetting_curve/application/state/others/others_view_model.dart';
 import 'package:ebbinghaus_forgetting_curve/application/usecases/task/state/tasks_provider.dart';
 import 'package:ebbinghaus_forgetting_curve/presentation/component/modal_manager.dart';
 import 'package:ebbinghaus_forgetting_curve/presentation/theme/colors.dart';
@@ -29,7 +28,6 @@ class HomePage extends HookConsumerWidget {
         ref
             .read(screenViewModelProvider.notifier)
             .setScreenSize(height, width, top);
-        ref.read(othersViewModelProvider.notifier).initialize();
         isLoading.value = false;
       });
       return null;

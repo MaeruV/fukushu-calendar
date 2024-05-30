@@ -38,15 +38,20 @@ class IntervalAppBar extends ConsumerWidget
           padding: const EdgeInsets.only(right: 15.0),
           child: GestureDetector(
             onTap: () {
-              execute(context, action: () async {
-                if (intervalState.isNotEmpty) {
-                  notifier.updateIntervalDays(intervalState);
-                  context.pop();
-                } else {
-                  throw Exception(
-                      appLocalizations.please_set_at_least_one_review_day);
-                }
-              });
+              execute(
+                context,
+                action: () async {
+                  if (intervalState.isNotEmpty) {
+                    notifier.updateIntervalDays(intervalState);
+                    context.pop();
+                  } else {
+                    throw Exception(
+                        appLocalizations.please_set_at_least_one_review_day);
+                  }
+                },
+                failureMessage: '',
+                scaffoldMessenger: ScaffoldMessenger.of(context),
+              );
             },
             child: Center(
               child: Text(

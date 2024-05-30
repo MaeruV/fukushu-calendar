@@ -1,6 +1,7 @@
 import 'package:ebbinghaus_forgetting_curve/application/types/edit/edit_state.dart';
 import 'package:ebbinghaus_forgetting_curve/application/usecases/task/state/tasks_provider.dart';
 import 'package:ebbinghaus_forgetting_curve/domain/entities/task.dart';
+import 'package:ebbinghaus_forgetting_curve/presentation/common/date_time_extension.dart';
 import 'package:ebbinghaus_forgetting_curve/presentation/common/review_range_extension.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -25,7 +26,7 @@ class EditViewModel extends _$EditViewModel {
     final hasTime = task?.time.toList() != null;
     final checkDateTime = hasTime && task?.time.toList().isNotEmpty == true
         ? task?.time.toList().first.dateTime
-        : null;
+        : DateTime.now().toZeroHour();
     final bool flagNotification =
         hasTime && task?.time.toList().isNotEmpty == true;
     final hasTask = task != null ? true : false;

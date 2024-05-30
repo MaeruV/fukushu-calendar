@@ -32,3 +32,11 @@
     </application>
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS"/>
 </manifest>
+<manifest package="com.example.ebbinghausForgettingCurve">
+  <queries>
+    <intent>
+      <action android:name="android.intent.action.SENDTO" />
+      <data android:scheme="mailto" />
+    </intent>
+  </queries>
+</manifest>

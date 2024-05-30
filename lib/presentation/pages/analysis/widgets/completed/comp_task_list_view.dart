@@ -103,16 +103,21 @@ class CompListWidget extends ConsumerWidget with PresentationMixin {
                     activeColor: theme.primaryColorLight,
                     value: taskDate.checkFlag,
                     onChanged: (flag) {
-                      execute(context, action: () async {
-                        if (flag != null) {
-                          ref.read(taskUsecaseProvider).saveTaskDate(
-                                taskDate: taskDate,
-                                flag: flag,
-                                time: analysisState.dateTimeTapped,
-                                weeks: analysisState.range,
-                              );
-                        }
-                      });
+                      execute(
+                        context,
+                        action: () async {
+                          if (flag != null) {
+                            ref.read(taskUsecaseProvider).saveTaskDate(
+                                  taskDate: taskDate,
+                                  flag: flag,
+                                  time: analysisState.dateTimeTapped,
+                                  weeks: analysisState.range,
+                                );
+                          }
+                        },
+                        failureMessage: '',
+                        scaffoldMessenger: ScaffoldMessenger.of(context),
+                      );
                     },
                   ),
                 ],

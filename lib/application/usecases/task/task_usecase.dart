@@ -90,10 +90,16 @@ class TaskUsecase with RunUsecaseMixin {
       action: () async {
         if (_temporaryTaskController.state == null) {
           await _taskRepository.add(
-              task: task, intervalDays: intervalDays, time: time);
+              task: task,
+              intervalDays: intervalDays,
+              time: time,
+              flagNotification: flagNotification);
         } else {
           await _taskRepository.update(
-              task: task, intervalDays: intervalDays, time: time);
+              task: task,
+              intervalDays: intervalDays,
+              time: time,
+              flagNotification: flagNotification);
         }
       },
     );

@@ -11,6 +11,7 @@ class TaskEventRepositoryImpl implements TaskRepository {
   Future<void> add(
       {required Task task,
       required List<int> intervalDays,
+      required bool flagNotification,
       required DateTime? time}) async {
     DateTime? dt;
     await isar.writeTxn(() async {
@@ -21,18 +22,20 @@ class TaskEventRepositoryImpl implements TaskRepository {
           ..checkFlag = false
           ..completeDay = null;
 
-        final stTime = task.startTime.add(Duration(days: days));
-        if (time != null) {
-          dt = DateTime(
-            stTime.year,
-            stTime.month,
-            stTime.day,
-            time.hour,
-            time.minute,
-          );
-          final notification = NotificationTask()..dateTime = dt;
-          await isar.notificationTasks.put(notification);
-          task.time.add(notification);
+        if (flagNotification) {
+          final stTime = task.startTime.add(Duration(days: days));
+          if (time != null) {
+            dt = DateTime(
+              stTime.year,
+              stTime.month,
+              stTime.day,
+              time.hour,
+              time.minute,
+            );
+            final notification = NotificationTask()..dateTime = dt;
+            await isar.notificationTasks.put(notification);
+            task.time.add(notification);
+          }
         }
 
         await isar.taskDates.put(taskDate);
@@ -47,6 +50,7 @@ class TaskEventRepositoryImpl implements TaskRepository {
   Future<void> update(
       {required Task task,
       required List<int> intervalDays,
+      required bool flagNotification,
       required DateTime? time}) async {
     await isar.writeTxn(() async {
       final existingDays = task.dates.map((d) => d.daysInterval).toList();
@@ -77,20 +81,22 @@ class TaskEventRepositoryImpl implements TaskRepository {
           await isar.taskDates.put(taskDate);
           task.dates.add(taskDate);
         }
+        if (flagNotification) {
+          final stTime = task.startTime.add(Duration(days: days));
+          print('Time: $time');
+          if (time != null) {
+            DateTime dt = DateTime(
+              stTime.year,
+              stTime.month,
+              stTime.day,
+              time.hour,
+              time.minute,
+            );
 
-        final stTime = task.startTime.add(Duration(days: days));
-        if (time != null) {
-          DateTime dt = DateTime(
-            stTime.year,
-            stTime.month,
-            stTime.day,
-            time.hour,
-            time.minute,
-          );
-
-          final notification = NotificationTask()..dateTime = dt;
-          await isar.notificationTasks.put(notification);
-          task.time.add(notification);
+            final notification = NotificationTask()..dateTime = dt;
+            await isar.notificationTasks.put(notification);
+            task.time.add(notification);
+          }
         }
       }
 

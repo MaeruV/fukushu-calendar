@@ -6,24 +6,26 @@ mixin PresentationMixin {
   Future<void> execute(
     BuildContext context, {
     required Future<void> Function() action,
-    // required String successMessage,
+    required String failureMessage,
+    required ScaffoldMessengerState scaffoldMessenger,
   }) async {
-    final scaffoldMessenger = ScaffoldMessenger.of(context);
     try {
       await action();
-      // SuccessSnackBar.show(
-      //   scaffoldMessenger,
-      //   message: successMessage,
-      // );
     } catch (e) {
-      String message = e.toString();
-      if (message.startsWith('Exception: ')) {
-        message = message.replaceFirst('Exception: ', '');
+      if (failureMessage.isNotEmpty) {
+        FailureSnackBar.show(
+          scaffoldMessenger,
+          message: failureMessage,
+        );
       }
-      FailureSnackBar.show(
-        scaffoldMessenger,
-        message: message,
-      );
     }
+  }
+
+  Future<void> checkSnackBar({
+    required Future<void> Function() action,
+    required ScaffoldMessengerState scaffoldMessenger,
+  }) async {
+    scaffoldMessenger.removeCurrentSnackBar();
+    action();
   }
 }

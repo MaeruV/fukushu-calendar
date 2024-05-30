@@ -70,6 +70,8 @@ class AddTaskNav extends ConsumerWidget with PresentationMixin {
                           .read(materialHistoryViewModelProvider.notifier)
                           .saveMaterialHistory(state.title);
                     },
+                    failureMessage: '',
+                    scaffoldMessenger: ScaffoldMessenger.of(context),
                   );
                   context.pop();
                 }

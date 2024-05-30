@@ -8,12 +8,14 @@ abstract interface class TaskRepository {
   Future<void> add(
       {required Task task,
       required List<int> intervalDays,
+      required bool flagNotification,
       required DateTime? time});
 
   /// タスク情報変更
   Future<void> update(
       {required Task task,
       required List<int> intervalDays,
+      required bool flagNotification,
       required DateTime? time});
 
   /// タスク削除

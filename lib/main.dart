@@ -1,9 +1,12 @@
+import 'package:ebbinghaus_forgetting_curve/domain/entities/admod_db.dart';
 import 'package:ebbinghaus_forgetting_curve/domain/entities/history.dart';
 import 'package:ebbinghaus_forgetting_curve/domain/entities/others.dart';
 import 'package:ebbinghaus_forgetting_curve/domain/entities/task.dart';
+import 'package:ebbinghaus_forgetting_curve/domain/repository/admod_repository_interface.dart';
 import 'package:ebbinghaus_forgetting_curve/domain/repository/material_history_repository_interface.dart';
 import 'package:ebbinghaus_forgetting_curve/domain/repository/others_repository_interface.dart';
 import 'package:ebbinghaus_forgetting_curve/domain/repository/task_event_repository_interface.dart';
+import 'package:ebbinghaus_forgetting_curve/infrastructure/admod/admod_repository_impl.dart';
 import 'package:ebbinghaus_forgetting_curve/infrastructure/material_history/material_history_repository_impl.dart';
 import 'package:ebbinghaus_forgetting_curve/infrastructure/others/repository/others_repository_impl.dart';
 import 'package:ebbinghaus_forgetting_curve/infrastructure/task_event/repository/take_event_repository_impl.dart';
@@ -36,6 +39,8 @@ void main() async {
               .overrideWithValue(OtherRepositoryImpl(isar: isar)),
           materialHistoryRepositoryProvider
               .overrideWithValue(MaterialHistoryRepositoryImpl(isar: isar)),
+          admodRepositoryProvider
+              .overrideWithValue(AdmodRepositoryImpl(isar: isar)),
         ],
         child: const App(),
       ),
@@ -56,6 +61,7 @@ Future<Isar> initializeIsar() async {
     OthersSchema,
     MaterialsHistorySchema,
     NotificationTaskSchema,
+    AdmodDBSchema,
   ], directory: dir.path, inspector: true);
   return isar;
 }

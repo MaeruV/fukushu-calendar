@@ -1,6 +1,7 @@
 import 'package:ebbinghaus_forgetting_curve/application/state/analysis/analysis_view_model.dart';
 import 'package:ebbinghaus_forgetting_curve/application/usecases/task/state/tasks_provider.dart';
 import 'package:ebbinghaus_forgetting_curve/application/usecases/task/task_usecase.dart';
+import 'package:ebbinghaus_forgetting_curve/presentation/component/dialog_manager.dart';
 import 'package:ebbinghaus_forgetting_curve/presentation/pages/edit/widgets/check_task/check_task_app_bar.dart';
 import 'package:ebbinghaus_forgetting_curve/presentation/pages/edit/widgets/check_task/check_task_comp_day.dart';
 import 'package:ebbinghaus_forgetting_curve/presentation/pages/edit/widgets/check_task/check_task_list.dart';
@@ -8,7 +9,6 @@ import 'package:ebbinghaus_forgetting_curve/presentation/pages/edit/widgets/chec
 import 'package:ebbinghaus_forgetting_curve/presentation/pages/edit/widgets/check_task/check_task_notification.dart';
 import 'package:ebbinghaus_forgetting_curve/presentation/pages/edit/widgets/check_task/check_task_start_day.dart';
 import 'package:ebbinghaus_forgetting_curve/presentation/pages/edit/widgets/check_task/check_task_title.dart';
-import 'package:ebbinghaus_forgetting_curve/presentation/theme/colors.dart';
 import 'package:ebbinghaus_forgetting_curve/presentation/theme/fonts.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -23,42 +23,6 @@ class CompEventCheckTaskScreen extends ConsumerWidget {
   });
 
   final int taskId;
-
-  Future _openAlertDialog({
-    required BuildContext context,
-    required AppLocalizations appLocalizations,
-    required VoidCallback onDoneBtn,
-  }) async {
-    final theme = Theme.of(context);
-    await showDialog(
-        context: context,
-        builder: (context) => AlertDialog(
-              title: Text(
-                appLocalizations.delete_confirmation,
-                style: theme.textTheme.titleLarge!
-                    .copyWith(color: theme.primaryColorLight),
-              ),
-              content: Text(
-                appLocalizations.question_delete,
-                style: theme.textTheme.bodyMedium!
-                    .copyWith(color: theme.primaryColorLight),
-              ),
-              // (4) ボタンを設定
-              actions: [
-                TextButton(
-                    onPressed: () => context.pop(),
-                    child: Text(appLocalizations.no)),
-                TextButton(
-                    onPressed: onDoneBtn,
-                    child: Text(
-                      appLocalizations.yes,
-                      style: theme.textTheme.bodyMedium!
-                          .copyWith(color: BrandColor.deleteRed),
-                    )),
-              ],
-            ));
-    // (6) ダイアログが閉じたときの結果
-  }
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -89,7 +53,7 @@ class CompEventCheckTaskScreen extends ConsumerWidget {
           return Scaffold(
             appBar: CheckTaskAppbar(
               onTap: () async {
-                _openAlertDialog(
+                DialogManager().openAlertDialog(
                     context: context,
                     appLocalizations: appLocalizations,
                     onDoneBtn: () {

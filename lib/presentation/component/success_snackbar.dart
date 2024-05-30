@@ -5,24 +5,17 @@ import 'package:flutter/material.dart';
 class SuccessSnackBar extends SnackBar {
   SuccessSnackBar._({required String message})
       : super(
-          content: Row(
-            children: [
-              const Icon(
-                Icons.check,
-                color: BrandColor.blue,
-              ),
-              Text(
-                message,
-                style: const TextStyle(color: BrandColor.blue),
-              ),
-            ],
+          content: Text(
+            message,
+            maxLines: 2,
+            style: const TextStyle(color: BrandColor.deleteRed),
           ),
           behavior: SnackBarBehavior.floating,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(8.0),
           ),
           elevation: 4.0,
-          backgroundColor: Colors.white,
+          backgroundColor: BrandColor.background,
           closeIconColor: BrandColor.blue,
           clipBehavior: Clip.hardEdge,
           dismissDirection: DismissDirection.horizontal,

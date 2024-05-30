@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:webview_flutter/webview_flutter.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class OthersHelpSitePage extends HookConsumerWidget {
   const OthersHelpSitePage({super.key});
@@ -11,16 +12,17 @@ class OthersHelpSitePage extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final state = ref.watch(othersViewModelProvider);
-    final check = ref.watch(webViewCheckProvider);
+    final check = ref.watch(webViewCheckHelpSiteProvider);
+    final appLocalizations = AppLocalizations.of(context)!;
 
     return Scaffold(
       appBar: CustomAppBar(
-        title: "ヘルプ・よくある質問",
+        title: appLocalizations.faq,
         onBack: () => context.pop(),
       ),
       body: check
           ? WebViewWidget(
-              controller: state!,
+              controller: state.helpSiteController!,
             )
           : const Center(child: CircularProgressIndicator()),
     );

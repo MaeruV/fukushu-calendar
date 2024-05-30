@@ -1,5 +1,6 @@
 import 'package:ebbinghaus_forgetting_curve/domain/entities/task.dart';
 import 'package:ebbinghaus_forgetting_curve/presentation/common/review_range_extension.dart';
+import 'package:ebbinghaus_forgetting_curve/presentation/presentation_mixin.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -21,7 +22,7 @@ class CompEventListView extends ConsumerWidget {
   }
 }
 
-class CompEventListWidget extends ConsumerWidget {
+class CompEventListWidget extends ConsumerWidget with PresentationMixin {
   const CompEventListWidget({super.key, required this.task});
 
   final Task task;
@@ -40,7 +41,11 @@ class CompEventListWidget extends ConsumerWidget {
         "${task.firstRange} ${task.secoundRange != null ? "- ${task.secoundRange}" : ""} $selectionText";
 
     return GestureDetector(
-      onTap: () => context.push('/comp_event_check_task', extra: task.id),
+      onTap: () => checkSnackBar(
+        action: () => context.push('/comp_event_check_task', extra: task.id),
+        scaffoldMessenger: ScaffoldMessenger.of(context),
+      ),
+      // onTap: () => context.push('/comp_event_check_task', extra: task.id),
       child: Card(
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(8),

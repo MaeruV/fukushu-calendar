@@ -47,6 +47,7 @@ class AppearanceLang extends ConsumerWidget {
                 language: key,
               ),
               child: Card(
+                color: theme.highlightColor,
                 child: ListTile(
                   title: Padding(
                     padding: const EdgeInsets.all(8.0),

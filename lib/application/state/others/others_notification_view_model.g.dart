@@ -24,7 +24,7 @@ final notificationPermissionProvider =
 
 typedef _$NotificationPermission = Notifier<bool>;
 String _$othersNotifierModelHash() =>
-    r'1bc04bf0f2523c92c6142672bd1bbbaae5a16678';
+    r'daac46f528175d35b8c170755f86c8e376fc77dc';
 
 /// See also [OthersNotifierModel].
 @ProviderFor(OthersNotifierModel)

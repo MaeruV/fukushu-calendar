@@ -3,8 +3,6 @@ import 'package:ebbinghaus_forgetting_curve/presentation/component/dialog_manage
 import 'package:flutter/material.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-import '../../config/app_constants.dart';
-
 part 'interval_view_model.g.dart';
 
 @Riverpod(keepAlive: false)
@@ -17,7 +15,12 @@ class IntervalViewModel extends _$IntervalViewModel {
     return editState.intervalDays;
   }
 
-  void setNumber(int num, BuildContext context) {
+  void setNumber({
+    required int num,
+    required BuildContext context,
+    required String sameNumContent,
+    required String maxLengthContent,
+  }) {
     if (state.contains(num)) {
       showDialog(
         context: context,

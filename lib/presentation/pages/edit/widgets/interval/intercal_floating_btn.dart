@@ -4,6 +4,7 @@ import 'package:ebbinghaus_forgetting_curve/presentation/theme/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class IntervalFloatingBtn extends ConsumerWidget {
   const IntervalFloatingBtn({super.key});
@@ -12,6 +13,7 @@ class IntervalFloatingBtn extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final notifier = ref.read(intervalViewModelProvider.notifier);
     final ModalManager modalManager = ModalManager();
+    final appLocalizations = AppLocalizations.of(context)!;
 
     int selectedValue = 1;
 
@@ -22,11 +24,21 @@ class IntervalFloatingBtn extends ConsumerWidget {
           cancelTap: () => context.pop(),
           doneTap: (ctx) {
             context.pop();
-            notifier.setNumber(selectedValue, ctx);
+            notifier.setNumber(
+              num: selectedValue,
+              context: ctx,
+              sameNumContent: appLocalizations.same_num_content,
+              maxLengthContent: appLocalizations.max_length_content,
+            );
           },
           selectedTap: (ctx) {
             context.pop();
-            notifier.setNumber(selectedValue, ctx);
+            notifier.setNumber(
+              num: selectedValue,
+              context: ctx,
+              sameNumContent: appLocalizations.same_num_content,
+              maxLengthContent: appLocalizations.max_length_content,
+            );
           },
           onSelectedItemChanged: (index) {
             selectedValue = index + 1;

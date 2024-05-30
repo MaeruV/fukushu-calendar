@@ -6,6 +6,7 @@ import 'package:ebbinghaus_forgetting_curve/domain/entities/task.dart';
 import 'package:ebbinghaus_forgetting_curve/presentation/common/date_time_extension.dart';
 import 'package:ebbinghaus_forgetting_curve/presentation/common/review_range_extension.dart';
 import 'package:ebbinghaus_forgetting_curve/presentation/component/modal_manager.dart';
+import 'package:ebbinghaus_forgetting_curve/presentation/presentation_mixin.dart';
 import 'package:ebbinghaus_forgetting_curve/presentation/theme/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
@@ -99,6 +100,7 @@ class EditSlidableAction extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final isEnabled = ref.watch(editTaskAllProvider);
+    final appLocalizations = AppLocalizations.of(context)!;
 
     return SlidableAutoCloseBehavior(
       closeWhenOpened: true,
@@ -121,7 +123,7 @@ class EditSlidableAction extends ConsumerWidget {
                       backgroundColor: BrandColor.moreGrey,
                       foregroundColor: BrandColor.white,
                       icon: Icons.more_horiz,
-                      label: '編集',
+                      label: appLocalizations.edit,
                       borderRadius: BorderRadius.circular(15),
                     ),
                     const SizedBox(width: 5),
@@ -132,7 +134,7 @@ class EditSlidableAction extends ConsumerWidget {
                       backgroundColor: BrandColor.deleteRed,
                       foregroundColor: BrandColor.white,
                       icon: Icons.delete_forever,
-                      label: '削除',
+                      label: appLocalizations.delete,
                       borderRadius: BorderRadius.circular(15),
                     ),
                     const SizedBox(width: 5),
@@ -147,7 +149,7 @@ class EditSlidableAction extends ConsumerWidget {
   }
 }
 
-class MainTaskWidget extends HookConsumerWidget {
+class MainTaskWidget extends HookConsumerWidget with PresentationMixin {
   const MainTaskWidget({super.key, required this.task});
   final Task task;
 
@@ -166,7 +168,10 @@ class MainTaskWidget extends HookConsumerWidget {
     return GestureDetector(
       onTap: () => ref.watch(editTaskAllProvider)
           ? notifier.toggleTask(task)
-          : context.push('/check_task', extra: task.id),
+          : checkSnackBar(
+              action: () => context.push('/check_task', extra: task.id),
+              scaffoldMessenger: ScaffoldMessenger.of(context),
+            ),
       child: Card(
         color: theme.cardColor,
         margin: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 3.0),

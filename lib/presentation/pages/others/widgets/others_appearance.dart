@@ -1,5 +1,6 @@
 import 'package:ebbinghaus_forgetting_curve/application/config/app_constants.dart';
 import 'package:ebbinghaus_forgetting_curve/application/state/theme/custom_theme.dart';
+import 'package:ebbinghaus_forgetting_curve/presentation/presentation_mixin.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -83,7 +84,7 @@ class OthersDarkMode extends ConsumerWidget {
   }
 }
 
-class OthersFontSizes extends ConsumerWidget {
+class OthersFontSizes extends ConsumerWidget with PresentationMixin {
   const OthersFontSizes({super.key});
 
   @override
@@ -98,7 +99,10 @@ class OthersFontSizes extends ConsumerWidget {
     return Padding(
       padding: const EdgeInsets.only(left: 5.0),
       child: GestureDetector(
-        onTap: () => context.push('/appearance_font_size'),
+        onTap: () async => checkSnackBar(
+          action: () => context.push('/appearance_font_size'),
+          scaffoldMessenger: ScaffoldMessenger.of(context),
+        ),
         child: SizedBox(
           height: 50,
           child: Row(
@@ -132,7 +136,7 @@ class OthersFontSizes extends ConsumerWidget {
   }
 }
 
-class OthersFonts extends ConsumerWidget {
+class OthersFonts extends ConsumerWidget with PresentationMixin {
   const OthersFonts({super.key});
 
   @override
@@ -144,7 +148,10 @@ class OthersFonts extends ConsumerWidget {
     return Padding(
       padding: const EdgeInsets.only(left: 5.0),
       child: GestureDetector(
-        onTap: () => context.push('/appearance_fonts_family'),
+        onTap: () async => checkSnackBar(
+          action: () => context.push('/appearance_fonts_family'),
+          scaffoldMessenger: ScaffoldMessenger.of(context),
+        ),
         child: SizedBox(
           height: 50,
           child: Row(
@@ -176,7 +183,7 @@ class OthersFonts extends ConsumerWidget {
   }
 }
 
-class OthersLanguage extends ConsumerWidget {
+class OthersLanguage extends ConsumerWidget with PresentationMixin {
   const OthersLanguage({super.key});
 
   @override
@@ -189,7 +196,10 @@ class OthersLanguage extends ConsumerWidget {
     return Padding(
       padding: const EdgeInsets.only(left: 5.0),
       child: GestureDetector(
-        onTap: () => context.push('/appearance_lang'),
+        onTap: () async => checkSnackBar(
+          action: () => context.push('/appearance_lang'),
+          scaffoldMessenger: ScaffoldMessenger.of(context),
+        ),
         child: SizedBox(
           height: 50,
           child: Row(

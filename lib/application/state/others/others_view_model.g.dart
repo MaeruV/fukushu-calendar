@@ -6,12 +6,12 @@ part of 'others_view_model.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$othersViewModelHash() => r'79be511b7fe3c84a6b81499c3868d14bbfaeda42';
+String _$othersViewModelHash() => r'52af231593e237441682090c4d85a137bbd199dc';
 
 /// See also [OthersViewModel].
 @ProviderFor(OthersViewModel)
 final othersViewModelProvider =
-    NotifierProvider<OthersViewModel, WebViewController?>.internal(
+    NotifierProvider<OthersViewModel, OthersState>.internal(
   OthersViewModel.new,
   name: r'othersViewModelProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
@@ -21,6 +21,6 @@ final othersViewModelProvider =
   allTransitiveDependencies: null,
 );
 
-typedef _$OthersViewModel = Notifier<WebViewController?>;
+typedef _$OthersViewModel = Notifier<OthersState>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

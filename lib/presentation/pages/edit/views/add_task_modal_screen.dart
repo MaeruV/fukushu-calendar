@@ -1,4 +1,3 @@
-import 'package:ebbinghaus_forgetting_curve/application/state/home/screen_view_model.dart';
 import 'package:ebbinghaus_forgetting_curve/presentation/pages/edit/widgets/add_task/add_task_calendar.dart';
 import 'package:ebbinghaus_forgetting_curve/presentation/pages/edit/widgets/add_task/add_task_color_picker.dart';
 import 'package:ebbinghaus_forgetting_curve/presentation/pages/edit/widgets/add_task/add_task_interval.dart';
@@ -20,20 +19,14 @@ class AddTaskModalScreen extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final safeArea = ref.watch(screenViewModelProvider);
-
-    final double maxChildSize =
-        (safeArea.mediaHeight - safeArea.safeAreaTop) / safeArea.mediaHeight;
-
     return DraggableScrollableSheet(
-        maxChildSize: maxChildSize.clamp(0.0, 1.0),
-        initialChildSize: maxChildSize.clamp(0.0, 1.0),
+        maxChildSize: 1.0,
+        initialChildSize: 1.0,
         expand: false,
         builder: (context, scrollController) {
           return Container(
             decoration: const BoxDecoration(
                 borderRadius: BorderRadius.vertical(top: Radius.circular(10))),
-            height: safeArea.mediaHeight - safeArea.safeAreaTop,
             child: CustomScrollView(
               controller: scrollController,
               slivers: <Widget>[

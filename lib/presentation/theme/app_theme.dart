@@ -116,7 +116,7 @@ class AppTheme {
   );
 
   static const commonButtonTheme = ButtonThemeData(
-    buttonColor: Color(0xFF1E88E5), // ボタンの背景色としての青色
+    buttonColor: BrandColor.brighterBlue1, // ボタンの背景色としての青色
     textTheme: ButtonTextTheme.primary,
   );
 

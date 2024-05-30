@@ -11,25 +11,34 @@ class EditView extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return ListView.builder(
-      itemCount: value.length,
-      itemBuilder: (BuildContext context, int index) {
-        var entry = value.entries.elementAt(index);
-        var date = entry.key;
-        var tasks = entry.value;
+    return Column(
+      children: [
+        Expanded(
+          child: ListView.builder(
+            itemCount: value.length,
+            itemBuilder: (BuildContext context, int index) {
+              var entry = value.entries.elementAt(index);
+              var date = entry.key;
+              var tasks = entry.value;
 
-        final key = date.year == DateTime.now().year &&
-                date.month == DateTime.now().month &&
-                date.day == DateTime.now().day
-            ? ref.watch(editTodayKeyProvider)
-            : null;
+              final key = date.year == DateTime.now().year &&
+                      date.month == DateTime.now().month &&
+                      date.day == DateTime.now().day
+                  ? ref.watch(editTodayKeyProvider)
+                  : null;
 
-        return EditListView(
-          dateTime: date,
-          tasks: tasks,
-          key: key,
-        );
-      },
+              return EditListView(
+                dateTime: date,
+                tasks: tasks,
+                key: key,
+              );
+            },
+          ),
+        ),
+        const SizedBox(
+          height: 60,
+        )
+      ],
     );
   }
 }

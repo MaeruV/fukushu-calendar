@@ -1,5 +1,6 @@
-import 'package:ebbinghaus_forgetting_curve/application/state/others/others_notification_view_model.dart';
+import 'package:ebbinghaus_forgetting_curve/presentation/presentation_mixin.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_email_sender/flutter_email_sender.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -41,7 +42,7 @@ class OthersAppInfo extends ConsumerWidget {
   }
 }
 
-class OthersDetails extends ConsumerWidget {
+class OthersDetails extends ConsumerWidget with PresentationMixin {
   const OthersDetails({super.key});
 
   @override
@@ -52,7 +53,10 @@ class OthersDetails extends ConsumerWidget {
     return Padding(
       padding: const EdgeInsets.only(left: 5.0),
       child: GestureDetector(
-        onTap: () => context.push('/others_copyright'),
+        onTap: () async => checkSnackBar(
+          action: () => context.push('/others_about_app'),
+          scaffoldMessenger: ScaffoldMessenger.of(context),
+        ),
         child: SizedBox(
           height: 50,
           child: Row(
@@ -65,7 +69,7 @@ class OthersDetails extends ConsumerWidget {
                     const SizedBox(width: 10),
                     Expanded(
                       child: Text(
-                        appLocalizations.license_information,
+                        appLocalizations.app_info,
                         style: theme.textTheme.labelLarge!
                             .copyWith(color: theme.primaryColorLight),
                       ),
@@ -85,7 +89,7 @@ class OthersDetails extends ConsumerWidget {
   }
 }
 
-class OthersHelp extends ConsumerWidget {
+class OthersHelp extends ConsumerWidget with PresentationMixin {
   const OthersHelp({super.key});
 
   @override
@@ -96,7 +100,10 @@ class OthersHelp extends ConsumerWidget {
     return Padding(
       padding: const EdgeInsets.only(left: 5.0),
       child: GestureDetector(
-        onTap: () => context.push("/others_help_site"),
+        onTap: () async => checkSnackBar(
+          action: () => context.push("/others_help_site"),
+          scaffoldMessenger: ScaffoldMessenger.of(context),
+        ),
         child: SizedBox(
           height: 50,
           child: Row(
@@ -129,7 +136,7 @@ class OthersHelp extends ConsumerWidget {
   }
 }
 
-class OthersOpinion extends ConsumerWidget {
+class OthersOpinion extends ConsumerWidget with PresentationMixin {
   const OthersOpinion({super.key});
 
   @override
@@ -140,9 +147,21 @@ class OthersOpinion extends ConsumerWidget {
     return Padding(
       padding: const EdgeInsets.only(left: 5.0),
       child: GestureDetector(
-        onTap: () {
-          // ref.read(othersNotifierModelProvider.notifier).getScheduled();
-          ref.read(othersNotifierModelProvider.notifier).testNotification();
+        onTap: () async {
+          execute(
+            context,
+            action: () async {
+              final Email email = Email(
+                subject: appLocalizations.inquiries_about_the_app,
+                body: '【${appLocalizations.details_of_the_issue}】',
+                recipients: ['kout.1918@gmail.com'],
+                isHTML: false,
+              );
+              await FlutterEmailSender.send(email);
+            },
+            failureMessage: appLocalizations.error_mail_content,
+            scaffoldMessenger: ScaffoldMessenger.of(context),
+          );
         },
         child: SizedBox(
           height: 50,

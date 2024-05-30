@@ -5,8 +5,11 @@ import 'package:ebbinghaus_forgetting_curve/presentation/pages/home_page.dart';
 import 'package:ebbinghaus_forgetting_curve/presentation/pages/others/views/appearance/appearance_font_page.dart';
 import 'package:ebbinghaus_forgetting_curve/presentation/pages/others/views/appearance/appearance_fonts_family_page.dart';
 import 'package:ebbinghaus_forgetting_curve/presentation/pages/others/views/appearance/appearance_lang_page.dart';
+import 'package:ebbinghaus_forgetting_curve/presentation/pages/others/views/others/others_about_app.dart';
 import 'package:ebbinghaus_forgetting_curve/presentation/pages/others/views/others/others_copyright_page.dart';
 import 'package:ebbinghaus_forgetting_curve/presentation/pages/others/views/others/others_help_site_page.dart';
+import 'package:ebbinghaus_forgetting_curve/presentation/pages/others/widgets/others/others_policy_widget.dart';
+import 'package:ebbinghaus_forgetting_curve/presentation/pages/others/widgets/others/others_term_of_use_widget.dart';
 import 'package:go_router/go_router.dart';
 
 final router = GoRouter(
@@ -60,6 +63,13 @@ final router = GoRouter(
       },
     ),
     GoRoute(
+      name: 'others_about_app',
+      path: '/others_about_app',
+      builder: (context, state) {
+        return const OthersAboutApp();
+      },
+    ),
+    GoRoute(
       name: 'others_help_site',
       path: '/others_help_site',
       builder: (context, state) {
@@ -71,6 +81,20 @@ final router = GoRouter(
       path: '/comp_event_check_task',
       builder: (context, state) {
         return CompEventCheckTaskScreen(taskId: state.extra as int);
+      },
+    ),
+    GoRoute(
+      name: 'others_term_of_use',
+      path: '/others_term_of_use',
+      builder: (context, state) {
+        return const OthersTermOfUseWidget();
+      },
+    ),
+    GoRoute(
+      name: 'others_policy',
+      path: '/others_policy',
+      builder: (context, state) {
+        return const OthersPolicyWidget();
       },
     ),
   ],

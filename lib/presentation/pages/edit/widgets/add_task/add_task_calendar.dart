@@ -14,6 +14,7 @@ class AddTaskCalendar extends ConsumerWidget {
     final DateTime lastDate = now.add(const Duration(days: 360));
     final theme = Theme.of(context);
     final appLocalizations = AppLocalizations.of(context)!;
+    bool isDarkMode = theme.brightness == Brightness.dark;
 
     final DateTime? datePicked = await showDatePicker(
       locale: Locale(appLocalizations.localeName),
@@ -23,13 +24,14 @@ class AddTaskCalendar extends ConsumerWidget {
       lastDate: lastDate,
       builder: (BuildContext context, Widget? child) {
         return Theme(
-          data: ThemeData.light().copyWith(
-            colorScheme: ColorScheme.light(
-              primary: Colors.blue,
-              onPrimary: theme.primaryColorDark,
-              onSurface: theme.primaryColorLight,
-            ),
-            dialogBackgroundColor: theme.canvasColor,
+          data: theme.copyWith(
+            colorScheme: isDarkMode
+                ? const ColorScheme.dark(
+                    primary: Colors.blue,
+                  )
+                : const ColorScheme.light(
+                    primary: Colors.blue,
+                  ),
           ),
           child: child!,
         );

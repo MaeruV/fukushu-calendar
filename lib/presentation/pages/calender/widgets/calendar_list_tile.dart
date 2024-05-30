@@ -93,7 +93,10 @@ class CalendarListTile extends HookConsumerWidget with PresentationMixin {
                                           weeks: state.range,
                                         );
                                   }
-                                });
+                                },
+                                    failureMessage: '',
+                                    scaffoldMessenger:
+                                        ScaffoldMessenger.of(context));
                               },
                             )
                           : const SizedBox.shrink(),

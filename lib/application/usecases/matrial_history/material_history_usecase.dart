@@ -25,10 +25,24 @@ class MaterialHistoryUsecase with RunUsecaseMixin {
 
   Future<void> saveMaterialHisotry({
     required String materialText,
+    required String rangeType,
+    required int firstRange,
+    required int? secoundRange,
+    required int pallete,
+    required List<int> intervalDays,
+    required bool flagNotification,
+    required DateTime? notificationTime,
   }) async {
     MaterialsHistory materialHistory = MaterialsHistory()
       ..teachingMaterials = materialText
-      ..registrationTime = DateTime.now();
+      ..registrationTime = DateTime.now()
+      ..rangeType = rangeType
+      ..firstRange = firstRange
+      ..secoundRange = secoundRange
+      ..pallete = pallete
+      ..intervalDays = intervalDays
+      ..flagNotification = flagNotification
+      ..notificationTime = notificationTime;
     execute(
       loadingController: _loadingController,
       action: () async {

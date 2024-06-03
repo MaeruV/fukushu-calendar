@@ -56,10 +56,21 @@ class EventLabels extends HookConsumerWidget {
     }
 
     if (isCollapsed && eventsOnTheDay.isNotEmpty) {
-      return Center(
-        child: Text(
-          '+${eventsOnTheDay.length}',
-          style: theme.textTheme.labelSmall!.copyWith(color: BrandColor.grey),
+      final items = List.generate(
+          eventsOnTheDay.length,
+          (index) => Container(
+                height: 20,
+                width: 20,
+                margin: EdgeInsets.only(left: 14.0 * index),
+                decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: eventsOnTheDay[index].eventBackgroundColor),
+              ));
+
+      return ClipRect(
+        child: Stack(
+          alignment: Alignment.centerLeft,
+          children: items,
         ),
       );
     }

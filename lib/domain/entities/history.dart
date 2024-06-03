@@ -9,4 +9,18 @@ class MaterialsHistory {
   late String teachingMaterials;
 
   late DateTime registrationTime;
+
+  late String rangeType;
+
+  late int firstRange;
+
+  late int? secoundRange;
+
+  late int pallete;
+
+  late List<int> intervalDays;
+
+  bool flagNotification = false;
+
+  late DateTime? notificationTime;
 }

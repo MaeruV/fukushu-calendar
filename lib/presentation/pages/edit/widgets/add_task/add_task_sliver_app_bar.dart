@@ -158,6 +158,15 @@ class _AddTaskSliverAppBarState extends ConsumerState<AddTaskSliverAppBar> {
         );
     await ref
         .read(materialHistoryViewModelProvider.notifier)
-        .saveMaterialHistory(state.title);
+        .saveMaterialHistory(
+          materialText: state.title,
+          rangeType: state.reviewRange,
+          firstRange: state.firstRange ?? 0,
+          secoundRange: state.secoundRange,
+          pallete: state.pallete,
+          intervalDays: state.intervalDays,
+          flagNotification: state.flagNotification,
+          notificationTime: state.time,
+        );
   }
 }

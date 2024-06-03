@@ -17,13 +17,48 @@ const MaterialsHistorySchema = CollectionSchema(
   name: r'MaterialsHistory',
   id: 4381361655421960648,
   properties: {
-    r'registrationTime': PropertySchema(
+    r'firstRange': PropertySchema(
       id: 0,
+      name: r'firstRange',
+      type: IsarType.long,
+    ),
+    r'flagNotification': PropertySchema(
+      id: 1,
+      name: r'flagNotification',
+      type: IsarType.bool,
+    ),
+    r'intervalDays': PropertySchema(
+      id: 2,
+      name: r'intervalDays',
+      type: IsarType.longList,
+    ),
+    r'notificationTime': PropertySchema(
+      id: 3,
+      name: r'notificationTime',
+      type: IsarType.dateTime,
+    ),
+    r'pallete': PropertySchema(
+      id: 4,
+      name: r'pallete',
+      type: IsarType.long,
+    ),
+    r'rangeType': PropertySchema(
+      id: 5,
+      name: r'rangeType',
+      type: IsarType.string,
+    ),
+    r'registrationTime': PropertySchema(
+      id: 6,
       name: r'registrationTime',
       type: IsarType.dateTime,
     ),
+    r'secoundRange': PropertySchema(
+      id: 7,
+      name: r'secoundRange',
+      type: IsarType.long,
+    ),
     r'teachingMaterials': PropertySchema(
-      id: 1,
+      id: 8,
       name: r'teachingMaterials',
       type: IsarType.string,
     )
@@ -48,6 +83,8 @@ int _materialsHistoryEstimateSize(
   Map<Type, List<int>> allOffsets,
 ) {
   var bytesCount = offsets.last;
+  bytesCount += 3 + object.intervalDays.length * 8;
+  bytesCount += 3 + object.rangeType.length * 3;
   bytesCount += 3 + object.teachingMaterials.length * 3;
   return bytesCount;
 }
@@ -58,8 +95,15 @@ void _materialsHistorySerialize(
   List<int> offsets,
   Map<Type, List<int>> allOffsets,
 ) {
-  writer.writeDateTime(offsets[0], object.registrationTime);
-  writer.writeString(offsets[1], object.teachingMaterials);
+  writer.writeLong(offsets[0], object.firstRange);
+  writer.writeBool(offsets[1], object.flagNotification);
+  writer.writeLongList(offsets[2], object.intervalDays);
+  writer.writeDateTime(offsets[3], object.notificationTime);
+  writer.writeLong(offsets[4], object.pallete);
+  writer.writeString(offsets[5], object.rangeType);
+  writer.writeDateTime(offsets[6], object.registrationTime);
+  writer.writeLong(offsets[7], object.secoundRange);
+  writer.writeString(offsets[8], object.teachingMaterials);
 }
 
 MaterialsHistory _materialsHistoryDeserialize(
@@ -69,9 +113,16 @@ MaterialsHistory _materialsHistoryDeserialize(
   Map<Type, List<int>> allOffsets,
 ) {
   final object = MaterialsHistory();
+  object.firstRange = reader.readLong(offsets[0]);
+  object.flagNotification = reader.readBool(offsets[1]);
   object.id = id;
-  object.registrationTime = reader.readDateTime(offsets[0]);
-  object.teachingMaterials = reader.readString(offsets[1]);
+  object.intervalDays = reader.readLongList(offsets[2]) ?? [];
+  object.notificationTime = reader.readDateTimeOrNull(offsets[3]);
+  object.pallete = reader.readLong(offsets[4]);
+  object.rangeType = reader.readString(offsets[5]);
+  object.registrationTime = reader.readDateTime(offsets[6]);
+  object.secoundRange = reader.readLongOrNull(offsets[7]);
+  object.teachingMaterials = reader.readString(offsets[8]);
   return object;
 }
 
@@ -83,8 +134,22 @@ P _materialsHistoryDeserializeProp<P>(
 ) {
   switch (propertyId) {
     case 0:
-      return (reader.readDateTime(offset)) as P;
+      return (reader.readLong(offset)) as P;
     case 1:
+      return (reader.readBool(offset)) as P;
+    case 2:
+      return (reader.readLongList(offset) ?? []) as P;
+    case 3:
+      return (reader.readDateTimeOrNull(offset)) as P;
+    case 4:
+      return (reader.readLong(offset)) as P;
+    case 5:
+      return (reader.readString(offset)) as P;
+    case 6:
+      return (reader.readDateTime(offset)) as P;
+    case 7:
+      return (reader.readLongOrNull(offset)) as P;
+    case 8:
       return (reader.readString(offset)) as P;
     default:
       throw IsarError('Unknown property with id $propertyId');
@@ -186,6 +251,72 @@ extension MaterialsHistoryQueryWhere
 extension MaterialsHistoryQueryFilter
     on QueryBuilder<MaterialsHistory, MaterialsHistory, QFilterCondition> {
   QueryBuilder<MaterialsHistory, MaterialsHistory, QAfterFilterCondition>
+      firstRangeEqualTo(int value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'firstRange',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<MaterialsHistory, MaterialsHistory, QAfterFilterCondition>
+      firstRangeGreaterThan(
+    int value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'firstRange',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<MaterialsHistory, MaterialsHistory, QAfterFilterCondition>
+      firstRangeLessThan(
+    int value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'firstRange',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<MaterialsHistory, MaterialsHistory, QAfterFilterCondition>
+      firstRangeBetween(
+    int lower,
+    int upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'firstRange',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+      ));
+    });
+  }
+
+  QueryBuilder<MaterialsHistory, MaterialsHistory, QAfterFilterCondition>
+      flagNotificationEqualTo(bool value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'flagNotification',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<MaterialsHistory, MaterialsHistory, QAfterFilterCondition>
       idEqualTo(Id value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
@@ -242,6 +373,417 @@ extension MaterialsHistoryQueryFilter
   }
 
   QueryBuilder<MaterialsHistory, MaterialsHistory, QAfterFilterCondition>
+      intervalDaysElementEqualTo(int value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'intervalDays',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<MaterialsHistory, MaterialsHistory, QAfterFilterCondition>
+      intervalDaysElementGreaterThan(
+    int value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'intervalDays',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<MaterialsHistory, MaterialsHistory, QAfterFilterCondition>
+      intervalDaysElementLessThan(
+    int value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'intervalDays',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<MaterialsHistory, MaterialsHistory, QAfterFilterCondition>
+      intervalDaysElementBetween(
+    int lower,
+    int upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'intervalDays',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+      ));
+    });
+  }
+
+  QueryBuilder<MaterialsHistory, MaterialsHistory, QAfterFilterCondition>
+      intervalDaysLengthEqualTo(int length) {
+    return QueryBuilder.apply(this, (query) {
+      return query.listLength(
+        r'intervalDays',
+        length,
+        true,
+        length,
+        true,
+      );
+    });
+  }
+
+  QueryBuilder<MaterialsHistory, MaterialsHistory, QAfterFilterCondition>
+      intervalDaysIsEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.listLength(
+        r'intervalDays',
+        0,
+        true,
+        0,
+        true,
+      );
+    });
+  }
+
+  QueryBuilder<MaterialsHistory, MaterialsHistory, QAfterFilterCondition>
+      intervalDaysIsNotEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.listLength(
+        r'intervalDays',
+        0,
+        false,
+        999999,
+        true,
+      );
+    });
+  }
+
+  QueryBuilder<MaterialsHistory, MaterialsHistory, QAfterFilterCondition>
+      intervalDaysLengthLessThan(
+    int length, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.listLength(
+        r'intervalDays',
+        0,
+        true,
+        length,
+        include,
+      );
+    });
+  }
+
+  QueryBuilder<MaterialsHistory, MaterialsHistory, QAfterFilterCondition>
+      intervalDaysLengthGreaterThan(
+    int length, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.listLength(
+        r'intervalDays',
+        length,
+        include,
+        999999,
+        true,
+      );
+    });
+  }
+
+  QueryBuilder<MaterialsHistory, MaterialsHistory, QAfterFilterCondition>
+      intervalDaysLengthBetween(
+    int lower,
+    int upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.listLength(
+        r'intervalDays',
+        lower,
+        includeLower,
+        upper,
+        includeUpper,
+      );
+    });
+  }
+
+  QueryBuilder<MaterialsHistory, MaterialsHistory, QAfterFilterCondition>
+      notificationTimeIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNull(
+        property: r'notificationTime',
+      ));
+    });
+  }
+
+  QueryBuilder<MaterialsHistory, MaterialsHistory, QAfterFilterCondition>
+      notificationTimeIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNotNull(
+        property: r'notificationTime',
+      ));
+    });
+  }
+
+  QueryBuilder<MaterialsHistory, MaterialsHistory, QAfterFilterCondition>
+      notificationTimeEqualTo(DateTime? value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'notificationTime',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<MaterialsHistory, MaterialsHistory, QAfterFilterCondition>
+      notificationTimeGreaterThan(
+    DateTime? value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'notificationTime',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<MaterialsHistory, MaterialsHistory, QAfterFilterCondition>
+      notificationTimeLessThan(
+    DateTime? value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'notificationTime',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<MaterialsHistory, MaterialsHistory, QAfterFilterCondition>
+      notificationTimeBetween(
+    DateTime? lower,
+    DateTime? upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'notificationTime',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+      ));
+    });
+  }
+
+  QueryBuilder<MaterialsHistory, MaterialsHistory, QAfterFilterCondition>
+      palleteEqualTo(int value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'pallete',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<MaterialsHistory, MaterialsHistory, QAfterFilterCondition>
+      palleteGreaterThan(
+    int value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'pallete',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<MaterialsHistory, MaterialsHistory, QAfterFilterCondition>
+      palleteLessThan(
+    int value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'pallete',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<MaterialsHistory, MaterialsHistory, QAfterFilterCondition>
+      palleteBetween(
+    int lower,
+    int upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'pallete',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+      ));
+    });
+  }
+
+  QueryBuilder<MaterialsHistory, MaterialsHistory, QAfterFilterCondition>
+      rangeTypeEqualTo(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'rangeType',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<MaterialsHistory, MaterialsHistory, QAfterFilterCondition>
+      rangeTypeGreaterThan(
+    String value, {
+    bool include = false,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'rangeType',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<MaterialsHistory, MaterialsHistory, QAfterFilterCondition>
+      rangeTypeLessThan(
+    String value, {
+    bool include = false,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'rangeType',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<MaterialsHistory, MaterialsHistory, QAfterFilterCondition>
+      rangeTypeBetween(
+    String lower,
+    String upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'rangeType',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<MaterialsHistory, MaterialsHistory, QAfterFilterCondition>
+      rangeTypeStartsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.startsWith(
+        property: r'rangeType',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<MaterialsHistory, MaterialsHistory, QAfterFilterCondition>
+      rangeTypeEndsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.endsWith(
+        property: r'rangeType',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<MaterialsHistory, MaterialsHistory, QAfterFilterCondition>
+      rangeTypeContains(String value, {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.contains(
+        property: r'rangeType',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<MaterialsHistory, MaterialsHistory, QAfterFilterCondition>
+      rangeTypeMatches(String pattern, {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.matches(
+        property: r'rangeType',
+        wildcard: pattern,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<MaterialsHistory, MaterialsHistory, QAfterFilterCondition>
+      rangeTypeIsEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'rangeType',
+        value: '',
+      ));
+    });
+  }
+
+  QueryBuilder<MaterialsHistory, MaterialsHistory, QAfterFilterCondition>
+      rangeTypeIsNotEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        property: r'rangeType',
+        value: '',
+      ));
+    });
+  }
+
+  QueryBuilder<MaterialsHistory, MaterialsHistory, QAfterFilterCondition>
       registrationTimeEqualTo(DateTime value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
@@ -289,6 +831,80 @@ extension MaterialsHistoryQueryFilter
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.between(
         property: r'registrationTime',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+      ));
+    });
+  }
+
+  QueryBuilder<MaterialsHistory, MaterialsHistory, QAfterFilterCondition>
+      secoundRangeIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNull(
+        property: r'secoundRange',
+      ));
+    });
+  }
+
+  QueryBuilder<MaterialsHistory, MaterialsHistory, QAfterFilterCondition>
+      secoundRangeIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNotNull(
+        property: r'secoundRange',
+      ));
+    });
+  }
+
+  QueryBuilder<MaterialsHistory, MaterialsHistory, QAfterFilterCondition>
+      secoundRangeEqualTo(int? value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'secoundRange',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<MaterialsHistory, MaterialsHistory, QAfterFilterCondition>
+      secoundRangeGreaterThan(
+    int? value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'secoundRange',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<MaterialsHistory, MaterialsHistory, QAfterFilterCondition>
+      secoundRangeLessThan(
+    int? value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'secoundRange',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<MaterialsHistory, MaterialsHistory, QAfterFilterCondition>
+      secoundRangeBetween(
+    int? lower,
+    int? upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'secoundRange',
         lower: lower,
         includeLower: includeLower,
         upper: upper,
@@ -443,6 +1059,76 @@ extension MaterialsHistoryQueryLinks
 extension MaterialsHistoryQuerySortBy
     on QueryBuilder<MaterialsHistory, MaterialsHistory, QSortBy> {
   QueryBuilder<MaterialsHistory, MaterialsHistory, QAfterSortBy>
+      sortByFirstRange() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'firstRange', Sort.asc);
+    });
+  }
+
+  QueryBuilder<MaterialsHistory, MaterialsHistory, QAfterSortBy>
+      sortByFirstRangeDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'firstRange', Sort.desc);
+    });
+  }
+
+  QueryBuilder<MaterialsHistory, MaterialsHistory, QAfterSortBy>
+      sortByFlagNotification() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'flagNotification', Sort.asc);
+    });
+  }
+
+  QueryBuilder<MaterialsHistory, MaterialsHistory, QAfterSortBy>
+      sortByFlagNotificationDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'flagNotification', Sort.desc);
+    });
+  }
+
+  QueryBuilder<MaterialsHistory, MaterialsHistory, QAfterSortBy>
+      sortByNotificationTime() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'notificationTime', Sort.asc);
+    });
+  }
+
+  QueryBuilder<MaterialsHistory, MaterialsHistory, QAfterSortBy>
+      sortByNotificationTimeDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'notificationTime', Sort.desc);
+    });
+  }
+
+  QueryBuilder<MaterialsHistory, MaterialsHistory, QAfterSortBy>
+      sortByPallete() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'pallete', Sort.asc);
+    });
+  }
+
+  QueryBuilder<MaterialsHistory, MaterialsHistory, QAfterSortBy>
+      sortByPalleteDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'pallete', Sort.desc);
+    });
+  }
+
+  QueryBuilder<MaterialsHistory, MaterialsHistory, QAfterSortBy>
+      sortByRangeType() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'rangeType', Sort.asc);
+    });
+  }
+
+  QueryBuilder<MaterialsHistory, MaterialsHistory, QAfterSortBy>
+      sortByRangeTypeDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'rangeType', Sort.desc);
+    });
+  }
+
+  QueryBuilder<MaterialsHistory, MaterialsHistory, QAfterSortBy>
       sortByRegistrationTime() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'registrationTime', Sort.asc);
@@ -453,6 +1139,20 @@ extension MaterialsHistoryQuerySortBy
       sortByRegistrationTimeDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'registrationTime', Sort.desc);
+    });
+  }
+
+  QueryBuilder<MaterialsHistory, MaterialsHistory, QAfterSortBy>
+      sortBySecoundRange() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'secoundRange', Sort.asc);
+    });
+  }
+
+  QueryBuilder<MaterialsHistory, MaterialsHistory, QAfterSortBy>
+      sortBySecoundRangeDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'secoundRange', Sort.desc);
     });
   }
 
@@ -473,6 +1173,34 @@ extension MaterialsHistoryQuerySortBy
 
 extension MaterialsHistoryQuerySortThenBy
     on QueryBuilder<MaterialsHistory, MaterialsHistory, QSortThenBy> {
+  QueryBuilder<MaterialsHistory, MaterialsHistory, QAfterSortBy>
+      thenByFirstRange() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'firstRange', Sort.asc);
+    });
+  }
+
+  QueryBuilder<MaterialsHistory, MaterialsHistory, QAfterSortBy>
+      thenByFirstRangeDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'firstRange', Sort.desc);
+    });
+  }
+
+  QueryBuilder<MaterialsHistory, MaterialsHistory, QAfterSortBy>
+      thenByFlagNotification() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'flagNotification', Sort.asc);
+    });
+  }
+
+  QueryBuilder<MaterialsHistory, MaterialsHistory, QAfterSortBy>
+      thenByFlagNotificationDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'flagNotification', Sort.desc);
+    });
+  }
+
   QueryBuilder<MaterialsHistory, MaterialsHistory, QAfterSortBy> thenById() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'id', Sort.asc);
@@ -487,6 +1215,48 @@ extension MaterialsHistoryQuerySortThenBy
   }
 
   QueryBuilder<MaterialsHistory, MaterialsHistory, QAfterSortBy>
+      thenByNotificationTime() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'notificationTime', Sort.asc);
+    });
+  }
+
+  QueryBuilder<MaterialsHistory, MaterialsHistory, QAfterSortBy>
+      thenByNotificationTimeDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'notificationTime', Sort.desc);
+    });
+  }
+
+  QueryBuilder<MaterialsHistory, MaterialsHistory, QAfterSortBy>
+      thenByPallete() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'pallete', Sort.asc);
+    });
+  }
+
+  QueryBuilder<MaterialsHistory, MaterialsHistory, QAfterSortBy>
+      thenByPalleteDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'pallete', Sort.desc);
+    });
+  }
+
+  QueryBuilder<MaterialsHistory, MaterialsHistory, QAfterSortBy>
+      thenByRangeType() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'rangeType', Sort.asc);
+    });
+  }
+
+  QueryBuilder<MaterialsHistory, MaterialsHistory, QAfterSortBy>
+      thenByRangeTypeDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'rangeType', Sort.desc);
+    });
+  }
+
+  QueryBuilder<MaterialsHistory, MaterialsHistory, QAfterSortBy>
       thenByRegistrationTime() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'registrationTime', Sort.asc);
@@ -497,6 +1267,20 @@ extension MaterialsHistoryQuerySortThenBy
       thenByRegistrationTimeDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'registrationTime', Sort.desc);
+    });
+  }
+
+  QueryBuilder<MaterialsHistory, MaterialsHistory, QAfterSortBy>
+      thenBySecoundRange() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'secoundRange', Sort.asc);
+    });
+  }
+
+  QueryBuilder<MaterialsHistory, MaterialsHistory, QAfterSortBy>
+      thenBySecoundRangeDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'secoundRange', Sort.desc);
     });
   }
 
@@ -518,9 +1302,58 @@ extension MaterialsHistoryQuerySortThenBy
 extension MaterialsHistoryQueryWhereDistinct
     on QueryBuilder<MaterialsHistory, MaterialsHistory, QDistinct> {
   QueryBuilder<MaterialsHistory, MaterialsHistory, QDistinct>
+      distinctByFirstRange() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'firstRange');
+    });
+  }
+
+  QueryBuilder<MaterialsHistory, MaterialsHistory, QDistinct>
+      distinctByFlagNotification() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'flagNotification');
+    });
+  }
+
+  QueryBuilder<MaterialsHistory, MaterialsHistory, QDistinct>
+      distinctByIntervalDays() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'intervalDays');
+    });
+  }
+
+  QueryBuilder<MaterialsHistory, MaterialsHistory, QDistinct>
+      distinctByNotificationTime() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'notificationTime');
+    });
+  }
+
+  QueryBuilder<MaterialsHistory, MaterialsHistory, QDistinct>
+      distinctByPallete() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'pallete');
+    });
+  }
+
+  QueryBuilder<MaterialsHistory, MaterialsHistory, QDistinct>
+      distinctByRangeType({bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'rangeType', caseSensitive: caseSensitive);
+    });
+  }
+
+  QueryBuilder<MaterialsHistory, MaterialsHistory, QDistinct>
       distinctByRegistrationTime() {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'registrationTime');
+    });
+  }
+
+  QueryBuilder<MaterialsHistory, MaterialsHistory, QDistinct>
+      distinctBySecoundRange() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'secoundRange');
     });
   }
 
@@ -541,10 +1374,56 @@ extension MaterialsHistoryQueryProperty
     });
   }
 
+  QueryBuilder<MaterialsHistory, int, QQueryOperations> firstRangeProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'firstRange');
+    });
+  }
+
+  QueryBuilder<MaterialsHistory, bool, QQueryOperations>
+      flagNotificationProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'flagNotification');
+    });
+  }
+
+  QueryBuilder<MaterialsHistory, List<int>, QQueryOperations>
+      intervalDaysProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'intervalDays');
+    });
+  }
+
+  QueryBuilder<MaterialsHistory, DateTime?, QQueryOperations>
+      notificationTimeProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'notificationTime');
+    });
+  }
+
+  QueryBuilder<MaterialsHistory, int, QQueryOperations> palleteProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'pallete');
+    });
+  }
+
+  QueryBuilder<MaterialsHistory, String, QQueryOperations> rangeTypeProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'rangeType');
+    });
+  }
+
   QueryBuilder<MaterialsHistory, DateTime, QQueryOperations>
       registrationTimeProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'registrationTime');
+    });
+  }
+
+  QueryBuilder<MaterialsHistory, int?, QQueryOperations>
+      secoundRangeProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'secoundRange');
     });
   }
 

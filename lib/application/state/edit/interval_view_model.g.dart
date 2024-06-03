@@ -6,7 +6,7 @@ part of 'interval_view_model.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$intervalViewModelHash() => r'd3f84bbb489480a1f89b4d1a0fd565b6957a61ad';
+String _$intervalViewModelHash() => r'9217f32fa2b3d5af6ff6223d9b248099fcf176c7';
 
 /// See also [IntervalViewModel].
 @ProviderFor(IntervalViewModel)

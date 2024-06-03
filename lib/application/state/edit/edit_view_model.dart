@@ -1,5 +1,6 @@
 import 'package:ebbinghaus_forgetting_curve/application/types/edit/edit_state.dart';
 import 'package:ebbinghaus_forgetting_curve/application/usecases/task/state/tasks_provider.dart';
+import 'package:ebbinghaus_forgetting_curve/domain/entities/history.dart';
 import 'package:ebbinghaus_forgetting_curve/domain/entities/task.dart';
 import 'package:ebbinghaus_forgetting_curve/presentation/common/date_time_extension.dart';
 import 'package:ebbinghaus_forgetting_curve/presentation/common/review_range_extension.dart';
@@ -58,6 +59,20 @@ class EditViewModel extends _$EditViewModel {
 
   setTitleText(String text) {
     state = state.copyWith(title: text);
+    _checkForChanges();
+  }
+
+  setMaterialHistory(MaterialsHistory history) {
+    state = state.copyWith(
+      title: history.teachingMaterials,
+      reviewRange: history.rangeType.stringToReviewRange(),
+      firstRange: history.firstRange,
+      secoundRange: history.secoundRange,
+      intervalDays: history.intervalDays,
+      pallete: history.pallete,
+      time: history.notificationTime,
+      flagNotification: history.flagNotification,
+    );
     _checkForChanges();
   }
 

@@ -16,8 +16,6 @@ class AddTaskRange extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final theme = Theme.of(context);
     final appLocalizations = AppLocalizations.of(context)!;
-    final notifier = ref.read(editViewModelProvider.notifier);
-    final state = ref.watch(editViewModelProvider);
 
     return SizedBox(
       height: 105,
@@ -29,27 +27,37 @@ class AddTaskRange extends HookConsumerWidget {
             style: theme.textTheme.bodySmall!
                 .copyWith(color: theme.primaryColorLight),
           ),
-          Expanded(
+          const Expanded(
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
-                DropdownButton(
-                  value: state.reviewRange,
-                  onChanged: (ReviewRange? value) =>
-                      notifier.setReviewRange(value),
-                  items: ReviewRange.values.map((ReviewRange range) {
-                    return DropdownMenuItem<ReviewRange>(
-                      value: range,
-                      child: CustomDropdownMenuItem(reviewRange: range),
-                    );
-                  }).toList(),
-                ),
-                CustomRangeTextField(reviewRange: state.reviewRange),
+                CustomDropDownMene(),
+                CustomRangeTextField(),
               ],
             ),
           ),
         ],
       ),
+    );
+  }
+}
+
+class CustomDropDownMene extends ConsumerWidget {
+  const CustomDropDownMene({super.key});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final notifier = ref.read(editViewModelProvider.notifier);
+    final state = ref.watch(editViewModelProvider);
+    return DropdownButton(
+      value: state.reviewRange,
+      onChanged: (ReviewRange? value) => notifier.setReviewRange(value),
+      items: ReviewRange.values.map((ReviewRange range) {
+        return DropdownMenuItem<ReviewRange>(
+          value: range,
+          child: CustomDropdownMenuItem(reviewRange: range),
+        );
+      }).toList(),
     );
   }
 }
@@ -78,9 +86,7 @@ class CustomDropdownMenuItem extends ConsumerWidget {
 }
 
 class CustomRangeTextField extends HookConsumerWidget {
-  const CustomRangeTextField({super.key, required this.reviewRange});
-
-  final ReviewRange reviewRange;
+  const CustomRangeTextField({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -94,6 +100,16 @@ class CustomRangeTextField extends HookConsumerWidget {
     final appLocalizations = AppLocalizations.of(context)!;
     final FocusNode focusNode1 = useFocusNode();
     final FocusNode focusNode2 = useFocusNode();
+
+    useEffect(() {
+      firstController.text = state.firstRange?.toString() ?? "";
+      return null;
+    }, [state.firstRange]);
+
+    useEffect(() {
+      secoundController.text = state.secoundRange?.toString() ?? "";
+      return null;
+    }, [state.secoundRange]);
 
     return Row(
       crossAxisAlignment: CrossAxisAlignment.center,

@@ -90,10 +90,10 @@ class OthersNotifierModel extends _$OthersNotifierModel {
       tz.TZDateTime now = tz.TZDateTime.now(tz.local);
 
       if (scheduledDateTime.isBefore(now)) {
-        debugPrint('Error: scheduledDateTime is in the past.');
+        debugPrint(
+            '$scheduledDateTime Error: scheduledDateTime is in the past.');
         return;
       }
-      // final String bodyComment = '今日 ${key.toHourMinute()}';
       for (final time in value) {
         final task = time.task.value;
         if (task != null) {

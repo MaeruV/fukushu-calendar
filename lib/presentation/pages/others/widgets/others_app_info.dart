@@ -154,7 +154,7 @@ class OthersOpinion extends ConsumerWidget with PresentationMixin {
               final Email email = Email(
                 subject: appLocalizations.inquiries_about_the_app,
                 body: '【${appLocalizations.details_of_the_issue}】',
-                recipients: ['kout.1918@gmail.com'],
+                recipients: ['fukushu.calendar@gmail.com'],
                 isHTML: false,
               );
               await FlutterEmailSender.send(email);

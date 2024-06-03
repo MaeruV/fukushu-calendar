@@ -1,3 +1,4 @@
+import 'package:ebbinghaus_forgetting_curve/application/state/edit/color_picker_view_mode.dart';
 import 'package:ebbinghaus_forgetting_curve/application/state/edit/edit_view_model.dart';
 import 'package:ebbinghaus_forgetting_curve/application/state/material_history/material_history_view_model.dart';
 import 'package:ebbinghaus_forgetting_curve/application/usecases/matrial_history/state/material_history_provider.dart';
@@ -56,6 +57,7 @@ class AutocompleteWidget extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final notifier = ref.read(editViewModelProvider.notifier);
+    final colorNotifier = ref.read(colorPickerViewModelProvider.notifier);
     final state = ref.watch(editViewModelProvider);
     final theme = Theme.of(context);
     final appLocalizations = AppLocalizations.of(context)!;
@@ -71,7 +73,8 @@ class AutocompleteWidget extends ConsumerWidget {
         });
       },
       onSelected: (MaterialsHistory selection) {
-        notifier.setTitleText(selection.teachingMaterials);
+        notifier.setMaterialHistory(selection);
+        colorNotifier.addColorPicker(selection.pallete);
       },
       fieldViewBuilder:
           (context, textEditingController, focusNode, onFieldSubmitted) {

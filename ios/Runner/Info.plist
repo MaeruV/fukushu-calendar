@@ -52,7 +52,7 @@
 		<key>PermissionGroupNotification</key>
 		<string>ローカル通知をするため</string>
 		<key>GADApplicationIdentifier</key>
-	<string>ca-app-pub-3940256099942544~1458002511</string>
+	<string>ca-app-pub-6748272771660788~7100831369</string>
 	<key>SKAdNetworkItems</key>
 	<array>
 	<dict>

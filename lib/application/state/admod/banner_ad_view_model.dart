@@ -1,5 +1,4 @@
-import 'dart:io';
-
+import 'package:ebbinghaus_forgetting_curve/application/config/app_constants.dart';
 import 'package:ebbinghaus_forgetting_curve/application/types/admod/banner_ad_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -12,9 +11,6 @@ part 'banner_ad_view_model.g.dart';
 @riverpod
 class BannerAdViewModel extends _$BannerAdViewModel {
   final ConsentManager _consentManager = ConsentManager();
-  final String _adUnitId = Platform.isAndroid
-      ? 'ca-app-pub-3940256099942544/9214589741'
-      : 'ca-app-pub-3940256099942544/2435281174';
 
   @override
   BannerAdState build(BuildContext context) {
@@ -56,7 +52,7 @@ class BannerAdViewModel extends _$BannerAdViewModel {
     }
 
     BannerAd(
-      adUnitId: _adUnitId,
+      adUnitId: AdManager.bannerAdUnitId,
       request: const AdRequest(),
       size: AdSize.fullBanner,
       listener: BannerAdListener(

@@ -1,5 +1,4 @@
-import 'dart:io';
-
+import 'package:ebbinghaus_forgetting_curve/application/config/app_constants.dart';
 import 'package:ebbinghaus_forgetting_curve/presentation/manager/consent_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
@@ -12,10 +11,6 @@ class RewardedAdViewModel extends _$RewardedAdViewModel {
   var _isMobileAdsInitializeCalled = false;
   final _consentManager = ConsentManager();
 
-  final String _adUnitId = Platform.isAndroid
-      ? 'ca-app-pub-3940256099942544/5224354917'
-      : 'ca-app-pub-3940256099942544/1712485313';
-
   @override
   RewardedAd? build() {
     return null;
@@ -27,7 +22,7 @@ class RewardedAdViewModel extends _$RewardedAdViewModel {
       return;
     }
     RewardedAd.load(
-        adUnitId: _adUnitId,
+        adUnitId: AdManager.rewardedAdUnitId,
         request: const AdRequest(),
         rewardedAdLoadCallback: RewardedAdLoadCallback(onAdLoaded: (ad) {
           ad.fullScreenContentCallback = FullScreenContentCallback(

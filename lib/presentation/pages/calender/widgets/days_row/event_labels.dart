@@ -61,10 +61,19 @@ class EventLabels extends HookConsumerWidget {
           (index) => Container(
                 height: 20,
                 width: 20,
-                margin: EdgeInsets.only(left: 14.0 * index),
+                margin: EdgeInsets.only(left: 17.0 * index),
                 decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: eventsOnTheDay[index].eventBackgroundColor),
+                  shape: BoxShape.circle,
+                  color: eventsOnTheDay[index].taskDate != null
+                      ? Colors.transparent
+                      : eventsOnTheDay[index].eventBackgroundColor,
+                  border: Border.all(
+                    color: eventsOnTheDay[index].taskDate != null
+                        ? eventsOnTheDay[index].eventBackgroundColor
+                        : Colors.transparent,
+                    width: 4.0, // 外枠の太さ
+                  ),
+                ),
               ));
 
       return ClipRect(

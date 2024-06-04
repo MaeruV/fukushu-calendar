@@ -23,6 +23,7 @@ class AddTaskModalScreen extends HookConsumerWidget {
         maxChildSize: 1.0,
         initialChildSize: 1.0,
         expand: false,
+        snap: true,
         builder: (context, scrollController) {
           return Container(
             decoration: const BoxDecoration(

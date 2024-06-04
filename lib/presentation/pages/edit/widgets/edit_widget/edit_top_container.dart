@@ -1,5 +1,4 @@
 import 'package:ebbinghaus_forgetting_curve/application/state/edit/task_selection_view_model.dart';
-import 'package:ebbinghaus_forgetting_curve/application/state/others/others_notification_view_model.dart';
 import 'package:ebbinghaus_forgetting_curve/domain/entities/task.dart';
 import 'package:ebbinghaus_forgetting_curve/presentation/pages/edit/views/edit_screen.dart';
 import 'package:flutter/material.dart';
@@ -55,10 +54,10 @@ class EditTopContainer extends ConsumerWidget implements PreferredSizeWidget {
               Padding(
                 padding: const EdgeInsets.only(right: 10.0),
                 child: GestureDetector(
-                  // onTap: () => todayTaskIndex(ref),
-                  onTap: () => ref
-                      .read(othersNotifierModelProvider.notifier)
-                      .getScheduled(),
+                  onTap: () => todayTaskIndex(ref),
+                  // onTap: () => ref
+                  //     .read(othersNotifierModelProvider.notifier)
+                  //     .getScheduled(),
                   child: Text(
                     appLocalizations.today,
                     style: theme.textTheme.titleSmall!

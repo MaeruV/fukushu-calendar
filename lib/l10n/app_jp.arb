@@ -106,5 +106,6 @@
   "notification_title": "通知の設定",
   "notification_content": "通知オン・オフの切り替え",
   "setting_title": "設定",
-  "copyright": "著作権情報"
+  "copyright": "著作権情報",
+  "final_content": "※ 「最後」がない場合は空白でも可。"
 }

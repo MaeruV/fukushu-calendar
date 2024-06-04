@@ -106,5 +106,6 @@
   "notification_title": "Notification Settings",
   "notification_content": "Toggle notifications on and off.",
   "setting_title": "Settings",
-  "copyright": "Copyright Information"
+  "copyright": "Copyright Information",
+  "final_content": "If 'final' is missing, a blank is okay."
 }

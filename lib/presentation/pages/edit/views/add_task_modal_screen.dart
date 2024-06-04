@@ -39,6 +39,7 @@ class AddTaskModalScreen extends HookConsumerWidget {
                         padding: EdgeInsets.symmetric(horizontal: 16.0),
                         child: AddTaskTitle(),
                       ),
+                      const SizedBox(height: 5),
                       const Padding(
                         padding: EdgeInsets.symmetric(horizontal: 16.0),
                         child: AddTaskRange(),

@@ -22,10 +22,21 @@ class AddTaskRange extends HookConsumerWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            appLocalizations.review_range,
-            style: theme.textTheme.bodySmall!
-                .copyWith(color: theme.primaryColorLight),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                appLocalizations.review_range,
+                style: theme.textTheme.bodySmall!
+                    .copyWith(color: theme.primaryColorLight),
+              ),
+              Text(
+                appLocalizations.final_content,
+                overflow: TextOverflow.ellipsis,
+                style:
+                    theme.textTheme.bodySmall!.copyWith(color: BrandColor.blue),
+              ),
+            ],
           ),
           const Expanded(
             child: Row(

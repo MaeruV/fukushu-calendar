@@ -23,19 +23,19 @@ class AddTaskSliverAppBar extends ConsumerStatefulWidget {
 }
 
 class _AddTaskSliverAppBarState extends ConsumerState<AddTaskSliverAppBar> {
-  final _consentManager = ConsentManager();
-  @override
-  void initState() {
-    super.initState();
-    _consentManager.gatherConsent((consentGatheringError) {
-      if (consentGatheringError != null) {
-        debugPrint(
-            "${consentGatheringError.errorCode}: ${consentGatheringError.message}");
-      }
+  // final _consentManager = ConsentManager();
+  // @override
+  // void initState() {
+  //   super.initState();
+  //   _consentManager.gatherConsent((consentGatheringError) {
+  //     if (consentGatheringError != null) {
+  //       debugPrint(
+  //           "${consentGatheringError.errorCode}: ${consentGatheringError.message}");
+  //     }
 
-      ref.read(rewardedAdViewModelProvider.notifier).initializeMobileAdsSDK();
-    });
-  }
+  //     ref.read(rewardedAdViewModelProvider.notifier).initializeMobileAdsSDK();
+  //   });
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -81,52 +81,58 @@ class _AddTaskSliverAppBarState extends ConsumerState<AddTaskSliverAppBar> {
           padding: const EdgeInsets.only(right: 15.0),
           child: GestureDetector(
             onTap: () async {
-              final dateTime = DateTime.now().toZeroHour();
-              if (state.hasChanges) {
-                admod.fetchAll().then((admodDb) {
-                  if (admodDb != null && admodDb.dateTime == dateTime) {
-                    if (admodDb.num >= 3) {
-                      DialogManager().adModCheckDialog(
-                        context: context,
-                        doneTap: () {
-                          rewardedAd?.show(onUserEarnedReward:
-                              (AdWithoutView ad, RewardItem rewardItem) async {
-                            debugPrint('Reward amount: ${rewardItem.amount}');
-                            await _saveTaskAndHistory(
-                                    context, appLocalizations, ref)
-                                .then((_) {
-                              admod.countAdmod(num: admodDb.num);
-                              context.pop();
-                              context.pop();
-                            });
-                          });
-                        },
-                        cancelTap: () => context.pop(),
-                        titleTextStyle: theme.textTheme.titleMedium!
-                            .copyWith(color: theme.primaryColorLight),
-                        bodyTextStyle: theme.textTheme.bodySmall!
-                            .copyWith(color: BrandColor.grey),
-                        cancelTextStyle: theme.textTheme.bodyMedium!
-                            .copyWith(color: BrandColor.blue),
-                        doneTextStyle: theme.textTheme.bodyMedium!
-                            .copyWith(color: BrandColor.deleteRed),
-                      );
-                    } else {
-                      _saveTaskAndHistory(context, appLocalizations, ref)
-                          .then((value) {
-                        admod.countAdmod(num: admodDb.num);
-                        context.pop();
-                      });
-                    }
-                  } else {
-                    _saveTaskAndHistory(context, appLocalizations, ref)
-                        .then((value) {
-                      admod.countAdmod(num: 0);
-                      context.pop();
-                    });
-                  }
+              if (state.title.isNotEmpty) {
+                _saveTaskAndHistory(context, appLocalizations, ref)
+                    .then((value) {
+                  context.pop();
                 });
               }
+              // final dateTime = DateTime.now().toZeroHour();
+              // if (state.hasChanges) {
+              //   admod.fetchAll().then((admodDb) {
+              //     if (admodDb != null && admodDb.dateTime == dateTime) {
+              //       if (admodDb.num >= 3) {
+              //         DialogManager().adModCheckDialog(
+              //           context: context,
+              //           doneTap: () {
+              //             rewardedAd?.show(onUserEarnedReward:
+              //                 (AdWithoutView ad, RewardItem rewardItem) async {
+              //               debugPrint('Reward amount: ${rewardItem.amount}');
+              //               await _saveTaskAndHistory(
+              //                       context, appLocalizations, ref)
+              //                   .then((_) {
+              //                 admod.countAdmod(num: admodDb.num);
+              //                 context.pop();
+              //                 context.pop();
+              //               });
+              //             });
+              //           },
+              //           cancelTap: () => context.pop(),
+              //           titleTextStyle: theme.textTheme.titleMedium!
+              //               .copyWith(color: theme.primaryColorLight),
+              //           bodyTextStyle: theme.textTheme.bodySmall!
+              //               .copyWith(color: BrandColor.grey),
+              //           cancelTextStyle: theme.textTheme.bodyMedium!
+              //               .copyWith(color: BrandColor.blue),
+              //           doneTextStyle: theme.textTheme.bodyMedium!
+              //               .copyWith(color: BrandColor.deleteRed),
+              //         );
+              //       } else {
+              //         _saveTaskAndHistory(context, appLocalizations, ref)
+              //             .then((value) {
+              //           admod.countAdmod(num: admodDb.num);
+              //           context.pop();
+              //         });
+              //       }
+              //     } else {
+              //       _saveTaskAndHistory(context, appLocalizations, ref)
+              //           .then((value) {
+              //         admod.countAdmod(num: 0);
+              //         context.pop();
+              //       });
+              //     }
+              //   });
+              // }
             },
             child: Text(
               appLocalizations.complete,

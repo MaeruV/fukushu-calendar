@@ -5,7 +5,6 @@ import 'package:ebbinghaus_forgetting_curve/presentation/common/date_extension.d
 import 'package:ebbinghaus_forgetting_curve/presentation/common/date_time_extension.dart';
 import 'package:ebbinghaus_forgetting_curve/presentation/pages/calender/widgets/calendar_app_bar.dart';
 import 'package:ebbinghaus_forgetting_curve/presentation/pages/calender/widgets/calendar_list_tile.dart';
-import 'package:ebbinghaus_forgetting_curve/presentation/pages/calender/widgets/days_of_the_week.dart';
 import 'package:ebbinghaus_forgetting_curve/presentation/pages/calender/widgets/days_row/event_labels.dart';
 import 'package:ebbinghaus_forgetting_curve/presentation/pages/calender/widgets/table_calendar_page_.dart';
 import 'package:flutter/material.dart';
@@ -149,6 +148,7 @@ class TopContainerWidget extends ConsumerWidget {
     return Container(
       decoration: BoxDecoration(
         color: theme.canvasColor,
+        // color: Colors.amber,
         borderRadius: const BorderRadius.only(
           bottomLeft: Radius.circular(15),
           bottomRight: Radius.circular(15),
@@ -157,7 +157,6 @@ class TopContainerWidget extends ConsumerWidget {
       child: SafeArea(
         child: Column(
           children: <Widget>[
-            const DaysOfTheWeek(),
             CalenderPageView(
               events: value.values.expand((events) => events).toList(),
               onCellTapped: onCellTapped,
@@ -227,6 +226,7 @@ class CalenderPageView extends HookConsumerWidget {
         return PageView.builder(
             controller: pageController,
             itemBuilder: (context, index) {
+              print('index: $index');
               return TableCalendarPage(
                 tableHeight: constraints.maxHeight,
                 visiblePageDate: index.visibleDateTime,

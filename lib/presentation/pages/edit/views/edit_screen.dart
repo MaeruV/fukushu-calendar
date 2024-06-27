@@ -26,25 +26,25 @@ class EditScreen extends StatefulHookConsumerWidget {
 }
 
 class _EditScreenState extends ConsumerState<EditScreen> {
-  final _consentManager = ConsentManager();
+  // final _consentManager = ConsentManager();
 
-  @override
-  void initState() {
-    super.initState();
+  // @override
+  // void initState() {
+  //   super.initState();
 
-    _consentManager.gatherConsent((consentGatheringError) {
-      if (consentGatheringError != null) {
-        debugPrint(
-            "${consentGatheringError.errorCode}: ${consentGatheringError.message}");
-      }
-      ref
-          .read(bannerAdViewModelProvider(context).notifier)
-          .initializeMobileAdsSDK();
-    });
-    ref
-        .read(bannerAdViewModelProvider(context).notifier)
-        .initializeMobileAdsSDK();
-  }
+  //   _consentManager.gatherConsent((consentGatheringError) {
+  //     if (consentGatheringError != null) {
+  //       debugPrint(
+  //           "${consentGatheringError.errorCode}: ${consentGatheringError.message}");
+  //     }
+  //     ref
+  //         .read(bannerAdViewModelProvider(context).notifier)
+  //         .initializeMobileAdsSDK();
+  //   });
+  //   ref
+  //       .read(bannerAdViewModelProvider(context).notifier)
+  //       .initializeMobileAdsSDK();
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -72,17 +72,17 @@ class _EditScreenState extends ConsumerState<EditScreen> {
                     onRefresh: () async => ref.invalidate(tasksProvider),
                     child: EditView(value: value)),
               ),
-              if (state.bannerAd != null && state.isLoaded)
-                Align(
-                  alignment: Alignment.bottomCenter,
-                  child: SafeArea(
-                    child: SizedBox(
-                      width: state.bannerAd!.size.width.toDouble(),
-                      height: state.bannerAd!.size.height.toDouble(),
-                      child: AdWidget(ad: state.bannerAd!),
-                    ),
-                  ),
-                ),
+              // if (state.bannerAd != null && state.isLoaded)
+              //   Align(
+              //     alignment: Alignment.bottomCenter,
+              //     child: SafeArea(
+              //       child: SizedBox(
+              //         width: state.bannerAd!.size.width.toDouble(),
+              //         height: state.bannerAd!.size.height.toDouble(),
+              //         child: AdWidget(ad: state.bannerAd!),
+              //       ),
+              //     ),
+              //   ),
               Positioned(
                 bottom: 60,
                 right: 20,

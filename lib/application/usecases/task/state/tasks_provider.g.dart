@@ -717,23 +717,23 @@ class _TempTaskProviderElement extends AutoDisposeFutureProviderElement<Task?>
   int get taskId => (origin as TempTaskProvider).taskId;
 }
 
-String _$tasksCalendarHash() => r'591f01a313d69a0f38a66b775e7b20d56ce88a25';
+String _$setCalendarEventsHash() => r'795a51727e0eb477c2977aa144a398cddb5ae005';
 
-/// See also [tasksCalendar].
-@ProviderFor(tasksCalendar)
-final tasksCalendarProvider =
-    AutoDisposeFutureProvider<Map<DateTime, List<CalendarEvent>>>.internal(
-  tasksCalendar,
-  name: r'tasksCalendarProvider',
+/// See also [setCalendarEvents].
+@ProviderFor(setCalendarEvents)
+final setCalendarEventsProvider =
+    AutoDisposeFutureProvider<List<CalendarEvent>>.internal(
+  setCalendarEvents,
+  name: r'setCalendarEventsProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
       ? null
-      : _$tasksCalendarHash,
+      : _$setCalendarEventsHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );
 
-typedef TasksCalendarRef
-    = AutoDisposeFutureProviderRef<Map<DateTime, List<CalendarEvent>>>;
+typedef SetCalendarEventsRef
+    = AutoDisposeFutureProviderRef<List<CalendarEvent>>;
 String _$tempTaskDateHash() => r'a8d76b34115a63a433dc379a09d5a22a6f52e44f';
 
 /// See also [tempTaskDate].

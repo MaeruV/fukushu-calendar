@@ -7,7 +7,7 @@ part of 'rewarded_ad_view_model.dart';
 // **************************************************************************
 
 String _$rewardedAdViewModelHash() =>
-    r'cd8ae407cfd473973304ab51570cd37c4bb2a41e';
+    r'2770cffc294f3cae69f733f21e7a8b384f8a25e0';
 
 /// See also [RewardedAdViewModel].
 @ProviderFor(RewardedAdViewModel)

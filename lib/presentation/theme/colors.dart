@@ -21,6 +21,7 @@ class BrandColor {
   static const deepNightBlue2 = Color(0xFF070A16);
   static const deepNightBlue3 = Color(0xFF060812);
   static const deepNightBlue4 = Color(0xFF05070F);
+  static const transparentColor = Colors.transparent;
 }
 
 class TaskColorPalette {

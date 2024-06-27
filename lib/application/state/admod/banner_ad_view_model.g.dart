@@ -6,7 +6,7 @@ part of 'banner_ad_view_model.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$bannerAdViewModelHash() => r'1ec29afcb095d46884b0978c9a6ba9947046c3c6';
+String _$bannerAdViewModelHash() => r'698b7b772b3b35385dbc36dc64da188f076f8eac';
 
 /// Copied from Dart SDK
 class _SystemHash {

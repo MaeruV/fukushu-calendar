@@ -53,8 +53,8 @@ Future<Task?> tempTask(TempTaskRef ref, {required int taskId}) async {
 }
 
 @riverpod
-Future<Map<DateTime, List<CalendarEvent>>> tasksCalendar(TasksCalendarRef ref) {
-  return ref.watch(taskUsecaseProvider).groupTasksByReviewDates();
+Future<List<CalendarEvent>> setCalendarEvents(SetCalendarEventsRef ref) {
+  return ref.watch(taskUsecaseProvider).formatCalendarEvents();
 }
 
 @riverpod

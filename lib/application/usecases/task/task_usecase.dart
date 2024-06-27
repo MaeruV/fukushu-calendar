@@ -27,7 +27,8 @@ class TaskUsecase with RunUsecaseMixin {
   void _invalidateTasksProvider() => _ref.refresh(tasksProvider.future);
   StateController<Task?> get _temporaryTaskController =>
       _ref.read(temporaryTaskProvider.notifier);
-  void _refreshCalendarProvider() => _ref.refresh(tasksCalendarProvider.future);
+  void _refreshCalendarProvider() =>
+      _ref.refresh(setCalendarEventsProvider.future);
 
   void _refreshCompleteTaskPeriodProvider(List<DateTime> weeks) =>
       _ref.refresh(compTaskDataPeriodProvider(weeks: weeks).future);
@@ -244,9 +245,9 @@ class TaskUsecase with RunUsecaseMixin {
             appLocalizations: appLocalizations);
   }
 
-  Future<Map<DateTime, List<CalendarEvent>>> groupTasksByReviewDates() async {
+  Future<List<CalendarEvent>> formatCalendarEvents() async {
     final tasks = await _taskRepository.fetchAll();
-    final Map<DateTime, List<CalendarEvent>> calendarEventsByDate = {};
+    final List<CalendarEvent> calendarEvents = [];
 
     for (final task in tasks) {
       final formatRangeType = task.rangeType.stringToReviewRange();
@@ -263,7 +264,7 @@ class TaskUsecase with RunUsecaseMixin {
         firstRange: task.firstRange,
         secoundRange: task.secoundRange,
       );
-      calendarEventsByDate.putIfAbsent(startDate, () => []).add(startEvent);
+      calendarEvents.add(startEvent);
 
       for (final daysToAdd in task.dates) {
         if (daysToAdd.checkFlag != true) {
@@ -280,13 +281,11 @@ class TaskUsecase with RunUsecaseMixin {
             firstRange: task.firstRange,
             secoundRange: task.secoundRange,
           );
-          calendarEventsByDate
-              .putIfAbsent(reviewDate, () => [])
-              .add(reviewEvent);
+          calendarEvents.add(reviewEvent);
         }
       }
     }
-    return calendarEventsByDate;
+    return calendarEvents;
   }
 
   Future<void> deleteTaskEvent(

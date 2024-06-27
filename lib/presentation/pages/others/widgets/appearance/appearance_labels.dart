@@ -1,5 +1,5 @@
 import 'package:ebbinghaus_forgetting_curve/domain/entities/calendar_event.dart';
-import 'package:ebbinghaus_forgetting_curve/presentation/pages/calender/widgets/days_row/event_labels.dart';
+import 'package:ebbinghaus_forgetting_curve/presentation/pages/calendar_test/widgets/days_row/event_labels.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 

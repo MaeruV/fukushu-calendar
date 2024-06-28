@@ -1,7 +1,7 @@
 import 'package:ebbinghaus_forgetting_curve/application/usecases/task/state/tasks_provider.dart';
-import 'package:ebbinghaus_forgetting_curve/presentation/pages/calendar_test/pages/calendar_page.dart';
-import 'package:ebbinghaus_forgetting_curve/presentation/pages/calendar_test/widgets/calendar_list.dart';
-import 'package:ebbinghaus_forgetting_curve/presentation/pages/calendar_test/widgets/calendar_pageview.dart';
+import 'package:ebbinghaus_forgetting_curve/presentation/pages/calendar/pages/calendar_page.dart';
+import 'package:ebbinghaus_forgetting_curve/presentation/pages/calendar/widgets/calendar_list.dart';
+import 'package:ebbinghaus_forgetting_curve/presentation/pages/calendar/widgets/calendar_pageview.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 

@@ -1,6 +1,6 @@
 import 'package:ebbinghaus_forgetting_curve/presentation/common/date_extension.dart';
 import 'package:ebbinghaus_forgetting_curve/presentation/common/date_time_extension.dart';
-import 'package:ebbinghaus_forgetting_curve/presentation/pages/calendar_test/pages/calendar_page.dart';
+import 'package:ebbinghaus_forgetting_curve/presentation/pages/calendar/pages/calendar_page.dart';
 import 'package:ebbinghaus_forgetting_curve/presentation/theme/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -15,6 +15,8 @@ class CalendarAppBar extends ConsumerWidget implements PreferredSizeWidget {
     final collapse = ref.watch(collapsedProvider);
     final theme = Theme.of(context);
     final appLocalizations = AppLocalizations.of(context)!;
+    final todayRowIndex = ref.watch(todayRowIndexProvider);
+    final currentPage = ref.watch(currentPageProvider);
 
     final monthText =
         currentState.visibleDateTime.toformatMonthYear(appLocalizations.date);
@@ -61,8 +63,18 @@ class CalendarAppBar extends ConsumerWidget implements PreferredSizeWidget {
       actions: [
         TextButton(
           onPressed: () {
+            final today = DateTime.now().toZeroHour();
+            final todayWeek = today.weekday;
+            ref.read(scrollDirectionProvider.notifier).state =
+                ScrollDirection.none;
             ref.read(todayFlagProvider.notifier).state = false;
             ref.read(todayFlagProvider.notifier).state = true;
+            ref.read(tappedCellProvider.notifier).state = {todayWeek: today};
+            if (currentPage == 1200) {
+              ref.read(sameMonthIndexProvider.notifier).state = todayRowIndex;
+            } else {
+              ref.read(currentRowIndexProvider.notifier).state = todayRowIndex;
+            }
           },
           child: Text(
             appLocalizations.today,

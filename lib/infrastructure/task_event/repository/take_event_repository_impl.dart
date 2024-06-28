@@ -194,7 +194,11 @@ class TaskEventRepositoryImpl implements TaskRepository {
 
   @override
   Future<List<Task>> fetchAll() async {
-    final taskAll = await isar.tasks.where().sortByStartTime().findAll();
+    final taskAll = await isar.tasks
+        .filter()
+        .completedEventEqualTo(false)
+        .sortByStartTime()
+        .findAll();
     final List<Task> tasks = [];
     for (Task task in taskAll) {
       await task.dates.load();

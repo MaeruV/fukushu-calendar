@@ -1,6 +1,6 @@
-import 'package:ebbinghaus_forgetting_curve/presentation/pages/calendar_test/widgets/calendar_app_bar.dart';
-import 'package:ebbinghaus_forgetting_curve/presentation/pages/calendar_test/widgets/calendar_weekday_display.dart';
-import 'package:ebbinghaus_forgetting_curve/presentation/pages/calendar_test/widgets/container_body.dart';
+import 'package:ebbinghaus_forgetting_curve/presentation/pages/calendar/widgets/calendar_app_bar.dart';
+import 'package:ebbinghaus_forgetting_curve/presentation/pages/calendar/widgets/calendar_weekday_display.dart';
+import 'package:ebbinghaus_forgetting_curve/presentation/pages/calendar/widgets/container_body.dart';
 import 'package:ebbinghaus_forgetting_curve/presentation/theme/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -26,6 +26,10 @@ final scrollDirectionProvider =
     StateProvider<ScrollDirection>((ref) => ScrollDirection.none);
 // 今日のボタンが押されたかを確認する
 final todayFlagProvider = StateProvider<bool>((ref) => false);
+//今日の日付のrowIndexを格納
+final todayRowIndexProvider = StateProvider<int>((ref) => 0);
+
+final sameMonthIndexProvider = StateProvider<int?>((ref) => null);
 
 class CalendarPage extends StatelessWidget {
   const CalendarPage({super.key});

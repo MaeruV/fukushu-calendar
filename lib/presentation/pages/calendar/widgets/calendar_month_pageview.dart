@@ -1,6 +1,7 @@
 import 'package:ebbinghaus_forgetting_curve/domain/entities/calendar_event.dart';
-import 'package:ebbinghaus_forgetting_curve/presentation/pages/calendar_test/pages/calendar_page.dart';
-import 'package:ebbinghaus_forgetting_curve/presentation/pages/calendar_test/widgets/calendar_day.dart';
+import 'package:ebbinghaus_forgetting_curve/presentation/common/date_time_extension.dart';
+import 'package:ebbinghaus_forgetting_curve/presentation/pages/calendar/pages/calendar_page.dart';
+import 'package:ebbinghaus_forgetting_curve/presentation/pages/calendar/widgets/calendar_day.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -37,6 +38,9 @@ class MonthPageViewWidget extends ConsumerWidget {
     final minHeight = (height * 0.7) / weeks.length;
     final minHeightFactor = minHeight / height;
 
+    // 今日の日付を取得
+    final today = DateTime.now().toZeroHour();
+
     return Stack(
       children: weeks.asMap().entries.map((entry) {
         int rowIndex = entry.key;
@@ -60,6 +64,13 @@ class MonthPageViewWidget extends ConsumerWidget {
               children: week.asMap().entries.map((entry) {
                 int index = entry.key;
                 final date = entry.value;
+
+                if (date.isSameDay(today)) {
+                  WidgetsBinding.instance.addPostFrameCallback((_) {
+                    ref.read(todayRowIndexProvider.notifier).state = rowIndex;
+                  });
+                }
+
                 return DayContainerWidget(
                   date: date,
                   index: index,

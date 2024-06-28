@@ -1,8 +1,8 @@
 import 'package:ebbinghaus_forgetting_curve/domain/entities/calendar_event.dart';
-import 'package:ebbinghaus_forgetting_curve/presentation/pages/calendar_test/models/calendar_view_model.dart';
-import 'package:ebbinghaus_forgetting_curve/presentation/pages/calendar_test/pages/calendar_page.dart';
-import 'package:ebbinghaus_forgetting_curve/presentation/pages/calendar_test/widgets/calendar_month_pageview.dart';
-import 'package:ebbinghaus_forgetting_curve/presentation/pages/calendar_test/widgets/calendar_weeks_pageview.dart';
+import 'package:ebbinghaus_forgetting_curve/presentation/pages/calendar/models/calendar_view_model.dart';
+import 'package:ebbinghaus_forgetting_curve/presentation/pages/calendar/pages/calendar_page.dart';
+import 'package:ebbinghaus_forgetting_curve/presentation/pages/calendar/widgets/calendar_month_pageview.dart';
+import 'package:ebbinghaus_forgetting_curve/presentation/pages/calendar/widgets/calendar_weeks_pageview.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 

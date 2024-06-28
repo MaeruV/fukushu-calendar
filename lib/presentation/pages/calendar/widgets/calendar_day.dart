@@ -1,9 +1,9 @@
 import 'package:ebbinghaus_forgetting_curve/application/state/theme/custom_theme.dart';
 import 'package:ebbinghaus_forgetting_curve/domain/entities/calendar_event.dart';
 import 'package:ebbinghaus_forgetting_curve/presentation/common/date_time_extension.dart';
-import 'package:ebbinghaus_forgetting_curve/presentation/pages/calendar_test/pages/calendar_page.dart';
-import 'package:ebbinghaus_forgetting_curve/presentation/pages/calendar_test/widgets/days_row/event_labels.dart';
-import 'package:ebbinghaus_forgetting_curve/presentation/pages/calendar_test/widgets/days_row/measure_size.dart';
+import 'package:ebbinghaus_forgetting_curve/presentation/pages/calendar/pages/calendar_page.dart';
+import 'package:ebbinghaus_forgetting_curve/presentation/pages/calendar/widgets/days_row/event_labels.dart';
+import 'package:ebbinghaus_forgetting_curve/presentation/pages/calendar/widgets/days_row/measure_size.dart';
 import 'package:ebbinghaus_forgetting_curve/presentation/theme/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';

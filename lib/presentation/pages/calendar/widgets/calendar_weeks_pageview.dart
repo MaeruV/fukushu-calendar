@@ -1,6 +1,6 @@
 import 'package:ebbinghaus_forgetting_curve/domain/entities/calendar_event.dart';
-import 'package:ebbinghaus_forgetting_curve/presentation/pages/calendar_test/pages/calendar_page.dart';
-import 'package:ebbinghaus_forgetting_curve/presentation/pages/calendar_test/widgets/calendar_day.dart';
+import 'package:ebbinghaus_forgetting_curve/presentation/pages/calendar/pages/calendar_page.dart';
+import 'package:ebbinghaus_forgetting_curve/presentation/pages/calendar/widgets/calendar_day.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -78,6 +78,17 @@ class _WeeksPageViewWidgetState extends ConsumerState<WeeksPageViewWidget> {
   Widget build(BuildContext context) {
     final height = MediaQuery.of(context).size.height;
     final stackHeight = (height * 0.7) / 5;
+
+    ref.listen(sameMonthIndexProvider, (pre, next) {
+      if (next != null) {
+        controller.animateToPage(
+          next,
+          duration: const Duration(milliseconds: 100),
+          curve: Curves.easeIn,
+        );
+      }
+      ref.read(sameMonthIndexProvider.notifier).state = null;
+    });
 
     return Stack(
       children: [

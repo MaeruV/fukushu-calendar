@@ -1,5 +1,5 @@
 import 'package:ebbinghaus_forgetting_curve/presentation/pages/analysis/view/analysis_main_screen.dart';
-import 'package:ebbinghaus_forgetting_curve/presentation/pages/calendar_test/pages/calendar_page.dart';
+import 'package:ebbinghaus_forgetting_curve/presentation/pages/calendar/pages/calendar_page.dart';
 import 'package:ebbinghaus_forgetting_curve/presentation/pages/edit/views/edit_screen.dart';
 import 'package:ebbinghaus_forgetting_curve/presentation/pages/others/views/others_main_screen.dart';
 import 'package:flutter/material.dart';
@@ -17,7 +17,6 @@ class HomeViewModel extends _$HomeViewModel {
   List<Widget>? get screens => _screens;
 
   final _screens = const [
-    // CalendarMainScreen(),
     CalendarPage(),
     EditScreen(),
     SizedBox.expand(),

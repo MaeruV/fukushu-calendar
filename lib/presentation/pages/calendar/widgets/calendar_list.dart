@@ -5,7 +5,7 @@ import 'package:ebbinghaus_forgetting_curve/domain/entities/calendar_event.dart'
 import 'package:ebbinghaus_forgetting_curve/presentation/common/date_extension.dart';
 import 'package:ebbinghaus_forgetting_curve/presentation/common/date_time_extension.dart';
 import 'package:ebbinghaus_forgetting_curve/presentation/common/review_range_extension.dart';
-import 'package:ebbinghaus_forgetting_curve/presentation/pages/calendar_test/pages/calendar_page.dart';
+import 'package:ebbinghaus_forgetting_curve/presentation/pages/calendar/pages/calendar_page.dart';
 import 'package:ebbinghaus_forgetting_curve/presentation/presentation_mixin.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';

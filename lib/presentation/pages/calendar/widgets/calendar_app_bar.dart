@@ -36,7 +36,7 @@ class CalendarAppBar extends ConsumerWidget implements PreferredSizeWidget {
                 ? () {
                     ref.read(collapsedProvider.notifier).state = false;
                     ref.read(topContainerHeightFactorProvider.notifier).state =
-                        0.7;
+                        1.0;
                     ref.read(scrollDirectionProvider.notifier).state =
                         ScrollDirection.none;
                   }
@@ -67,6 +67,7 @@ class CalendarAppBar extends ConsumerWidget implements PreferredSizeWidget {
             final todayWeek = today.weekday;
             ref.read(scrollDirectionProvider.notifier).state =
                 ScrollDirection.none;
+            ref.read(sameMonthIndexProvider.notifier).state = null;
             ref.read(todayFlagProvider.notifier).state = false;
             ref.read(todayFlagProvider.notifier).state = true;
             ref.read(tappedCellProvider.notifier).state = {todayWeek: today};

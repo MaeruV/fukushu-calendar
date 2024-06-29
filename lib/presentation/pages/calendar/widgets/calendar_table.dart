@@ -10,12 +10,14 @@ class CalendarTable extends ConsumerStatefulWidget {
   final DateTime visiblePageDate;
   final PageController pageController;
   final List<CalendarEvent> events;
+  final double height;
 
   const CalendarTable({
     super.key,
     required this.visiblePageDate,
     required this.pageController,
     required this.events,
+    required this.height,
   });
 
   @override
@@ -41,9 +43,8 @@ class _CalendarTableState extends ConsumerState<CalendarTable> {
     final collapsed = ref.watch(collapsedProvider);
     final direction = ref.watch(scrollDirectionProvider);
     final currentRow = ref.watch(currentRowIndexProvider);
-    final height = MediaQuery.of(context).size.height;
-    final minHeight = (height * 0.7) / 5;
-    final minHeightFactor = minHeight / height;
+    final minHeight = widget.height / 5;
+    final minHeightFactor = minHeight / widget.height;
 
     return AnimatedSwitcher(
       duration: const Duration(milliseconds: 100),
@@ -60,12 +61,14 @@ class _CalendarTableState extends ConsumerState<CalendarTable> {
               minHeightFactor: minHeightFactor,
               currentRow: currentRow,
               events: widget.events,
+              height: widget.height,
             )
           : MonthPageViewWidget(
               key: const ValueKey('month'),
               visiblePageDate: widget.visiblePageDate,
               weeks: weeks,
               events: widget.events,
+              height: widget.height,
             ),
     );
   }

@@ -8,9 +8,11 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class CalendarPageView extends ConsumerStatefulWidget {
   final List<CalendarEvent> events;
+  final double height;
   const CalendarPageView({
     super.key,
     required this.events,
+    required this.height,
   });
 
   @override
@@ -59,6 +61,7 @@ class _CalendarPageViewState extends ConsumerState<CalendarPageView> {
             visiblePageDate: index.visibleDateTime,
             pageController: controller,
             events: widget.events,
+            height: widget.height,
           ),
         );
       },

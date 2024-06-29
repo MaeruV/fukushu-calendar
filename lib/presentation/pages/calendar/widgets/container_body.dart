@@ -10,8 +10,6 @@ class CalendarBody extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final height = MediaQuery.of(context).size.height;
-    //Provider
     final topContainerHeightFactor =
         ref.watch(topContainerHeightFactorProvider);
 
@@ -24,23 +22,26 @@ class CalendarBody extends ConsumerWidget {
         return const CircularProgressIndicator();
       case AsyncData(:final value):
         return Expanded(
-          child: Column(
-            children: [
-              AnimatedContainer(
-                duration: const Duration(milliseconds: 100),
-                height: height * topContainerHeightFactor,
-                child: CalendarPageView(events: value),
-              ),
-              Expanded(
-                child: SingleChildScrollView(
-                  child: AnimatedContainer(
-                    duration: const Duration(milliseconds: 100),
-                    child: CalendarList(events: value),
+          child: LayoutBuilder(builder: (context, constraints) {
+            final height = constraints.maxHeight;
+            return Column(
+              children: [
+                AnimatedContainer(
+                  duration: const Duration(milliseconds: 100),
+                  height: height * topContainerHeightFactor,
+                  child: CalendarPageView(events: value, height: height),
+                ),
+                Expanded(
+                  child: SingleChildScrollView(
+                    child: AnimatedContainer(
+                      duration: const Duration(milliseconds: 100),
+                      child: CalendarList(events: value),
+                    ),
                   ),
                 ),
-              ),
-            ],
-          ),
+              ],
+            );
+          }),
         );
       default:
         return const CircularProgressIndicator();

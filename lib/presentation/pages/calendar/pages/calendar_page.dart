@@ -1,9 +1,11 @@
+import 'package:ebbinghaus_forgetting_curve/presentation/pages/calendar/widgets/admod.dart';
 import 'package:ebbinghaus_forgetting_curve/presentation/pages/calendar/widgets/calendar_app_bar.dart';
 import 'package:ebbinghaus_forgetting_curve/presentation/pages/calendar/widgets/calendar_weekday_display.dart';
 import 'package:ebbinghaus_forgetting_curve/presentation/pages/calendar/widgets/container_body.dart';
 import 'package:ebbinghaus_forgetting_curve/presentation/theme/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 
 //列挙型
 enum ScrollDirection { left, right, none }
@@ -12,7 +14,7 @@ enum ScrollDirection { left, right, none }
 //CalendarPageViewのindexを格納
 final currentPageProvider = StateProvider<int>((ref) => 1200);
 // AnimationContainerの変動する高さをtopContainerHeightFactorProviderで監視
-final topContainerHeightFactorProvider = StateProvider<double>((_) => 0.7);
+final topContainerHeightFactorProvider = StateProvider<double>((_) => 1.0);
 // MonthとWeekの切り替えを監視するProvider
 final collapsedProvider = StateProvider<bool>((ref) => false);
 // CalendarDayでタップしたセルのProvider
@@ -31,11 +33,11 @@ final todayRowIndexProvider = StateProvider<int>((ref) => 0);
 
 final sameMonthIndexProvider = StateProvider<int?>((ref) => null);
 
-class CalendarPage extends StatelessWidget {
+class CalendarPage extends ConsumerWidget {
   const CalendarPage({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
       appBar: const CalendarAppBar(),
       body: Column(
@@ -46,6 +48,7 @@ class CalendarPage extends StatelessWidget {
             color: BrandColor.grey,
           ),
           const CalendarBody(),
+          const AdBanner(size: AdSize.fullBanner)
         ],
       ),
     );

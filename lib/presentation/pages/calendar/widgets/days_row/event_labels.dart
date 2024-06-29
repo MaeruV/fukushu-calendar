@@ -101,6 +101,9 @@ class EventLabel extends ConsumerWidget {
     return Container(
       height: eventLabelContentHeight.toDouble(),
       margin: const EdgeInsets.only(right: 3),
+      color: event.taskDate != null
+          ? Colors.transparent
+          : event.eventBackgroundColor.withOpacity(0.2),
       child: Row(
         children: [
           Container(

@@ -53,6 +53,7 @@ Future<Isar> initializeIsar() async {
   tz.setLocalLocation(tz.getLocation("Asia/Tokyo"));
   SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge,
       overlays: SystemUiOverlay.values);
+  WidgetsFlutterBinding.ensureInitialized();
 
   final dir = await getApplicationDocumentsDirectory();
   Isar isar = await Isar.open([

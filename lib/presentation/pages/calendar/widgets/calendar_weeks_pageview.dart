@@ -12,6 +12,7 @@ class WeeksPageViewWidget extends ConsumerStatefulWidget {
   final double minHeightFactor;
   final int currentRow;
   final List<CalendarEvent> events;
+  final double height;
 
   const WeeksPageViewWidget({
     super.key,
@@ -22,6 +23,7 @@ class WeeksPageViewWidget extends ConsumerStatefulWidget {
     required this.minHeightFactor,
     required this.currentRow,
     required this.events,
+    required this.height,
   });
 
   @override
@@ -76,8 +78,7 @@ class _WeeksPageViewWidgetState extends ConsumerState<WeeksPageViewWidget> {
 
   @override
   Widget build(BuildContext context) {
-    final height = MediaQuery.of(context).size.height;
-    final stackHeight = (height * 0.7) / 5;
+    final stackHeight = widget.height / 5;
 
     ref.listen(sameMonthIndexProvider, (pre, next) {
       if (next != null) {

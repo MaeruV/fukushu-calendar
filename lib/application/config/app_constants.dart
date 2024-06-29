@@ -32,7 +32,7 @@ class AdManager {
     } else if (Platform.isIOS) {
       return 'ca-app-pub-6748272771660788/2032090097';
     } else {
-      throw new UnsupportedError('Unsupported platform');
+      throw new UnsupportedError('Unsupported pla7tform');
     }
   }
 

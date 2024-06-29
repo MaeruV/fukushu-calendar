@@ -9,12 +9,14 @@ class MonthPageViewWidget extends ConsumerWidget {
   final DateTime visiblePageDate;
   final List<List<DateTime>> weeks;
   final List<CalendarEvent> events;
+  final double height;
 
   const MonthPageViewWidget({
     super.key,
     required this.visiblePageDate,
     required this.weeks,
     required this.events,
+    required this.height,
   });
 
   void onDateTap({
@@ -34,8 +36,7 @@ class MonthPageViewWidget extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final currentPage = ref.watch(currentPageProvider);
-    final height = MediaQuery.of(context).size.height;
-    final minHeight = (height * 0.7) / weeks.length;
+    final minHeight = height / weeks.length;
     final minHeightFactor = minHeight / height;
 
     // 今日の日付を取得
@@ -45,8 +46,7 @@ class MonthPageViewWidget extends ConsumerWidget {
       children: weeks.asMap().entries.map((entry) {
         int rowIndex = entry.key;
         final week = entry.value;
-        final height = MediaQuery.of(context).size.height;
-        final stackHeight = (height * 0.7) / weeks.length;
+        final stackHeight = height / weeks.length;
         final double topHeight = rowIndex * stackHeight;
 
         return Positioned(

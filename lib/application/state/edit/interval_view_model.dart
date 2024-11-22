@@ -1,4 +1,5 @@
 import 'package:ebbinghaus_forgetting_curve/application/state/edit/edit_view_model.dart';
+import 'package:ebbinghaus_forgetting_curve/application/state/material_history/material_history_view_model.dart';
 import 'package:ebbinghaus_forgetting_curve/presentation/component/dialog_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';

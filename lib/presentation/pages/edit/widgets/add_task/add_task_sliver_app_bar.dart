@@ -3,14 +3,10 @@ import 'package:ebbinghaus_forgetting_curve/application/state/edit/edit_view_mod
 import 'package:ebbinghaus_forgetting_curve/application/state/material_history/material_history_view_model.dart';
 import 'package:ebbinghaus_forgetting_curve/application/usecases/admod/admod_usecase.dart';
 import 'package:ebbinghaus_forgetting_curve/application/usecases/task/task_usecase.dart';
-import 'package:ebbinghaus_forgetting_curve/presentation/common/date_time_extension.dart';
-import 'package:ebbinghaus_forgetting_curve/presentation/component/dialog_manager.dart';
-import 'package:ebbinghaus_forgetting_curve/presentation/manager/consent_manager.dart';
 import 'package:ebbinghaus_forgetting_curve/presentation/theme/colors.dart';
 import 'package:ebbinghaus_forgetting_curve/presentation/theme/fonts.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -173,6 +169,7 @@ class _AddTaskSliverAppBarState extends ConsumerState<AddTaskSliverAppBar> {
           intervalDays: state.intervalDays,
           flagNotification: state.flagNotification,
           notificationTime: state.time,
+          intervalDaysMap: state.imtervalDaysMap,
         );
   }
 }

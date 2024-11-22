@@ -23,4 +23,6 @@ class MaterialsHistory {
   bool flagNotification = false;
 
   late DateTime? notificationTime;
+
+  late String mapAsJson;
 }

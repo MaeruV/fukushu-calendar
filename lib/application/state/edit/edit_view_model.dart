@@ -48,6 +48,7 @@ class EditViewModel extends _$EditViewModel {
       pallete: pallete,
       time: checkDateTime,
       flagNotification: flagNotification,
+      imtervalDaysMap: '',
     );
   }
 

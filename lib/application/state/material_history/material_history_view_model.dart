@@ -1,4 +1,5 @@
 import 'package:ebbinghaus_forgetting_curve/application/usecases/matrial_history/material_history_usecase.dart';
+import 'package:ebbinghaus_forgetting_curve/application/usecases/matrial_history/state/material_history_provider.dart';
 import 'package:ebbinghaus_forgetting_curve/domain/entities/history.dart';
 import 'package:ebbinghaus_forgetting_curve/presentation/common/review_range_extension.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -12,6 +13,8 @@ class MaterialHistoryViewModel extends _$MaterialHistoryViewModel {
   @override
   List<MaterialsHistory> build() {
     _materialHistory = ref.watch(materilaHistoryUsecaseProvider);
+    final res = _fetchMaterialHistory();
+    print(res);
     return [];
   }
 
@@ -29,6 +32,7 @@ class MaterialHistoryViewModel extends _$MaterialHistoryViewModel {
     required List<int> intervalDays,
     required bool flagNotification,
     required DateTime? notificationTime,
+    required String intervalDaysMap,
   }) async {
     final formatRange = rangeType.enumToString();
     await _materialHistory.saveMaterialHisotry(
@@ -40,6 +44,7 @@ class MaterialHistoryViewModel extends _$MaterialHistoryViewModel {
       intervalDays: intervalDays,
       flagNotification: flagNotification,
       notificationTime: notificationTime,
+      intervalDaysMap: intervalDaysMap,
     );
   }
 

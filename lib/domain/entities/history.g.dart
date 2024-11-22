@@ -32,33 +32,38 @@ const MaterialsHistorySchema = CollectionSchema(
       name: r'intervalDays',
       type: IsarType.longList,
     ),
-    r'notificationTime': PropertySchema(
+    r'mapAsJson': PropertySchema(
       id: 3,
+      name: r'mapAsJson',
+      type: IsarType.string,
+    ),
+    r'notificationTime': PropertySchema(
+      id: 4,
       name: r'notificationTime',
       type: IsarType.dateTime,
     ),
     r'pallete': PropertySchema(
-      id: 4,
+      id: 5,
       name: r'pallete',
       type: IsarType.long,
     ),
     r'rangeType': PropertySchema(
-      id: 5,
+      id: 6,
       name: r'rangeType',
       type: IsarType.string,
     ),
     r'registrationTime': PropertySchema(
-      id: 6,
+      id: 7,
       name: r'registrationTime',
       type: IsarType.dateTime,
     ),
     r'secoundRange': PropertySchema(
-      id: 7,
+      id: 8,
       name: r'secoundRange',
       type: IsarType.long,
     ),
     r'teachingMaterials': PropertySchema(
-      id: 8,
+      id: 9,
       name: r'teachingMaterials',
       type: IsarType.string,
     )
@@ -84,6 +89,7 @@ int _materialsHistoryEstimateSize(
 ) {
   var bytesCount = offsets.last;
   bytesCount += 3 + object.intervalDays.length * 8;
+  bytesCount += 3 + object.mapAsJson.length * 3;
   bytesCount += 3 + object.rangeType.length * 3;
   bytesCount += 3 + object.teachingMaterials.length * 3;
   return bytesCount;
@@ -98,12 +104,13 @@ void _materialsHistorySerialize(
   writer.writeLong(offsets[0], object.firstRange);
   writer.writeBool(offsets[1], object.flagNotification);
   writer.writeLongList(offsets[2], object.intervalDays);
-  writer.writeDateTime(offsets[3], object.notificationTime);
-  writer.writeLong(offsets[4], object.pallete);
-  writer.writeString(offsets[5], object.rangeType);
-  writer.writeDateTime(offsets[6], object.registrationTime);
-  writer.writeLong(offsets[7], object.secoundRange);
-  writer.writeString(offsets[8], object.teachingMaterials);
+  writer.writeString(offsets[3], object.mapAsJson);
+  writer.writeDateTime(offsets[4], object.notificationTime);
+  writer.writeLong(offsets[5], object.pallete);
+  writer.writeString(offsets[6], object.rangeType);
+  writer.writeDateTime(offsets[7], object.registrationTime);
+  writer.writeLong(offsets[8], object.secoundRange);
+  writer.writeString(offsets[9], object.teachingMaterials);
 }
 
 MaterialsHistory _materialsHistoryDeserialize(
@@ -117,12 +124,13 @@ MaterialsHistory _materialsHistoryDeserialize(
   object.flagNotification = reader.readBool(offsets[1]);
   object.id = id;
   object.intervalDays = reader.readLongList(offsets[2]) ?? [];
-  object.notificationTime = reader.readDateTimeOrNull(offsets[3]);
-  object.pallete = reader.readLong(offsets[4]);
-  object.rangeType = reader.readString(offsets[5]);
-  object.registrationTime = reader.readDateTime(offsets[6]);
-  object.secoundRange = reader.readLongOrNull(offsets[7]);
-  object.teachingMaterials = reader.readString(offsets[8]);
+  object.mapAsJson = reader.readString(offsets[3]);
+  object.notificationTime = reader.readDateTimeOrNull(offsets[4]);
+  object.pallete = reader.readLong(offsets[5]);
+  object.rangeType = reader.readString(offsets[6]);
+  object.registrationTime = reader.readDateTime(offsets[7]);
+  object.secoundRange = reader.readLongOrNull(offsets[8]);
+  object.teachingMaterials = reader.readString(offsets[9]);
   return object;
 }
 
@@ -140,16 +148,18 @@ P _materialsHistoryDeserializeProp<P>(
     case 2:
       return (reader.readLongList(offset) ?? []) as P;
     case 3:
-      return (reader.readDateTimeOrNull(offset)) as P;
-    case 4:
-      return (reader.readLong(offset)) as P;
-    case 5:
       return (reader.readString(offset)) as P;
+    case 4:
+      return (reader.readDateTimeOrNull(offset)) as P;
+    case 5:
+      return (reader.readLong(offset)) as P;
     case 6:
-      return (reader.readDateTime(offset)) as P;
+      return (reader.readString(offset)) as P;
     case 7:
-      return (reader.readLongOrNull(offset)) as P;
+      return (reader.readDateTime(offset)) as P;
     case 8:
+      return (reader.readLongOrNull(offset)) as P;
+    case 9:
       return (reader.readString(offset)) as P;
     default:
       throw IsarError('Unknown property with id $propertyId');
@@ -514,6 +524,142 @@ extension MaterialsHistoryQueryFilter
         upper,
         includeUpper,
       );
+    });
+  }
+
+  QueryBuilder<MaterialsHistory, MaterialsHistory, QAfterFilterCondition>
+      mapAsJsonEqualTo(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'mapAsJson',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<MaterialsHistory, MaterialsHistory, QAfterFilterCondition>
+      mapAsJsonGreaterThan(
+    String value, {
+    bool include = false,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'mapAsJson',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<MaterialsHistory, MaterialsHistory, QAfterFilterCondition>
+      mapAsJsonLessThan(
+    String value, {
+    bool include = false,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'mapAsJson',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<MaterialsHistory, MaterialsHistory, QAfterFilterCondition>
+      mapAsJsonBetween(
+    String lower,
+    String upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'mapAsJson',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<MaterialsHistory, MaterialsHistory, QAfterFilterCondition>
+      mapAsJsonStartsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.startsWith(
+        property: r'mapAsJson',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<MaterialsHistory, MaterialsHistory, QAfterFilterCondition>
+      mapAsJsonEndsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.endsWith(
+        property: r'mapAsJson',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<MaterialsHistory, MaterialsHistory, QAfterFilterCondition>
+      mapAsJsonContains(String value, {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.contains(
+        property: r'mapAsJson',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<MaterialsHistory, MaterialsHistory, QAfterFilterCondition>
+      mapAsJsonMatches(String pattern, {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.matches(
+        property: r'mapAsJson',
+        wildcard: pattern,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<MaterialsHistory, MaterialsHistory, QAfterFilterCondition>
+      mapAsJsonIsEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'mapAsJson',
+        value: '',
+      ));
+    });
+  }
+
+  QueryBuilder<MaterialsHistory, MaterialsHistory, QAfterFilterCondition>
+      mapAsJsonIsNotEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        property: r'mapAsJson',
+        value: '',
+      ));
     });
   }
 
@@ -1087,6 +1233,20 @@ extension MaterialsHistoryQuerySortBy
   }
 
   QueryBuilder<MaterialsHistory, MaterialsHistory, QAfterSortBy>
+      sortByMapAsJson() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'mapAsJson', Sort.asc);
+    });
+  }
+
+  QueryBuilder<MaterialsHistory, MaterialsHistory, QAfterSortBy>
+      sortByMapAsJsonDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'mapAsJson', Sort.desc);
+    });
+  }
+
+  QueryBuilder<MaterialsHistory, MaterialsHistory, QAfterSortBy>
       sortByNotificationTime() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'notificationTime', Sort.asc);
@@ -1215,6 +1375,20 @@ extension MaterialsHistoryQuerySortThenBy
   }
 
   QueryBuilder<MaterialsHistory, MaterialsHistory, QAfterSortBy>
+      thenByMapAsJson() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'mapAsJson', Sort.asc);
+    });
+  }
+
+  QueryBuilder<MaterialsHistory, MaterialsHistory, QAfterSortBy>
+      thenByMapAsJsonDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'mapAsJson', Sort.desc);
+    });
+  }
+
+  QueryBuilder<MaterialsHistory, MaterialsHistory, QAfterSortBy>
       thenByNotificationTime() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'notificationTime', Sort.asc);
@@ -1323,6 +1497,13 @@ extension MaterialsHistoryQueryWhereDistinct
   }
 
   QueryBuilder<MaterialsHistory, MaterialsHistory, QDistinct>
+      distinctByMapAsJson({bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'mapAsJson', caseSensitive: caseSensitive);
+    });
+  }
+
+  QueryBuilder<MaterialsHistory, MaterialsHistory, QDistinct>
       distinctByNotificationTime() {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'notificationTime');
@@ -1391,6 +1572,12 @@ extension MaterialsHistoryQueryProperty
       intervalDaysProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'intervalDays');
+    });
+  }
+
+  QueryBuilder<MaterialsHistory, String, QQueryOperations> mapAsJsonProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'mapAsJson');
     });
   }
 

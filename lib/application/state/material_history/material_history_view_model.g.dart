@@ -7,7 +7,7 @@ part of 'material_history_view_model.dart';
 // **************************************************************************
 
 String _$materialHistoryViewModelHash() =>
-    r'10a17a7ba4f631b7c3d70330c4294e8fb64987b8';
+    r'0693ef70f791a544c1a0357bd1f4ab40a3c5d120';
 
 /// See also [MaterialHistoryViewModel].
 @ProviderFor(MaterialHistoryViewModel)

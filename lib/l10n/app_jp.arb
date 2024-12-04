@@ -107,5 +107,11 @@
   "notification_content": "通知オン・オフの切り替え",
   "setting_title": "設定",
   "copyright": "著作権情報",
-  "final_content": "※ 「最後」がない場合は空白でも可。"
+  "final_content": "※ 「最後」がない場合は空白でも可。",
+  "error": "エラー",
+  "please_select_at_least_one": "最低１つ選択してください",
+  "change_the_defalut": "デフォルトを変更する",
+  "interval_default": "復讐間隔(デフォルト)",
+  "new_registration": "新規登録",
+  "max_registration_20": "登録できるのは20個までです。"
 }

@@ -169,7 +169,6 @@ class _AddTaskSliverAppBarState extends ConsumerState<AddTaskSliverAppBar> {
           intervalDays: state.intervalDays,
           flagNotification: state.flagNotification,
           notificationTime: state.time,
-          intervalDaysMap: state.imtervalDaysMap,
         );
   }
 }

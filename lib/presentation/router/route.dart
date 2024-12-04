@@ -4,6 +4,7 @@ import 'package:ebbinghaus_forgetting_curve/presentation/pages/edit/views/interv
 import 'package:ebbinghaus_forgetting_curve/presentation/pages/home_page.dart';
 import 'package:ebbinghaus_forgetting_curve/presentation/pages/others/views/appearance/appearance_font_page.dart';
 import 'package:ebbinghaus_forgetting_curve/presentation/pages/others/views/appearance/appearance_fonts_family_page.dart';
+import 'package:ebbinghaus_forgetting_curve/presentation/pages/others/views/appearance/appearance_interval_page.dart';
 import 'package:ebbinghaus_forgetting_curve/presentation/pages/others/views/appearance/appearance_lang_page.dart';
 import 'package:ebbinghaus_forgetting_curve/presentation/pages/others/views/others/others_about_app.dart';
 import 'package:ebbinghaus_forgetting_curve/presentation/pages/others/views/others/others_copyright_page.dart';
@@ -39,6 +40,13 @@ final router = GoRouter(
       path: '/appearance_font_size',
       builder: (context, state) {
         return const AppearanceFontPage();
+      },
+    ),
+    GoRoute(
+      name: 'appearance_interval',
+      path: '/appearance_interval',
+      builder: (context, state) {
+        return const AppearanceIntervalPage();
       },
     ),
     GoRoute(

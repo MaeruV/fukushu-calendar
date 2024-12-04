@@ -1,4 +1,5 @@
 import 'package:ebbinghaus_forgetting_curve/application/types/edit/edit_state.dart';
+import 'package:ebbinghaus_forgetting_curve/application/usecases/intervals/state/intervals_provider.dart';
 import 'package:ebbinghaus_forgetting_curve/application/usecases/task/state/tasks_provider.dart';
 import 'package:ebbinghaus_forgetting_curve/domain/entities/history.dart';
 import 'package:ebbinghaus_forgetting_curve/domain/entities/task.dart';
@@ -15,23 +16,21 @@ class EditViewModel extends _$EditViewModel {
   @override
   EditState build() {
     task = ref.watch(temporaryTaskProvider);
+    _initializeEdit();
+    return _buildInitialState();
+  }
 
-    final startTime = task?.startTime ??
-        DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day);
+  EditState _buildInitialState() {
+    final now = DateTime.now();
+    final startTime = task?.startTime ?? DateTime(now.year, now.month, now.day);
     final titleText = task?.title ?? '';
     final memoText = task?.memo ?? '';
-    final List<int> intervalDays =
-        task?.dates.map((date) => date.daysInterval).toList() ??
-            [1, 3, 7, 14, 30];
     final pallete = task?.pallete ?? 0xFF388E3C;
-    final hasTime = task?.time.toList() != null;
-    final checkDateTime = hasTime && task?.time.toList().isNotEmpty == true
-        ? task?.time.toList().first.dateTime
-        : DateTime.now().toZeroHour();
-    final bool flagNotification =
-        hasTime && task?.time.toList().isNotEmpty == true;
-    final hasTask = task != null ? true : false;
-
+    final hasTime = task?.time.isNotEmpty ?? false;
+    final checkDateTime =
+        hasTime ? task!.time.first.dateTime : now.toZeroHour();
+    final flagNotification = hasTime;
+    final hasTask = task != null;
     final rangeType = task?.rangeType ?? "page";
     final firstRange = task?.firstRange;
     final secoundRange = task?.secoundRange;
@@ -43,13 +42,23 @@ class EditViewModel extends _$EditViewModel {
       secoundRange: secoundRange,
       memo: memoText,
       startTime: startTime,
-      intervalDays: intervalDays,
+      intervalDays: const [], // 後で初期化される
       hasTask: hasTask,
       pallete: pallete,
       time: checkDateTime,
       flagNotification: flagNotification,
-      imtervalDaysMap: '',
     );
+  }
+
+  void _initializeEdit() async {
+    final inteval = await ref.read(fetchDefaultIntervalProvider.future);
+
+    List<int> intervalDays = [1, 3, 7, 14, 30];
+
+    intervalDays =
+        task?.dates.map((date) => date.daysInterval).toList() ?? inteval!.nums;
+
+    state = state.copyWith(intervalDays: intervalDays);
   }
 
   setNotificationFlag(bool flag) {

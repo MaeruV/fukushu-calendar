@@ -1,3 +1,4 @@
+import 'package:ebbinghaus_forgetting_curve/application/state/material_history/material_history_view_model.dart';
 import 'package:ebbinghaus_forgetting_curve/application/state/others/others_notification_view_model.dart';
 import 'package:ebbinghaus_forgetting_curve/application/state/theme/custom_theme.dart';
 import 'package:ebbinghaus_forgetting_curve/presentation/router/route.dart';
@@ -19,6 +20,7 @@ class AppState extends ConsumerState<App> with WidgetsBindingObserver {
     super.initState();
     ref.read(notificationPermissionProvider.notifier).permission();
     ref.read(othersNotifierModelProvider.notifier).showNotification();
+    ref.read(materialHistoryViewModelProvider.notifier).initialize();
     WidgetsBinding.instance.addObserver(this);
   }
 

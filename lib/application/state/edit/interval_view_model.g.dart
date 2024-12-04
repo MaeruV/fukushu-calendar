@@ -6,12 +6,12 @@ part of 'interval_view_model.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$intervalViewModelHash() => r'9217f32fa2b3d5af6ff6223d9b248099fcf176c7';
+String _$intervalViewModelHash() => r'a76cc37a0d0031b1dc8e580045cf5b7bb37ba7fe';
 
 /// See also [IntervalViewModel].
 @ProviderFor(IntervalViewModel)
 final intervalViewModelProvider =
-    AutoDisposeNotifierProvider<IntervalViewModel, List<int>>.internal(
+    AutoDisposeNotifierProvider<IntervalViewModel, EditIntervalState>.internal(
   IntervalViewModel.new,
   name: r'intervalViewModelProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
@@ -21,6 +21,6 @@ final intervalViewModelProvider =
   allTransitiveDependencies: null,
 );
 
-typedef _$IntervalViewModel = AutoDisposeNotifier<List<int>>;
+typedef _$IntervalViewModel = AutoDisposeNotifier<EditIntervalState>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

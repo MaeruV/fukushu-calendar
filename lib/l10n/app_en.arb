@@ -107,5 +107,11 @@
   "notification_content": "Toggle notifications on and off.",
   "setting_title": "Settings",
   "copyright": "Copyright Information",
-  "final_content": "If 'final' is missing, a blank is okay."
+  "final_content": "If 'final' is missing, a blank is okay.",
+  "error": "Error",
+  "please_select_at_least_one": "Please select at least one.",
+  "change_the_defalut": "You can change the default settings.",
+  "interval_default": "Review Interval (Default)",
+  "new_registration": "New registration",
+  "max_registration_20": "You can register up to 20 items."
 }

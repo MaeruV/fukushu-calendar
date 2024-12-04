@@ -14,7 +14,6 @@ class EditState with _$EditState {
     required String memo,
     required DateTime startTime,
     required List<int> intervalDays,
-    required String imtervalDaysMap,
     required bool hasTask,
     required int pallete,
     required DateTime? time,

@@ -23,7 +23,6 @@ mixin _$EditState {
   String get memo => throw _privateConstructorUsedError;
   DateTime get startTime => throw _privateConstructorUsedError;
   List<int> get intervalDays => throw _privateConstructorUsedError;
-  String get imtervalDaysMap => throw _privateConstructorUsedError;
   bool get hasTask => throw _privateConstructorUsedError;
   int get pallete => throw _privateConstructorUsedError;
   DateTime? get time => throw _privateConstructorUsedError;
@@ -48,7 +47,6 @@ abstract class $EditStateCopyWith<$Res> {
       String memo,
       DateTime startTime,
       List<int> intervalDays,
-      String imtervalDaysMap,
       bool hasTask,
       int pallete,
       DateTime? time,
@@ -76,7 +74,6 @@ class _$EditStateCopyWithImpl<$Res, $Val extends EditState>
     Object? memo = null,
     Object? startTime = null,
     Object? intervalDays = null,
-    Object? imtervalDaysMap = null,
     Object? hasTask = null,
     Object? pallete = null,
     Object? time = freezed,
@@ -112,10 +109,6 @@ class _$EditStateCopyWithImpl<$Res, $Val extends EditState>
           ? _value.intervalDays
           : intervalDays // ignore: cast_nullable_to_non_nullable
               as List<int>,
-      imtervalDaysMap: null == imtervalDaysMap
-          ? _value.imtervalDaysMap
-          : imtervalDaysMap // ignore: cast_nullable_to_non_nullable
-              as String,
       hasTask: null == hasTask
           ? _value.hasTask
           : hasTask // ignore: cast_nullable_to_non_nullable
@@ -156,7 +149,6 @@ abstract class _$$EditStateImplCopyWith<$Res>
       String memo,
       DateTime startTime,
       List<int> intervalDays,
-      String imtervalDaysMap,
       bool hasTask,
       int pallete,
       DateTime? time,
@@ -182,7 +174,6 @@ class __$$EditStateImplCopyWithImpl<$Res>
     Object? memo = null,
     Object? startTime = null,
     Object? intervalDays = null,
-    Object? imtervalDaysMap = null,
     Object? hasTask = null,
     Object? pallete = null,
     Object? time = freezed,
@@ -218,10 +209,6 @@ class __$$EditStateImplCopyWithImpl<$Res>
           ? _value._intervalDays
           : intervalDays // ignore: cast_nullable_to_non_nullable
               as List<int>,
-      imtervalDaysMap: null == imtervalDaysMap
-          ? _value.imtervalDaysMap
-          : imtervalDaysMap // ignore: cast_nullable_to_non_nullable
-              as String,
       hasTask: null == hasTask
           ? _value.hasTask
           : hasTask // ignore: cast_nullable_to_non_nullable
@@ -257,7 +244,6 @@ class _$EditStateImpl with DiagnosticableTreeMixin implements _EditState {
       required this.memo,
       required this.startTime,
       required final List<int> intervalDays,
-      required this.imtervalDaysMap,
       required this.hasTask,
       required this.pallete,
       required this.time,
@@ -286,8 +272,6 @@ class _$EditStateImpl with DiagnosticableTreeMixin implements _EditState {
   }
 
   @override
-  final String imtervalDaysMap;
-  @override
   final bool hasTask;
   @override
   final int pallete;
@@ -301,7 +285,7 @@ class _$EditStateImpl with DiagnosticableTreeMixin implements _EditState {
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'EditState(title: $title, reviewRange: $reviewRange, firstRange: $firstRange, secoundRange: $secoundRange, memo: $memo, startTime: $startTime, intervalDays: $intervalDays, imtervalDaysMap: $imtervalDaysMap, hasTask: $hasTask, pallete: $pallete, time: $time, flagNotification: $flagNotification, hasChanges: $hasChanges)';
+    return 'EditState(title: $title, reviewRange: $reviewRange, firstRange: $firstRange, secoundRange: $secoundRange, memo: $memo, startTime: $startTime, intervalDays: $intervalDays, hasTask: $hasTask, pallete: $pallete, time: $time, flagNotification: $flagNotification, hasChanges: $hasChanges)';
   }
 
   @override
@@ -316,7 +300,6 @@ class _$EditStateImpl with DiagnosticableTreeMixin implements _EditState {
       ..add(DiagnosticsProperty('memo', memo))
       ..add(DiagnosticsProperty('startTime', startTime))
       ..add(DiagnosticsProperty('intervalDays', intervalDays))
-      ..add(DiagnosticsProperty('imtervalDaysMap', imtervalDaysMap))
       ..add(DiagnosticsProperty('hasTask', hasTask))
       ..add(DiagnosticsProperty('pallete', pallete))
       ..add(DiagnosticsProperty('time', time))
@@ -341,8 +324,6 @@ class _$EditStateImpl with DiagnosticableTreeMixin implements _EditState {
                 other.startTime == startTime) &&
             const DeepCollectionEquality()
                 .equals(other._intervalDays, _intervalDays) &&
-            (identical(other.imtervalDaysMap, imtervalDaysMap) ||
-                other.imtervalDaysMap == imtervalDaysMap) &&
             (identical(other.hasTask, hasTask) || other.hasTask == hasTask) &&
             (identical(other.pallete, pallete) || other.pallete == pallete) &&
             (identical(other.time, time) || other.time == time) &&
@@ -362,7 +343,6 @@ class _$EditStateImpl with DiagnosticableTreeMixin implements _EditState {
       memo,
       startTime,
       const DeepCollectionEquality().hash(_intervalDays),
-      imtervalDaysMap,
       hasTask,
       pallete,
       time,
@@ -385,7 +365,6 @@ abstract class _EditState implements EditState {
       required final String memo,
       required final DateTime startTime,
       required final List<int> intervalDays,
-      required final String imtervalDaysMap,
       required final bool hasTask,
       required final int pallete,
       required final DateTime? time,
@@ -406,8 +385,6 @@ abstract class _EditState implements EditState {
   DateTime get startTime;
   @override
   List<int> get intervalDays;
-  @override
-  String get imtervalDaysMap;
   @override
   bool get hasTask;
   @override

@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:isar/isar.dart';
 
 part 'history.g.dart';
@@ -23,6 +25,4 @@ class MaterialsHistory {
   bool flagNotification = false;
 
   late DateTime? notificationTime;
-
-  late String mapAsJson;
 }

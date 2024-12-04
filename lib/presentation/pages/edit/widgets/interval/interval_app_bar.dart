@@ -41,8 +41,10 @@ class IntervalAppBar extends ConsumerWidget
               execute(
                 context,
                 action: () async {
-                  if (intervalState.isNotEmpty) {
-                    notifier.updateIntervalDays(intervalState);
+                  if (intervalState.selectInterval != null &&
+                      intervalState.selectInterval!.nums.isNotEmpty) {
+                    notifier
+                        .updateIntervalDays(intervalState.selectInterval!.nums);
                     context.pop();
                   } else {
                     throw Exception(

@@ -11,9 +11,13 @@ class DialogManager {
     required BuildContext context,
   }) {
     final appLocalizations = AppLocalizations.of(context)!;
+    final theme = Theme.of(context);
 
     return CupertinoAlertDialog(
-      content: Text(content),
+      content: Text(
+        content,
+        style: TextStyle(color: theme.primaryColorLight),
+      ),
       actions: <Widget>[
         CupertinoDialogAction(
           isDestructiveAction: true,

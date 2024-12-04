@@ -12,7 +12,9 @@ class IntervalCancelBtn extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final notifier = ref.read(intervalViewModelProvider.notifier);
     return GestureDetector(
-      onTap: () => notifier.deleteNumber(index),
+      onTap: () {
+        notifier.deleteNumber(index);
+      },
       child: const Icon(
         Icons.cancel_outlined,
         color: BrandColor.deleteRed,

@@ -7,12 +7,12 @@ part of 'material_history_view_model.dart';
 // **************************************************************************
 
 String _$materialHistoryViewModelHash() =>
-    r'0693ef70f791a544c1a0357bd1f4ab40a3c5d120';
+    r'b2e9aae4aa9801c2faee2117ab72e56fd0068f4f';
 
 /// See also [MaterialHistoryViewModel].
 @ProviderFor(MaterialHistoryViewModel)
-final materialHistoryViewModelProvider = AutoDisposeNotifierProvider<
-    MaterialHistoryViewModel, List<MaterialsHistory>>.internal(
+final materialHistoryViewModelProvider =
+    NotifierProvider<MaterialHistoryViewModel, List<MaterialsHistory>>.internal(
   MaterialHistoryViewModel.new,
   name: r'materialHistoryViewModelProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
@@ -22,7 +22,6 @@ final materialHistoryViewModelProvider = AutoDisposeNotifierProvider<
   allTransitiveDependencies: null,
 );
 
-typedef _$MaterialHistoryViewModel
-    = AutoDisposeNotifier<List<MaterialsHistory>>;
+typedef _$MaterialHistoryViewModel = Notifier<List<MaterialsHistory>>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

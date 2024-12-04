@@ -1,5 +1,7 @@
 import 'package:ebbinghaus_forgetting_curve/application/config/app_constants.dart';
 import 'package:ebbinghaus_forgetting_curve/application/state/theme/custom_theme.dart';
+import 'package:ebbinghaus_forgetting_curve/application/usecases/intervals/state/intervals_provider.dart';
+import 'package:ebbinghaus_forgetting_curve/domain/entities/intervals.dart';
 import 'package:ebbinghaus_forgetting_curve/presentation/presentation_mixin.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -37,6 +39,8 @@ class OthersAppearance extends ConsumerWidget {
               OthersFonts(),
               Divider(),
               OthersLanguage(),
+              Divider(),
+              OthersIntervals(),
             ],
           ),
         ),
@@ -228,5 +232,80 @@ class OthersLanguage extends ConsumerWidget with PresentationMixin {
         ),
       ),
     );
+  }
+}
+
+class OthersIntervals extends ConsumerWidget with PresentationMixin {
+  const OthersIntervals({super.key});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final theme = Theme.of(context);
+    final appLocalizations = AppLocalizations.of(context)!;
+    final config = ref.watch(fetchDefaultIntervalProvider);
+
+    switch (config) {
+      case AsyncError(:final error):
+        return Text('Error: $error');
+
+      case AsyncLoading():
+        return const CircularProgressIndicator();
+
+      case AsyncData(:final value):
+        if (value == null) {
+          return const SizedBox.shrink();
+        }
+        return Padding(
+          padding: const EdgeInsets.only(left: 5.0),
+          child: GestureDetector(
+            onTap: () async => checkSnackBar(
+              action: () => context.push('/appearance_interval'),
+              scaffoldMessenger: ScaffoldMessenger.of(context),
+            ),
+            child: SizedBox(
+              height: 50,
+              child: Row(
+                children: <Widget>[
+                  Text(
+                    appLocalizations.interval,
+                    style: theme.textTheme.labelLarge!
+                        .copyWith(color: theme.primaryColorLight),
+                  ),
+                  const SizedBox(width: 5),
+                  Expanded(
+                    child: Row(
+                      children: [
+                        Expanded(
+                          child: Text(
+                            _formatInterval(value, context),
+                            style: theme.textTheme.bodyMedium!
+                                .copyWith(color: Colors.grey),
+                            overflow: TextOverflow.ellipsis,
+                            textAlign: TextAlign.end,
+                          ),
+                        ),
+                        Icon(
+                          Icons.chevron_right,
+                          color: theme.primaryColorLight,
+                        ),
+                      ],
+                    ),
+                  )
+                ],
+              ),
+            ),
+          ),
+        );
+      default:
+        return const CircularProgressIndicator();
+    }
+  }
+
+  String _formatInterval(Intervals interval, BuildContext context) {
+    final appLocalizations = AppLocalizations.of(context)!;
+
+    final formattedIntervals =
+        interval.nums.map((interval) => '$interval').join(', ');
+    return '$formattedIntervals${appLocalizations.days_after}';
   }
 }

@@ -30,7 +30,6 @@ class MaterialHistoryUsecase with RunUsecaseMixin {
     required int? secoundRange,
     required int pallete,
     required List<int> intervalDays,
-    required String intervalDaysMap,
     required bool flagNotification,
     required DateTime? notificationTime,
   }) async {
@@ -43,8 +42,7 @@ class MaterialHistoryUsecase with RunUsecaseMixin {
       ..pallete = pallete
       ..intervalDays = intervalDays
       ..flagNotification = flagNotification
-      ..notificationTime = notificationTime
-      ..intervalDays = intervalDays;
+      ..notificationTime = notificationTime;
     execute(
       loadingController: _loadingController,
       action: () async {

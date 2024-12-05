@@ -4,14 +4,12 @@ import 'package:ebbinghaus_forgetting_curve/application/state/edit/task_selectio
 import 'package:ebbinghaus_forgetting_curve/application/state/loading/overlay_loading_provider.dart';
 import 'package:ebbinghaus_forgetting_curve/application/usecases/task/state/tasks_provider.dart';
 import 'package:ebbinghaus_forgetting_curve/application/usecases/task/task_usecase.dart';
-import 'package:ebbinghaus_forgetting_curve/presentation/manager/consent_manager.dart';
 import 'package:ebbinghaus_forgetting_curve/presentation/component/loading.dart';
 import 'package:ebbinghaus_forgetting_curve/presentation/pages/edit/widgets/edit_widget/edit_top_container.dart';
 import 'package:ebbinghaus_forgetting_curve/presentation/pages/edit/widgets/edit_widget/edit_view.dart';
 import 'package:ebbinghaus_forgetting_curve/presentation/theme/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:badges/badges.dart' as badges;
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -52,7 +50,6 @@ class _EditScreenState extends ConsumerState<EditScreen> {
     final isLoading = ref.watch(overlayLoadingProvider);
     final theme = Theme.of(context);
     final appLocalizations = AppLocalizations.of(context)!;
-    final state = ref.watch(bannerAdViewModelProvider(context));
 
     switch (config) {
       case AsyncError(:final error):

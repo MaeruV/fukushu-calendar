@@ -1,6 +1,6 @@
 # ebbinghaus_forgetting_curve
 
-A new Flutter project.
+復習カレンダー
 
 ## Getting Started
 

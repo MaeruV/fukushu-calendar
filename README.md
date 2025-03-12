@@ -16,15 +16,24 @@
 
 <br>
 
-## ⚪︎ 機能一覧
+## ⚪︎ 機能一覧                     
+
 
 | ホーム画面 | その日のタスク |
-|-----------|--------------|
-| <img src="https://github.com/user-attachments/assets/e6593bee-b98d-449e-98a8-bb8ca1562c42" style=" min-height: 300px; max-height: 500px;"> | <img src="https://github.com/user-attachments/assets/1e6cc9d2-0541-45ee-b69f-2cd5cefcad96" style=" min-height: 300px; max-height: 500px;"> |
-| カレンダー風にできているので今日のタスクを把握しやすいようにしています。 | タスク一覧でチェックボックスをタップすると完了になります。 |
-
+|:-----------:|:-----------:|
+| ![home_page_screen](https://github.com/user-attachments/assets/fefeb63a-ae00-4fd8-a9de-92f29617e16f) | ![week_page_screen](https://github.com/user-attachments/assets/622a90b3-3e44-4b7b-9df4-408bc09004ee) |
+| カレンダー風のUIを採用し、日付ごとのタスクが一目で把握できるデザインになっています。予定がある日は視覚的に強調され、今日や近日の予定がすぐに確認できます。 | その日にやるべきタスクを管理する画面。タスクはリスト形式で表示され、完了したものはチェックボックスをタップすることで簡単に管理できます。タスクのステータスが一目でわかるようになっています。 |
+|-----------|-----------|
+| **スケジュール画面** | **イベント作成画面** |
+| ![schedule_page_screen](https://github.com/user-attachments/assets/c54193fb-1ad0-4ddb-947b-c560599124ad) | ![add_event_page_screen](https://github.com/user-attachments/assets/852ffe6f-70d6-4e8c-8af2-85653ae5fbd4) |
+| 過去・未来のスケジュールを一覧で確認できる画面。 | 新しいイベントを作成する画面。 |
+|-----------|-----------|
+| **分析画面** | **メニュー画面** |
+| 　![analize_page_screen](https://github.com/user-attachments/assets/3754c289-5ef4-4479-91d4-9622ea501407) | ![mene_page_screen](https://github.com/user-attachments/assets/3fd85c83-9f59-40a5-bf66-fa9184a9c9d9) |
+| タスクやスケジュールの達成状況を分析できる画面。過去のデータをもとに、完了したタスク数などをグラフで可視化します。週間、年間の振り返りができ、自分のタスク管理の傾向を把握できるため、より効率的な計画を立てるのに役立ちます。 | アプリ全体の設定や機能にアクセスできるメニュー画面。|
 
 <br>
+
 
 ## ⚪︎ アプリの特徴・こだわりポイント
   - **カレンダー形式のホーム画面**で、やるべきタスクが一目でわかる。

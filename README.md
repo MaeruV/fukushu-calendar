@@ -76,3 +76,9 @@
   現在のUI/UXをさらに洗練させ、ユーザーにとって直感的で使いやすいインターフェースを目指します。特に、学習進捗を見やすくしたり、学習中の集中力を高める機能を強化したいと考えています。
   
 <br>
+
+
+# License
+This project is proprietary and all rights are reserved.  
+Forking, redistributing, or modifying this code without permission is prohibited.
+

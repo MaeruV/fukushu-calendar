@@ -16,8 +16,8 @@ migrate_working_dir/
 *.iws
 .idea/
 
-# VS Code settings (optional, uncomment if you want to include in version control)
-#.vscode/
+# VS Code settings (現在はコメントアウトされているので有効化)
+.vscode/
 
 # Flutter/Dart/Pub related
 **/doc/api/
@@ -44,5 +44,41 @@ app.*.map.json
 # Environment configuration or secret files
 *.env
 
+# Flutter Generated Files (Xcode 用)
+ios/Flutter/App.framework
+ios/Flutter/Flutter.framework
+ios/Flutter/Generated.xcconfig
+ios/Flutter/flutter_export_environment.sh
+
+# CocoaPods cache (iOS の場合)
+ios/Pods/
+ios/.symlinks/
+ios/build/
+ios/Flutter/ephemeral/
+ios/Runner.xcworkspace/
+ios/Runner.xcodeproj/project.xcworkspace/
+
+# Web & Linux & macOS & Windows build artifacts
+web/.dart_tool/
+linux/flutter/ephemeral/
+macos/Flutter/ephemeral/
+macos/Pods/
+windows/flutter/ephemeral/
+
+# Firebase related files (必要に応じて)
+firebase.json
+android/app/google-services.json
+ios/Runner/GoogleService-Info.plist
+
+# Flutter-generated localization files
+lib/generated/
+
+# Application-specific configuration
 lib/application/config/
 assets/
+
+# その他 (必要に応じて追加)
+*.log
+*.temp
+*.bak
+*.swp

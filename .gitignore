@@ -43,3 +43,5 @@ app.*.map.json
 
 # Environment configuration or secret files
 *.env
+
+lib/application/config/

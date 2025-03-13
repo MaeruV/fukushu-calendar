@@ -73,21 +73,6 @@
   現在はFlutterで開発していますが、今後はiOSだけでなく、AndroidやWebやデスクトップアプリなどにも対応する予定です。これにより、より多くのプラットフォームでユーザーが同じアカウントを使って学習を続けられるようにします。  
 
 - **ユーザーインターフェースの改善**  
-  現在のUI/UXをさらに洗練させ、ユーザーにとって直感的で使いやすいインターフェースを目指します。特に、学習進捗を見やすくしたり、学習中の集中力を高める機能を強化したいと考えています。  
-
+  現在のUI/UXをさらに洗練させ、ユーザーにとって直感的で使いやすいインターフェースを目指します。特に、学習進捗を見やすくしたり、学習中の集中力を高める機能を強化したいと考えています。
+  
 <br>
-
-## Getting Started
-
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
-
-lib/application/config/
